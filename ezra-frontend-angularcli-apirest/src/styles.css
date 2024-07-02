@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+html{
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  min-height: 100%;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.wrap{
+  padding-bottom: 60px;
+}
+
+
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}

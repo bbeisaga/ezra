@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.ezra.programandojuntos.SpringBootBackendApirestApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 35.727 s - in com.ezra.programandojuntos.SpringBootBackendApirestApplicationTests
