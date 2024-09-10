@@ -1,13 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, LOCALE_ID, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './modules/compartido/components/header/header.component';
+import { FooterComponent } from './modules/compartido/components/footer/footer.component';
 import { DirectivaComponent } from './directiva/directiva.component';
-import { ClientesComponent } from './clientes/clientes.component';
-import { FormComponent } from './clientes/form.component';
-import { PaginatorComponent } from './paginator/paginator.component';
-import { ClienteService } from './clientes/cliente.service';
+import { FormComponent } from './modules/clientes/components/form.component';
+import { PaginatorComponent } from './modules/compartido/components/paginator/paginator.component';
+import { ClienteService } from './services/cliente.service';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,15 +17,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatDatepickerModule } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { DetalleComponent } from './clientes/detalle/detalle.component';
+import { DetalleComponent } from './modules/clientes/components/detalle.component';
 /* import { LoginComponent } from './usuarios/login.component'; */
-import { LoginComponent } from './login/login.component';
-import { AuthGuard } from './usuarios/guards/auth.guard';
-import { RoleGuard } from './usuarios/guards/role.guard';
-import { TokenInterceptor } from './usuarios/interceptors/token.interceptor';
-import { AuthInterceptor } from './usuarios/interceptors/auth.interceptor';
-import { DetallePedidoComponent } from './pedidos/detalle-pedido.component';
-import { PedidosComponent } from './pedidos/pedidos.component';
+import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
+import { TokenInterceptor } from './modules/usuarios/interceptors/token.interceptor';
+import { AuthInterceptor } from './modules/usuarios/interceptors/auth.interceptor';
+import { DetallePedidoComponent } from './modules/pedidos/paginas/detalle-pedido.component';
+import { PedidosComponent } from './modules/pedidos/paginas/pedidos.component';
 
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -43,26 +41,15 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatCardModule} from '@angular/material/card';
+import { CompartidoModule } from './modules/compartido/compartido.module';
+import { AppRoutingModule } from './app-routing.module';
 
 
 registerLocaleData(localeES, 'es');
 
-const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'directivas', component: DirectivaComponent },
-  { path: 'clientes', component: ClientesComponent },
-  { path: 'clientes/page/:page', component: ClientesComponent },
-  { path: 'clientes/form', component: FormComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } },
-  { path: 'clientes/form/:id', component: FormComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } },
-  /* { path: 'login', component: LoginComponent }, */
-  { path: 'pedidos/:id', component: DetallePedidoComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_USER' } },
-  { path: 'pedidos/form/:clienteId', component: PedidosComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } }
-];
-
 @NgModule({
   declarations: [
-    AppComponent,
+   /*  AppComponent,
     HeaderComponent,
     FooterComponent,
     DirectivaComponent,
@@ -72,11 +59,11 @@ const routes: Routes = [
     DetalleComponent,
     LoginComponent,
     DetallePedidoComponent,
-    PedidosComponent
+    PedidosComponent */
 
   ],
   imports: [
-    BrowserModule,
+/*     BrowserModule,
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot(routes),
@@ -93,15 +80,19 @@ const routes: Routes = [
     MatFormFieldModule, MatInputModule,
     MatPaginatorModule,
     MatSortModule,
-    MatCardModule
+    MatCardModule, */
+    AppRoutingModule,
+    CompartidoModule
   ],
 
   schemas: [ CUSTOM_ELEMENTS_SCHEMA],
 
-  providers: [ClienteService,
+  providers: [
+/*     ClienteService,
     { provide: LOCALE_ID, useValue: 'es' },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },],
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, */
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
