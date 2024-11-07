@@ -1,1 +1,66 @@
-/.metadata/
+# Package Files #
+/ezra-backend-spring-boot-apirest/*.jar
+/ezra-backend-spring-boot-apirest/*.war
+/ezra-backend-spring-boot-apirest/*.nar
+/ezra-backend-spring-boot-apirest/*.ear
+/ezra-backend-spring-boot-apirest/*.zip
+/ezra-backend-spring-boot-apirest/*.tar.gz
+/ezra-backend-spring-boot-apirest/*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+/ezra-backend-spring-boot-apirest/.classpath
+/ezra-backend-spring-boot-apirest/.project
+/ezra-backend-spring-boot-apirest/.settings/
+/ezra-backend-spring-boot-apirest/.factorypath
+/ezra-backend-spring-boot-apirest/target
+.metadata/
+/ezra-backend-spring-boot-apirest/.metadata/
+/ezra-backend-spring-boot-apirest/.metadata
+
+
+# front end
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/ezra-frontend-angular-apirest/dist
+/ezra-frontend-angular-apirest/tmp
+/ezra-frontend-angular-apirest/out-tsc
+/ezra-frontend-angular-apirest/bazel-out
+
+# Node
+/ezra-frontend-angular-apirest/node_modules
+/ezra-frontend-angular-apirest/npm-debug.log
+/ezra-frontend-angular-apirest/yarn-error.log
+
+# IDEs and editors
+/ezra-frontend-angular-apirest/.idea/
+/ezra-frontend-angular-apirest/.project
+/ezra-frontend-angular-apirest/.classpath
+/ezra-frontend-angular-apirest/.c9/
+/ezra-frontend-angular-apirest/*.launch
+/ezra-frontend-angular-apirest/.settings/
+/ezra-frontend-angular-apirest/*.sublime-workspace
+
+# Visual Studio Code
+/ezra-frontend-angular-apirest/.vscode
+/ezra-frontend-angular-apirest/.vscode/*
+/ezra-frontend-angular-apirest/!.vscode/settings.json
+/ezra-frontend-angular-apirest/!.vscode/tasks.json
+/ezra-frontend-angular-apirest/!.vscode/launch.json
+/ezra-frontend-angular-apirest/!.vscode/extensions.json
+/ezra-frontend-angular-apirest/.history/*
+
+# Miscellaneous
+/ezra-frontend-angular-apirest/.angular/cache
+/ezra-frontend-angular-apirest/.sass-cache/
+/ezra-frontend-angular-apirest/connect.lock
+/ezra-frontend-angular-apirest/coverage
+/ezra-frontend-angular-apirest/libpeerconnection.log
+/ezra-frontend-angular-apirest/testem.log
+/ezra-frontend-angular-apirest/typings
+
+# System files
+/ezra-frontend-angular-apirest/.DS_Store
+/ezra-frontend-angular-apirest/Thumbs.db

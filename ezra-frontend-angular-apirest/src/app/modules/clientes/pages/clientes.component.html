@@ -1,0 +1,117 @@
+<detalle-cliente *ngIf="clienteSeleccionado" [cliente] ="clienteSeleccionado"></detalle-cliente>
+
+
+<mat-card class="example-card">
+  <mat-card-header>
+<!--          <div mat-card-avatar class="example-header-image"></div>
+ -->          <mat-card-title>Clientes</mat-card-title>
+        <mat-card-subtitle>Listado de clientes</mat-card-subtitle>
+  </mat-card-header>
+
+<!--    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+ -->
+   <mat-card-content>
+
+
+    <div *ngIf="clientes?.length == 0" class="alert alert-info">
+      No hay registros en la base de datos!
+    </div>
+
+    <mat-form-field>
+      <mat-label>Filtrar</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ejem. juan" #input>
+    </mat-form-field>
+
+    <div class="mat-elevation-z8">
+     <table mat-table [dataSource]="dataSource" matSort >
+
+      <ng-container matColumnDef="foto">
+        <th mat-header-cell *matHeaderCellDef> Foto </th>
+        <td mat-cell *matCellDef="let element">
+          <img (click)="abrirModal(element)" *ngIf="element?.foto"
+            src="http://localhost:8080/api/uploads/img/{{element.foto}}" alt="{{element.foto}}" class="img-thumbnail rounded"
+            style="width:64px; cursor: pointer;">
+
+          <img (click)="abrirModal(element)" *ngIf="!element?.foto"
+            src="http://localhost:8080/images/no-usuario.png" alt="Sin foto" class="img-thumbnail rounded"
+            style="width:64px; cursor: pointer;">
+        </td>
+      </ng-container>
+
+
+       <ng-container matColumnDef="apellido">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </th>
+        <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Ordenar por nombre"> Nombre </th>
+        <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+
+        <!--
+              <ng-container matColumnDef="region">
+                <th mat-header-cell *matHeaderCellDef> Region </th>
+                <td mat-cell *matCellDef="let element"> {{element.region}} </td>
+              </ng-container> -->
+
+
+      <ng-container matColumnDef="createAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Creacion </th>
+        <td mat-cell *matCellDef="let element"> {{element.createAt}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <!-- <td *ngIf="authService.hasRole('ROLE_ADMIN')" mat-cell *matCellDef="let element"> -->
+        <td mat-cell *matCellDef="let element">
+          <button mat-fab color="primary" *ngIf="authService.hasRole('ROLE_ADMIN')" [routerLink]="['/pedidos/form', element.id]" matTooltip="Crear pedido">
+            <mat-icon>note_add</mat-icon>
+          </button>
+          <button mat-fab color="primary" *ngIf="authService.hasRole('ROLE_ADMIN')" [routerLink]="['form', element.id]" matTooltip="Editar">
+            <mat-icon>edit</mat-icon>
+          </button>
+<!--           <button mat-fab color="primary" aria-label="Editar" [routerLink]="['/clientes/form', element.id]" matTooltip="Editar">
+            <mat-icon>edit</mat-icon>
+          </button> -->
+          <button mat-fab color="warn" aria-label="Eliminar" (click)='delete(element)' matTooltip="Elimnar">
+            <mat-icon>delete</mat-icon>
+          </button>
+
+        </td>
+      </ng-container>
+
+       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    <!--       <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          </tr> -->
+    </table>
+
+
+
+   <mat-paginator [pageSizeOptions]="[3, 6, 12]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+  </div>
+
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="my-2 text-left">
+        <button *ngIf="authService.hasRole('ROLE_ADMIN')" class="btn btn-rounded btn-primary" type="button" [routerLink]="['/clientes/form']">
+          Crear Cliente
+        </button>
+    </div>
+
+  <!--   <button mat-button>LIKE</button>
+    <button mat-button>SHARE</button -->
+    </mat-card-actions>
+  </mat-card>
+
