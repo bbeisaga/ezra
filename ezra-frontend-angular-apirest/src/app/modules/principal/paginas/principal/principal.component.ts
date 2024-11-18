@@ -7,9 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PrincipalComponent implements OnInit {
 
+  sidenavOpened = true;
+
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  sideNavToggle(sidenavLeft : any, val : boolean): void {
+
+    sidenavLeft.opened = val;
+    //this.sidenavOpened = !this.sidenavOpened;
   }
 
 }

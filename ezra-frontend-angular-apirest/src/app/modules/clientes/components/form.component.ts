@@ -4,6 +4,7 @@ import { Region } from '../../../models/region';
 import { ClienteService } from '../../../services/cliente.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
+import { TipoDocumento } from '../../../models/tipo-documento';
 
 @Component({
   selector: 'app-form',
@@ -11,8 +12,8 @@ import swal from 'sweetalert2';
 })
 export class FormComponent implements OnInit {
 
-  public cliente: Cliente = new Cliente();
-  regiones: Region[]=[];
+  cliente: Cliente = new Cliente();
+  tipoDocumentos: TipoDocumento[]=[];
   titulo: string = "Crear Cliente";
 
   errores: string[]=[];
@@ -26,22 +27,25 @@ export class FormComponent implements OnInit {
       let id = +params.get('id')!;
       if (id) {
         this.clienteService.getCliente(id).subscribe((cliente) => this.cliente = cliente);
+        console.log("cliente=>", this.cliente);
       }
     });
 
-    console.log("this.cliente", this.cliente);
+   // console.log("this.cliente", this.cliente);
 
-    this.clienteService.getRegiones().subscribe(regiones => this.regiones = regiones);
+    /*     this.clienteService.getRegiones().subscribe(regiones => this.regiones = regiones);
+     */
 
-    console.log("this.regiones", this.regiones);
+    this.clienteService.getTipoDocumento().subscribe(doc => this.tipoDocumentos = doc);
+    console.log("documentos=>", this.tipoDocumentos);
   }
 
   create(): void {
-    //console.log(this.cliente);
+    console.log(this.cliente);
     this.clienteService.create(this.cliente)
       .subscribe(
         cliente => {
-          this.router.navigate(['/clientes']);
+          this.router.navigate(['/pr']);
           swal.fire('Nuevo cliente', `El cliente ${cliente.nombre} ha sido creado con éxito`, 'success');
         },
         err => {
@@ -53,12 +57,12 @@ export class FormComponent implements OnInit {
   }
 
   update(): void {
-    console.log(this.cliente);
     this.cliente.pedidos = [];
+    console.log(this.cliente);
     this.clienteService.update(this.cliente)
       .subscribe(
         json => {
-          this.router.navigate(['/clientes']);
+          this.router.navigate(['/pr/clientes']);
           swal.fire('Cliente Actualizado', `${json.mensaje}: ${json.cliente.nombre}`, 'success');
         },
         err => {
@@ -69,7 +73,7 @@ export class FormComponent implements OnInit {
       )
   }
 
-  compararRegion(o1: Region, o2: Region): boolean {
+  compararDocumento(o1: TipoDocumento, o2: TipoDocumento): boolean {
     if (o1 === undefined && o2 === undefined) {
       return true;
     }

@@ -19,6 +19,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -30,17 +31,37 @@ public class Pedido implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String descripcion;
-
 	private String observacion;
 	
-	private Double acuenta;
+	private Double total;
 	
-	//private Double saldo;
+	private Double pago;
+	
+	private Double apagar;
+	
+	private Double saldo;
+	
+	private boolean aceptado;
+	
+	private boolean vencido;
+	
+	private boolean pagado;
 
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
+	
+	@NotNull(message = "no puede estar vacio")
+	@Column(name = "entregado_en")
+	@Temporal(TemporalType.DATE)
+	private Date entregadoEn;
+	
+	@NotNull(message = "Estado pedido no puede ser vacio")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "estado_pedido_id")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private EstadoPedido estadoPedido;
+		
 
 	@JsonIgnoreProperties(value={"pedidos", "hibernateLazyInitializer", "handler"}, allowSetters=true)
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -68,13 +89,6 @@ public class Pedido implements Serializable {
 		this.id = id;
 	}
 
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
 
 	public String getObservacion() {
 		return observacion;
@@ -107,32 +121,112 @@ public class Pedido implements Serializable {
 	public void setItems(List<ItemPedido> items) {
 		this.items = items;
 	}
-
+	
+	
+//	public Double calcularTotal() {
+//		Double total = 0.00;
+//		for (ItemPedido item : items) {
+//			total += item.getImporte();
+//		}
+//		return total;
+//	}
+			
 	public Double getTotal() {
-		Double total = 0.00;
-		for (ItemPedido item : items) {
-			total += item.getImporte();
-		}
 		return total;
 	}
-			
-	public Double getAcuenta() {
-		return acuenta;
+
+	public void setTotal(Double total) {
+		this.total = total;
 	}
 
-	public void setAcuenta(Double acuenta) {
-		this.acuenta = acuenta;
-	}
 
-//	public void setSaldo(Double total ,  Double acuenta) {
-//		
-//		//Double saldo = this.getTotal() - this.getAcuenta();				
-//		this.saldo = (total - acuenta);
+
+//	public void setSaldo(Double saldo) {		
+//		this.saldo = saldo;
 //	}
+//
+//	public Double getSaldo() {
+//		return this.getTotal() - this.getAcuenta();
+//	}
+	
+
+	public Double getPago() {
+		return pago;
+	}
+
+	public void setPago(Double pago) {
+		this.pago = pago;
+	}
 
 	public Double getSaldo() {
-		return this.getTotal() - this.getAcuenta();
+		return saldo;
 	}
+
+	public void setSaldo(Double saldo) {
+		this.saldo = saldo;
+	}
+
+	
+	
+	public Date getEntregadoEn() {
+		return entregadoEn;
+	}
+
+	public void setEntregadoEn(Date entregadoEn) {
+		this.entregadoEn = entregadoEn;
+	}
+
+	public boolean isAceptado() {
+		return aceptado;
+	}
+
+	public void setAceptado(boolean aceptado) {
+		this.aceptado = aceptado;
+	}
+
+
+
+	public EstadoPedido getEstadoPedido() {
+		return estadoPedido;
+	}
+
+	public void setEstadoPedido(EstadoPedido estadoPedido) {
+		this.estadoPedido = estadoPedido;
+	}
+
+
+
+	public boolean isVencido() {
+		return vencido;
+	}
+
+	public void setVencido(boolean vencido) {
+		this.vencido = vencido;
+	}
+
+	
+
+
+	public boolean isPagado() {
+		return pagado;
+	}
+
+	public void setPagado(boolean pagado) {
+		this.pagado = pagado;
+	}
+
+
+
+
+	public Double getApagar() {
+		return apagar;
+	}
+
+	public void setApagar(Double apagar) {
+		this.apagar = apagar;
+	}
+
+
 
 
 	private static final long serialVersionUID = 1L;

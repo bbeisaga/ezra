@@ -1,82 +1,112 @@
-<div class="card bg-light">
-  <div class="card-header">{{titulo}}: {{pedido.descripcion}}</div>
-  <div class="card-body">
-    <h4 class="card-title">
-      <a [routerLink]="['/clientes']" class="btn btn-light btn-xs">&laquo; volver</a>
-    </h4>
 
-    <form #pedidoForm="ngForm">
-      <div class="form-group row" *ngIf="pedido.cliente">
-        <label for="cliente" class="col-sm-2 col-form-label">Cliente</label>
-        <div class="col-sm-6">
-          <input type="text" name="cliente" value="{{pedido.cliente.nombre}} {{pedido.cliente.apellido}}" class="form-control" disabled>
-        </div>
-      </div>
+<mat-card>
+  <mat-card-header class="d-flex justify-content-start">
+      <mat-card-title>{{title}}</mat-card-title>
+<!--       <div class="ms-auto">
+          <button *ngIf="authService.hasRole('ROLE_ADMIN')" color="primary" mat-raised-button [routerLink]="['form']">
+            Crear Cliente
+          </button>
+      </div> -->
+  </mat-card-header>
 
-      <div class="form-group row">
-        <label for="descripcion" class="col-sm-2 col-form-label">Descripción</label>
-        <div class="col-sm-6">
-          <input type="text" name="descripcion" [(ngModel)]="pedido.descripcion" class="form-control" required #descripcion="ngModel">
-          <div class="alert alert-danger" *ngIf="descripcion.invalid && descripcion.touched || descripcion.invalid && pedidoForm.submitted">
-            La descripción es requerida.
-          </div>
-        </div>
-      </div>
+   <mat-card-content>
 
-      <div class="form-group row">
-        <label for="observacion" class="col-sm-2 col-form-label">Observación</label>
-        <div class="col-sm-6">
-          <textarea name="observacion" [(ngModel)]="pedido.observacion" class="form-control"></textarea>
-        </div>
-      </div>
+    <div *ngIf="pedidos?.length == 0" class="alert alert-info">
+      No hay registros en la base de datos!
+    </div>
 
-      <div class="form-group row">
-        <div class="col-sm-6">
-          <mat-form-field>
-            <input type="text" placeholder="Añadir producto" aria-label="Productos" matInput [formControl]="autocompleteControl" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarNombre" (optionSelected)="seleccionarProducto($event)">
-              <mat-option *ngFor="let producto of productosFiltrados | async" [value]="producto">
-                {{producto.nombre}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-          <div class="alert alert-danger" *ngIf="autocompleteControl.invalid && pedidoForm.submitted">
-            La pedido no puede no tener líneas!.
-          </div>
-        </div>
-      </div>
-      <div class="alert alert-info my-4" *ngIf="pedido.items.length == 0">
-        No hay líneas asignadas para la pedido. Debe agregar al menos una!
-      </div>
-      <table class="table table-striped table-hover table-sm" *ngIf="pedido.items.length > 0">
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-            <th>Total</th>
-            <th>Eliminar</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of pedido.items">
-            <td>{{item.producto.nombre}}</td>
-            <td>{{item.producto.precio}}</td>
-            <td><input type="number" value="{{item.cantidad}}" class="form-control col-sm-4" (change)="actualizarCantidad(item.producto.id, $event)"></td>
-            <td>{{item.calcularImporte()}}</td>
-            <td><button class="btn btn-danger btn-sm" type="button"
-              (click)="eliminarItempedido(item.producto.id)">x</button></td>
-          </tr>
-        </tbody>
-      </table>
-      <h5 class="float-right" *ngIf="pedido.items.length > 0">Gran Total: <span class="badge badge-secondary">{{pedido.calcularGranTotal()}}</span></h5>
+    <mat-form-field>
+      <mat-label>Filtrar</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ejem. juan" #input>
+    </mat-form-field>
 
-      <div class="form-group row">
-        <div class="col-sm-6">
-          <input type="submit" (click)="create(pedidoForm)" value="Crear pedido" class="btn btn-secondary">
-        </div>
-      </div>
-    </form>
+    <div class="mat-elevation-z8">
+     <table mat-table [dataSource]="dataSource" matSort >
 
+<!--       <ng-container matColumnDef="foto">
+        <th mat-header-cell *matHeaderCellDef> Foto </th>
+        <td mat-cell *matCellDef="let element">
+          <img (click)="abrirModal(element)" *ngIf="element?.foto"
+            src="http://localhost:8080/api/uploads/img/{{element.foto}}" alt="{{element.foto}}" class="img-thumbnail rounded"
+            style="width:64px; cursor: pointer;">
+
+          <img (click)="abrirModal(element)" *ngIf="!element?.foto"
+            src="http://localhost:8080/images/no-usuario.png" alt="Sin foto" class="img-thumbnail rounded"
+            style="width:64px; cursor: pointer;">
+        </td>
+      </ng-container> -->
+
+       <ng-container matColumnDef="cliente">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </th>
+        <td mat-cell *matCellDef="let element"> {{element.cliente.apellido}} {{element.cliente.nombre}}</td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="documento">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Documento </th>
+        <td mat-cell *matCellDef="let element"> {{element.cliente.tipoDocumento.acronimo}}: {{element.cliente.numeroDocumento}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="createAt">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Creacion </th>
+        <td mat-cell *matCellDef="let element"> {{element.createAt}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="entregadoEn">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Entrega </th>
+        <td mat-cell *matCellDef="let element"> {{element.entregadoEn}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="observacion">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Observacion </th>
+        <td mat-cell *matCellDef="let element"> {{element.observacion}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef> Total </th>
+        <td mat-cell *matCellDef="let element"> {{element.total}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="pago">
+        <th mat-header-cell *matHeaderCellDef> Pago </th>
+        <td mat-cell *matCellDef="let element"> {{element.pago}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="saldo">
+        <th mat-header-cell *matHeaderCellDef> Saldo </th>
+        <td mat-cell *matCellDef="let element"> {{element.saldo}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let element"> {{element.estadoPedido.estado}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+        <!-- <td *ngIf="authService.hasRole('ROLE_ADMIN')" mat-cell *matCellDef="let element"> -->
+        <td mat-cell *matCellDef="let element">
+          <button mat-fab color="warn" (click)="openDialog(element)" matTooltip="Pagar">
+            <mat-icon>price_change</mat-icon>
+          </button>
+          <button mat-fab color="primary" *ngIf="authService.hasRole('ROLE_ADMIN')" [routerLink]="['/pr/pedidos', element.id]" matTooltip="Ver Detalle">
+            <mat-icon>visibility</mat-icon>
+          </button>
+<!--           <button mat-fab color="primary" *ngIf="authService.hasRole('ROLE_ADMIN')" [routerLink]="['form', element.id]" matTooltip="Ver Detalle">
+            <mat-icon>edit</mat-icon>
+          </button> -->
+<!--           <button mat-fab color="warn" aria-label="Eliminar" (click)='delete(element)' matTooltip="Elimnar">
+            <mat-icon>delete</mat-icon>
+          </button> -->
+
+        </td>
+      </ng-container>
+
+       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+   <mat-paginator [pageSizeOptions]="[10, 20, 40]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
   </div>
-</div>
+  </mat-card-content>
+  </mat-card>

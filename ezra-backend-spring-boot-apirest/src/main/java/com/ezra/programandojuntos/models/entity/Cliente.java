@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -53,11 +54,24 @@ public class Cliente implements Serializable {
 
 	private String foto;
 
-	@NotNull(message = "la región no puede ser vacia")
+//	@NotNull(message = "la región no puede ser vacia")
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "region_id")
+//	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+//	private Region region;
+	
+
+	@NotNull(message = "Tipo documento no puede ser vacio")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "region_id")
+	@JoinColumn(name = "tipo_documentos_id")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	private Region region;
+	private TipoDocumento tipoDocumento;
+	
+	@Column(name = "numero_documento")
+	private String numeroDocumento;
+	
+	@Column(name = "celular")
+	private String celular;
 
 	@JsonIgnoreProperties(value={"cliente", "hibernateLazyInitializer", "handler"}, allowSetters=true)
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.ALL)
@@ -65,6 +79,11 @@ public class Cliente implements Serializable {
 
 	public Cliente() {
 		this.pedidos = new ArrayList<>();
+	}
+	
+	@PrePersist
+	public void prePersist() {
+		this.createAt = new Date();
 	}
 
 	public Long getId() {
@@ -115,23 +134,51 @@ public class Cliente implements Serializable {
 		this.foto = foto;
 	}
 
-	public Region getRegion() {
-		return region;
+//	public Region getRegion() {
+//		return region;
+//	}
+//
+//	public void setRegion(Region region) {
+//		this.region = region;
+//	}
+	
+	public void setTipoDocumento(TipoDocumento tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
 	}
 
-	public void setRegion(Region region) {
-		this.region = region;
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
-	
 	
 
 	public List<Pedido> getPedidos() {
 		return pedidos;
 	}
 
-	public void setPedidos(List<Pedido> pedidos) {
-		this.pedidos = pedidos;
+	public TipoDocumento getTipoDocumento() {
+		return tipoDocumento;
 	}
+
+
+	public String getNumeroDocumento() {
+		return numeroDocumento;
+	}
+
+	public void setNumeroDocumento(String numeroDocumento) {
+		this.numeroDocumento = numeroDocumento;
+	}
+
+
+
+	public String getCelular() {
+		return celular;
+	}
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+
+
 
 	private static final long serialVersionUID = 1L;
 }

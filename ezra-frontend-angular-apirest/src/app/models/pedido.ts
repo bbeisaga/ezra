@@ -1,16 +1,24 @@
 import { Cliente } from './cliente';
+import { EstadoPedido } from './estado-pedido';
 import { ItemPedido } from './item-pedido';
 
 export class Pedido {
-  id!: number;
-  descripcion!: string;
+  id!:number;
+  //descripcion!: string;
   observacion!: string;
-  items: Array<ItemPedido> = [];
-  cliente?: Cliente;
-  acuenta: number=0;
-  saldo!: number;
-  total!: number;
-  createAt!: string;
+  items:Array<ItemPedido> = [];
+  cliente?:Cliente;
+  estadoPedido?:EstadoPedido;
+  pago:number=0;
+  apagar:number=0;
+  saldo!:number;
+  total!:number;
+  createAt!:string;
+  entregadoEn!:string;
+  aceptado:boolean = true;
+  vencido:boolean = false;
+  pagado:boolean = false;
+
 
   calcularGranTotal(): number {
     this.total = 0;
@@ -21,7 +29,7 @@ export class Pedido {
   }
 
   calcularGranSaldo(): number {
-    return this.calcularGranTotal() - this.acuenta;
+    return this.calcularGranTotal() - this.pago;
   }
 
 }

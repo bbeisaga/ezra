@@ -70,7 +70,7 @@ export class DetalleComponent implements OnInit {
   delete(pedido: Pedido): void {
     swal.fire({
       title: 'Está seguro?',
-      text: `¿Seguro que desea eliminar la pedido ${pedido.descripcion}?`,
+      text: `¿Seguro que desea eliminar el pedido de ${pedido.cliente?.apellido}, ${pedido.cliente?.nombre}  ?`,
       //type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -89,7 +89,7 @@ export class DetalleComponent implements OnInit {
             this.cliente.pedidos = this.cliente.pedidos.filter(f => f !== pedido)
             swal.fire(
               'Pedido Eliminada!',
-              `Pedido ${pedido.descripcion} eliminada con éxito.`,
+              `Pedido de ${pedido.cliente?.apellido}, ${pedido.cliente?.nombre} eliminada con éxito.`,
               'success'
             )
           }

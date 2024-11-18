@@ -18,7 +18,7 @@
                 <li class="list-group-item">{{cliente.apellido}}</li>
                 <li class="list-group-item">{{cliente.email}}</li>
                 <li class="list-group-item">{{cliente.createAt | date:"fullDate"}}</li>
-                <li class="list-group-item">{{cliente.region.nombre}}</li>
+                <li class="list-group-item">{{cliente.tipoDocumento.acronimo}}</li>
               </ul>
 
               <div class="input-group mb-3" *ngIf="authService.hasRole('ROLE_ADMIN')">
@@ -66,8 +66,8 @@
               <tbody>
                 <tr *ngFor="let pedido of cliente.pedidos">
                   <td>{{pedido.id}}</td>
-                  <td>{{pedido.descripcion}}</td>
-                  <td>{{pedido.createAt}}</td>
+<!--                   <td>{{pedido.descripcion}}</td>
+ -->                  <td>{{pedido.createAt}}</td>
                   <td>{{pedido.total}}</td>
                   <td><button class="btn btn-primary btn-sm" type="button"
                     [routerLink]="['/pedidos', pedido.id]">ver</button></td>

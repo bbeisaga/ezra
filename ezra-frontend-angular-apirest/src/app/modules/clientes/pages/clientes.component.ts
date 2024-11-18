@@ -21,7 +21,7 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class ClientesComponent implements OnInit {
 
-  displayedColumns: string[] = ['foto','apellido','nombre','email', 'createAt','acciones' ];
+  displayedColumns: string[] = ['apellido','nombre', 'numeroDocumento','email','acciones' ];
   dataSource!: MatTableDataSource<Cliente>;
   // dataSource = new MatTableDataSource<Cliente>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -41,22 +41,22 @@ export class ClientesComponent implements OnInit {
     }
 
   ngOnInit() {
-    console.log("Entrandooooo....")
-    this.activatedRoute.paramMap.subscribe(params => {
+/*     this.activatedRoute.paramMap.subscribe(params => {
       let page: number = +params.get('page')!;
 
       if (!page) {
         page = 0;
-      }
+      } */
 
-      this.clienteService.getClientes(page)
+      this.clienteService.getAllClientes()
         .pipe(
-          tap(response => {
+    /*       tap(response => {
             console.log('ClientesComponent: tap 3');
             (response.content as Cliente[]).forEach(cliente => console.log(cliente.nombre));
-          })
+          }) */
         ).subscribe(response => {
-          this.clientes = response.content as Cliente[];
+          //this.clientes = response.content as Cliente[];
+          this.clientes = response;
           this.dataSource = new MatTableDataSource(this.clientes);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.orberBy;
@@ -64,7 +64,7 @@ export class ClientesComponent implements OnInit {
           //console.log(this.dataSource);
           //this.paginador = response;
         });
-    });
+    //});
 /*
     this.modalService.notificarUpload.subscribe(cliente => {
       this.clientes = this.clientes.map(clienteOriginal => {

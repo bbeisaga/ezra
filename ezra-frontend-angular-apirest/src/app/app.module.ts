@@ -10,8 +10,8 @@ import { PrincipalModule } from './modules/principal/principal.module';
 import { LoginComponent } from './modules/auth/login.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { TokenInterceptor } from './interceptors/token.interceptor';
+import { AuthInterceptor } from './modules/clientes/interceptors/auth.interceptor';
+import { TokenInterceptor } from './modules/clientes/interceptors/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -29,8 +29,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
   ],
   providers: [
     provideAnimationsAsync(),
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+/*     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },*/
   ],
   bootstrap: [AppComponent]
 })

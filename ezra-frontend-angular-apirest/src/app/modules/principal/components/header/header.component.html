@@ -1,4 +1,35 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<!-- <div class="d-flex justify-content-start" [ngStyle]="{'width' : '100%'}"> -->
+  <mat-toolbar color="primary">
+  <button mat-icon-button class="mr-2" (click)="sideNavToggle()">
+    <mat-icon class="material-icons-outlined">menu</mat-icon>
+  </button>
+  <span>{{ title }}</span>
+  <span class="example-spacer"></span>
+  <div *ngIf="isAutenticado">
+    <button mat-icon-button [matMenuTriggerFor]="notificationsMenu">
+      <mat-icon class="material-icons-outlined">account_circle</mat-icon>
+    </button>
+    <mat-menu #notificationsMenu="matMenu" xPosition="before" class="mat-menu-large">
+      <mat-list class="p-0">
+        <mat-list-item>{{usuario.username}}</mat-list-item>
+        <a mat-menu-item >
+          <mat-icon mat-list-icon class="material-icons-outlined">lock</mat-icon>
+          <span>Cambiar contraseña</span>
+        </a>
+        <mat-divider></mat-divider>
+        <a (click)="logout()" mat-menu-item>
+          <mat-icon mat-list-icon class="material-icons-outlined">exit_to_app</mat-icon>
+          <span>Cerrar sesión</span>
+        </a>
+      </mat-list>
+    </mat-menu>
+  </div>
+  </mat-toolbar>
+
+<!-- </div> -->
+
+
+<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" href="#"> {{ title }}</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -31,3 +62,4 @@
     </ul>
   </div>
 </nav>
+ -->

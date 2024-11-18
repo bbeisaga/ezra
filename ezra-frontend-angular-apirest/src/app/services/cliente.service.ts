@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Cliente } from '../models/cliente';
 import { Region } from '../models/region';
-import { HttpClient, HttpRequest, HttpEvent } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 
 import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
+import { TipoDocumento } from '../models/tipo-documento';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +15,28 @@ import { Router } from '@angular/router';
 export class ClienteService {
   private urlEndPoint: string = 'http://localhost:8080/api/clientes';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
-  getRegiones(): Observable<Region[]> {
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
+
+  private agregarAuthorizationHeader(){
+    let token = this.authService.token;
+    if(token != null){
+      return this.httpHeaders.append('Authorization', 'Bearer ' + token)
+    }
+    return this.httpHeaders
+  }
+
+  getTipoDocumento(): Observable<TipoDocumento[]> {
+    return this.http.get<TipoDocumento[]>(this.urlEndPoint + '/documentos', {headers: this.agregarAuthorizationHeader()});
+  }
+
+/*   getRegiones(): Observable<Region[]> {
     return this.http.get<Region[]>(this.urlEndPoint + '/regiones');
+  } */
+
+  getAllClientes(): Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(this.urlEndPoint, {headers: this.agregarAuthorizationHeader()});
   }
 
   getClientes(page: number): Observable<any> {
@@ -39,7 +59,7 @@ export class ClienteService {
   }
 
   create(cliente: Cliente): Observable<Cliente> {
-    return this.http.post(this.urlEndPoint, cliente)
+    return this.http.post(this.urlEndPoint, cliente, {headers: this.agregarAuthorizationHeader()})
       .pipe(
         map((response: any) => response.cliente as Cliente),
         catchError(e => {
@@ -54,7 +74,7 @@ export class ClienteService {
   }
 
   getCliente(id: any): Observable<Cliente> {
-    return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
+    return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`, {headers: this.agregarAuthorizationHeader()}).pipe(
       catchError(e => {
         if (e.status != 401 && e.error.mensaje) {
           this.router.navigate(['/clientes']);
@@ -66,7 +86,7 @@ export class ClienteService {
   }
 
   update(cliente: Cliente): Observable<any> {
-    return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`, cliente).pipe(
+    return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.agregarAuthorizationHeader()}).pipe(
       catchError(e => {
         if (e.status == 400) {
           return throwError(e);
@@ -79,7 +99,7 @@ export class ClienteService {
   }
 
   delete(id: number): Observable<Cliente> {
-    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`).pipe(
+    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, {headers: this.agregarAuthorizationHeader()}).pipe(
       catchError(e => {
         if (e.error.mensaje) {
           console.error(e.error.mensaje);

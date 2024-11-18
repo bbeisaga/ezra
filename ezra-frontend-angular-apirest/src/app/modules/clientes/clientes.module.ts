@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClientesRoutingModule } from './clientes-routing.module';
-import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ClientesComponent } from './pages/clientes.component';
 import { DetalleComponent } from './components/detalle.component';
 import { FormComponent } from './components/form.component';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { CompartidoModule } from '../compartido/compartido.module';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 
 
@@ -21,8 +22,11 @@ import { CompartidoModule } from '../compartido/compartido.module';
     CommonModule,
     RouterModule,
     ClientesRoutingModule,
-    FormsModule,
     CompartidoModule,
-  ]
+  ],
+  providers: [
+/*     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },*/
+  ],
 })
 export class ClientesModule { }

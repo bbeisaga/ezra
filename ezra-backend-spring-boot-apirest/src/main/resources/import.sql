@@ -1,26 +1,21 @@
 /* Populate tabla clientes */
 
-INSERT INTO regiones (id, nombre) VALUES (1, 'Sudamérica');
-INSERT INTO regiones (id, nombre) VALUES (2, 'Centroamérica');
-INSERT INTO regiones (id, nombre) VALUES (3, 'Norteamérica');
-INSERT INTO regiones (id, nombre) VALUES (4, 'Europa');
-INSERT INTO regiones (id, nombre) VALUES (5, 'Asia');
-INSERT INTO regiones (id, nombre) VALUES (6, 'Africa');
-INSERT INTO regiones (id, nombre) VALUES (7, 'Oceanía');
-INSERT INTO regiones (id, nombre) VALUES (8, 'Antártida');
+INSERT INTO tipo_documentos (acronimo, nombre) VALUES ('DNI', 'Documento Nacional de Identificación');
+INSERT INTO tipo_documentos (acronimo, nombre) VALUES ('CEX', 'Carnet de Extranjeria');
 
-INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(1, 'Andrés', 'Guzmán', 'profesor@bolsadeideas.com', '2018-01-01');
-INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(2, 'Mr. John', 'Doe', 'john.doe@gmail.com', '2018-01-02');
-INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(4, 'Linus', 'Torvalds', 'linus.torvalds@gmail.com', '2018-01-03');
-INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(4, 'Rasmus', 'Lerdorf', 'rasmus.lerdorf@gmail.com', '2018-01-04');
-INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(4, 'Erich', 'Gamma', 'erich.gamma@gmail.com', '2018-02-01');
-INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(3, 'Richard', 'Helm', 'richard.helm@gmail.com', '2018-02-10');
-INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(3, 'Ralph', 'Johnson', 'ralph.johnson@gmail.com', '2018-02-18');
-INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(3, 'John', 'Vlissides', 'john.vlissides@gmail.com', '2018-02-28');
-INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(3, 'Dr. James', 'Gosling', 'james.gosling@gmail.com', '2018-03-03');
-INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(5, 'Magma', 'Lee', 'magma.lee@gmail.com', '2018-03-04');
-INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(6, 'Tornado', 'Roe', 'tornado.roe@gmail.com', '2018-03-05');
-INSERT INTO clientes (region_id, nombre, apellido, email, create_at) VALUES(7, 'Jade', 'Doe', 'jane.doe@gmail.com', '2018-03-06');
+
+INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(1, 'Andrés', 'Guzmán', 'profesor@bolsadeideas.com', '2018-01-01','41953480');
+INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(1, 'Mr. John', 'Doe', 'john.doe@gmail.com', '2018-01-02','11953480');
+INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(1, 'Linus', 'Torvalds', 'linus.torvalds@gmail.com', '2018-01-03','02953480');
+INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(1, 'Rasmus', 'Lerdorf', 'rasmus.lerdorf@gmail.com', '2018-01-04','71953480');
+INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(2, 'Erich', 'Gamma', 'erich.gamma@gmail.com', '2018-02-01','41955680');
+INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(2, 'Richard', 'Helm', 'richard.helm@gmail.com', '2018-02-10','40053480');
+INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(1, 'Ralph', 'Johnson', 'ralph.johnson@gmail.com', '2018-02-18','41953120');
+INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(1, 'John', 'Vlissides', 'john.vlissides@gmail.com', '2018-02-28','21953480');
+INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(2, 'Dr. James', 'Gosling', 'james.gosling@gmail.com', '2018-03-03','47653480');
+INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(2, 'Magma', 'Lee', 'magma.lee@gmail.com', '2018-03-04','01953480');
+INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(1, 'Tornado', 'Roe', 'tornado.roe@gmail.com', '2018-03-05','41353480');
+INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(2, 'Jade', 'Doe', 'jane.doe@gmail.com', '2018-03-06','41893480');
 
 /* Creamos algunos usuarios con sus roles */
 INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email) VALUES ('andres','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1, 'Andres', 'Guzman','profesor@bolsadeideas.com');
@@ -34,24 +29,30 @@ INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 2);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 1);
 
 /* Populate tabla productos */
-INSERT INTO productos (nombre, precio, create_at) VALUES('Letrero luminoso', 259990, NOW());
-INSERT INTO productos (nombre, precio, create_at) VALUES('Letrero en strucutura', 123490, NOW());
-INSERT INTO productos (nombre, precio, create_at) VALUES('Letrero en parante', 1499990, NOW());
-INSERT INTO productos (nombre, precio, create_at) VALUES('Letrero en Roll Screen', 37990, NOW());
-INSERT INTO productos (nombre, precio, create_at) VALUES('Sellos', 69990, NOW());
-INSERT INTO productos (nombre, precio, create_at) VALUES('Fotocheck', 69990, NOW());
-INSERT INTO productos (nombre, precio, create_at) VALUES('Tarjeta matrimonio', 299990, NOW());
-INSERT INTO productos (nombre, precio, create_at) VALUES('Tarjeta bautizo', 299990, NOW());
-INSERT INTO productos (nombre, precio, create_at) VALUES('Tarjeta personales', 299990, NOW());
-INSERT INTO productos (nombre, precio, create_at) VALUES('Tarjeta varios', 299990, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES('Letrero luminoso', 10, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES('Letrero en strucutura', 15, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES('Letrero en parante', 20, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES('Letrero en Roll Screen', 10, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES('Sellos', 12, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES('Fotocheck', 5, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES('Tarjeta matrimonio', 2, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES('Tarjeta bautizo', 1, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES('Tarjeta personales', 5, NOW());
+INSERT INTO productos (nombre, precio, create_at) VALUES('Tarjeta varios', 8, NOW());
 
 /* Creamos algunas pedidos */
-INSERT INTO pedidos (descripcion, observacion, cliente_id, create_at, acuenta) VALUES('Pedido varios', null, 1, NOW(), 30);
+INSERT INTO estado_pedido (estado, descripcion) VALUES ('Registrado', 'No venció, no aceptado');
+INSERT INTO estado_pedido (estado, descripcion) VALUES ('Vencido', 'Venció, no aceptado'); /*este campo se implementará con Schduled en segunda version*/
+INSERT INTO estado_pedido (estado, descripcion) VALUES ('Devuelto', 'Devuelto por errores');
+INSERT INTO estado_pedido (estado, descripcion) VALUES ('Entregado', 'Pagado, entregado al cliente');
 
-INSERT INTO pedidos_items (cantidad, pedido_id, producto_id) VALUES(1, 1, 1);
-INSERT INTO pedidos_items (cantidad, pedido_id, producto_id) VALUES(2, 1, 4);
-INSERT INTO pedidos_items (cantidad, pedido_id, producto_id) VALUES(1, 1, 5);
-INSERT INTO pedidos_items (cantidad, pedido_id, producto_id) VALUES(1, 1, 7);
+INSERT INTO pedidos (observacion, cliente_id, estado_pedido_id, create_at, entregado_en,vencido, aceptado, pagado, pago, total, saldo) VALUES('Envío delivery el dia miercoles en la tarde, contactar al señor ramirez', 1, 1, NOW(),'2024-11-16',false,false,false, 30,64,14);
 
-INSERT INTO pedidos (descripcion, observacion, cliente_id, create_at, acuenta) VALUES('Pedido Tarjeta matrimonio', 'Alguna nota importante!', 1, NOW(), 0);
-INSERT INTO pedidos_items (cantidad, pedido_id, producto_id) VALUES(3, 2, 6);
+INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(1, 1, 1, 'Traera diseño de letrero en USB');
+INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(2, 1, 4, 'Enviara texto por Whatssap, para que nosotros diseñemos');
+INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(1, 1, 5, 'RALPH GODIER, ASESOR INMOBILIARIO, 974798823,rgodier@gmail.com');
+INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(1, 1, 7, 'Se escogio em modelo DORADO de matrimonio con letra San Serif');
+
+
+INSERT INTO pedidos (observacion, cliente_id, estado_pedido_id, create_at, entregado_en,vencido, aceptado, pagado, pago, total, saldo) VALUES('Vendra a recoger en el local de Jerusalen el miercols en la tarde', 2, 3, NOW(), '2024-11-14',false,false, false, 0, 45, 45);
+INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(3, 2, 6, 'Enviara por correo o whattsao excel con cargas de empleados y el logo de la empresa');

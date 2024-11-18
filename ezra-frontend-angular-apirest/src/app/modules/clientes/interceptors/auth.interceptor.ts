@@ -4,14 +4,12 @@ import {
 } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import swal from 'sweetalert2';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private authService: AuthService,
@@ -33,7 +31,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
         if (e.status == 403) {
           swal.fire('Acceso denegado', `Hola ${this.authService.usuario.username} no tienes acceso a este recurso!`, 'warning');
-          this.router.navigate(['/clientes']);
+          //this.router.navigate(['/clientes']);
         }
         return throwError(e);
       })

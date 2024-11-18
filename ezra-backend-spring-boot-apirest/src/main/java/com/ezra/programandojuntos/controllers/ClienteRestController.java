@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ezra.programandojuntos.models.entity.Cliente;
-import com.ezra.programandojuntos.models.entity.Region;
+import com.ezra.programandojuntos.models.entity.TipoDocumento;
 import com.ezra.programandojuntos.models.services.IClienteService;
 import com.ezra.programandojuntos.models.services.IUploadFileService;
 
@@ -51,12 +51,13 @@ public class ClienteRestController {
 	private IUploadFileService uploadService;
 	
 	// private final Logger log = LoggerFactory.getLogger(ClienteRestController.class);
-
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("/clientes")
 	public List<Cliente> index() {
 		return clienteService.findAll();
 	}
 	
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("/clientes/page/{page}")
 	public Page<Cliente> index(@PathVariable Integer page) {
 		Pageable pageable = PageRequest.of(page, 4);
@@ -150,8 +151,9 @@ public class ClienteRestController {
 			clienteActual.setNombre(cliente.getNombre());
 			clienteActual.setEmail(cliente.getEmail());
 			clienteActual.setCreateAt(cliente.getCreateAt());
-			clienteActual.setRegion(cliente.getRegion());
-
+			//clienteActual.setRegion(cliente.getRegion());
+			clienteActual.setTipoDocumento(cliente.getTipoDocumento());
+			clienteActual.setNumeroDocumento(cliente.getNumeroDocumento());
 			clienteUpdated = clienteService.save(clienteActual);
 
 		} catch (DataAccessException e) {
@@ -241,9 +243,65 @@ public class ClienteRestController {
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
 	}
 	
-	@Secured("ROLE_ADMIN")
-	@GetMapping("/clientes/regiones")
-	public List<Region> listarRegiones(){
-		return clienteService.findAllRegiones();
+//	@Secured("ROLE_ADMIN")
+//	@GetMapping("/clientes/regiones")
+//	public List<Region> listarRegiones(){
+//		return clienteService.findAllRegiones();
+//	}
+	
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+	@GetMapping("/clientes/documentos")
+	public List<TipoDocumento> listarDocumentos(){
+		return clienteService.findAllTipoDocumento();
 	}
+
+//	@Secured("ROLE_ADMIN")
+//	@PutMapping("/clientes/{id}")
+//	public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente, BindingResult result, @PathVariable Long id) {
+//	
+//		Cliente clienteActual = clienteService.findById(id);
+//	
+//		Cliente clienteUpdated = null;
+//	
+//		Map<String, Object> response = new HashMap<>();
+//	
+//		if(result.hasErrors()) {
+//	
+//			List<String> errors = result.getFieldErrors()
+//					.stream()
+//					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
+//					.collect(Collectors.toList());
+//			
+//			response.put("errors", errors);
+//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+//		}
+//		
+//		if (clienteActual == null) {
+//			response.put("mensaje", "Error: no se pudo editar, el cliente ID: "
+//					.concat(id.toString().concat(" no existe en la base de datos!")));
+//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+//		}
+//	
+//		try {
+//	
+//			clienteActual.setApellido(cliente.getApellido());
+//			clienteActual.setNombre(cliente.getNombre());
+//			clienteActual.setEmail(cliente.getEmail());
+//			clienteActual.setCreateAt(cliente.getCreateAt());
+//			//clienteActual.setRegion(cliente.getRegion());
+//			clienteActual.setTipoDocumento(cliente.getTipoDocumento());
+//	
+//			clienteUpdated = clienteService.save(clienteActual);
+//	
+//		} catch (DataAccessException e) {
+//			response.put("mensaje", "Error al actualizar el cliente en la base de datos");
+//			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//	
+//		response.put("mensaje", "El cliente ha sido actualizado con éxito!");
+//		response.put("cliente", clienteUpdated);
+//	
+//		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+//	}
 }

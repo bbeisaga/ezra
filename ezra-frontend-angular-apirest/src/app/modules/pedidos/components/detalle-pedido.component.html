@@ -1,0 +1,140 @@
+<mat-card>
+    <mat-card-header class="d-flex justify-content-start">
+      <mat-card-title>{{titulo}}</mat-card-title>
+      <div class="ms-auto">
+        <button  color="primary" mat-raised-button [routerLink]="['/pr/pedidos']">
+          Volver
+        </button>
+      </div>
+    </mat-card-header>
+    <mat-card-content class="d-flex flex-column">
+      <ul class="list-group my-2">
+        <li class="list-group-item list-group-item-primary">Datos del cliente</li>
+        <li class="list-group-item">{{pedido.cliente!.nombre}}</li>
+        <li class="list-group-item">{{pedido.cliente!.apellido}}</li>
+        <li class="list-group-item">{{pedido.cliente!.tipoDocumento.acronimo}} : {{pedido.cliente!.numeroDocumento}}</li>
+        <li class="list-group-item">{{pedido.cliente!.celular}}</li>
+        <li class="list-group-item">{{pedido.cliente!.email}} </li>
+
+      </ul>
+
+      <ul class="list-group my-2">
+        <li class="list-group-item list-group-item-primary">Datos de la pedido</li>
+        <li class="list-group-item">Numero: {{pedido.id}}</li>
+        <li class="list-group-item">Descripción: {{pedido.observacion}}</li>
+        <li class="list-group-item">Fecha creacion: {{pedido.createAt}}</li>
+        <li class="list-group-item">Fecha entrega: {{pedido.entregadoEn}}</li>
+        <li class="list-group-item">Estado pedido: {{pedido.estadoPedido?.descripcion}}</li>
+<!--         <li class="list-group-item">GRAN TOTAL: {{pedido.total}}</li>
+        <li class="list-group-item">PAGADO: {{pedido.pagado}}</li>
+        <li class="list-group-item">SALDO: {{pedido.saldo}}</li> -->
+      </ul>
+
+      <table class="table table-striped table-hover table-bordered my-3">
+        <thead>
+          <tr>
+
+            <th>Producto</th>
+            <th>Descripcion</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Importe</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of pedido.items">
+
+            <td>{{item.producto.nombre}}</td>
+            <td>{{item.descripcion}}</td>
+            <td>{{item.cantidad}}</td>
+            <td>{{item.producto.precio}}</td>
+            <td>{{item.importe}} </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-flex flex-row justify-content-end">
+        <div class="card border-info" style="margin-right: 5px;">
+          <div class="card card-header">
+            GRANT TOTAL
+          </div>
+          <div class="card card-body" >
+            <p style="font-size: 30px; font-weight: bolder;">{{pedido.total | number:'2.2-2'}}</p>
+          </div>
+        </div>
+        <div class="card border-info" style="margin-right: 5px;">
+          <div class="card card-header">
+            PAGADO
+          </div>
+          <div class="card card-body" >
+            <p style="font-size: 30px; font-weight: bolder;">{{pedido.pago | number:'2.2-2'}}</p>
+          </div>
+        </div>
+        <div class="card border-info">
+          <div class="card card-header">
+            PENDIENTE DE PAGO
+          </div>
+          <div class="card card-body" >
+            <p style="font-size: 30px; font-weight: bolder; color: red;">{{pedido.saldo | number:'2.2-2'}}</p>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+
+</mat-card>
+
+
+
+<!-------------------asasa  -->
+<!-- <div class="card bg-light" *ngIf="pedido">
+  <div class="card-header">{{titulo}}: {{pedido.observacion}}</div>
+  <div class="card-body">
+    <h4 class="card-title">
+      <a [routerLink]="['/clientes']" class="btn btn-light btn-xs">&laquo; volver</a>
+    </h4>
+
+    <ul class="list-group my-2">
+      <li class="list-group-item list-group-item-primary">Datos del cliente</li>
+      <li class="list-group-item">{{pedido.cliente!.nombre}}</li>
+      <li class="list-group-item">{{pedido.cliente!.apellido}}</li>
+    </ul>
+
+    <ul class="list-group my-2">
+      <li class="list-group-item list-group-item-primary">Datos de la pedido</li>
+      <li class="list-group-item">Folio: {{pedido.id}}</li>
+      <li class="list-group-item">Descripción: {{pedido.observacion}}</li>
+      <li class="list-group-item">Fecha: {{pedido.createAt}}</li>
+    </ul>
+
+    <table class="table table-striped table-hover table-bordered my-3">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>descripcion</th>
+          <th>Cantidad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of pedido.items">
+          <td>{{item.producto.nombre}}</td>
+          <td>{{item.descripcion}}</td>
+          <td>{{item.cantidad}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <h5 class="float-right">
+      <span>Gran Total</span>: <span class="badge badge-secondary">{{pedido.total}}</span>
+    </h5>
+
+    <div class="card border-info mb-4" style="max-width: 350px;">
+      <div class="card card-header">
+        Observaciones
+      </div>
+      <div class="card card-body">
+        <p *ngIf="!pedido.observacion">No tiene observación</p>
+        <p *ngIf="pedido.observacion">{{pedido.observacion}}</p>
+      </div>
+
+    </div>
+  </div>
+</div> -->
+

@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { PrincipalComponent } from './paginas/principal/principal.component';
 import { AyudaComponent } from './paginas/ayuda/ayuda.component';
 import { ErrorComponent } from './paginas/error/error.component';
+import { HeaderComponent } from './components/header/header.component';
 
 
 
@@ -15,6 +16,7 @@ import { ErrorComponent } from './paginas/error/error.component';
   declarations: [
     PrincipalComponent,
     AyudaComponent,
+    HeaderComponent,
     ErrorComponent,
   ],
   imports: [

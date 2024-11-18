@@ -1,5 +1,5 @@
 import { Pedido } from './pedido';
-import { Region } from './region';
+import { TipoDocumento } from './tipo-documento';
 
 export class Cliente {
   id!: number;
@@ -8,6 +8,8 @@ export class Cliente {
   createAt!: string;
   email!: string;
   foto!: string;
-  region!: Region;
+  tipoDocumento!: TipoDocumento;
+  numeroDocumento!: string;
+  celular!: string;
   pedidos: Array<Pedido> = [];
 }

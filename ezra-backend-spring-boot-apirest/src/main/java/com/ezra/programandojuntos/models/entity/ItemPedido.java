@@ -27,6 +27,9 @@ public class ItemPedido implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "producto_id")
 	private Producto producto;
+	
+	private String descripcion;
+
 
 	public Long getId() {
 		return id;
@@ -55,6 +58,16 @@ public class ItemPedido implements Serializable {
 	public void setProducto(Producto producto) {
 		this.producto = producto;
 	}
+
+	
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
 
 	private static final long serialVersionUID = 1L;
 }

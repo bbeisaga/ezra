@@ -9,12 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ezra.programandojuntos.models.dao.IClienteDao;
-import com.ezra.programandojuntos.models.dao.IPedidoDao;
-import com.ezra.programandojuntos.models.dao.IProductoDao;
 import com.ezra.programandojuntos.models.entity.Cliente;
-import com.ezra.programandojuntos.models.entity.Pedido;
-import com.ezra.programandojuntos.models.entity.Producto;
-import com.ezra.programandojuntos.models.entity.Region;
+import com.ezra.programandojuntos.models.entity.TipoDocumento;
 
 @Service
 public class ClienteServiceImpl implements IClienteService {
@@ -22,12 +18,6 @@ public class ClienteServiceImpl implements IClienteService {
 	@Autowired
 	private IClienteDao clienteDao;
 	
-	@Autowired
-	private IPedidoDao pedidoDao;
-	
-	@Autowired
-	private IProductoDao productoDao;
-
 	@Override
 	@Transactional(readOnly = true)
 	public List<Cliente> findAll() {
@@ -58,34 +48,48 @@ public class ClienteServiceImpl implements IClienteService {
 		clienteDao.deleteById(id);
 	}
 
+//	@Override
+//	@Transactional(readOnly = true)
+//	public List<Region> findAllRegiones() {
+//		return clienteDao.findAllRegiones();
+//	}
+	
 	@Override
 	@Transactional(readOnly = true)
-	public List<Region> findAllRegiones() {
-		return clienteDao.findAllRegiones();
+	public List<TipoDocumento> findAllTipoDocumento() {
+		return clienteDao.findAllDocumentos();
 	}
 
-	@Override
-	@Transactional(readOnly = true)
-	public Pedido findFacturaById(Long id) {
-		return pedidoDao.findById(id).orElse(null);
-	}
-
-	@Override
-	@Transactional
-	public Pedido saveFactura(Pedido pedido) {
-		return pedidoDao.save(pedido);
-	}
-
-	@Override
-	@Transactional
-	public void deleteFacturaById(Long id) {
-		pedidoDao.deleteById(id);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Producto> findProductoByNombre(String term) {
-		return productoDao.findByNombreContainingIgnoreCase(term);
-	}
+//	@Override
+//	@Transactional(readOnly = true)
+//	public Pedido findPedidoById(Long id) {
+//		return pedidoDao.findById(id).orElse(null);
+//	}
+//
+//	@Override
+//	@Transactional
+//	public Pedido savePedido(Pedido pedido) {
+//		
+//		List<ItemPedido> items= pedido.getItems();
+//		Double total = 0.00;
+//		for (ItemPedido item : items) {
+//			total += item.getImporte();
+//		}	
+//		pedido.setTotal(total);
+//		pedido.setSaldo(total - pedido.getAcuenta());
+//		return pedidoDao.save(pedido);
+//	}
+//
+//	@Override
+//	@Transactional
+//	public void deletePedidoById(Long id) {
+//		pedidoDao.deleteById(id);
+//	}
+//
+//	@Override
+//	@Transactional(readOnly = true)
+//	public List<Producto> findProductoByNombre(String term) {
+//		return productoDao.findByNombreContainingIgnoreCase(term);
+//	}
 
 }

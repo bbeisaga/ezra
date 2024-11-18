@@ -1,10 +1,7 @@
 import { NgModule } from '@angular/core';
-
-
 // aplicaicon modulos
 import { CommonModule } from '@angular/common';
-
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //angular material modulos
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -21,12 +18,18 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInputModule } from '@angular/material/input';
 import { MatSortModule } from '@angular/material/sort';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatSidenavModule,
     MatFormFieldModule,
     MatInputModule,
@@ -42,8 +45,14 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatTooltipModule,
     MatSortModule,
     MatNativeDateModule,
+    MatMenuModule,
+    MatAutocompleteModule,
+    MatDialogModule,
+    MatCheckboxModule
   ],
   exports: [
+    FormsModule,
+    ReactiveFormsModule,
     MatSidenavModule,
     MatFormFieldModule,
     MatInputModule,
@@ -59,6 +68,10 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatTooltipModule,
     MatSortModule,
     MatNativeDateModule,
+    MatMenuModule,
+    MatAutocompleteModule,
+    MatDialogModule,
+    MatCheckboxModule
   ]
 })
 export class CompartidoModule { }

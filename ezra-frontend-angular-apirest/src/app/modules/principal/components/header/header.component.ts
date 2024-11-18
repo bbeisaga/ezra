@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthService } from '../../../../services/auth.service';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
@@ -6,12 +6,15 @@ import { Usuario } from '../../../../models/usuario';
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html'
+  templateUrl: './header.component.html',
+  styleUrls: [ './header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  title: string = 'App Angular'
+  title: string = 'Sistema de pedido EZRA'
   isAutenticado: boolean = false;
-  usuario?: Usuario;
+  usuario!: Usuario;
+  @Output()
+  clickMenuEvent = new EventEmitter();
 
   constructor(private authService: AuthService, private router: Router) { }
 
@@ -29,4 +32,9 @@ export class HeaderComponent implements OnInit {
     swal.fire('Logout', `Hola ${username}, has cerrado sesión con éxito!`, 'success');
     this.router.navigate(['/login']);
   }
+
+  sideNavToggle(): void {
+    this.clickMenuEvent.emit();
+  }
+
 }

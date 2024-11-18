@@ -6,9 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.ezra.programandojuntos.models.entity.Cliente;
-import com.ezra.programandojuntos.models.entity.Pedido;
-import com.ezra.programandojuntos.models.entity.Producto;
-import com.ezra.programandojuntos.models.entity.Region;
+import com.ezra.programandojuntos.models.entity.TipoDocumento;
 
 public interface IClienteService {
 
@@ -22,14 +20,16 @@ public interface IClienteService {
 	
 	public void delete(Long id);
 	
-	public List<Region> findAllRegiones();
+	//public List<Region> findAllRegiones();
 	
-	public Pedido findFacturaById(Long id);
+	public List<TipoDocumento> findAllTipoDocumento();
 	
-	public Pedido saveFactura(Pedido pedido);
+//	public Pedido findPedidoById(Long id);
+//	
+//	public Pedido savePedido(Pedido pedido);
+//	
+//	public void deletePedidoById(Long id);
 	
-	public void deleteFacturaById(Long id);
-	
-	public List<Producto> findProductoByNombre(String term);
+//	public List<Producto> findProductoByNombre(String term);
 
 }
