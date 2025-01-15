@@ -8,57 +8,42 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
-
 @Entity
-@Table(name = "estado_pedido")
-public class EstadoPedido implements Serializable{
-	
+@Table(name = "cajas")
+public class Caja  implements Serializable{
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Byte id;
-	
-	private String estado;
-	private String descripcion;
-	
+	private String nombre;
+	private String ubicacion;
 	
 	
 	public Byte getId() {
 		return id;
 	}
-
-
-
+	
 	public void setId(Byte id) {
 		this.id = id;
 	}
-
-
-
-	public String getEstado() {
-		return estado;
+	
+	public String getNombre() {
+		return nombre;
 	}
-
-
-
-	public void setEstado(String estado) {
-		this.estado = estado;
+	
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
-
-
-
-	public String getDescripcion() {
-		return descripcion;
+	
+	public String getUbicacion() {
+		return ubicacion;
 	}
-
-
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	
+	public void setUbicacion(String ubicacion) {
+		this.ubicacion = ubicacion;
 	}
-
-
+	
 
 	private static final long serialVersionUID = 1L;
-
+	
 }

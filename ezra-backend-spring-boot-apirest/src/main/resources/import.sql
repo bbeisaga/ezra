@@ -28,6 +28,31 @@ INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 1);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 2);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 1);
 
+/* creamos las cajas*/
+
+INSERT INTO cajas (nombre, ubicacion) VALUES ('Caja1', 'Francisco pizarro 214 f');
+INSERT INTO cajas (nombre, ubicacion) VALUES ('Caja2', 'Jeruslaen 108');
+INSERT INTO cajas (nombre, ubicacion) VALUES ('Caja3', 'Mercaderes 129');
+
+/* creamos tipo pago*/
+
+INSERT INTO tipo_pagos (nombre, moneda, cc, cci) VALUES ('YAPE', 'soles',  '','');
+INSERT INTO tipo_pagos (nombre, moneda, cc, cci) VALUES ('PLIN', 'soles',  '','');
+INSERT INTO tipo_pagos (nombre, moneda, cc, cci) VALUES ('BCP Cuenta', 'soles','11122333','44556677');
+INSERT INTO tipo_pagos (nombre, moneda, cc, cci) VALUES ('INTERBANK Cuenta', 'soles','14522333','45556677');
+INSERT INTO tipo_pagos (nombre, moneda, cc, cci) VALUES ('BBVA Cuenta', 'soles','14522345','4555667745');
+
+
+/* creamos tipo movimiento*/
+INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Venta','I');
+INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Sobrante','I');
+INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Saldo','I');
+INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Otros ingresos','I');
+INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Alimento','E');
+INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Taxis','E');
+INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Regalos','E');
+INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Otros gastos','E');
+
 /* Populate tabla productos */
 INSERT INTO productos (nombre, precio, create_at) VALUES('Letrero luminoso', 10, NOW());
 INSERT INTO productos (nombre, precio, create_at) VALUES('Letrero en strucutura', 15, NOW());
@@ -40,19 +65,20 @@ INSERT INTO productos (nombre, precio, create_at) VALUES('Tarjeta bautizo', 1, N
 INSERT INTO productos (nombre, precio, create_at) VALUES('Tarjeta personales', 5, NOW());
 INSERT INTO productos (nombre, precio, create_at) VALUES('Tarjeta varios', 8, NOW());
 
-/* Creamos algunas pedidos */
+/* Creamos estado de pedidos */
 INSERT INTO estado_pedido (estado, descripcion) VALUES ('Registrado', 'No venció, no aceptado');
 INSERT INTO estado_pedido (estado, descripcion) VALUES ('Vencido', 'Venció, no aceptado'); /*este campo se implementará con Schduled en segunda version*/
 INSERT INTO estado_pedido (estado, descripcion) VALUES ('Devuelto', 'Devuelto por errores');
 INSERT INTO estado_pedido (estado, descripcion) VALUES ('Entregado', 'Pagado, entregado al cliente');
 
-INSERT INTO pedidos (observacion, cliente_id, estado_pedido_id, create_at, entregado_en,vencido, aceptado, pagado, pago, total, saldo) VALUES('Envío delivery el dia miercoles en la tarde, contactar al señor ramirez', 1, 1, NOW(),'2024-11-16',false,false,false, 30,64,14);
+ /*Creamos algunos pedidos */
+/*INSERT INTO pedidos (observacion, cliente_id, estado_pedido_id, create_at, entregado_en,vencido, aceptado, pagado, pago, total, saldo) VALUES('Envío delivery el dia miercoles en la tarde, contactar al señor ramirez', 1, 1, NOW(),'2024-11-16',false,false,false, 30,64,14);*/
 
-INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(1, 1, 1, 'Traera diseño de letrero en USB');
-INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(2, 1, 4, 'Enviara texto por Whatssap, para que nosotros diseñemos');
-INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(1, 1, 5, 'RALPH GODIER, ASESOR INMOBILIARIO, 974798823,rgodier@gmail.com');
-INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(1, 1, 7, 'Se escogio em modelo DORADO de matrimonio con letra San Serif');
+/*INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(1, 1, 1, 'Traera diseño de letrero en USB');*/
+/*INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(2, 1, 4, 'Enviara texto por Whatssap, para que nosotros diseñemos');*/
+/*INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(1, 1, 5, 'RALPH GODIER, ASESOR INMOBILIARIO, 974798823,rgodier@gmail.com');*/
+/*INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(1, 1, 7, 'Se escogio em modelo DORADO de matrimonio con letra San Serif');*/
 
 
-INSERT INTO pedidos (observacion, cliente_id, estado_pedido_id, create_at, entregado_en,vencido, aceptado, pagado, pago, total, saldo) VALUES('Vendra a recoger en el local de Jerusalen el miercols en la tarde', 2, 3, NOW(), '2024-11-14',false,false, false, 0, 45, 45);
-INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(3, 2, 6, 'Enviara por correo o whattsao excel con cargas de empleados y el logo de la empresa');
+/*INSERT INTO pedidos (observacion, cliente_id, estado_pedido_id, create_at, entregado_en,vencido, aceptado, pagado, pago, total, saldo) VALUES('Vendra a recoger en el local de Jerusalen el miercols en la tarde', 2, 3, NOW(), '2024-11-14',false,false, false, 0, 45, 45);*/
+/*INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(3, 2, 6, 'Enviara por correo o whattsao excel con cargas de empleados y el logo de la empresa');*/

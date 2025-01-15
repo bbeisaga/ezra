@@ -71,9 +71,15 @@ public class Pedido implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "pedido_id")
 	private List<ItemPedido> items;
+	
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY,mappedBy = "pedido" , cascade = CascadeType.ALL)
+	private List<Movimiento> movimientos;
 
 	public Pedido() {
 		items = new ArrayList<>();
+		movimientos = new ArrayList<>();
 	}
 
 	@PrePersist
@@ -224,6 +230,17 @@ public class Pedido implements Serializable {
 
 	public void setApagar(Double apagar) {
 		this.apagar = apagar;
+	}
+
+
+
+
+	public List<Movimiento> getMovimientos() {
+		return movimientos;
+	}
+
+	public void setMovimientos(List<Movimiento> movimientos) {
+		this.movimientos = movimientos;
 	}
 
 

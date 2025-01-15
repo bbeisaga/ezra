@@ -8,57 +8,47 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
-
 @Entity
-@Table(name = "estado_pedido")
-public class EstadoPedido implements Serializable{
+@Table(name="tipo_movimientos")
+public class TipoMovimiento implements Serializable{
 	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Byte id;
-	
-	private String estado;
-	private String descripcion;
-	
-	
+	private String movimiento;
+	private String tipo;
 	
 	public Byte getId() {
 		return id;
 	}
-
-
-
 	public void setId(Byte id) {
 		this.id = id;
 	}
 
-
-
-	public String getEstado() {
-		return estado;
+	
+	
+	public String getMovimiento() {
+		return movimiento;
+	}
+	public void setMovimiento(String movimiento) {
+		this.movimiento = movimiento;
 	}
 
 
 
-	public void setEstado(String estado) {
-		this.estado = estado;
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 
 
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
-
-
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
 }

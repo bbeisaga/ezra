@@ -8,7 +8,7 @@ import { CompartidoModule } from './modules/compartido/compartido.module';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { PrincipalModule } from './modules/principal/principal.module';
 import { LoginComponent } from './modules/auth/login.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthInterceptor } from './modules/clientes/interceptors/auth.interceptor';
 import { TokenInterceptor } from './modules/clientes/interceptors/token.interceptor';
@@ -29,6 +29,7 @@ import { TokenInterceptor } from './modules/clientes/interceptors/token.intercep
   ],
   providers: [
     provideAnimationsAsync(),
+    DatePipe
 /*     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },*/
   ],

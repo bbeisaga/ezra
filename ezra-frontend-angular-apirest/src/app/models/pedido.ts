@@ -1,12 +1,14 @@
 import { Cliente } from './cliente';
 import { EstadoPedido } from './estado-pedido';
 import { ItemPedido } from './item-pedido';
+import { Movimiento } from './movimiento';
 
 export class Pedido {
   id!:number;
   //descripcion!: string;
   observacion!: string;
   items:Array<ItemPedido> = [];
+  movimientos:Array<Movimiento> = [];
   cliente?:Cliente;
   estadoPedido?:EstadoPedido;
   pago:number=0;

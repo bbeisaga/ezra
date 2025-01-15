@@ -18,6 +18,9 @@ const routes: Routes = [
       },
       { path: 'pedidos',
         loadChildren: () =>import("./modules/pedidos/pedidos.module").then((m) => m.PedidosModule),
+      },
+      { path: 'cajas',
+        loadChildren: () =>import("./modules/caja/caja.module").then((m) => m.CajaModule),
       }
   /*     { path: 'clientes/form', component: FormComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } },
       { path: 'clientes/form/:id', component: FormComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } }, */
