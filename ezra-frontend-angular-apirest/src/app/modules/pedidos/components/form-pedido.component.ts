@@ -67,6 +67,7 @@ export class FormPedidoComponent implements OnInit {
       }
 
       this.autocompleteControl.setValue('');
+      this.calcularGranTotal();
       event.option.focus();
       event.option.deselect();
 
@@ -85,6 +86,16 @@ export class FormPedidoComponent implements OnInit {
         }
         return item;
       });
+
+      this.calcularGranTotal();
+    }
+
+    calcularGranTotal(): number {
+      this.pedido.precioNetoTotal = 0;
+      this.pedido.items.forEach((item: ItemPedido) => {
+        this.pedido.precioNetoTotal += item.calcularImporte();
+      });
+      return this.pedido.precioNetoTotal;
     }
 
     existeItem(id: number): boolean {

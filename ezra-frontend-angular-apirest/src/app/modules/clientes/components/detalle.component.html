@@ -68,7 +68,7 @@
                   <td>{{pedido.id}}</td>
 <!--                   <td>{{pedido.descripcion}}</td>
  -->                  <td>{{pedido.createAt}}</td>
-                  <td>{{pedido.total}}</td>
+                  <td>{{pedido.precioNetoTotal}}</td>
                   <td><button class="btn btn-primary btn-sm" type="button"
                     [routerLink]="['/pedidos', pedido.id]">ver</button></td>
                     <td *ngIf="authService.hasRole('ROLE_ADMIN')"><button class="btn btn-danger btn-sm" type="button" (click)="delete(pedido)">eliminar</button></td>

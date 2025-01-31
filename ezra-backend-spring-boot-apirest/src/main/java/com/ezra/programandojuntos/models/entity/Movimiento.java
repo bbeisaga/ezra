@@ -2,8 +2,11 @@ package com.ezra.programandojuntos.models.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -36,11 +41,6 @@ public class Movimiento implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private CajaUsuario cajaUsuario;
 	
-	//@NotNull(message = "Estado pedido no puede ser vacio")
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "tipo_movimiento_id")
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	private TipoMovimiento tipoMovimiento;
 	
 	//@NotNull(message = "Estado pedido no puede ser vacio")
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -48,15 +48,41 @@ public class Movimiento implements Serializable {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private TipoPago tipoPago;
 	
+	
+	//@NotNull(message = "Estado pedido no puede ser vacio")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "tipo_movimiento_id")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private TipoMovimiento tipoMovimiento;
+	
+//	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+//	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	@JoinColumn(name = "movimiento_id")
+//	private List<ItemMovimiento> itemsMov;
+	
 	@Column(name = "create_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createAt;
 	
-	private BigDecimal monto;
+	@Column(name = "ingreso_dinero")
+	private BigDecimal ingresoDinero;
+	
+	@Column(name = "egreso_dinero")
+	private BigDecimal egresoDinero;
+	
+//	@Column(name = "saldo_dinero")
+//	private BigDecimal saldoDinero;
+	
+	@PrePersist
+	public void prePersist() {
+		this.createAt = new Date();
+	}
 
 	public Long getId() {
 		return id;
 	}
+
+
 
 	public void setId(Long id) {
 		this.id = id;
@@ -78,13 +104,6 @@ public class Movimiento implements Serializable {
 		this.cajaUsuario = cajaUsuario;
 	}
 
-	public TipoMovimiento getTipoMovimiento() {
-		return tipoMovimiento;
-	}
-
-	public void setTipoMovimiento(TipoMovimiento tipoMovimiento) {
-		this.tipoMovimiento = tipoMovimiento;
-	}
 
 	public TipoPago getTipoPago() {
 		return tipoPago;
@@ -102,14 +121,40 @@ public class Movimiento implements Serializable {
 		this.createAt = createAt;
 	}
 
-	public BigDecimal getMonto() {
-		return monto;
+
+
+	public TipoMovimiento getTipoMovimiento() {
+		return tipoMovimiento;
 	}
 
-	public void setMonto(BigDecimal monto) {
-		this.monto = monto;
+	public void setTipoMovimiento(TipoMovimiento tipoMovimiento) {
+		this.tipoMovimiento = tipoMovimiento;
 	}
-	
+
+	public BigDecimal getIngresoDinero() {
+		return ingresoDinero;
+	}
+
+	public void setIngresoDinero(BigDecimal ingresoDinero) {
+		this.ingresoDinero = ingresoDinero;
+	}
+
+	public BigDecimal getEgresoDinero() {
+		return egresoDinero;
+	}
+
+	public void setEgresoDinero(BigDecimal egresoDinero) {
+		this.egresoDinero = egresoDinero;
+	}
+
+//	public BigDecimal getSaldoDinero() {
+//		return saldoDinero;
+//	}
+//
+//	public void setSaldoDinero(BigDecimal saldoDinero) {
+//		this.saldoDinero = saldoDinero;
+//	}
+
 	/**
 	 * 
 	 */

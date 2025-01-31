@@ -6,14 +6,14 @@ import { CompartidoModule } from '../compartido/compartido.module';
 import { PedidosComponent } from './paginas/pedidos.component';
 import { DetallePedidoComponent } from './components/detalle-pedido.component';
 import { FormPedidoComponent } from './components/form-pedido.component';
-import { ConfirmarPagoComponent } from './components/confirmar-pago.component';
+import { MovimientoPedidoComponent } from './components/movimiento-pedido.component';
 
 @NgModule({
   declarations: [
     FormPedidoComponent,
     PedidosComponent,
     DetallePedidoComponent,
-    ConfirmarPagoComponent
+    MovimientoPedidoComponent
   ],
   imports: [
     CommonModule,

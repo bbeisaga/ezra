@@ -11,10 +11,13 @@ export class Pedido {
   movimientos:Array<Movimiento> = [];
   cliente?:Cliente;
   estadoPedido?:EstadoPedido;
-  pago:number=0;
-  apagar:number=0;
-  saldo!:number;
-  total!:number;
+  costoTotal!:number;
+  precioBrutoTotal!:number;
+  precioNetoTotal!:number;
+  pagoBrutoTotal!:number;
+  pagoNetoTotal!:number;
+  saldoPedido!:number;
+  //total!:number;
   createAt!:string;
   entregadoEn!:string;
   aceptado:boolean = true;
@@ -22,16 +25,16 @@ export class Pedido {
   pagado:boolean = false;
 
 
-  calcularGranTotal(): number {
-    this.total = 0;
+/*    calcularGranTotal(): number {
+    this.precioNetoTotal = 0;
     this.items.forEach((item: ItemPedido) => {
-      this.total += item.calcularImporte();
+      this.precioNetoTotal += item.calcularImporte();
     });
-    return this.total;
-  }
-
+    return this.precioNetoTotal;
+  } */
+/*
   calcularGranSaldo(): number {
     return this.calcularGranTotal() - this.pago;
-  }
+  } */
 
 }

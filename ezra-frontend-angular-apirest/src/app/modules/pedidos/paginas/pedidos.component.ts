@@ -15,8 +15,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { AuthService } from '../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmarPagoComponent } from '../components/confirmar-pago.component';
 import { findIndex } from 'lodash';
+import { MovimientoPedidoComponent } from '../components/movimiento-pedido.component';
 
 @Component({
   selector: 'app-pedidos',
@@ -26,8 +26,8 @@ import { findIndex } from 'lodash';
 
 export class PedidosComponent implements OnInit {
 
-  title:string = 'Listado de depdidos'
-  displayedColumns: string[] = ['cliente','documento','createAt', 'entregadoEn','observacion', 'total', 'pago', 'saldo','estado','acciones' ];
+  title:string = 'Listado de pedidos'
+  displayedColumns: string[] = ['cliente','documento','createAt', 'entregadoEn','observacion', 'saldoPedido','estado','acciones' ];
   dataSource = new MatTableDataSource<Pedido>();
   // dataSource = new MatTableDataSource<Cliente>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -42,7 +42,8 @@ export class PedidosComponent implements OnInit {
     private pedidoService: PedidoService,
    // private modalService: ModalService,
     public authService: AuthService,
-    public dialog: MatDialog,
+    private dialog: MatDialog,
+    private ro: Router,
     private activatedRoute: ActivatedRoute) {
 
     }
@@ -74,66 +75,18 @@ export class PedidosComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  openDialog(pedido:Pedido): void {
-    const dialogRef = this.dialog.open(ConfirmarPagoComponent, {
-      data: pedido,
-      width: '550px',
-      disableClose: true
-    });
 
-    dialogRef.afterClosed().subscribe(pedido => {
-      if(pedido){
-        this.updateItem(pedido);
-      }
-      console.log('The dialog was closed');
-      //this.animal = result;
-    });
+  setPedido (pedido: Pedido): void {
+    this.pedidoService.setPedido(pedido);
+    this.ro.navigate(['pr/pedidos/movimiento']);
   }
 
   updateItem(pedido: Pedido): void {
-/*     if(!find(this.data, {usuarioId: item.usuarioId})) {
-      this.data.unshift(item);
-      this.dataSource = [...this.data];
-    } else
-    { */
+
       const i = findIndex(this.pedidos, (o) => o.id == pedido.id);
       this.pedidos[i] = pedido;
       this.dataSource.data = [...this.pedidos];
     //}
   }
-
-/*   delete(cliente: Cliente): void {
-    swal.fire({
-      title: 'Está seguro?',
-      text: `¿Seguro que desea eliminar al cliente ${cliente.nombre} ${cliente.apellido}?`,
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar!',
-      cancelButtonText: 'No, cancelar!',
-      buttonsStyling: false,
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-
-        this.clienteService.delete(cliente.id).subscribe(
-          () => {
-            this.clientes = this.clientes.filter(cli => cli !== cliente)
-            swal.fire(
-              'Cliente Eliminado!',
-              `Cliente ${cliente.nombre} eliminado con éxito.`,
-              'success'
-            )
-          }
-        )
-
-      }
-    });
-  } */
-
-/*   abrirModal(cliente: Cliente) {
-    this.clienteSeleccionado = cliente;
-    this.modalService.abrirModal();
-  } */
 
 }

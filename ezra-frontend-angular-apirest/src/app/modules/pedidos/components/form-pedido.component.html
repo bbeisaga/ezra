@@ -54,7 +54,7 @@
         <tbody>
           <tr *ngFor="let item of pedido.items">
             <td>{{item.producto.nombre}}</td>
-            <td>{{item.producto.precio | number:'2.2-2'}}</td>
+            <td>{{item.producto.precioNeto| number:'2.2-2'}}</td>
             <td>
                 <input style="width:50px" type="number" value="{{item.cantidad}}" (change)="actualizarCantidad(item.producto.id, $event)">
             </td>
@@ -69,14 +69,16 @@
         </tbody>
       </table>
       <table *ngIf="pedido.items.length > 0"  cellspacing="0"><tr>
-        <td><mat-form-field style="width:100%">
-          <mat-label>GRANT TOTAL</mat-label>
-          <input matInput value = "{{pedido.calcularGranTotal() | number:'2.2-2' }}" disabled>
-        </mat-form-field></td>
-        <td><mat-form-field style="width:100%">
+               <td><mat-form-field style="width:100%">
+                <mat-label>GRANT TOTAL</mat-label>
+                <input matInput value = "{{pedido.precioNetoTotal| number:'2.2-2' }}" disabled>
+              </mat-form-field></td>
+
+      <!--         <td><mat-form-field style="width:100%">
           <mat-label>A CUENTA/PAGO</mat-label>
           <input matInput type="number" [(ngModel)]="pedido.pago" name="acuenta" #acuenta="ngModel" required>
-        </mat-form-field></td>
+        </mat-form-field></td> -->
+
         <td>
           <mat-form-field style="width:100%">
             <mat-label>FECHA ENTREGA</mat-label>

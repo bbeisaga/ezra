@@ -118,6 +118,7 @@ export class AperturaCierreCajaComponent implements OnInit {
     this.cajaUsuario.fechaCierre = '';
     if (saldoPorConteo == saldoCaja){
       this.cajaUsuario.saldoPorConteo = saldoPorConteo;
+      this.cajaUsuario.activa=false;
       this.cajaService.update(this.cajaUsuario).subscribe(
         response => {
           swal.fire("Caja", `Se cerró ${this.cajaUsuario.caja.nombre}, para ${this.cajaUsuario.usuario.username} con éxito!`, 'success');

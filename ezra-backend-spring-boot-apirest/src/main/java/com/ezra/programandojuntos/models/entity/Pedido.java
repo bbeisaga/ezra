@@ -1,6 +1,7 @@
 package com.ezra.programandojuntos.models.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,19 +33,29 @@ public class Pedido implements Serializable {
 	private Long id;
 
 	private String observacion;
+	@Column(name = "costo_total")
+	private BigDecimal costoTotal;
 	
-	private Double total;
+	@Column(name = "precio_bruto_total")
+	private BigDecimal precioBrutoTotal;
 	
-	private Double pago;
+	@Column(name = "precio_neto_total")
+	private BigDecimal precioNetoTotal;
 	
-	private Double apagar;
+	@Column(name = "pago_bruto_total")
+	private BigDecimal pagoBrutoTotal;
 	
-	private Double saldo;
+	@Column(name = "pago_neto_total")
+	private BigDecimal pagoNetoTotal;
+	
+	@Column(name = "vuelto_neto_total")
+	private BigDecimal vueltoNetoTotal;
+
+	@Column(name = "saldo_pedido")
+	private BigDecimal saldoPedido;
 	
 	private boolean aceptado;
-	
 	private boolean vencido;
-	
 	private boolean pagado;
 
 	@Column(name = "create_at")
@@ -57,11 +68,11 @@ public class Pedido implements Serializable {
 	private Date entregadoEn;
 	
 	@NotNull(message = "Estado pedido no puede ser vacio")
-	@ManyToOne(fetch = FetchType.LAZY)
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "estado_pedido_id")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private EstadoPedido estadoPedido;
-		
 
 	@JsonIgnoreProperties(value={"pedidos", "hibernateLazyInitializer", "handler"}, allowSetters=true)
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -129,53 +140,43 @@ public class Pedido implements Serializable {
 	}
 	
 	
-//	public Double calcularTotal() {
-//		Double total = 0.00;
-//		for (ItemPedido item : items) {
-//			total += item.getImporte();
-//		}
-//		return total;
-//	}
-			
-	public Double getTotal() {
-		return total;
-	}
-
-	public void setTotal(Double total) {
-		this.total = total;
-	}
-
-
-
-//	public void setSaldo(Double saldo) {		
-//		this.saldo = saldo;
-//	}
-//
-//	public Double getSaldo() {
-//		return this.getTotal() - this.getAcuenta();
-//	}
 	
-
-	public Double getPago() {
-		return pago;
+	public BigDecimal getVueltoNetoTotal() {
+		return vueltoNetoTotal;
 	}
 
-	public void setPago(Double pago) {
-		this.pago = pago;
+	public void setVueltoNetoTotal(BigDecimal vueltoNetoTotal) {
+		this.vueltoNetoTotal = vueltoNetoTotal;
 	}
 
-	public Double getSaldo() {
-		return saldo;
-	}
-
-	public void setSaldo(Double saldo) {
-		this.saldo = saldo;
-	}
-
-	
-	
 	public Date getEntregadoEn() {
 		return entregadoEn;
+	}
+
+
+
+	public BigDecimal getPagoBrutoTotal() {
+		return pagoBrutoTotal;
+	}
+
+	public void setPagoBrutoTotal(BigDecimal pagoBrutoTotal) {
+		this.pagoBrutoTotal = pagoBrutoTotal;
+	}
+
+	public BigDecimal getPagoNetoTotal() {
+		return pagoNetoTotal;
+	}
+
+	public void setPagoNetoTotal(BigDecimal pagoNetoTotal) {
+		this.pagoNetoTotal = pagoNetoTotal;
+	}
+
+	public BigDecimal getSaldoPedido() {
+		return saldoPedido;
+	}
+
+	public void setSaldoPedido(BigDecimal saldoPedido) {
+		this.saldoPedido = saldoPedido;
 	}
 
 	public void setEntregadoEn(Date entregadoEn) {
@@ -210,8 +211,6 @@ public class Pedido implements Serializable {
 		this.vencido = vencido;
 	}
 
-	
-
 
 	public boolean isPagado() {
 		return pagado;
@@ -220,19 +219,6 @@ public class Pedido implements Serializable {
 	public void setPagado(boolean pagado) {
 		this.pagado = pagado;
 	}
-
-
-
-
-	public Double getApagar() {
-		return apagar;
-	}
-
-	public void setApagar(Double apagar) {
-		this.apagar = apagar;
-	}
-
-
 
 
 	public List<Movimiento> getMovimientos() {
@@ -244,6 +230,29 @@ public class Pedido implements Serializable {
 	}
 
 
+	public BigDecimal getCostoTotal() {
+		return costoTotal;
+	}
+
+	public void setCostoTotal(BigDecimal costoTotal) {
+		this.costoTotal = costoTotal;
+	}
+
+	public BigDecimal getPrecioBrutoTotal() {
+		return precioBrutoTotal;
+	}
+
+	public void setPrecioBrutoTotal(BigDecimal precioBrutoTotal) {
+		this.precioBrutoTotal = precioBrutoTotal;
+	}
+
+	public BigDecimal getPrecioNetoTotal() {
+		return precioNetoTotal;
+	}
+
+	public void setPrecioNetoTotal(BigDecimal precioNetoTotal) {
+		this.precioNetoTotal = precioNetoTotal;
+	}
 
 
 	private static final long serialVersionUID = 1L;

@@ -1,6 +1,7 @@
 package com.ezra.programandojuntos.models.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -47,8 +48,10 @@ public class ItemPedido implements Serializable {
 		this.cantidad = cantidad;
 	}
 
-	public Double getImporte() {
-		return cantidad.doubleValue() * producto.getPrecio();
+	public BigDecimal getImporte() {
+		return BigDecimal.valueOf( cantidad ).multiply( producto.getPrecioNeto() );
+				
+				//cantidad  producto.getPrecioNeto();
 	}
 
 	public Producto getProducto() {

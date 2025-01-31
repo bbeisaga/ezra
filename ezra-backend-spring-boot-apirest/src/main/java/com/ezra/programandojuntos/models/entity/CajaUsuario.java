@@ -41,7 +41,7 @@ public class CajaUsuario implements Serializable {
 	
 	private BigDecimal ingresoEsperado;
 	
-	private BigDecimal ingresoPorConteo;
+//	private BigDecimal ingresoPorConteo;
 	
 	private BigDecimal egresoEsperado;
 	
@@ -70,11 +70,11 @@ public class CajaUsuario implements Serializable {
 	public void prePersist() {
 		this.fechaApertura = new Date();
 	}
-	
-	@PreUpdate
-	public void preUpdate() {
-		this.fechaCierre = new Date();
-	}
+//	
+//	@PreUpdate
+//	public void preUpdate() {
+//		this.fechaCierre = new Date();
+//	}
 
 	public CajaUsuario() {
 		this.movimientos = new ArrayList<>();
@@ -112,13 +112,13 @@ public class CajaUsuario implements Serializable {
 		this.ingresoEsperado = ingresoEsperado;
 	}
 
-	public BigDecimal getIngresoPorConteo() {
-		return ingresoPorConteo;
-	}
-
-	public void setIngresoPorConteo(BigDecimal ingresoPorConteo) {
-		this.ingresoPorConteo = ingresoPorConteo;
-	}
+//	public BigDecimal getIngresoPorConteo() {
+//		return ingresoPorConteo;
+//	}
+//
+//	public void setIngresoPorConteo(BigDecimal ingresoPorConteo) {
+//		this.ingresoPorConteo = ingresoPorConteo;
+//	}
 
 	public BigDecimal getEgresoEsperado() {
 		return egresoEsperado;

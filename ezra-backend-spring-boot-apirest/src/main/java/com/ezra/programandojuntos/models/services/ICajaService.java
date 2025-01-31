@@ -11,18 +11,8 @@ public interface ICajaService {
 
 	public List<Caja> findAll();
 	
-	public CajaUsuario guardar(CajaUsuario cajaUsuario);
-	
-	public void persistCajaUsuario ( CajaUsuario cajausuario); 
-	
-
-	public CajaUsuario findUltimaCajaUsuarioByUserName(String userName);
-	
-	public CajaUsuario findCajaUsuarioByUserIdAndCajaId(Long userId, Byte cajaId);
-
 	
 	
-	public CajaUsuario findById(Long id);
 
 	
 	

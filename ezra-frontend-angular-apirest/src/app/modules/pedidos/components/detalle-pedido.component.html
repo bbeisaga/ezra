@@ -25,9 +25,10 @@
         <li class="list-group-item">Fecha creacion: {{pedido.createAt}}</li>
         <li class="list-group-item">Fecha entrega: {{pedido.entregadoEn}}</li>
         <li class="list-group-item">Estado pedido: {{pedido.estadoPedido?.descripcion}}</li>
-<!--         <li class="list-group-item">GRAN TOTAL: {{pedido.total}}</li>
-        <li class="list-group-item">PAGADO: {{pedido.pagado}}</li>
-        <li class="list-group-item">SALDO: {{pedido.saldo}}</li> -->
+
+<!--         <li class="list-group-item">GRAN TOTAL: {{pedido.precioNetoTotal}}</li>
+        <li class="list-group-item">PAGADO: {{pedido.pagoNetoTotal}}</li>
+        <li class="list-group-item">SALDO: {{pedido.saldoPedido}}</li>  -->
       </ul>
 
       <table class="table table-striped table-hover table-bordered my-3">
@@ -47,7 +48,7 @@
             <td>{{item.producto.nombre}}</td>
             <td>{{item.descripcion}}</td>
             <td>{{item.cantidad}}</td>
-            <td>{{item.producto.precio}}</td>
+            <td>{{item.producto.precioNeto}}</td>
             <td>{{item.importe}} </td>
           </tr>
         </tbody>
@@ -58,7 +59,7 @@
             GRANT TOTAL
           </div>
           <div class="card card-body" >
-            <p style="font-size: 30px; font-weight: bolder;">{{pedido.total | number:'2.2-2'}}</p>
+            <p style="font-size: 30px; font-weight: bolder;">{{pedido.precioNetoTotal| number:'2.2-2'}}</p>
           </div>
         </div>
         <div class="card border-info" style="margin-right: 5px;">
@@ -66,7 +67,7 @@
             PAGADO
           </div>
           <div class="card card-body" >
-            <p style="font-size: 30px; font-weight: bolder;">{{pedido.pago | number:'2.2-2'}}</p>
+            <p style="font-size: 30px; font-weight: bolder;">{{pedido.pagoNetoTotal | number:'2.2-2'}}</p>
           </div>
         </div>
         <div class="card border-info">
@@ -74,67 +75,11 @@
             PENDIENTE DE PAGO
           </div>
           <div class="card card-body" >
-            <p style="font-size: 30px; font-weight: bolder; color: red;">{{pedido.saldo | number:'2.2-2'}}</p>
+            <p style="font-size: 30px; font-weight: bolder; color: red;">{{pedido.saldoPedido| number:'2.2-2'}}</p>
           </div>
         </div>
       </div>
     </mat-card-content>
 
 </mat-card>
-
-
-
-<!-------------------asasa  -->
-<!-- <div class="card bg-light" *ngIf="pedido">
-  <div class="card-header">{{titulo}}: {{pedido.observacion}}</div>
-  <div class="card-body">
-    <h4 class="card-title">
-      <a [routerLink]="['/clientes']" class="btn btn-light btn-xs">&laquo; volver</a>
-    </h4>
-
-    <ul class="list-group my-2">
-      <li class="list-group-item list-group-item-primary">Datos del cliente</li>
-      <li class="list-group-item">{{pedido.cliente!.nombre}}</li>
-      <li class="list-group-item">{{pedido.cliente!.apellido}}</li>
-    </ul>
-
-    <ul class="list-group my-2">
-      <li class="list-group-item list-group-item-primary">Datos de la pedido</li>
-      <li class="list-group-item">Folio: {{pedido.id}}</li>
-      <li class="list-group-item">Descripción: {{pedido.observacion}}</li>
-      <li class="list-group-item">Fecha: {{pedido.createAt}}</li>
-    </ul>
-
-    <table class="table table-striped table-hover table-bordered my-3">
-      <thead>
-        <tr>
-          <th>Producto</th>
-          <th>descripcion</th>
-          <th>Cantidad</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of pedido.items">
-          <td>{{item.producto.nombre}}</td>
-          <td>{{item.descripcion}}</td>
-          <td>{{item.cantidad}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <h5 class="float-right">
-      <span>Gran Total</span>: <span class="badge badge-secondary">{{pedido.total}}</span>
-    </h5>
-
-    <div class="card border-info mb-4" style="max-width: 350px;">
-      <div class="card card-header">
-        Observaciones
-      </div>
-      <div class="card card-body">
-        <p *ngIf="!pedido.observacion">No tiene observación</p>
-        <p *ngIf="pedido.observacion">{{pedido.observacion}}</p>
-      </div>
-
-    </div>
-  </div>
-</div> -->
 

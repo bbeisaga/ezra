@@ -10,6 +10,8 @@ import { AuthService } from './auth.service';
 })
 export class PedidoService {
 
+  private _pedido!:Pedido
+
   private urlEndPoint: string = 'http://localhost:8080/api/pedidos';
 
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
@@ -22,6 +24,14 @@ export class PedidoService {
       return this.httpHeaders.append('Authorization', 'Bearer ' + token)
     }
     return this.httpHeaders
+  }
+
+  setPedido (pedido: Pedido){
+    this._pedido = pedido
+  }
+
+  get pedido(){
+    return {...this._pedido}
   }
 
   getAllPedidos(): Observable<Pedido[]> {

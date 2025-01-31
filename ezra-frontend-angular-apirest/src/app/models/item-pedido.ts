@@ -7,6 +7,6 @@ export class ItemPedido {
   descripcion!: string;
 
   public calcularImporte(): number {
-    return this.cantidad * this.producto.precio;
+    return this.cantidad * this.producto.precioNeto;
   }
 }

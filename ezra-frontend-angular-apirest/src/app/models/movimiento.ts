@@ -8,8 +8,12 @@ export class Movimiento {
   id!:number;
   pedido!: Pedido;
 	cajaUsuario!: CajaUsuario;
-  tipoMovimiento!: TipoMovimiento;
   tipoPago!: TipoPago;
-	createAt!: string;
-	monto!:number;
+  tipoMovimiento!: TipoMovimiento;
+	//createAt!: string;
+	//pagoDinero!:number;
+  //vueltoDinero!:number;
+  ingresoDinero!:number;
+  egresoDinero!:number;
+  saldoDinero!:number;
 }

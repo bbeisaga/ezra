@@ -1,5 +1,8 @@
 export class Producto {
   id!: number;
   nombre!: string;
-  precio!: number;
+  costoUnitario!: number;
+  preciopBruto!: number;
+  precioNeto!: number;
+ // precio!: number;
 }

@@ -69,7 +69,7 @@ public class PedidoRestController {
 	@PostMapping("/pedidos")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Pedido crear(@RequestBody Pedido pedido) {
-		return pedidoService.savePedido(pedido);
+		return pedidoService.registrarPedido(pedido);
 	}
 	
 	@Secured("ROLE_ADMIN")
@@ -86,7 +86,7 @@ public class PedidoRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
 		try {
-			pedidoActualizado = pedidoService.savePedido(pedido);
+			pedidoActualizado = pedidoService.updatePedido(pedido, id);
 
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al actualizar el pedido en la base de datos");

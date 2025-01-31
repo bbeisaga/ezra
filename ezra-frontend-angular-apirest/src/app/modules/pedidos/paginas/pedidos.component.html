@@ -62,20 +62,20 @@
         <td mat-cell *matCellDef="let element"> {{element.observacion}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="total">
-        <th mat-header-cell *matHeaderCellDef> Total </th>
-        <td mat-cell *matCellDef="let element"> {{element.total}} </td>
+      <ng-container matColumnDef="saldoPedido">
+        <th mat-header-cell *matHeaderCellDef> Saldo </th>
+        <td mat-cell *matCellDef="let element"> {{element.saldoPedido}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="pago">
+<!--       <ng-container matColumnDef="pago">
         <th mat-header-cell *matHeaderCellDef> Pago </th>
         <td mat-cell *matCellDef="let element"> {{element.pago}} </td>
-      </ng-container>
+      </ng-container> -->
 
-      <ng-container matColumnDef="saldo">
+<!--       <ng-container matColumnDef="saldo">
         <th mat-header-cell *matHeaderCellDef> Saldo </th>
         <td mat-cell *matCellDef="let element"> {{element.saldo}} </td>
-      </ng-container>
+      </ng-container> -->
 
       <ng-container matColumnDef="estado">
         <th mat-header-cell *matHeaderCellDef> Estado </th>
@@ -87,7 +87,7 @@
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <!-- <td *ngIf="authService.hasRole('ROLE_ADMIN')" mat-cell *matCellDef="let element"> -->
         <td mat-cell *matCellDef="let element">
-          <button mat-fab color="warn" (click)="openDialog(element)" matTooltip="Pagar">
+          <button mat-fab color="warn" (click)="setPedido(element)" matTooltip="Pagar">
             <mat-icon>price_change</mat-icon>
           </button>
           <button mat-fab color="primary" *ngIf="authService.hasRole('ROLE_ADMIN')" [routerLink]="['/pr/pedidos', element.id]" matTooltip="Ver Detalle">

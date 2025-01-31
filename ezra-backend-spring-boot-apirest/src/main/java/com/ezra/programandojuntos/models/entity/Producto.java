@@ -1,6 +1,7 @@
 package com.ezra.programandojuntos.models.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -22,7 +23,18 @@ public class Producto implements Serializable {
 	private Long id;
 
 	private String nombre;
-	private Double precio;
+	
+	@Column(name = "costo_unitario")
+	private BigDecimal costoUnitario; /*cuenta cuesta hacer el producto*/
+	
+	@Column(name = "precio_bruto")
+	private BigDecimal precioBruto; /*cubriri costo mas beneficio*/
+	
+	@Column(name = "precio_neto")
+	private BigDecimal precioNeto; /*Es el total mas impuestos*/
+	
+	
+	//private Double precio; /*esto deberá borrarse*/
 
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)
@@ -48,13 +60,38 @@ public class Producto implements Serializable {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+	
 
-	public Double getPrecio() {
-		return precio;
+//	public Double getPrecio() {
+//		return precio;
+//	}
+//
+//	public void setPrecio(Double precio) {
+//		this.precio = precio;
+//	}
+
+	public BigDecimal getCostoUnitario() {
+		return costoUnitario;
 	}
 
-	public void setPrecio(Double precio) {
-		this.precio = precio;
+	public void setCostoUnitario(BigDecimal costoUnitario) {
+		this.costoUnitario = costoUnitario;
+	}
+
+	public BigDecimal getPrecioBruto() {
+		return precioBruto;
+	}
+
+	public void setPrecioBruto(BigDecimal precioBruto) {
+		this.precioBruto = precioBruto;
+	}
+
+	public BigDecimal getPrecioNeto() {
+		return precioNeto;
+	}
+
+	public void setPrecioNeto(BigDecimal precioNeto) {
+		this.precioNeto = precioNeto;
 	}
 
 	public Date getCreateAt() {

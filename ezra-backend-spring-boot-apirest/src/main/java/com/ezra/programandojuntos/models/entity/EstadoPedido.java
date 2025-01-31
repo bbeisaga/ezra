@@ -21,19 +21,13 @@ public class EstadoPedido implements Serializable{
 	private String estado;
 	private String descripcion;
 	
-	
-	
 	public Byte getId() {
 		return id;
 	}
 
-
-
 	public void setId(Byte id) {
 		this.id = id;
 	}
-
-
 
 	public String getEstado() {
 		return estado;
