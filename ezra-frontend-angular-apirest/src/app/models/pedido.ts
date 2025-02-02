@@ -1,14 +1,14 @@
 import { Cliente } from './cliente';
 import { EstadoPedido } from './estado-pedido';
 import { ItemPedido } from './item-pedido';
-import { Movimiento } from './movimiento';
+import { MovimientoVenta } from './movimiento-venta';
 
 export class Pedido {
   id!:number;
   //descripcion!: string;
   observacion!: string;
   items:Array<ItemPedido> = [];
-  movimientos:Array<Movimiento> = [];
+  movimientosVenta:Array<MovimientoVenta> = [];
   cliente?:Cliente;
   estadoPedido?:EstadoPedido;
   costoTotal!:number;

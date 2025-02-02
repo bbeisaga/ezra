@@ -4,6 +4,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { Pedido } from '../models/pedido';
 import { Producto } from '../models/producto';
 import { AuthService } from './auth.service';
+import { EstadoPedido } from '../models/estado-pedido';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,11 @@ export class PedidoService {
 
   getAllPedidos(): Observable<Pedido[]> {
     return this.http.get<Pedido[]>(`${this.urlEndPoint}`, {headers: this.agregarAuthorizationHeader()} );
+  }
+
+  getAllEstadoPedido(): Observable<EstadoPedido[]>{
+    return this.http.get<EstadoPedido[]>(`${this.urlEndPoint}/estado-pedido`, {headers: this.agregarAuthorizationHeader()} );
+
   }
 
   getPedido(id: number): Observable<Pedido> {

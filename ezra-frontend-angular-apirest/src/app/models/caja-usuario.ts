@@ -1,5 +1,5 @@
 import { Caja } from "./caja";
-import { Movimiento } from "./movimiento";
+import { MovimientoVenta } from "./movimiento-venta";
 import { Usuario } from "./usuario";
 
 
@@ -15,5 +15,5 @@ export class CajaUsuario {
   activa:boolean=false;
 	caja!: Caja;
 	usuario!: Usuario;
-	movimientos: Movimiento[]=[];
+	movimientosVenta: MovimientoVenta[]=[];
 }

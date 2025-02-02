@@ -14,17 +14,19 @@ public class TipoPago implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Byte id;
+	private Long id;
 	private String nombre;
 	private String moneda;
 	private String cc;
 	private String cci;
 	
 	
-	public Byte getId() {
+
+	
+	public Long getId() {
 		return id;
 	}
-	public void setId(Byte id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getNombre() {

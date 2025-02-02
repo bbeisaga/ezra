@@ -5,18 +5,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ezra.programandojuntos.models.dao.IPedidoDao;
 import com.ezra.programandojuntos.models.dao.IProductoDao;
-import com.ezra.programandojuntos.models.entity.CajaUsuario;
 import com.ezra.programandojuntos.models.entity.EstadoPedido;
 import com.ezra.programandojuntos.models.entity.ItemPedido;
-import com.ezra.programandojuntos.models.entity.Movimiento;
+import com.ezra.programandojuntos.models.entity.MovimientoVenta;
 import com.ezra.programandojuntos.models.entity.Pedido;
 import com.ezra.programandojuntos.models.entity.Producto;
 
@@ -30,14 +29,14 @@ Vencido		-		si						no
 Devuelto 	-		si						no
 Entregado	si		-						si*/
 	
-	public static final Byte PEDIDO_REGISTRADO = 1;
-	public static final Byte PEDIDO_VENCIDO = 2;
-	public static final Byte PEDIDO_DEVUELTO = 3;
-	public static final Byte PEDIDO_ENTREGADO = 4;
+	public static final Long PEDIDO_REGISTRADO = 1L;
+	public static final Long PEDIDO_VENCIDO = 2L;
+	public static final Long PEDIDO_DEVUELTO = 3L;
+	public static final Long PEDIDO_ENTREGADO = 4L;
 
 	@Autowired
 	private IPedidoDao pedidoDao;
-	
+		
 	@Autowired
 	private IProductoDao productoDao;
 
@@ -55,7 +54,7 @@ Entregado	si		-						si*/
 
 	@Override
 	@Transactional
-	public Pedido registrarPedido(Pedido pedido) {
+	public Pedido registrarPedido(Pedido pedido) {		
 		pedido.setPagado(false);
 		pedido.setAceptado(false);
 		pedido.setVencido(false);
@@ -70,11 +69,28 @@ Entregado	si		-						si*/
 		if(pedido.getSaldoPedido().intValue() < 1) {
 			pedido.setPagado(true);
 		}
-		pedido.setEstadoPedido(new EstadoPedido());
+//		pedido.setEstadoPedido(new EstadoPedido());
+//		if(pedido.isVencido() && !pedido.isAceptado()) {
+//			pedido.getEstadoPedido()
+//			.setId(PEDIDO_VENCIDO);
+//		} else {
+//			pedido.getEstadoPedido()
+//			.setId(PEDIDO_REGISTRADO);
+//		}
+		
 		if(pedido.isVencido() && !pedido.isAceptado()) {
-			pedido.getEstadoPedido().setId(PEDIDO_VENCIDO);
+			pedido.setEstadoPedido(pedidoDao.findAllEstadoPedido()
+					.stream()
+					.filter(estado -> estado.getId()== PEDIDO_VENCIDO)
+					.collect(Collectors.toList())
+					.get(0));
 		} else {
-			pedido.getEstadoPedido().setId(PEDIDO_REGISTRADO);
+			pedido.setEstadoPedido(pedidoDao.findAllEstadoPedido()
+					.stream()
+					.filter(estado -> estado.getId()== PEDIDO_REGISTRADO)
+					.collect(Collectors.toList())
+					.get(0));
+
 		}
 		return pedidoDao.save(pedido);
 	}
@@ -83,6 +99,7 @@ Entregado	si		-						si*/
 	@Transactional
 	public Pedido updatePedido(Pedido pedido, Long id) {	
 		Pedido pedidoActual = findPedidoById(id);
+		List<EstadoPedido> lstEstadosPedido = findAllEstadoPedido();
 		if (pedidoActual!=null) {
 			if(pedidoActual.getEntregadoEn().before(new Date())) {
 				pedidoActual.setVencido(true);
@@ -102,18 +119,28 @@ Entregado	si		-						si*/
 			}
 			
 			pedidoActual.setAceptado(pedido.isAceptado());
-			pedidoActual.setEstadoPedido(new EstadoPedido());
-			pedidoActual.getEstadoPedido().setId(pedido.getEstadoPedido().getId());
+			//pedidoActual.getEstadoPedido().setId(PEDIDO_REGISTRADO);
+			pedidoActual.setEstadoPedido(
+					lstEstadosPedido.stream()
+					.filter(e->e.getId()==PEDIDO_REGISTRADO)
+					.collect(Collectors.toList())
+					.get(0));
 
 			if(pedidoActual.isVencido() && !pedido.isAceptado()) {
-				pedidoActual.getEstadoPedido().setId(PEDIDO_VENCIDO);
-			}  
+				pedidoActual.setEstadoPedido(
+						lstEstadosPedido.stream()
+						.filter(e->e.getId()==PEDIDO_VENCIDO)
+						.collect(Collectors.toList())
+						.get(0));			}  
 			
 			if(pedidoActual.isPagado() && pedido.isAceptado()) {
 					pedidoActual.setAceptado(true);
 					pedidoActual.setEntregadoEn(new Date());
-					pedidoActual.getEstadoPedido().setId(PEDIDO_ENTREGADO);
-			} 
+					pedidoActual.setEstadoPedido(
+							lstEstadosPedido.stream()
+							.filter(e->e.getId()==PEDIDO_ENTREGADO)
+							.collect(Collectors.toList())
+							.get(0));			} 
 			
 		} 
 		return pedidoDao.save(pedidoActual);
@@ -132,12 +159,12 @@ Entregado	si		-						si*/
 	@Transactional(readOnly = true)
 	public Map<String, BigDecimal> movimientoPorPedido(Long pedidoId){
 		Pedido pedido = findPedidoById(pedidoId);
-		List<Movimiento> items= pedido.getMovimientos();
+		List<MovimientoVenta> items= pedido.getMovimientosVenta();
 		BigDecimal saldoPedido = new BigDecimal(0);
 		BigDecimal ingresoPedido = new BigDecimal(0);
 		BigDecimal egresoPedido = new BigDecimal(0);
 
-		for (Movimiento item : items) {
+		for (MovimientoVenta item : items) {
 			ingresoPedido = ingresoPedido.add(item.getIngresoDinero()); //+
 			egresoPedido = egresoPedido.add(item.getEgresoDinero()); // -
 		}
@@ -160,6 +187,13 @@ Entregado	si		-						si*/
 	public List<Producto> findProductoByNombre(String term) {
 		return productoDao.findByNombreContainingIgnoreCase(term);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<EstadoPedido> findAllEstadoPedido(){
+		return pedidoDao.findAllEstadoPedido();
+	}
+
 	
 	
 	

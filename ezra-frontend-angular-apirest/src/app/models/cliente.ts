@@ -3,11 +3,11 @@ import { TipoDocumento } from './tipo-documento';
 
 export class Cliente {
   id!: number;
-  nombre!: string;
-  apellido!: string;
-  createAt!: string;
-  email!: string;
-  foto!: string;
+  nombres!: string;
+  apellidos!: string;
+/*  createAt!: string;
+   email!: string;
+  foto!: string; */
   tipoDocumento!: TipoDocumento;
   numeroDocumento!: string;
   celular!: string;

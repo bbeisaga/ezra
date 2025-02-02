@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 
 import { AuthService } from './auth.service';
 import { Caja } from '../models/caja';
 import { CajaUsuario } from '../models/caja-usuario';
 import { Usuario } from '../models/usuario';
+import { forEach, tap } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -32,8 +33,16 @@ export class CajaService {
   }
 
   getCajaUsuarioByUserName(user: Usuario): Observable<CajaUsuario>{
-    return this.http.get<CajaUsuario>(`${this.urlEndPoint}/usuarios/${user.username}`, {headers: this.agregarAuthorizationHeader()} );
-
+    return this.http.get<CajaUsuario>(`${this.urlEndPoint}/usuarios/${user.username}`, {headers: this.agregarAuthorizationHeader()})
+      .pipe(
+       map<CajaUsuario ,CajaUsuario> ( resp =>{
+        if(resp!= null && resp.movimientosVenta.length > 0){
+          resp.movimientosVenta.splice(0,resp.movimientosVenta.length)
+          }
+        return resp
+      }
+      )
+    );
   }
 
   getCajaUsuarioByCajaIdAndUserId(cajaId:number, userId: number): Observable<CajaUsuario>{

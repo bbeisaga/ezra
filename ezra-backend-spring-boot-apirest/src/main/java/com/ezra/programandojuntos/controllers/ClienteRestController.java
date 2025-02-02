@@ -123,11 +123,8 @@ public class ClienteRestController {
 	public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente, BindingResult result, @PathVariable Long id) {
 
 		Cliente clienteActual = clienteService.findById(id);
-
 		Cliente clienteUpdated = null;
-
 		Map<String, Object> response = new HashMap<>();
-
 		if(result.hasErrors()) {
 
 			List<String> errors = result.getFieldErrors()
@@ -147,10 +144,9 @@ public class ClienteRestController {
 
 		try {
 
-			clienteActual.setApellido(cliente.getApellido());
-			clienteActual.setNombre(cliente.getNombre());
-			clienteActual.setEmail(cliente.getEmail());
-			clienteActual.setCreateAt(cliente.getCreateAt());
+			clienteActual.setApellidos(cliente.getApellidos());
+			clienteActual.setNombres(cliente.getNombres());
+			clienteActual.setCelular(cliente.getCelular());
 			//clienteActual.setRegion(cliente.getRegion());
 			clienteActual.setTipoDocumento(cliente.getTipoDocumento());
 			clienteActual.setNumeroDocumento(cliente.getNumeroDocumento());
@@ -175,10 +171,10 @@ public class ClienteRestController {
 		Map<String, Object> response = new HashMap<>();
 		
 		try {
-			Cliente cliente = clienteService.findById(id);
-			String nombreFotoAnterior = cliente.getFoto();
+			//Cliente cliente = clienteService.findById(id);
+			//String nombreFotoAnterior = cliente.getFoto();
 			
-			uploadService.eliminar(nombreFotoAnterior);
+			//uploadService.eliminar(nombreFotoAnterior);
 			
 		    clienteService.delete(id);
 		} catch (DataAccessException e) {
@@ -210,11 +206,11 @@ public class ClienteRestController {
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			
-			String nombreFotoAnterior = cliente.getFoto();
+			//String nombreFotoAnterior = cliente.getFoto();
 			
-			uploadService.eliminar(nombreFotoAnterior);
+			//uploadService.eliminar(nombreFotoAnterior);
 						
-			cliente.setFoto(nombreArchivo);
+			//cliente.setFoto(nombreArchivo);
 			
 			clienteService.save(cliente);
 			

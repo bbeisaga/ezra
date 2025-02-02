@@ -4,18 +4,18 @@ INSERT INTO tipo_documentos (acronimo, nombre) VALUES ('DNI', 'Documento Naciona
 INSERT INTO tipo_documentos (acronimo, nombre) VALUES ('CEX', 'Carnet de Extranjeria');
 
 
-INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(1, 'Andrés', 'Guzmán', 'profesor@bolsadeideas.com', '2018-01-01','41953480');
-INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(1, 'Mr. John', 'Doe', 'john.doe@gmail.com', '2018-01-02','11953480');
-INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(1, 'Linus', 'Torvalds', 'linus.torvalds@gmail.com', '2018-01-03','02953480');
-INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(1, 'Rasmus', 'Lerdorf', 'rasmus.lerdorf@gmail.com', '2018-01-04','71953480');
-INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(2, 'Erich', 'Gamma', 'erich.gamma@gmail.com', '2018-02-01','41955680');
-INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(2, 'Richard', 'Helm', 'richard.helm@gmail.com', '2018-02-10','40053480');
-INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(1, 'Ralph', 'Johnson', 'ralph.johnson@gmail.com', '2018-02-18','41953120');
-INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(1, 'John', 'Vlissides', 'john.vlissides@gmail.com', '2018-02-28','21953480');
-INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(2, 'Dr. James', 'Gosling', 'james.gosling@gmail.com', '2018-03-03','47653480');
-INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(2, 'Magma', 'Lee', 'magma.lee@gmail.com', '2018-03-04','01953480');
-INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(1, 'Tornado', 'Roe', 'tornado.roe@gmail.com', '2018-03-05','41353480');
-INSERT INTO clientes (tipo_documentos_id, nombre, apellido, email, create_at,numero_documento) VALUES(2, 'Jade', 'Doe', 'jane.doe@gmail.com', '2018-03-06','41893480');
+INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(1, 'Andrés', 'Guzmán', '2018-01-01','41953480','0544292');
+INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(1, 'Mr. John', 'Doe', '2018-01-02','11953480','0544292');
+INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(1, 'Linus', 'Torvalds', '2018-01-03','02953480','0544292');
+INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(1, 'Rasmus', 'Lerdorf',  '2018-01-04','71953480','0544292');
+INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(2, 'Erich', 'Gamma',  '2018-02-01','41955680','0544292');
+INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(2, 'Richard', 'Helm',  '2018-02-10','40053480','0544292');
+INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(1, 'Ralph', 'Johnson',  '2018-02-18','41953120','0544292');
+INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(1, 'John', 'Vlissides',  '2018-02-28','21953480','0544292');
+INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(2, 'Dr. James', 'Gosling',  '2018-03-03','47653480','0544292');
+INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(2, 'Magma', 'Lee',  '2018-03-04','01953480','0544292');
+INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(1, 'Tornado', 'Roe', '2018-03-05','41353480','0544292');
+INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(2, 'Jade', 'Doe', '2018-03-06','41893480','0544292');
 
 /* Creamos algunos usuarios con sus roles */
 INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email) VALUES ('andres','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1, 'Andres', 'Guzman','profesor@bolsadeideas.com');

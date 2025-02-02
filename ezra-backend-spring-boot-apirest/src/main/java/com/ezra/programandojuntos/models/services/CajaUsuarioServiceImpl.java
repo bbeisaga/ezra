@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ezra.programandojuntos.models.dao.ICajaUsuarioDao;
 import com.ezra.programandojuntos.models.entity.CajaUsuario;
-import com.ezra.programandojuntos.models.entity.Movimiento;
+import com.ezra.programandojuntos.models.entity.MovimientoVenta;
 
 @Service
 public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
@@ -53,12 +53,12 @@ public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
 	@Transactional(readOnly = true)
 	public Map<String, BigDecimal> movimientoPorCajaUsuario(Long cajaUsuarioId){
 		CajaUsuario cju = findById(cajaUsuarioId);
-		List<Movimiento> items= cju.getMovimientos();
+		List<MovimientoVenta> items= cju.getMovimientosVenta();
 		BigDecimal saldoCju = new BigDecimal(0);
 		BigDecimal ingresoCju = new BigDecimal(0);
 		BigDecimal egresoCju = new BigDecimal(0);
 
-		for (Movimiento item : items) {
+		for (MovimientoVenta item : items) {
 			ingresoCju = ingresoCju.add(item.getIngresoDinero()); //+
 			egresoCju = egresoCju.add(item.getEgresoDinero()); // -
 		}

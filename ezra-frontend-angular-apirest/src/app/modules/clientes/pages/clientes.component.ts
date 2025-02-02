@@ -21,7 +21,7 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class ClientesComponent implements OnInit {
 
-  displayedColumns: string[] = ['apellido','nombre', 'numeroDocumento','email','acciones' ];
+  displayedColumns: string[] = ['apellidos','nombres', 'numeroDocumento','celular','acciones' ];
   dataSource!: MatTableDataSource<Cliente>;
   // dataSource = new MatTableDataSource<Cliente>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -41,13 +41,6 @@ export class ClientesComponent implements OnInit {
     }
 
   ngOnInit() {
-/*     this.activatedRoute.paramMap.subscribe(params => {
-      let page: number = +params.get('page')!;
-
-      if (!page) {
-        page = 0;
-      } */
-
       this.clienteService.getAllClientes()
         .pipe(
     /*       tap(response => {
@@ -85,7 +78,7 @@ export class ClientesComponent implements OnInit {
   delete(cliente: Cliente): void {
     swal.fire({
       title: 'Está seguro?',
-      text: `¿Seguro que desea eliminar al cliente ${cliente.nombre} ${cliente.apellido}?`,
+      text: `¿Seguro que desea eliminar al cliente ${cliente.nombres} ${cliente.apellidos}?`,
 //       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -104,7 +97,7 @@ export class ClientesComponent implements OnInit {
             this.clientes = this.clientes.filter(cli => cli !== cliente)
             swal.fire(
               'Cliente Eliminado!',
-              `Cliente ${cliente.nombre} eliminado con éxito.`,
+              `Cliente ${cliente.nombres} eliminado con éxito.`,
               'success'
             )
           }

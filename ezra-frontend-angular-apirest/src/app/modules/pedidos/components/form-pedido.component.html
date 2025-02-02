@@ -12,19 +12,13 @@
       </div>
     </mat-card-header>
     <mat-card-content class="d-flex flex-column">
-      <ng-container *ngIf="pedido.cliente">
+<!--       <ng-container *ngIf="pedido.cliente">
         <mat-form-field class="example-full-width">
           <mat-label>Cliente</mat-label>
           <input matInput  type="text" value="{{pedido.cliente!.nombre}} {{pedido.cliente!.apellido}}" disabled>
         </mat-form-field>
-      </ng-container>
-      <mat-form-field>
-        <mat-label>Observación</mat-label>
-         <textarea matInput #message name="observacion" maxlength="256" [(ngModel)]="pedido.observacion"></textarea>
+      </ng-container> -->
 
-         <mat-hint align="start"><strong>Observaciones al pedido...</strong> </mat-hint>
-          <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
-      </mat-form-field>
       <mat-form-field>
         <input type="text" placeholder="Añadir producto" aria-label="Productos" matInput [formControl]="autocompleteControl" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarNombre" (optionSelected)="seleccionarProducto($event)">
@@ -68,6 +62,7 @@
           </tr>
         </tbody>
       </table>
+
       <table *ngIf="pedido.items.length > 0"  cellspacing="0"><tr>
                <td><mat-form-field style="width:100%">
                 <mat-label>GRANT TOTAL</mat-label>
@@ -88,6 +83,13 @@
           </mat-form-field>
         </td>
       </tr></table>
+      <mat-form-field>
+        <mat-label>Observación</mat-label>
+         <textarea matInput #message name="observacion" maxlength="256" [(ngModel)]="pedido.observacion"></textarea>
+
+         <mat-hint align="start"><strong>Datos para entregar el pedido...</strong> </mat-hint>
+          <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+      </mat-form-field>
 
     </mat-card-content>
 

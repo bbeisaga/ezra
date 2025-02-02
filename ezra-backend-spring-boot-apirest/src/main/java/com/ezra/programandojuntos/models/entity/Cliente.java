@@ -37,22 +37,22 @@ public class Cliente implements Serializable {
 	@NotEmpty(message = "no puede estar vacio")
 	@Size(min = 4, max = 12, message = "el tamaño tiene que estar entre 4 y 12")
 	@Column(nullable = false)
-	private String nombre;
+	private String nombres;
 
 	@NotEmpty(message = "no puede estar vacio")
-	private String apellido;
+	private String apellidos;
 
-	@NotEmpty(message = "no puede estar vacio")
-	@Email(message = "no es una dirección de correo bien formada")
-	@Column(nullable = false, unique = true)
-	private String email;
+//	@NotEmpty(message = "no puede estar vacio")
+//	@Email(message = "no es una dirección de correo bien formada")
+//	@Column(nullable = false, unique = true)
+//	private String email;
 
-	@NotNull(message = "no puede estar vacio")
+//	@NotNull(message = "no puede estar vacio")
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
 
-	private String foto;
+//	private String foto;
 
 //	@NotNull(message = "la región no puede ser vacia")
 //	@ManyToOne(fetch = FetchType.LAZY)
@@ -94,28 +94,30 @@ public class Cliente implements Serializable {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
+
+
+//	public String getEmail() {
+//		return email;
+//	}
+//
+//	public void setEmail(String email) {
+//		this.email = email;
+//	}
+
+	public String getNombres() {
+		return nombres;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombres(String nombres) {
+		this.nombres = nombres;
 	}
 
-	public String getApellido() {
-		return apellido;
+	public String getApellidos() {
+		return apellidos;
 	}
 
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
 	}
 
 	public Date getCreateAt() {
@@ -126,13 +128,13 @@ public class Cliente implements Serializable {
 		this.createAt = createAt;
 	}
 
-	public String getFoto() {
-		return foto;
-	}
-
-	public void setFoto(String foto) {
-		this.foto = foto;
-	}
+//	public String getFoto() {
+//		return foto;
+//	}
+//
+//	public void setFoto(String foto) {
+//		this.foto = foto;
+//	}
 
 //	public Region getRegion() {
 //		return region;

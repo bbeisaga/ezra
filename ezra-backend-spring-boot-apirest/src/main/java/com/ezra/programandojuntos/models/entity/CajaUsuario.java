@@ -63,7 +63,7 @@ public class CajaUsuario implements Serializable {
 	
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cajaUsuario", cascade = CascadeType.ALL)
-	private List<Movimiento> movimientos;
+	private List<MovimientoVenta> movimientosVenta;
 	
 	
 	@PrePersist
@@ -77,7 +77,7 @@ public class CajaUsuario implements Serializable {
 //	}
 
 	public CajaUsuario() {
-		this.movimientos = new ArrayList<>();
+		this.movimientosVenta = new ArrayList<>();
 	}
 
 	public Long getId() {
@@ -152,12 +152,13 @@ public class CajaUsuario implements Serializable {
 		this.usuario = usuario;
 	}
 
-	public List<Movimiento> getMovimientos() {
-		return movimientos;
+
+	public List<MovimientoVenta> getMovimientosVenta() {
+		return movimientosVenta;
 	}
 
-	public void setMovimientos(List<Movimiento> movimientos) {
-		this.movimientos = movimientos;
+	public void setMovimientosVenta(List<MovimientoVenta> movimientosVenta) {
+		this.movimientosVenta = movimientosVenta;
 	}
 
 	public BigDecimal getSaldoCaja() {

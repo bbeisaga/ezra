@@ -1,6 +1,6 @@
 import swal from 'sweetalert2';
 import { Component, OnInit } from '@angular/core';
-import { Movimiento } from '../../../models/movimiento';
+import { MovimientoVenta } from '../../../models/movimiento-venta';
 import { CajaService } from '../../../services/caja.service';
 import { MovimientoService } from '../../../services/movimiento.service';
 import { TipoPago } from '../../../models/tipo-pago';
@@ -21,8 +21,8 @@ import { concat } from 'rxjs';
 })
 export class MovimientoPedidoComponent implements OnInit {
   titulo: string = 'Movimiento de pago'
-  movimiento = new Movimiento();
-  cajaUsuario?: CajaUsuario;
+  movimiento = new MovimientoVenta();
+  cajaUsuario!: CajaUsuario;
   pedido! : Pedido;
   tipoPagos: TipoPago[]=[];
   tipoMovimientos: TipoMovimiento[]=[];
@@ -46,15 +46,13 @@ export class MovimientoPedidoComponent implements OnInit {
       this.user = this.authService.usuario;
     }
     //trae pedidos
-    this.pedido = this.pedidoService.pedido;
+    this.pedido = {...this.pedidoService.pedido};
     console.log("pedido", this.pedido);
-
-    //trae la caja activa por usuario
     this.cajasService.getCajaUsuarioByUserName(this.user).subscribe(
       res => {
         console.log("getCajaUsuarioByUserName...", res)
         if(res !== null && res.activa){
-          this.movimiento.cajaUsuario = res
+          this.cajaUsuario = res
         } else {
           swal.fire('', `Debe aperturar caja`, 'info');
           this.router.navigate(['/pr']);
@@ -74,7 +72,7 @@ export class MovimientoPedidoComponent implements OnInit {
       })
     //console.log()
 
-    console.log("movimiento", this.movimiento);
+    //console.log("movimiento", this.movimiento);
   }
 
   findTipoMovimiento(id: number): TipoMovimiento {
@@ -82,49 +80,30 @@ export class MovimientoPedidoComponent implements OnInit {
   }
 
   setMovimientoDinero():void{
-    //console.log(111);
-    //debugger;
     let newSaldo = (this.pedido.saldoPedido - this.movimiento.ingresoDinero)
     this.movimiento.ingresoDinero = this.movimiento.ingresoDinero
     if(newSaldo >= 0) {
       this.movimiento.egresoDinero = 0
-      //this.movimiento.ingresoDinero = this.movimiento.ingresoDinero
       this.movimiento.saldoDinero = newSaldo;
     }
     if(newSaldo < 0) {
       this.movimiento.egresoDinero = newSaldo
-      //this.movimiento.ingresoDinero = this.pedido.saldoPedido;
-      //this.movimiento.saldoDinero = (this.pedido.saldoPedido - this.movimiento.ingresoDinero)
       this.movimiento.saldoDinero = 0
-
     }
-
-    //console.log("this.movimiento", this.movimiento);
   }
 
   onSubmitForm(){
-
     this.movimiento.pedido = this.pedido
     this.movimiento.pedido.items=[];
-    this.movimiento.pedido.movimientos=[];
+    this.movimiento.pedido.movimientosVenta=[];
+    this.cajaUsuario.movimientosVenta=[]
+    this.movimiento.cajaUsuario = {...this.cajaUsuario}
     console.log("onSubmitForm...", this.movimiento);
-
-
     this.movimientoService.createMovimiento(this.movimiento).subscribe(
       resp => {
           swal.fire(this.titulo, `Movimiento ${resp.cajaUsuario.id}, creado con éxito!`, 'success');
           this.router.navigate(['/pr']);
       })
-
-/*     concat(this.movimientoService.createMovimiento(this.movimiento), this.pedidoService.update(this.movimiento.pedido))
-    .subscribe(
-      resp => {
-          swal.fire(this.titulo, `Movimiento registrado con éxito!`, 'success');
-          this.router.navigate(['/pr']);
-      }
-    ) */
-
-
   }
 
 

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ezra.programandojuntos.models.entity.Cliente;
+import com.ezra.programandojuntos.models.entity.EstadoPedido;
 import com.ezra.programandojuntos.models.entity.Pedido;
 import com.ezra.programandojuntos.models.entity.Producto;
 import com.ezra.programandojuntos.models.services.IPedidoService;
@@ -64,6 +65,15 @@ public class PedidoRestController {
 	public List<Pedido> listarPedidoAll() {
 		return pedidoService.findPedidoAll();
 	}
+	
+	
+	@GetMapping("/pedidos/estado-pedido")
+	@ResponseStatus(HttpStatus.OK)
+	public List<EstadoPedido> listarEstadoPedidoAll() {
+		return pedidoService.findAllEstadoPedido();
+	}
+	
+	
 	
 	@Secured({"ROLE_ADMIN"})
 	@PostMapping("/pedidos")

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import com.ezra.programandojuntos.models.entity.EstadoPedido;
 import com.ezra.programandojuntos.models.entity.Pedido;
 import com.ezra.programandojuntos.models.entity.Producto;
 
@@ -21,7 +22,7 @@ public interface IPedidoService {
 	
 	//public List<Region> findAllRegiones();
 	
-	//public List<TipoDocumento> findAllTipoDocumento();
+	public List<EstadoPedido> findAllEstadoPedido();
 	
 	public Pedido findPedidoById(Long id);
 	

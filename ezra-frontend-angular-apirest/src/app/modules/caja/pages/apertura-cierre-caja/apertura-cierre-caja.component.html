@@ -6,13 +6,6 @@
       name="usuarioId"
       readonly="true"
       formControlName="usuarioId">
-      <div *ngIf="formCaja.get('usuarioId')?.invalid &&
-                  (formCaja.get('usuarioId')?.dirty ||
-                  formCaja.get('usuarioId')?.touched)">
-        <mat-error *ngIf="formCaja.get('usuarioId')?.errors?.['required']">
-          Usuario es requerido
-        </mat-error>
-      </div>
   </mat-form-field>
   <mat-form-field class="example-full-width">
     <mat-label>Usuario:</mat-label>
@@ -21,13 +14,6 @@
       name="usuario"
       readonly="true"
       formControlName="usuario">
-      <div *ngIf="formCaja.get('usuario')?.invalid &&
-                  (formCaja.get('usuario')?.dirty ||
-                  formCaja.get('usuario')?.touched)">
-        <mat-error *ngIf="formCaja.get('usuario')?.errors?.['required']">
-          Usuario es requerido
-        </mat-error>
-      </div>
   </mat-form-field>
   <mat-form-field class="example-full-width">
     <mat-label>Fecha Apertura(Última):</mat-label>

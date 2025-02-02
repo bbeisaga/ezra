@@ -36,12 +36,12 @@
 
         <mat-form-field class="example-full-width">
           <mat-label>Nombres</mat-label>
-          <input matInput  type="text" class="form-control" [(ngModel)]="cliente.nombre" name="nombre" #nombre="ngModel">
-          <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
-            <mat-error *ngIf="nombre?.errors?.['required']">
+          <input matInput  type="text" class="form-control" [(ngModel)]="cliente.nombres" name="nombres" #nombres="ngModel">
+          <div *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)">
+            <mat-error *ngIf="nombres?.errors?.['required']">
               Nombre es requerido
             </mat-error>
-            <mat-error *ngIf="nombre.errors?.['minlength']">
+            <mat-error *ngIf="nombres.errors?.['minlength']">
               Nombre debe tener al menos 4 caracteres
             </mat-error>
           </div>
@@ -61,12 +61,12 @@
 
         <mat-form-field class="example-full-width">
           <mat-label>Apellidos</mat-label>
-          <input matInput  type="text" class="form-control" [(ngModel)]="cliente.apellido" name="apellido" #apellido="ngModel">
-          <div *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)">
-            <mat-error *ngIf="apellido.errors?.['required']">
+          <input matInput  type="text" class="form-control" [(ngModel)]="cliente.apellidos" name="apellidos" #apellidos="ngModel">
+          <div *ngIf="apellidos.invalid && (apellidos.dirty || apellidos.touched)">
+            <mat-error *ngIf="apellidos.errors?.['required']">
               Apellidos es requerido
             </mat-error>
-            <mat-error *ngIf="apellido.errors?.['minlength']">
+            <mat-error *ngIf="apellidos.errors?.['minlength']">
               Apellidos debe tener al menos 4 caracteres
             </mat-error>
           </div>
@@ -90,15 +90,14 @@
 
 
         <mat-form-field class="example-full-width">
-          <mat-label>Email</mat-label>
-          <input type="email" matInput [(ngModel)]="cliente.email" name="email" #email="ngModel" placeholder="Ejm. pat@example.com">
-          <!-- <mat-hint>Errors appear instantly!</mat-hint> -->
-          <div *ngIf="email.invalid && (email.dirty || email.touched)">
-            <mat-error *ngIf="email.errors?.['required']">
-              Email es requerido
+          <mat-label>Celular</mat-label>
+          <input matInput [(ngModel)]="cliente.celular" name="celular" #celular="ngModel">
+          <div *ngIf="celular.invalid && (celular.dirty || celular.touched)">
+            <mat-error *ngIf="celular.errors?.['required']">
+              Celular es requerido
             </mat-error>
-            <mat-error *ngIf="email.errors?.['minlength']">
-              Email debe tener al menos 4 caracteres
+            <mat-error *ngIf="celular.errors?.['minlength']">
+              Celular debe tener al menos 4 caracteres
             </mat-error>
           </div>
         </mat-form-field>
@@ -112,12 +111,12 @@
           </div>
           </div>
           -->
-        <mat-form-field appearance="fill">
+<!--         <mat-form-field appearance="fill">
           <mat-label>Fecha</mat-label>
           <input matInput [matDatepicker]="miDatepicker" [(ngModel)]="cliente.createAt" name="createAt">
             <mat-datepicker-toggle matIconSuffix [for]="miDatepicker"></mat-datepicker-toggle>
             <mat-datepicker #miDatepicker></mat-datepicker>
-        </mat-form-field>
+        </mat-form-field> -->
 
           <!--       <div class="form-group row">
             <label for="region" class="col-form-label col-sm-2">Región</label>

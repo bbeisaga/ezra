@@ -10,12 +10,10 @@
     <mat-card-content class="d-flex flex-column">
       <ul class="list-group my-2">
         <li class="list-group-item list-group-item-primary">Datos del cliente</li>
-        <li class="list-group-item">{{pedido.cliente!.nombre}}</li>
-        <li class="list-group-item">{{pedido.cliente!.apellido}}</li>
+        <li class="list-group-item">{{pedido.cliente!.nombres}}</li>
+        <li class="list-group-item">{{pedido.cliente!.apellidos}}</li>
         <li class="list-group-item">{{pedido.cliente!.tipoDocumento.acronimo}} : {{pedido.cliente!.numeroDocumento}}</li>
-        <li class="list-group-item">{{pedido.cliente!.celular}}</li>
-        <li class="list-group-item">{{pedido.cliente!.email}} </li>
-
+        <li class="list-group-item">Celular: {{pedido.cliente!.celular}}</li>
       </ul>
 
       <ul class="list-group my-2">

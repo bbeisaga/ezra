@@ -2,27 +2,27 @@ package com.ezra.programandojuntos.models.services;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ezra.programandojuntos.models.dao.ICajaUsuarioDao;
-import com.ezra.programandojuntos.models.dao.IMovimientoDao;
-import com.ezra.programandojuntos.models.dao.IPedidoDao;
+import com.ezra.programandojuntos.models.dao.IMovimientoVentaDao;
 import com.ezra.programandojuntos.models.entity.CajaUsuario;
-import com.ezra.programandojuntos.models.entity.Movimiento;
+import com.ezra.programandojuntos.models.entity.MovimientoVenta;
 import com.ezra.programandojuntos.models.entity.Pedido;
 import com.ezra.programandojuntos.models.entity.TipoMovimiento;
 import com.ezra.programandojuntos.models.entity.TipoPago;
 
 @Service
-public class MovimientoServiceImpl implements IMovimientoService {
+public class MovimientoVentaServiceImpl implements IMovimientoVentaService {
+	
+	Logger log = LoggerFactory.getLogger(MovimientoVentaServiceImpl.class);
 	
 	@Autowired
-	IMovimientoDao movimientoDao;
+	IMovimientoVentaDao movimientoDao;
 	
 //	@Autowired
 //	IPedidoDao pedidoDao;
@@ -51,8 +51,8 @@ public class MovimientoServiceImpl implements IMovimientoService {
 	
 	@Override
 	@Transactional
-	public Movimiento saveMovimiento (Movimiento movimiento){
-		Movimiento newMovimiento = null;
+	public MovimientoVenta saveMovimiento (MovimientoVenta movimiento){
+		MovimientoVenta newMovimiento = null;
 		CajaUsuario cajaUsuario = cajaUsuarioService
 				.findCajaUsuarioByUserIdAndCajaId(movimiento.getCajaUsuario().getUsuario().getId(), movimiento.getCajaUsuario().getCaja().getId());
 		
@@ -60,20 +60,19 @@ public class MovimientoServiceImpl implements IMovimientoService {
 			return null;
 		}
 				
-		TipoPago tipoPago = this.lstAllTipoPagos().stream()
-				.filter( t -> t.getId() == movimiento.getTipoPago().getId())
-				.collect(Collectors.toList())
-				.get(0);
-		
-		TipoMovimiento tipoMovimiento = this.lstAllTipoMovimientos().stream()
-				.filter( t -> t.getId() == movimiento.getTipoMovimiento().getId())
-				.collect(Collectors.toList())
-				.get(0);
-		
-		if( tipoPago == null || tipoMovimiento == null ){return null;}
+//		TipoPago tipoPago = this.lstAllTipoPagos().stream()
+//				.filter( t -> t.getId() == movimiento.getTipoPago().getId())
+//				.collect(Collectors.toList())
+//				.get(0);
+//		
+//		TipoMovimiento tipoMovimiento = this.lstAllTipoMovimientos().stream()
+//				.filter( t -> t.getId() == movimiento.getTipoMovimiento().getId())
+//				.collect(Collectors.toList())
+//				.get(0);
 
 		Pedido pedido = pedidoService.findPedidoById(movimiento.getPedido().getId());
-			
+		log.info("MovimientoServiceImpl.saveMovimiento... estadoPedido={}", pedido.getEstadoPedido().getEstado());
+				
 		if(pedido == null ){return null;}
 		BigDecimal newSaldo = pedido.getSaldoPedido().subtract(movimiento.getIngresoDinero());
 		if (newSaldo.intValue() >= 0) {
@@ -83,8 +82,14 @@ public class MovimientoServiceImpl implements IMovimientoService {
 			movimiento.setEgresoDinero(newSaldo);
 		}
 		movimiento.setCajaUsuario(cajaUsuario);
-		movimiento.setTipoPago(tipoPago);
-		movimiento.setTipoMovimiento(tipoMovimiento);
+		//movimiento.setTipoPago(tipoPago);
+		//movimiento.setTipoMovimiento(tipoMovimiento);
+//		movimiento.setTipoPago(new TipoPago());
+//		movimiento.getTipoPago().setId(movimiento.getTipoPago().getId());
+//		
+//		movimiento.setTipoMovimiento(new TipoMovimiento());
+//		movimiento.getTipoMovimiento().setId(movimiento.getTipoMovimiento().getId());
+		
 		movimiento.setPedido(pedido);
 		newMovimiento = movimientoDao.save(movimiento);
 		newMovimiento.setPedido(pedidoService.updatePedido(newMovimiento.getPedido(), movimiento.getPedido().getId()));

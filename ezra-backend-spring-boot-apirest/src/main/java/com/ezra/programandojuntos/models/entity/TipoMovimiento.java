@@ -15,19 +15,18 @@ public class TipoMovimiento implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Byte id;
+	private Long id;
 	private String movimiento;
 	private String tipo;
 	
-	public Byte getId() {
-		return id;
-	}
-	public void setId(Byte id) {
-		this.id = id;
-	}
 
 	
-	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getMovimiento() {
 		return movimiento;
 	}

@@ -11,35 +11,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ezra.programandojuntos.models.entity.Cliente;
-import com.ezra.programandojuntos.models.entity.Movimiento;
-import com.ezra.programandojuntos.models.entity.Pedido;
-import com.ezra.programandojuntos.models.entity.Producto;
+import com.ezra.programandojuntos.models.entity.MovimientoVenta;
 import com.ezra.programandojuntos.models.entity.TipoMovimiento;
 import com.ezra.programandojuntos.models.entity.TipoPago;
-import com.ezra.programandojuntos.models.services.IMovimientoService;
-import com.ezra.programandojuntos.models.services.IPedidoService;
+import com.ezra.programandojuntos.models.services.IMovimientoVentaService;
 
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
 @RequestMapping("/api")
-public class MovimientoRestController {
+public class MovimientoVentaRestController {
 
 	@Autowired
-	private IMovimientoService movimientoService;
+	private IMovimientoVentaService movimientoService;
 
 	@GetMapping("movimientos/tipoPagos")
 	@ResponseStatus(HttpStatus.OK)
@@ -55,9 +47,9 @@ public class MovimientoRestController {
 	
 	//@Secured("ROLE_ADMIN")
 	@PostMapping("movimientos")
-	public ResponseEntity<?> create(@Valid @RequestBody Movimiento movimiento, BindingResult result) {
+	public ResponseEntity<?> create(@Valid @RequestBody MovimientoVenta movimientoVenta, BindingResult result) {
 		
-		Movimiento movimientoNew = null;
+		MovimientoVenta movimientoNew = null;
 		Map<String, Object> response = new HashMap<>();
 		
 		if(result.hasErrors()) {
@@ -71,15 +63,15 @@ public class MovimientoRestController {
 		}
 		
 		try {
-			movimientoNew = movimientoService.saveMovimiento(movimiento);
+			movimientoNew = movimientoService.saveMovimiento(movimientoVenta);
 		} catch(DataAccessException e) {
-			response.put("mensaje", "Error al realizar el insert en la base de datos");
+			response.put("mensaje", "Error al realizar el insert movimientos en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		response.put("mensaje", "Movimiento registrado con éxito!");
-		response.put("movimiento", movimientoNew);
+		response.put("movimientoVenta", movimientoNew);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	

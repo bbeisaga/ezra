@@ -10,6 +10,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ItemPedido } from '../../../models/item-pedido';
 import { FormControl } from '@angular/forms';
 import swal from 'sweetalert2';
+import { Cliente } from '../../../models/cliente';
 
 @Component({
   selector: 'app-form-pedido',
@@ -21,7 +22,7 @@ export class FormPedidoComponent implements OnInit {
   titulo: string = 'Nuevo Pedido';
   //  displayedColumns: string[] = ['producto', 'precio', 'cantidad', 'importe', 'descripcion', 'eliminar'];
     pedido: Pedido = new Pedido();
-
+    cliente!: Cliente;
     autocompleteControl = new FormControl();
 
     productosFiltrados!: Observable<Producto[]>;
@@ -34,7 +35,7 @@ export class FormPedidoComponent implements OnInit {
     ngOnInit() {
       this.activatedRoute.paramMap.subscribe(params => {
         let clienteId = +params.get('clienteId')! ;
-        this.clienteService.getCliente(clienteId).subscribe(cliente => this.pedido.cliente = cliente);
+        this.clienteService.getCliente(clienteId).subscribe(cliente => this.cliente = cliente);
       });
 
       this.productosFiltrados = this.autocompleteControl.valueChanges
@@ -123,14 +124,17 @@ export class FormPedidoComponent implements OnInit {
     }
 
     create(pedidoForm: any): void {
-      console.log(this.pedido);
       if (this.pedido.items.length == 0) {
         this.autocompleteControl.setErrors({ 'invalid': true });
       }
 
       if (pedidoForm.form.valid && this.pedido.items.length > 0) {
+        this.cliente.pedidos=[];
+        this.pedido.cliente = {...this.cliente}
+        console.log(this.pedido);
+
         this.pedidoService.create(this.pedido).subscribe(pedido => {
-          swal.fire(this.titulo, `Pedido para ${pedido.cliente?.apellido}, ${pedido.cliente?.nombre} creado con éxito!`, 'success');
+          swal.fire(this.titulo, `Pedido para ${pedido.cliente?.apellidos}, ${pedido.cliente?.nombres} creado con éxito!`, 'success');
           this.router.navigate(['/pr/clientes']);
         });
       }
