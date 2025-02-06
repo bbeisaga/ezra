@@ -9,6 +9,7 @@ import { Usuario } from '../models/usuario';
 import { MovimientoVenta } from '../models/movimiento-venta';
 import { TipoMovimiento } from '../models/tipo-movimiento';
 import { TipoPago } from '../models/tipo-pago';
+import { MovimientoCaja } from '../models/movimiento-caja';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,21 @@ export class MovimientoService {
     return this.http.post(this.urlEndPoint, movimientoVenta, {headers: this.agregarAuthorizationHeader()})
         .pipe(
           map((response: any) => response.movimientoVenta as MovimientoVenta),
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
+            return throwError(e);
+          }));
+  }
+
+  createMovimientoCaja(movimientoCaja:MovimientoCaja): Observable <MovimientoCaja> {
+    return this.http.post(`${this.urlEndPoint}/caja`, movimientoCaja, {headers: this.agregarAuthorizationHeader()})
+        .pipe(
+          map((response: any) => response.movimientoCaja as MovimientoCaja),
           catchError(e => {
             if (e.status == 400) {
               return throwError(e);

@@ -1,25 +1,27 @@
 import swal from 'sweetalert2';
 import { Component, OnInit } from '@angular/core';
-import { MovimientoVenta } from '../../../models/movimiento-venta';
-import { CajaService } from '../../../services/caja.service';
-import { MovimientoService } from '../../../services/movimiento.service';
-import { TipoPago } from '../../../models/tipo-pago';
-import { Pedido } from '../../../models/pedido';
-import { PedidoService } from '../../../services/pedido.service';
-import { CajaUsuario } from '../../../models/caja-usuario';
-import { AuthService } from '../../../services/auth.service';
-import { Usuario } from '../../../models/usuario';
-import { TipoMovimiento } from '../../../models/tipo-movimiento';
+import { MovimientoVenta } from '../../../../models/movimiento-venta';
+import { CajaService } from '../../../../services/caja.service';
+import { MovimientoService } from '../../../../services/movimiento.service';
+import { TipoPago } from '../../../../models/tipo-pago';
+import { Pedido } from '../../../../models/pedido';
+import { PedidoService } from '../../../../services/pedido.service';
+import { CajaUsuario } from '../../../../models/caja-usuario';
+import { AuthService } from '../../../../services/auth.service';
+import { Usuario } from '../../../../models/usuario';
+import { TipoMovimiento } from '../../../../models/tipo-movimiento';
 import { find } from 'lodash';
 import { Router } from '@angular/router';
 import { concat } from 'rxjs';
+import moment from 'moment';
+import { COLOR_CAJA_USUARIO, ESTADO_CAJA_USUARIO } from '../../../../constants/caja-usuario.constants';
 
 @Component({
-  selector: 'app-movimiento-pedido',
-  templateUrl: './movimiento-pedido.component.html',
-  styleUrl: './movimiento-pedido.component.css'
+  selector: 'app-movimiento-venta',
+  templateUrl: './movimiento-venta.component.html',
+  styleUrl: './movimiento-venta.component.css'
 })
-export class MovimientoPedidoComponent implements OnInit {
+export class MovimientoVentaComponent implements OnInit {
   titulo: string = 'Movimiento de pago'
   movimiento = new MovimientoVenta();
   cajaUsuario!: CajaUsuario;
@@ -28,6 +30,7 @@ export class MovimientoPedidoComponent implements OnInit {
   tipoMovimientos: TipoMovimiento[]=[];
   isAutenticado!: boolean;
   user!: Usuario;
+  estadoCajaUsuarioMap = ESTADO_CAJA_USUARIO;
 
 
   constructor(private cajasService: CajaService,
@@ -53,6 +56,11 @@ export class MovimientoPedidoComponent implements OnInit {
         console.log("getCajaUsuarioByUserName...", res)
         if(res !== null && res.activa){
           this.cajaUsuario = res
+          this.cajaUsuario.fechaApertura = moment(this.cajaUsuario.fechaApertura).format('DD/MM/YYYY HH:mm:ss');
+          this.cajaUsuario.fechaActualizacion = moment(this.cajaUsuario.fechaActualizacion).format('DD/MM/YYYY HH:mm:ss');
+          this.cajaUsuario.color = COLOR_CAJA_USUARIO[('' + res.activa) as keyof typeof COLOR_CAJA_USUARIO ];
+
+
         } else {
           swal.fire('', `Debe aperturar caja`, 'info');
           this.router.navigate(['/pr']);

@@ -79,7 +79,16 @@
 
       <ng-container matColumnDef="estado">
         <th mat-header-cell *matHeaderCellDef> Estado </th>
-        <td mat-cell *matCellDef="let element"> {{element.estadoPedido.estado}} </td>
+        <td mat-cell *matCellDef="let element">
+          <span class="celda-estado {{element.estadoPedido.color}}">{{element.estadoPedido.estado}} </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center;">SEMÁFORO</th>
+        <td mat-cell *matCellDef="let row" style="text-align: center;">
+          <span class="celda-estado {{row.color}}">{{ row.nombre }} </span>
+        </td>
       </ng-container>
 
 

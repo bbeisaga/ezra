@@ -84,7 +84,7 @@ public class Pedido implements Serializable {
 	private List<ItemPedido> items;
 	
 	
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@JsonIgnoreProperties({"pedido", "hibernateLazyInitializer", "handler" })
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "pedido" , cascade = CascadeType.ALL)
 	private List<MovimientoVenta> movimientosVenta;
 

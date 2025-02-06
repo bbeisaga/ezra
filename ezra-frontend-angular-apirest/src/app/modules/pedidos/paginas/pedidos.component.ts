@@ -16,7 +16,9 @@ import { MatSort } from '@angular/material/sort';
 import { AuthService } from '../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { findIndex } from 'lodash';
-import { MovimientoPedidoComponent } from '../components/movimiento-pedido.component';
+import { MovimientoVentaComponent } from '../../movimientos/pages/movimiento-venta/movimiento-venta.component';
+import moment from 'moment';
+import { COLOR_ESTADO_PEDIDO } from '../../../constants/pedido.constants';
 
 @Component({
   selector: 'app-pedidos',
@@ -29,13 +31,10 @@ export class PedidosComponent implements OnInit {
   title:string = 'Listado de pedidos'
   displayedColumns: string[] = ['cliente','documento','createAt', 'entregadoEn','observacion', 'saldoPedido','estado','acciones' ];
   dataSource = new MatTableDataSource<Pedido>();
-  // dataSource = new MatTableDataSource<Cliente>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) orberBy!: MatSort;
 
-  //data : Pedido[]=[];
   pedidos: Pedido[]=[];
-  //paginador: any;
   pedidoSeleccionado!: Pedido;
 
   constructor(
@@ -49,23 +48,17 @@ export class PedidosComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.pedidoService.getAllPedidos()
-        .pipe(
-    /*       tap(response => {
-            console.log('ClientesComponent: tap 3');
-            (response.content as Cliente[]).forEach(cliente => console.log(cliente.nombre));
-          }) */
-        ).subscribe(response => {
-          //this.clientes = response.content as Cliente[];
-          //this.data = response;
-          console.log(response);
+    this.pedidoService.getAllPedidos().subscribe(response => {
+          response.forEach( (r : Pedido) => {
+            r.createAt =  moment(r.createAt).format('DD/MM/YYYY');
+            r.entregadoEn = moment(r.entregadoEn).format('DD/MM/YYYY');
+            r.estadoPedido.color = COLOR_ESTADO_PEDIDO[ (''+ r.estadoPedido.id) as keyof typeof COLOR_ESTADO_PEDIDO];
+          })
+          //console.log(response);
           this.pedidos = response;
           this.dataSource.data = response;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.orberBy;
-          //this.dataSource = this.clientes
-          //console.log(this.dataSource);
-          //this.paginador = response;
         });
   }
 
@@ -78,7 +71,7 @@ export class PedidosComponent implements OnInit {
 
   setPedido (pedido: Pedido): void {
     this.pedidoService.setPedido(pedido);
-    this.ro.navigate(['pr/pedidos/movimiento']);
+    this.ro.navigate(['pr/movimientos/venta']);
   }
 
   updateItem(pedido: Pedido): void {

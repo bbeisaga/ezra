@@ -22,6 +22,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatRadioModule} from '@angular/material/radio';
+
 
 
 @NgModule({
@@ -48,7 +50,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatMenuModule,
     MatAutocompleteModule,
     MatDialogModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatRadioModule
   ],
   exports: [
     FormsModule,
@@ -71,7 +74,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatMenuModule,
     MatAutocompleteModule,
     MatDialogModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatRadioModule
   ]
 })
 export class CompartidoModule { }

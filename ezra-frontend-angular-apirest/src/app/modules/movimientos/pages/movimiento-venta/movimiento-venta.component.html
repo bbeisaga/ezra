@@ -16,8 +16,9 @@
         <li class="list-group-item">Caja: {{cajaUsuario.caja.nombre}}</li>
         <li class="list-group-item">Ubicacion: {{cajaUsuario.caja.ubicacion}}</li>
         <li class="list-group-item">Fecha apertura: {{cajaUsuario.fechaApertura}}</li>
-        <li class="list-group-item">Estado caja: {{cajaUsuario.activa}}</li>
+        <li class="list-group-item">Fecha actualizacion: {{cajaUsuario.fechaActualizacion}}</li>
         <li class="list-group-item">Saldo en caja: {{cajaUsuario.saldoCaja}}</li>
+        <li class="list-group-item"><span class="celda-estado {{cajaUsuario.color}}">{{cajaUsuario.activa + '' | i18nSelect: estadoCajaUsuarioMap }}</span></li>
       </ul>
       <ul class="list-group">
         <li class="list-group-item list-group-item-primary">Movimiento</li>
@@ -52,7 +53,7 @@
               </mat-error>
             </div>
           </mat-form-field>
-        </ng-container>
+      </ng-container>
       <ng-container>
           <mat-checkbox name="aceptado" #aceptado="ngModel" [(ngModel)]="pedido.aceptado">
             El cliente ACEPTA y recibio su pedido (No tiene ningun error)
@@ -62,34 +63,9 @@
   </form>
 
   <div class="d-flex flex-row justify-content-center">
-<!--     <mat-card class="example-card">
-      <mat-card-header>
-        <mat-card-title>GRANT TOTAL</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p style="font-size: 30px; font-weight: bolder;">{{pedido.precioNetoTotal| number:'2.2-2'}}</p>
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="example-card">
-      <mat-card-header>
-        <mat-card-title>PAGOL</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p style="font-size: 30px; font-weight: bolder;">{{movimiento.pagoDinero| number:'2.2-2'}}</p>
-      </mat-card-content>
-    </mat-card>
-    <mat-card class="example-card">
-      <mat-card-header>
-        <mat-card-title>VUELTO</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p style="font-size: 30px; font-weight: bolder; color: red;">{{movimiento.vueltoDinero| number:'2.2-2'}}</p>
-      </mat-card-content>
-    </mat-card> -->
-
       <div class="card border-info" style="margin-right: 5px;">
         <div class="card card-header">
-          GRANT TOTAL
+          SALDO TOTAL
         </div>
         <div class="card card-body" >
           <p style="font-size: 30px; font-weight: bolder;">{{pedido.saldoPedido| number:'2.2-2'}}</p>

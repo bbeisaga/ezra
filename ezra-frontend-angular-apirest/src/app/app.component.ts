@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ZonaHorariaDefectoService } from './services/zona-horaria-defecto.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'ezra-frontend-angular-apirest';
+/*   title = 'ezra-frontend-angular-apirest';
+ */  title = 'Ezra';
+
+
+  constructor(private zonaHorariaDefectoService: ZonaHorariaDefectoService){
+
+  }
 }

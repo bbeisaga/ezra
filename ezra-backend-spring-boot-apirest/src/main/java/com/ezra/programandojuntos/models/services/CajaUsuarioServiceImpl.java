@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ezra.programandojuntos.models.dao.ICajaUsuarioDao;
 import com.ezra.programandojuntos.models.entity.CajaUsuario;
+import com.ezra.programandojuntos.models.entity.MovimientoCaja;
 import com.ezra.programandojuntos.models.entity.MovimientoVenta;
 
 @Service
@@ -36,10 +37,18 @@ public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
 //		}
 		
 		if (cjActual!=null) {
-			Map<String, BigDecimal> movimientosCju = movimientoPorCajaUsuario(cajaUsuario.getId());
-			cjActual.setIngresoEsperado(movimientosCju.get("ingresoCju"));
-			cjActual.setEgresoEsperado(movimientosCju.get("egresoCju"));
-			cjActual.setSaldoCaja(movimientosCju.get("saldoCju"));
+			Map<String, BigDecimal> movimientosVentas = movimientoVentaDeCajaUsuario(cajaUsuario.getId());
+			Map<String, BigDecimal> movimientosCju = movimientoCajaDeCajaUsuario(cajaUsuario.getId());
+
+			cjActual.setIngresoEsperado(
+					movimientosVentas.get("ingresoVentas").add(
+					movimientosCju.get("ingresoCju")));
+			cjActual.setEgresoEsperado(
+					movimientosVentas.get("egresoVentas").add(
+					movimientosCju.get("egresoCju")));
+			cjActual.setSaldoCaja(
+					movimientosVentas.get("saldoVentas").add(			
+					movimientosCju.get("saldoCju")));
 			cjActual.setSaldoPorConteo(cajaUsuario.getSaldoPorConteo());
 			cjActual.setActiva(cajaUsuario.isActiva());
 			if(!cajaUsuario.isActiva()) {
@@ -51,7 +60,7 @@ public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, BigDecimal> movimientoPorCajaUsuario(Long cajaUsuarioId){
+	public Map<String, BigDecimal> movimientoVentaDeCajaUsuario(Long cajaUsuarioId){
 		CajaUsuario cju = findById(cajaUsuarioId);
 		List<MovimientoVenta> items= cju.getMovimientosVenta();
 		BigDecimal saldoCju = new BigDecimal(0);
@@ -59,6 +68,27 @@ public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
 		BigDecimal egresoCju = new BigDecimal(0);
 
 		for (MovimientoVenta item : items) {
+			ingresoCju = ingresoCju.add(item.getIngresoDinero()); //+
+			egresoCju = egresoCju.add(item.getEgresoDinero()); // -
+		}
+		saldoCju = ingresoCju.add(egresoCju);
+        Map<String, BigDecimal> mapa = new HashMap<String, BigDecimal>();
+        mapa.put("ingresoVentas", ingresoCju);
+        mapa.put("egresoVentas", egresoCju);
+        mapa.put("saldoVentas", saldoCju);
+		return mapa;
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Map<String, BigDecimal> movimientoCajaDeCajaUsuario(Long cajaUsuarioId){
+		CajaUsuario cju = findById(cajaUsuarioId);
+		List<MovimientoCaja> items= cju.getMovimientosCaja();
+		BigDecimal saldoCju = new BigDecimal(0);
+		BigDecimal ingresoCju = new BigDecimal(0);
+		BigDecimal egresoCju = new BigDecimal(0);
+
+		for (MovimientoCaja item : items) {
 			ingresoCju = ingresoCju.add(item.getIngresoDinero()); //+
 			egresoCju = egresoCju.add(item.getEgresoDinero()); // -
 		}

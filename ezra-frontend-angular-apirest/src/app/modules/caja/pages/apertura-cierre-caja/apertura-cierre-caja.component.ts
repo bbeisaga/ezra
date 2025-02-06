@@ -10,6 +10,8 @@ import { Usuario } from '../../../../models/usuario';
 import { Caja } from '../../../../models/caja';
 import { AuthService } from '../../../../services/auth.service';
 import { CajaService } from '../../../../services/caja.service';
+import moment from 'moment';
+
 
 @Component({
   selector: 'app-apertura-cierre-caja',
@@ -39,7 +41,8 @@ export class AperturaCierreCajaComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
-    this.fechaActual = this.datePipe.transform(new Date(), 'dd-MM-yyyy')!;
+    this.fechaActual = moment().format('DD-MM-YYYY hh:mm:ss');
+    //this.datePipe.transform(new Date(), 'dd-MM-yyyy')!;
     this.obtenerTodoCajas();
     this.isAutenticado = this.authService.isAuthenticated();
     if(this.isAutenticado){
@@ -64,8 +67,11 @@ export class AperturaCierreCajaComponent implements OnInit {
 
     if(cajaUsuario!=null){
       this.cajaUsuario = cajaUsuario
-      this.cajaUsuario.fechaApertura = this.datePipe.transform(this.cajaUsuario.fechaApertura, 'dd-MM-yyyy')!;
-      this.cajaUsuario.fechaCierre = this.datePipe.transform(this.cajaUsuario.fechaCierre, 'dd-MM-yyyy')!;
+      this.cajaUsuario.fechaApertura = moment(this.cajaUsuario.fechaApertura).format('DD/MM/YYYY HH:mm:ss');
+      //this.datePipe.transform(this.cajaUsuario.fechaApertura, 'dd-MM-yyyy')!;
+      if(this.cajaUsuario.fechaCierre!=null){
+      this.cajaUsuario.fechaCierre = moment(this.cajaUsuario.fechaCierre).format('DD/MM/YYYY HH:mm:ss')};
+      //this.datePipe.transform(this.cajaUsuario.fechaCierre, 'dd-MM-yyyy')!;
       this.cajaActiva = this.cajaUsuario.activa;
       this.formCaja.get('fchApertura')?.setValue(this.cajaUsuario.fechaApertura);
       this.formCaja.get('fchCierre')?.setValue(this.cajaUsuario.fechaCierre);

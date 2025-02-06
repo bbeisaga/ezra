@@ -10,7 +10,7 @@ export class Pedido {
   items:Array<ItemPedido> = [];
   movimientosVenta:Array<MovimientoVenta> = [];
   cliente?:Cliente;
-  estadoPedido?:EstadoPedido;
+  estadoPedido!:EstadoPedido;
   costoTotal!:number;
   precioBrutoTotal!:number;
   precioNetoTotal!:number;

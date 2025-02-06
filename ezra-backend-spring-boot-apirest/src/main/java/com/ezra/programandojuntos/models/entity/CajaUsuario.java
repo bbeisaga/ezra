@@ -39,6 +39,10 @@ public class CajaUsuario implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaCierre;	
 	
+	@Column(name = "fecha_actualizacion")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaActualizacion;	
+	
 	private BigDecimal ingresoEsperado;
 	
 //	private BigDecimal ingresoPorConteo;
@@ -61,20 +65,24 @@ public class CajaUsuario implements Serializable {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Usuario usuario;
 	
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@JsonIgnoreProperties({"cajaUsuario", "hibernateLazyInitializer", "handler" })
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cajaUsuario", cascade = CascadeType.ALL)
 	private List<MovimientoVenta> movimientosVenta;
+	
+	@JsonIgnoreProperties({"cajaUsuario", "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cajaUsuario", cascade = CascadeType.ALL)
+	private List<MovimientoCaja> movimientosCaja;
 	
 	
 	@PrePersist
 	public void prePersist() {
 		this.fechaApertura = new Date();
 	}
-//	
-//	@PreUpdate
-//	public void preUpdate() {
-//		this.fechaCierre = new Date();
-//	}
+	
+	@PreUpdate
+	public void preUpdate() {
+		this.fechaActualizacion = new Date();
+	}
 
 	public CajaUsuario() {
 		this.movimientosVenta = new ArrayList<>();
@@ -120,8 +128,18 @@ public class CajaUsuario implements Serializable {
 //		this.ingresoPorConteo = ingresoPorConteo;
 //	}
 
+	
+	
 	public BigDecimal getEgresoEsperado() {
 		return egresoEsperado;
+	}
+
+	public List<MovimientoCaja> getMovimientosCaja() {
+		return movimientosCaja;
+	}
+
+	public void setMovimientosCaja(List<MovimientoCaja> movimientosCaja) {
+		this.movimientosCaja = movimientosCaja;
 	}
 
 	public void setEgresoEsperado(BigDecimal egresoEsperado) {
