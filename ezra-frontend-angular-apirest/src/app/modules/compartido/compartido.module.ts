@@ -23,11 +23,14 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
+import { SearchBoxTableComponent } from './search-box-table/search-box-table.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    SearchBoxTableComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -75,7 +78,8 @@ import {MatRadioModule} from '@angular/material/radio';
     MatAutocompleteModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    SearchBoxTableComponent
   ]
 })
 export class CompartidoModule { }

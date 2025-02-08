@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,8 +37,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ezra.programandojuntos.dto.ParametrosPageable;
+import com.ezra.programandojuntos.enums.SortActiveCliente;
+import com.ezra.programandojuntos.enums.SortDirection;
 import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.TipoDocumento;
+import com.ezra.programandojuntos.models.services.ClienteServiceImpl;
 import com.ezra.programandojuntos.models.services.IClienteService;
 import com.ezra.programandojuntos.models.services.IUploadFileService;
 
@@ -43,6 +50,9 @@ import com.ezra.programandojuntos.models.services.IUploadFileService;
 @RestController
 @RequestMapping("/api")
 public class ClienteRestController {
+	
+	Logger log = LoggerFactory.getLogger(ClienteRestController.class);
+
 
 	@Autowired
 	private IClienteService clienteService;
@@ -57,11 +67,33 @@ public class ClienteRestController {
 		return clienteService.findAll();
 	}
 	
+//	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+//	@GetMapping("/clientes/page/{page}")
+//	public Page<Cliente> index(@PathVariable Integer page) {
+//		Pageable pageable = PageRequest.of(page, 4);
+//		return clienteService.findAll(pageable);
+//	}
+	
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})
-	@GetMapping("/clientes/page/{page}")
-	public Page<Cliente> index(@PathVariable Integer page) {
-		Pageable pageable = PageRequest.of(page, 4);
-		return clienteService.findAll(pageable);
+	@GetMapping("/clientes/pageable")
+	public Page<Cliente> index(@RequestParam int pageNumber, @RequestParam int pageSize, 
+								@RequestParam SortActiveCliente active,
+								@RequestParam SortDirection direction,
+								@RequestParam String query) {
+		
+        log.debug("ClienteRestController.index(pageSize: {}, pageNumber: {}, query{}) ", pageSize, pageNumber, query );
+       
+//      Pageable pageRequest = PageRequest.of(pageNumber, pageSize,
+//					Sort.by(direction.toString() ,active.getValue()));
+        Pageable pageRequest = null;
+        if(direction.getValue()=="desc") {
+        	pageRequest = PageRequest.of(pageNumber, pageSize,
+					Sort.by(active.getValue()).descending());
+        } else {
+         	pageRequest = PageRequest.of(pageNumber, pageSize,
+					Sort.by(active.getValue()).ascending());
+        }
+		return clienteService.findAllClientePageable(query, pageRequest );
 	}
 	
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})

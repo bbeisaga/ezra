@@ -49,7 +49,7 @@ public class Cliente implements Serializable {
 
 //	@NotNull(message = "no puede estar vacio")
 	@Column(name = "create_at")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date createAt;
 
 //	private String foto;

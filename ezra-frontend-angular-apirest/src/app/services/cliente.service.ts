@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Cliente } from '../models/cliente';
 import { Region } from '../models/region';
-import { HttpClient, HttpRequest, HttpEvent, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpEvent, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { TipoDocumento } from '../models/tipo-documento';
+import { PageableParams } from '../models/pageable-params';
+import { PageableResponse } from '../models/pageable-response';
 
 @Injectable({
   providedIn: 'root'
@@ -35,8 +37,20 @@ export class ClienteService {
     return this.http.get<Region[]>(this.urlEndPoint + '/regiones');
   } */
 
-  getAllClientes(): Observable<Cliente[]> {
+   getAllClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(this.urlEndPoint, {headers: this.agregarAuthorizationHeader()});
+  }
+
+  getAllClientesPageable(params: any): Observable<PageableResponse> {
+
+    return this.http.get<any>(`${this.urlEndPoint}/pageable`,{
+      headers: this.agregarAuthorizationHeader(),
+      params : params,
+    });
+
+
+/*     return this.http.post<PageableResponse>(`${this.urlEndPoint}/pageable`  ,{headers: this.agregarAuthorizationHeader(), params : params});
+ */
   }
 
   getClientes(page: number): Observable<any> {

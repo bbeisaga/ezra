@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 
 import swal from 'sweetalert2';
 import { tap } from 'rxjs/operators';
@@ -12,6 +12,9 @@ import { AuthService } from '../../../services/auth.service';
 import { ClienteService } from '../../../services/cliente.service';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { PageableParams } from '../../../models/pageable-params';
+import { PageableResponse } from '../../../models/pageable-response';
+import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constantes/constantes';
 
 @Component({
   selector: 'app-clientes',
@@ -19,18 +22,25 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./clientes.component.css'],
 
 })
-export class ClientesComponent implements OnInit {
+export class ClientesComponent implements OnInit , AfterViewInit{
 
-  displayedColumns: string[] = ['apellidos','nombres', 'numeroDocumento','celular','acciones' ];
-  dataSource!: MatTableDataSource<Cliente>;
+  displayedColumns: string[] = ['apellidos','nombres','createAt' ,'numeroDocumento','celular','acciones' ];
+  //dataSource!: MatTableDataSource<Cliente>;
+
+  dataSource : Cliente[]=[];
+  pageable: PageableResponse = new PageableResponse();
+  querySearch!: string;
+
   // dataSource = new MatTableDataSource<Cliente>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) orberBy!: MatSort;
+  @ViewChild(MatSort) sort!: MatSort;
 
 
   clientes: Cliente[]=[];
   //paginador: any;
   clienteSeleccionado!: Cliente;
+  isLoading = true;
+
 
   constructor(
     private clienteService: ClienteService,
@@ -40,23 +50,10 @@ export class ClientesComponent implements OnInit {
 
     }
 
+
   ngOnInit() {
-      this.clienteService.getAllClientes()
-        .pipe(
-    /*       tap(response => {
-            console.log('ClientesComponent: tap 3');
-            (response.content as Cliente[]).forEach(cliente => console.log(cliente.nombre));
-          }) */
-        ).subscribe(response => {
-          //this.clientes = response.content as Cliente[];
-          this.clientes = response;
-          this.dataSource = new MatTableDataSource(this.clientes);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.orberBy;
-          //this.dataSource = this.clientes
-          //console.log(this.dataSource);
-          //this.paginador = response;
-        });
+
+    //this.loadtemporal()
     //});
 /*
     this.modalService.notificarUpload.subscribe(cliente => {
@@ -69,10 +66,62 @@ export class ClientesComponent implements OnInit {
     }) */
   }
 
+  ngAfterViewInit(): void {
+    this.sort.sortChange.subscribe(() => {
+      (this.paginator.pageIndex = 0);
+      this.loadItems();
+    });
+    this.paginator._intl.itemsPerPageLabel = ELEMENTOS_POR_PAGINA;
+    this.paginator._intl.firstPageLabel = PRIMERA_PAGINA;
+    this.paginator._intl.nextPageLabel = SIGUIENTE_PAGINA;
+    this.paginator._intl.lastPageLabel = ULTIMA_PAGINA;
+    this.loadItems();
+  }
 
-  applyFilter(event: Event) {
+
+  loadItems(){
+   // try {
+      this.isLoading = true;
+      const params: any = {
+        active: this.sort.active.toUpperCase(),
+        direction: this.sort.direction.toUpperCase(),
+        pageNumber: this.paginator.pageIndex,
+        pageSize: this.paginator.pageSize,
+        query: !!this.querySearch ? this.querySearch:''
+      };
+/*       console.log(!!this.querySearch);
+      if(!!this.querySearch ){
+        params.query = this.querySearch
+      } */
+
+      this.clienteService.getAllClientesPageable(params).subscribe(response => {
+        this.dataSource = response.content as Cliente[];
+        this.clientes = this.dataSource;
+        this.pageable = response;
+
+       /* this.dataSource = new MatTableDataSource(this.clientes);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.orberBy; */
+
+      });
+/*       this.isLoading = false;
+    } catch (error) {
+      console.log("error")
+
+      this.isLoading = true;
+    } */
+
+  }
+
+
+/*   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  } */
+
+  searchEvent(query: string): void {
+    this.querySearch = query;
+    this.loadItems();
   }
 
   delete(cliente: Cliente): void {
@@ -94,7 +143,7 @@ export class ClientesComponent implements OnInit {
 
         this.clienteService.delete(cliente.id).subscribe(
           () => {
-            this.clientes = this.clientes.filter(cli => cli !== cliente)
+            this.dataSource = this.clientes.filter(cli => cli !== cliente)
             swal.fire(
               'Cliente Eliminado!',
               `Cliente ${cliente.nombres} eliminado con éxito.`,

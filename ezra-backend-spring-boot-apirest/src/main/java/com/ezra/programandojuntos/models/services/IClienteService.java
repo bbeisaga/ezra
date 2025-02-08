@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.ezra.programandojuntos.dto.ParametrosPageable;
 import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.TipoDocumento;
 
@@ -12,7 +13,9 @@ public interface IClienteService {
 
 	public List<Cliente> findAll();
 	
-	public Page<Cliente> findAll(Pageable pageable);
+	public Page<Cliente> findAllClientePageable(String query, Pageable parametrosPageable) ;
+	
+//	public Page<Cliente> findAll(Pageable pageable);
 	
 	public Cliente findById(Long id);
 	
