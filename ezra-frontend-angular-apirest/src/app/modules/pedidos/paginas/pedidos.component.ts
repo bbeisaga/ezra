@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ClienteService } from '../../../services/cliente.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -19,6 +19,8 @@ import { findIndex } from 'lodash';
 import { MovimientoVentaComponent } from '../../movimientos/pages/movimiento-venta/movimiento-venta.component';
 import moment from 'moment';
 import { COLOR_ESTADO_PEDIDO } from '../../../constants/pedido.constants';
+import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constantes/constantes';
+import { PageableResponse } from '../../../models/pageable-response';
 
 @Component({
   selector: 'app-pedidos',
@@ -26,13 +28,16 @@ import { COLOR_ESTADO_PEDIDO } from '../../../constants/pedido.constants';
   styleUrls: ['./pedidos.component.css'],
 })
 
-export class PedidosComponent implements OnInit {
+export class PedidosComponent implements OnInit, AfterViewInit {
 
   title:string = 'Listado de pedidos'
-  displayedColumns: string[] = ['cliente','documento','createAt', 'entregadoEn','observacion', 'saldoPedido','estado','acciones' ];
-  dataSource = new MatTableDataSource<Pedido>();
+  displayedColumns: string[] = ['nombres','apellidos','createAt', 'entregadoEn', 'saldoPedido','estado','acciones' ];
+ // dataSource = new MatTableDataSource<Pedido>();
+  dataSource: Pedido[]=[];
+  pageable: PageableResponse = new PageableResponse();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) orberBy!: MatSort;
+  @ViewChild(MatSort) sort!: MatSort;
+  querySearch!: string;
 
   pedidos: Pedido[]=[];
   pedidoSeleccionado!: Pedido;
@@ -47,39 +52,78 @@ export class PedidosComponent implements OnInit {
 
     }
 
-  ngOnInit() {
-    this.pedidoService.getAllPedidos().subscribe(response => {
-          response.forEach( (r : Pedido) => {
+  ngOnInit():void {
+
+  }
+
+  ngAfterViewInit(): void {
+        this.sort.sortChange.subscribe(() => {
+          (this.paginator.pageIndex = 0);
+          this.loadItems();
+        });
+        this.paginator._intl.itemsPerPageLabel = ELEMENTOS_POR_PAGINA;
+        this.paginator._intl.firstPageLabel = PRIMERA_PAGINA;
+        this.paginator._intl.nextPageLabel = SIGUIENTE_PAGINA;
+        this.paginator._intl.lastPageLabel = ULTIMA_PAGINA;
+        this.loadItems();
+
+  }
+
+  loadItems():void {
+     try {
+        //this.isLoading = true;
+        const params: any = {
+          active: this.sort.active.toUpperCase(),
+          direction: this.sort.direction.toUpperCase(),
+          pageNumber: this.paginator.pageIndex,
+          pageSize: this.paginator.pageSize,
+          query: !!this.querySearch ? this.querySearch:''
+        };
+
+        this.pedidoService.getAllPedidosPageable(params).subscribe(response => {
+          this.dataSource = response.content as Pedido[];
+          this.dataSource.forEach( (r : Pedido) => {
             r.createAt =  moment(r.createAt).format('DD/MM/YYYY');
             r.entregadoEn = moment(r.entregadoEn).format('DD/MM/YYYY');
             r.estadoPedido.color = COLOR_ESTADO_PEDIDO[ (''+ r.estadoPedido.id) as keyof typeof COLOR_ESTADO_PEDIDO];
           })
           //console.log(response);
-          this.pedidos = response;
-          this.dataSource.data = response;
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.orberBy;
+          this.pedidos = this.dataSource;
+          this.pageable = response;
+
+          //this.dataSource.data = response;
+          //this.dataSource.paginator = this.paginator;
+          //this.dataSource.sort = this.sort;
         });
+      } catch(error){
+        console.error("Error en la consulta de pedido")
+        //this.isLoading = true;
+      }
+
   }
 
 
-  applyFilter(event: Event) {
+/*   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
+  } */
 
+  searchEvent(query: string): void {
+    this.querySearch = query;
+    this.loadItems();
+  }
 
   setPedido (pedido: Pedido): void {
     this.pedidoService.setPedido(pedido);
     this.ro.navigate(['pr/movimientos/venta']);
   }
 
-  updateItem(pedido: Pedido): void {
+/*   updateItem(pedido: Pedido): void {
 
       const i = findIndex(this.pedidos, (o) => o.id == pedido.id);
       this.pedidos[i] = pedido;
       this.dataSource.data = [...this.pedidos];
-    //}
-  }
+
+  } */
 
 }

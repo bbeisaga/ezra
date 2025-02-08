@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +25,8 @@ import com.ezra.programandojuntos.models.entity.Producto;
 
 @Service
 public class PedidoServiceImpl implements IPedidoService {
+	
+	Logger log = LoggerFactory.getLogger(PedidoServiceImpl.class);
 	
 	/* Estados del pedido 
 			Pagado	entrega(vencido)		aceptado
@@ -45,6 +51,16 @@ Entregado	si		-						si*/
 	public List<Pedido> findPedidoAll() {
 		return (List<Pedido>) pedidoDao.findAll();
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Page<Pedido> findAllPedidoPageable(String query, Pageable pageable) {
+		
+		log.info("findAllPedidoPageable pageable= {}",pageable);
+	
+		return pedidoDao.findAllPedidoPageable(query, pageable);
+	}
+	
 
 	@Override
 	@Transactional(readOnly = true)

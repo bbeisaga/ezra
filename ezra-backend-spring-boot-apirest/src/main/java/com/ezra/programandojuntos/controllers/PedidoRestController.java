@@ -7,8 +7,14 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -21,10 +27,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ezra.programandojuntos.models.entity.Cliente;
+import com.ezra.programandojuntos.enums.SortActivePedido;
+import com.ezra.programandojuntos.enums.SortDirection;
 import com.ezra.programandojuntos.models.entity.EstadoPedido;
 import com.ezra.programandojuntos.models.entity.Pedido;
 import com.ezra.programandojuntos.models.entity.Producto;
@@ -34,7 +42,9 @@ import com.ezra.programandojuntos.models.services.IPedidoService;
 @RestController
 @RequestMapping("/api")
 public class PedidoRestController {
-
+	
+	Logger log = LoggerFactory.getLogger(PedidoRestController.class);
+	
 	@Autowired
 	private IPedidoService pedidoService;
 
@@ -64,6 +74,30 @@ public class PedidoRestController {
 	@ResponseStatus(HttpStatus.OK)
 	public List<Pedido> listarPedidoAll() {
 		return pedidoService.findPedidoAll();
+	}
+	
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+	@GetMapping("/pedidos/pageable")
+	public Page<Pedido> listarPedidoAllPageable(
+								@RequestParam int pageNumber, 
+								@RequestParam int pageSize, 
+								@RequestParam SortActivePedido active,
+								@RequestParam SortDirection direction,
+								@RequestParam String query) {
+		
+        log.debug("PedidoRestController.listarPedidoAllPageable...(pageSize: {}, pageNumber: {}, query{}) ", pageSize, pageNumber, query );
+       
+//      Pageable pageRequest = PageRequest.of(pageNumber, pageSize,
+//					Sort.by(direction.toString() ,active.getValue()));
+        Pageable pageable = null;
+        if(direction.getValue()=="desc") {
+        	pageable = PageRequest.of(pageNumber, pageSize,
+					Sort.by(active.getValue()).descending());
+        } else {
+        	pageable = PageRequest.of(pageNumber, pageSize,
+					Sort.by(active.getValue()).ascending());
+        }
+		return pedidoService.findAllPedidoPageable(query, pageable);
 	}
 	
 	

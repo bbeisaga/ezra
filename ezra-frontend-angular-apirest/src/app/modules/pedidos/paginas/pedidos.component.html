@@ -15,13 +15,17 @@
       No hay registros en la base de datos!
     </div>
 
-    <mat-form-field>
+<!--     <mat-form-field>
       <mat-label>Filtrar</mat-label>
       <input matInput (keyup)="applyFilter($event)" placeholder="Ejem. juan" #input>
-    </mat-form-field>
+    </mat-form-field> -->
+
+    <search-box-table (searchEvent)="searchEvent($event)"></search-box-table>
+
 
     <div class="mat-elevation-z8">
-     <table mat-table [dataSource]="dataSource" matSort >
+     <table [ngClass]="{'d-none': !dataSource.length}" mat-table [dataSource]="dataSource" matSort
+        matSortActive="entregadoEn" matSortDisableClear matSortDirection="desc">
 
 <!--       <ng-container matColumnDef="foto">
         <th mat-header-cell *matHeaderCellDef> Foto </th>
@@ -36,16 +40,21 @@
         </td>
       </ng-container> -->
 
-       <ng-container matColumnDef="cliente">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </th>
-        <td mat-cell *matCellDef="let element"> {{element.cliente.apellidos}} {{element.cliente.nombres}}</td>
+      <ng-container matColumnDef="nombres">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombres </th>
+        <td mat-cell *matCellDef="let element"> {{element.cliente.nombres}}</td>
+      </ng-container>
+
+       <ng-container matColumnDef="apellidos">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellidos </th>
+        <td mat-cell *matCellDef="let element"> {{element.cliente.apellidos}} </td>
       </ng-container>
 
 
-      <ng-container matColumnDef="documento">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Documento </th>
+<!--       <ng-container matColumnDef="documento">
+        <th mat-header-cell *matHeaderCellDef> Documento </th>
         <td mat-cell *matCellDef="let element"> {{element.cliente.tipoDocumento.acronimo}}: {{element.cliente.numeroDocumento}} </td>
-      </ng-container>
+      </ng-container> -->
 
       <ng-container matColumnDef="createAt">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Creacion </th>
@@ -57,13 +66,13 @@
         <td mat-cell *matCellDef="let element"> {{element.entregadoEn}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="observacion">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Observacion </th>
+<!--       <ng-container matColumnDef="observacion">
+        <th mat-header-cell *matHeaderCellDef> Observacion </th>
         <td mat-cell *matCellDef="let element"> {{element.observacion}} </td>
-      </ng-container>
+      </ng-container> -->
 
       <ng-container matColumnDef="saldoPedido">
-        <th mat-header-cell *matHeaderCellDef> Saldo </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Saldo </th>
         <td mat-cell *matCellDef="let element"> {{element.saldoPedido}} </td>
       </ng-container>
 
@@ -78,18 +87,18 @@
       </ng-container> -->
 
       <ng-container matColumnDef="estado">
-        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
         <td mat-cell *matCellDef="let element">
           <span class="celda-estado {{element.estadoPedido.color}}">{{element.estadoPedido.estado}} </span>
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="nombre">
+<!--       <ng-container matColumnDef="nombre">
         <th mat-header-cell *matHeaderCellDef style="text-align: center;">SEMÁFORO</th>
         <td mat-cell *matCellDef="let row" style="text-align: center;">
           <span class="celda-estado {{row.color}}">{{ row.nombre }} </span>
         </td>
-      </ng-container>
+      </ng-container> -->
 
 
       <ng-container matColumnDef="acciones">
@@ -109,7 +118,14 @@
        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-   <mat-paginator [pageSizeOptions]="[10, 20, 40]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
+   <mat-paginator [length]="pageable.totalElements"
+                  [ngClass]="{'d-none': !dataSource.length}"
+                  [pageSizeOptions]="[10, 20, 40]"
+                  [pageSize]="10"
+                  (page)="loadItems()"
+                  showFirstLastButtons
+                  class="table-paginator">
+    </mat-paginator>
   </div>
   </mat-card-content>
   </mat-card>

@@ -5,6 +5,7 @@ import { Pedido } from '../models/pedido';
 import { Producto } from '../models/producto';
 import { AuthService } from './auth.service';
 import { EstadoPedido } from '../models/estado-pedido';
+import { PageableResponse } from '../models/pageable-response';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,13 @@ export class PedidoService {
 
   getAllPedidos(): Observable<Pedido[]> {
     return this.http.get<Pedido[]>(`${this.urlEndPoint}`, {headers: this.agregarAuthorizationHeader()} );
+  }
+
+  getAllPedidosPageable(params: any): Observable<PageableResponse> {
+    return this.http.get<any>(`${this.urlEndPoint}/pageable`, {
+      headers: this.agregarAuthorizationHeader(),
+      params : params,
+      } );
   }
 
   getAllEstadoPedido(): Observable<EstadoPedido[]>{

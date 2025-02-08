@@ -4,6 +4,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.EstadoPedido;
 import com.ezra.programandojuntos.models.entity.Pedido;
 import com.ezra.programandojuntos.models.entity.Producto;
@@ -11,6 +15,8 @@ import com.ezra.programandojuntos.models.entity.Producto;
 public interface IPedidoService {
 	
 	public List<Pedido> findPedidoAll();
+	
+	public Page<Pedido> findAllPedidoPageable(String query, Pageable pagebale);
 	
 	//public Page<Cliente> findAll(Pageable pageable);
 	
