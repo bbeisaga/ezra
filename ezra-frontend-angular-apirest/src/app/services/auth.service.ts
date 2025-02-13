@@ -34,30 +34,31 @@ export class AuthService {
   }
 
   login(usuario: Usuario): Observable<any> {
-    const urlEndpoint = 'http://localhost:8080/oauth/token';
+     const urlEndpoint = 'http://localhost:8080/login';
+/*
     const credenciales = btoa('angularapp' + ':' + '12345');
 
-    const httpHeaders = new HttpHeaders({
+     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Basic ' + credenciales
     });
 
-    let params = new URLSearchParams();
+     let params = new URLSearchParams();
     params.set('grant_type', 'password');
     params.set('username', usuario.username);
     params.set('password', usuario.password);
-    console.log(params.toString());
-    return this.http.post<any>(urlEndpoint, params.toString(), { headers: httpHeaders });
+    console.log(params.toString());  */
+    return this.http.post<any>(urlEndpoint, usuario);
   }
 
   guardarUsuario(accessToken: string): void {
     let payload = this.obtenerDatosToken(accessToken);
     this._usuario = new Usuario();
-    this._usuario.id = payload.id;
-    this._usuario.nombre = payload.nombre;
-    this._usuario.apellido = payload.apellido;
-    this._usuario.email = payload.email;
-    this._usuario.username = payload.user_name;
+    //this._usuario.id = payload.id;
+    //this._usuario.nombre = payload.nombre;
+    //this._usuario.apellido = payload.apellido;
+    //this._usuario.email = payload.email;
+    this._usuario.username = payload.username;
     this._usuario.roles = payload.authorities;
     sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
   }
@@ -76,7 +77,7 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     let payload = this.obtenerDatosToken(this.token);
-    if (payload != null && payload.user_name && payload.user_name.length > 0) {
+    if (payload != null && payload.username && payload.username.length > 0) {
       return true;
     }
     return false;

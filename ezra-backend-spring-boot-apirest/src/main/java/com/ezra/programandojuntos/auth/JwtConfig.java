@@ -1,7 +1,17 @@
 package com.ezra.programandojuntos.auth;
 
+import javax.crypto.SecretKey;
+
+import io.jsonwebtoken.Jwts;
+
 public class JwtConfig {
-	public static final String LLAVE_SECRETA = "alguna.clave.secreta.12345678";
+	//public static final String LLAVE_SECRETA = "alguna.clave.secreta.12345678";
+	
+	public static final SecretKey LLAVE_SECRETA = Jwts.SIG.HS256.key().build();
+    public static final String APPLICATION_JSON_CONTENT_TYPE = "application/json";
+    public static final String BEARER_PREFIX_TOKEN = "Bearer ";
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+
 	
 	public static final String RSA_PRIVADA = "-----BEGIN RSA PRIVATE KEY-----\r\n" + 
 			"MIIEowIBAAKCAQEAwRRkppjNSOZkENkh8/JNk7vjVq1J7jRWT89ZrgOYbS7BkKDX\r\n" + 

@@ -10,10 +10,10 @@ import { PrincipalModule } from './modules/principal/principal.module';
 import { LoginComponent } from './modules/auth/login.component';
 import { CommonModule, DatePipe, registerLocaleData } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthInterceptor } from './modules/clientes/interceptors/auth.interceptor';
-import { TokenInterceptor } from './modules/clientes/interceptors/token.interceptor';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ZonaHorariaDefectoService } from './services/zona-horaria-defecto.service';
 import  localeEsPE  from '@angular/common/locales/es-PE';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 
 registerLocaleData(localeEsPE);
 
@@ -34,9 +34,9 @@ registerLocaleData(localeEsPE);
   providers: [ZonaHorariaDefectoService,
     {provide: LOCALE_ID, useValue: 'es-PE'},
     provideAnimationsAsync(),
-    DatePipe
-/*     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },*/
+    DatePipe,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

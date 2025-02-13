@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -11,6 +11,7 @@ import { Caja } from '../../../../models/caja';
 import { AuthService } from '../../../../services/auth.service';
 import { CajaService } from '../../../../services/caja.service';
 import moment from 'moment';
+import { UsuarioService } from '../../../../services/usuario.service';
 
 
 @Component({
@@ -19,11 +20,12 @@ import moment from 'moment';
   styleUrls: ['./apertura-cierre-caja.component.css'],
 
 })
-export class AperturaCierreCajaComponent implements OnInit {
+export class AperturaCierreCajaComponent implements OnInit ,AfterViewInit {
 
   formCaja! : FormGroup;
   cajaUsuario = new CajaUsuario();
-  user!: Usuario;
+  username!:string;
+  //user!: Usuario;
   //caja: Caja = new Caja();
   cajas: Caja[]=[];
   caja!:Caja;
@@ -35,31 +37,40 @@ export class AperturaCierreCajaComponent implements OnInit {
   constructor(private fb:FormBuilder,
               private authService: AuthService,
               private cajaService: CajaService,
-              private datePipe: DatePipe,
+              private usuarioService: UsuarioService,
               private router: Router){
+
   }
 
   ngOnInit(): void {
     this.createForm();
+    if(this.authService.isAuthenticated()){
+      this.username = this.authService.usuario.username;
+      //debugger;
+      //console.log(this.authService.usuario.username);
+      this.usuarioService.getUsuarioByUsername(this.username).subscribe(resp => this.cajaUsuario.usuario = resp)
+    }
+  }
+
+  ngAfterViewInit(): void {
     this.fechaActual = moment().format('DD-MM-YYYY hh:mm:ss');
     //this.datePipe.transform(new Date(), 'dd-MM-yyyy')!;
     this.obtenerTodoCajas();
-    this.isAutenticado = this.authService.isAuthenticated();
-    if(this.isAutenticado){
-      this.user = this.authService.usuario;
-    }
-    //this.setValuesControls(null);
-     this.cajaService.getCajaUsuarioByUserName(this.user).subscribe(
-      result => {
-          this.setValuesControls(result);
-      }
-    )
+        //this.setValuesControls(null);
+    //    debugger;
+    console.log(this.username);
+    this.cajaService.getCajaUsuarioByUserName(this.username).subscribe(
+          result => {
+              this.setValuesControls(result);
+          }
+     )
     console.log("AperturaCajaComponent.ngOnInit...", this.cajaUsuario);
+
   }
 
   setValuesControls(cajaUsuario: CajaUsuario | null){
-    this.formCaja.get('usuarioId')?.setValue('');
-    this.formCaja.get('usuario')?.setValue('');
+    //this.formCaja.get('usuarioId')?.setValue('');
+    //this.formCaja.get('usuario')?.setValue('');
     this.formCaja.get('fchApertura')?.setValue('');
     this.formCaja.get('fchCierre')?.setValue('');
     this.formCaja.get('cajaAsignada')?.setValue('');
@@ -77,17 +88,18 @@ export class AperturaCierreCajaComponent implements OnInit {
       this.formCaja.get('fchCierre')?.setValue(this.cajaUsuario.fechaCierre);
       this.formCaja.get('cajaAsignada')?.setValue(this.cajaUsuario.caja.nombre );
       this.formCaja.get('saldoCaja')?.setValue(this.cajaUsuario.saldoCaja);
-      this.formCaja.get('usuarioId')?.setValue(this.cajaUsuario.usuario.username);
-      this.formCaja.get('usuario')?.setValue(this.cajaUsuario.usuario.apellido +' ' + this.cajaUsuario.usuario.nombre);
+      //this.formCaja.get('usuarioId')?.setValue(this.cajaUsuario.usuario.username);
+      //this.formCaja.get('usuario')?.setValue(this.cajaUsuario.usuario.apellido +' ' + this.cajaUsuario.usuario.nombre);
     }
   }
 
   asignarCajaUsuario(caja :Caja){
     //this.cajaUsuario = new CajaUsuario();
+    //console.log(this.username);
     this.cajaUsuario.caja = caja
-    this.cajaUsuario.usuario = this.user
+    //this.cajaUsuario.usuario.username = this.username
     this.formCaja.get("ubicacionCaja")?.setValue(caja.ubicacion);
-    this.cajaService.getCajaUsuarioByCajaIdAndUserId(caja.id,this.user.id ).subscribe(
+    this.cajaService.getCajaUsuarioByCajaIdAndUsername(caja.id,this.username ).subscribe(
       result => {
           this.setValuesControls(result);
       }
@@ -135,8 +147,8 @@ export class AperturaCierreCajaComponent implements OnInit {
   createForm():void {
    // console.log("cajaUsuariocreateForm", this.cajaUsuario);
     this.formCaja = this.fb.group({
-      usuarioId: [this.cajaUsuario?.usuario?.username],
-      usuario:   [this.cajaUsuario?.usuario?.apellido +'-'+ this.cajaUsuario?.usuario?.nombre],
+      //usuario: [this.cajaUsuario?.usuario?.username],
+      //usuario:   [this.cajaUsuario?.usuario?.apellido +'-'+ this.cajaUsuario?.usuario?.nombre],
       cajaAsignada:[this.cajaUsuario?.caja?.nombre],
       ubicacionCaja:[this.cajaUsuario?.caja?.ubicacion,{
         validators:[Validators.required]

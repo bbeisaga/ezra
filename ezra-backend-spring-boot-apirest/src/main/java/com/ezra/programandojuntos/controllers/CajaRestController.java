@@ -23,7 +23,7 @@ public class CajaRestController {
 	private ICajaService cajaService;
 	
 	
-	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+	//@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("/cajas")
 	public List<Caja> index() {
 		return cajaService.findAll();

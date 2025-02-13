@@ -7,8 +7,6 @@ import { DetalleComponent } from './components/detalle.component';
 import { FormComponent } from './components/form.component';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { CompartidoModule } from '../compartido/compartido.module';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { TokenInterceptor } from './interceptors/token.interceptor';
 
 
 

@@ -1,12 +1,9 @@
 package com.ezra.programandojuntos.controllers;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import javax.validation.Valid;
 
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
@@ -25,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ezra.programandojuntos.models.entity.Caja;
 import com.ezra.programandojuntos.models.entity.CajaUsuario;
-import com.ezra.programandojuntos.models.services.ICajaService;
 import com.ezra.programandojuntos.models.services.ICajaUsuarioService;
+
+import jakarta.validation.Valid;
 
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
@@ -39,19 +36,24 @@ public class CajaUsuarioRestController {
 	private ICajaUsuarioService cajaUsuarioService;
 	
 	
-	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+	//@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("/cajas/usuarios/{userName}")
 	public CajaUsuario getUltimaCajaUsuarioByUserName(@PathVariable String userName) {
 		return cajaUsuarioService.findUltimaCajaUsuarioByUserName(userName);
 	}
 	
-	@Secured({"ROLE_ADMIN", "ROLE_USER"})
-	@GetMapping("/cajas/{cajaId}/usuarios/{userId}")
-	public CajaUsuario getCajaUsuarioByUserIdAndCajaId(@PathVariable Byte cajaId, @PathVariable Long userId ) {
-		return cajaUsuarioService.findCajaUsuarioByUserIdAndCajaId(userId, cajaId);
+	//@Secured({"ROLE_ADMIN", "ROLE_USER"})
+//	@GetMapping("/cajas/{cajaId}/usuarios/{userId}")
+//	public CajaUsuario getCajaUsuarioByUserIdAndCajaId(@PathVariable Byte cajaId, @PathVariable Long userId ) {
+//		return cajaUsuarioService.findCajaUsuarioByUserIdAndCajaId(userId, cajaId);
+//	}
+	
+	@GetMapping("/cajas/{cajaId}/usuarios/{username}")
+	public CajaUsuario getCajaUsuarioByUsernameAndCajaId(@PathVariable Byte cajaId, @PathVariable String username ) {
+		return cajaUsuarioService.findCajaUsuarioByUsernameAndCajaId(username, cajaId);
 	}
 	
-	@Secured("ROLE_ADMIN")
+	//@Secured("ROLE_ADMIN")
 	@PostMapping("/cajas/usuarios")
 	public ResponseEntity<?> create(@Valid @RequestBody CajaUsuario cajaUsuario, BindingResult result) {
 		//CajaUsuario cajaUsuarioNew = null;
@@ -85,7 +87,7 @@ public class CajaUsuarioRestController {
 	
 	
 	
-	@Secured("ROLE_ADMIN")
+	//@Secured("ROLE_ADMIN")
 	@PutMapping("/cajas/usuarios/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody CajaUsuario cajaUsuario, BindingResult result, @PathVariable Long id) {
 

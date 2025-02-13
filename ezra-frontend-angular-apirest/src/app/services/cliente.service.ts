@@ -10,41 +10,42 @@ import { AuthService } from './auth.service';
 import { TipoDocumento } from '../models/tipo-documento';
 import { PageableParams } from '../models/pageable-params';
 import { PageableResponse } from '../models/pageable-response';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClienteService {
-  private urlEndPoint: string = 'http://localhost:8080/api/clientes';
+  //private urlEndPoint: string = 'http://localhost:8080/api/clientes';
 
-  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
+  //private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
-  private agregarAuthorizationHeader(){
+/*   private agregarAuthorizationHeader(){
     let token = this.authService.token;
     if(token != null){
       return this.httpHeaders.append('Authorization', 'Bearer ' + token)
     }
     return this.httpHeaders
-  }
-
-  getTipoDocumento(): Observable<TipoDocumento[]> {
-    return this.http.get<TipoDocumento[]>(this.urlEndPoint + '/documentos', {headers: this.agregarAuthorizationHeader()});
-  }
-
-/*   getRegiones(): Observable<Region[]> {
-    return this.http.get<Region[]>(this.urlEndPoint + '/regiones');
   } */
 
-   getAllClientes(): Observable<Cliente[]> {
-    return this.http.get<Cliente[]>(this.urlEndPoint, {headers: this.agregarAuthorizationHeader()});
+  getTipoDocumento(): Observable<TipoDocumento[]> {
+    return this.http.get<TipoDocumento[]>(environment.apiUrl + '/clientes/documentos'
+      /*,{headers: this.agregarAuthorizationHeader()}*/
+    );
+  }
+
+  getAllClientes(): Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(`${environment.apiUrl}/clientes`
+      /*,{headers: this.agregarAuthorizationHeader()}*/
+    );
   }
 
   getAllClientesPageable(params: any): Observable<PageableResponse> {
 
-    return this.http.get<any>(`${this.urlEndPoint}/pageable`,{
-      headers: this.agregarAuthorizationHeader(),
+    return this.http.get<any>(`${environment.apiUrl}/clientes/pageable`,{
+     /* headers: this.agregarAuthorizationHeader(),*/
       params : params,
     });
 
@@ -54,7 +55,7 @@ export class ClienteService {
   }
 
   getClientes(page: number): Observable<any> {
-    return this.http.get(this.urlEndPoint + '/page/' + page).pipe(
+    return this.http.get(`${environment.apiUrl}/clientes` + '/page/' + page).pipe(
       tap((response: any) => {
         console.log('ClienteService: tap 1');
         (response.content as Cliente[]).forEach(cliente => console.log(cliente.nombres));
@@ -73,7 +74,9 @@ export class ClienteService {
   }
 
   create(cliente: Cliente): Observable<Cliente> {
-    return this.http.post(this.urlEndPoint, cliente, {headers: this.agregarAuthorizationHeader()})
+    return this.http.post(`${environment.apiUrl}/clientes`, cliente
+      /*,{headers: this.agregarAuthorizationHeader()}*/
+    )
       .pipe(
         map((response: any) => response.cliente as Cliente),
         catchError(e => {
@@ -88,7 +91,9 @@ export class ClienteService {
   }
 
   getCliente(id: any): Observable<Cliente> {
-    return this.http.get<Cliente>(`${this.urlEndPoint}/${id}`, {headers: this.agregarAuthorizationHeader()}).pipe(
+    return this.http.get<Cliente>(`${environment.apiUrl}/clientes/${id}`
+      /*, {headers: this.agregarAuthorizationHeader()}*/
+    ).pipe(
       catchError(e => {
         if (e.status != 401 && e.error.mensaje) {
           this.router.navigate(['/clientes']);
@@ -100,7 +105,9 @@ export class ClienteService {
   }
 
   update(cliente: Cliente): Observable<any> {
-    return this.http.put<any>(`${this.urlEndPoint}/${cliente.id}`, cliente, {headers: this.agregarAuthorizationHeader()}).pipe(
+    return this.http.put<any>(`${environment.apiUrl}/clientes/${cliente.id}`, cliente
+      /*, {headers: this.agregarAuthorizationHeader()}*/
+    ).pipe(
       catchError(e => {
         if (e.status == 400) {
           return throwError(e);
@@ -113,7 +120,9 @@ export class ClienteService {
   }
 
   delete(id: number): Observable<Cliente> {
-    return this.http.delete<Cliente>(`${this.urlEndPoint}/${id}`, {headers: this.agregarAuthorizationHeader()}).pipe(
+    return this.http.delete<Cliente>(`${environment.apiUrl}/clientes/${id}`
+      /*, {headers: this.agregarAuthorizationHeader()}*/
+    ).pipe(
       catchError(e => {
         if (e.error.mensaje) {
           console.error(e.error.mensaje);
@@ -127,7 +136,7 @@ export class ClienteService {
     formData.append("archivo", archivo);
     formData.append("id", id);
 
-    const req = new HttpRequest('POST', `${this.urlEndPoint}/upload`, formData, {
+    const req = new HttpRequest('POST', `${environment.apiUrl}/clientes/upload`, formData, {
       reportProgress: true
     });
 

@@ -25,7 +25,8 @@ export class MovimientoCajaComponent implements OnInit, AfterViewInit {
   tipoMovIngresos:TipoMovimiento[]=[];
   tipoMovEgresos:TipoMovimiento[]=[];
   isAutenticado!: boolean;
-  user!: Usuario;
+  //user!: Usuario;
+  username!:string;
   iMovimiento:string="I";
   estadoCajaUsuarioMap = ESTADO_CAJA_USUARIO;
 
@@ -39,12 +40,12 @@ export class MovimientoCajaComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
-    this.isAutenticado = this.authService.isAuthenticated();
-    if(this.isAutenticado){
-      this.user = this.authService.usuario;
+    //this.isAutenticado = this.authService.isAuthenticated();
+    if(this.authService.isAuthenticated()){
+      this.username = this.authService.usuario.username;
     }
 
-    this.cajasService.getCajaUsuarioByUserName(this.user).subscribe(
+    this.cajasService.getCajaUsuarioByUserName(this.username).subscribe(
       res => {
         //console.log("getCajaUsuarioByUserName...", res)
         if(res !== null && res.activa){
@@ -91,6 +92,8 @@ export class MovimientoCajaComponent implements OnInit, AfterViewInit {
   onSubmitForm(){
     this.cajaUsuario.movimientosVenta=[]
     this.cajaUsuario.movimientosCaja=[]
+    this.cajaUsuario.fechaApertura="";
+    this.cajaUsuario.fechaActualizacion="";
     this.movimiento.cajaUsuario = {...this.cajaUsuario}
     console.log("onSubmitForm...", this.movimiento);
     this.movimientoService.createMovimientoCaja(this.movimiento).subscribe(

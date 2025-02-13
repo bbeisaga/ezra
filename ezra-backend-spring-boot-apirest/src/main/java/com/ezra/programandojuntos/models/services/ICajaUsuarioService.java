@@ -19,7 +19,8 @@ public interface ICajaUsuarioService {
 	
 	public CajaUsuario findCajaUsuarioByUserIdAndCajaId(Long userId, Byte cajaId);
 
-	
+	public CajaUsuario findCajaUsuarioByUsernameAndCajaId(String username, Byte cajaId);
+
 	public CajaUsuario findById(Long id);
 	
 	public Map<String, BigDecimal> movimientoVentaDeCajaUsuario(Long cajaUsuarioId);

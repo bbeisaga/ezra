@@ -58,7 +58,7 @@
                 <input matInput #message [(ngModel)]="item.descripcion" name="descripcion" #descripcion=ngModel maxlength="256" placeholder="Detalle el producto...">
                 <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
               </mat-form-field></td>
-            <td><button mat-fab color="warn" (click)="eliminarItemPedido(item.producto.id)"><mat-icon>clear</mat-icon></button></td>
+            <td><button mat-icon-button color="warn" (click)="eliminarItemPedido(item.producto.id)" matTooltip="Elimnar"><mat-icon>delete</mat-icon></button></td>
           </tr>
         </tbody>
       </table>

@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 //import org.slf4j.Logger;
@@ -37,14 +35,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ezra.programandojuntos.dto.ParametrosPageable;
 import com.ezra.programandojuntos.enums.SortActiveCliente;
 import com.ezra.programandojuntos.enums.SortDirection;
 import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.TipoDocumento;
-import com.ezra.programandojuntos.models.services.ClienteServiceImpl;
 import com.ezra.programandojuntos.models.services.IClienteService;
 import com.ezra.programandojuntos.models.services.IUploadFileService;
+
+import jakarta.validation.Valid;
 
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
@@ -61,7 +59,7 @@ public class ClienteRestController {
 	private IUploadFileService uploadService;
 	
 	// private final Logger log = LoggerFactory.getLogger(ClienteRestController.class);
-	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+	//@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("/clientes")
 	public List<Cliente> index() {
 		return clienteService.findAll();
@@ -74,7 +72,7 @@ public class ClienteRestController {
 //		return clienteService.findAll(pageable);
 //	}
 	
-	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+//	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("/clientes/pageable")
 	public Page<Cliente> index(@RequestParam int pageNumber, @RequestParam int pageSize, 
 								@RequestParam SortActiveCliente active,
@@ -96,7 +94,7 @@ public class ClienteRestController {
 		return clienteService.findAllClientePageable(query, pageRequest );
 	}
 	
-	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+//	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("/clientes/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		
@@ -119,7 +117,7 @@ public class ClienteRestController {
 		return new ResponseEntity<Cliente>(cliente, HttpStatus.OK);
 	}
 	
-	@Secured("ROLE_ADMIN")
+//	@Secured("ROLE_ADMIN")
 	@PostMapping("/clientes")
 	public ResponseEntity<?> create(@Valid @RequestBody Cliente cliente, BindingResult result) {
 		
@@ -150,7 +148,7 @@ public class ClienteRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	@Secured("ROLE_ADMIN")
+//	@Secured("ROLE_ADMIN")
 	@PutMapping("/clientes/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente, BindingResult result, @PathVariable Long id) {
 
@@ -196,7 +194,7 @@ public class ClienteRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	@Secured("ROLE_ADMIN")
+//	@Secured("ROLE_ADMIN")
 	@DeleteMapping("/clientes/{id}")
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		
@@ -220,7 +218,7 @@ public class ClienteRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
-	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+	//@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@PostMapping("/clientes/upload")
 	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id){
 		Map<String, Object> response = new HashMap<>();
@@ -277,7 +275,7 @@ public class ClienteRestController {
 //		return clienteService.findAllRegiones();
 //	}
 	
-	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+//	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("/clientes/documentos")
 	public List<TipoDocumento> listarDocumentos(){
 		return clienteService.findAllTipoDocumento();

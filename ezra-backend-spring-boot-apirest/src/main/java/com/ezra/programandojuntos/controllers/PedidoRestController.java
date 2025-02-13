@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +37,8 @@ import com.ezra.programandojuntos.models.entity.Pedido;
 import com.ezra.programandojuntos.models.entity.Producto;
 import com.ezra.programandojuntos.models.services.IPedidoService;
 
+import jakarta.validation.Valid;
+
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
 @RequestMapping("/api")
@@ -47,36 +48,37 @@ public class PedidoRestController {
 	
 	@Autowired
 	private IPedidoService pedidoService;
+	
+	//@Secured({"ROLE_ADMIN" , "ROLE_USER"})
+	@GetMapping("/pedidos")
+	@ResponseStatus(HttpStatus.OK)
+	public List<Pedido> listarPedidoAll() {
+		return pedidoService.findPedidoAll();
+	}
 
-	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+	//@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("/pedidos/{id}")
 	@ResponseStatus(HttpStatus.OK)
 	public Pedido show(@PathVariable Long id) {
 		return pedidoService.findPedidoById(id);
 	}
 	
-	@Secured({"ROLE_ADMIN"})
-	@DeleteMapping("/pedidos/{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable Long id) {
-		pedidoService.deletePedidoById(id);
-	}
-	
-	@Secured({"ROLE_ADMIN"})
+	//@Secured({"ROLE_ADMIN"})
 	@GetMapping("/pedidos/filtrar-productos/{term}")
 	@ResponseStatus(HttpStatus.OK)
 	public List<Producto> filtrarProductos(@PathVariable String term){
 		return pedidoService.findProductoByNombre(term);
 	}
 	
-	@Secured({"ROLE_ADMIN" , "ROLE_USER"})
-	@GetMapping("/pedidos")
-	@ResponseStatus(HttpStatus.OK)
-	public List<Pedido> listarPedidoAll() {
-		return pedidoService.findPedidoAll();
+	//@Secured({"ROLE_ADMIN"})
+	@DeleteMapping("/pedidos/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable Long id) {
+		pedidoService.deletePedidoById(id);
 	}
 	
-	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+
+	//@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("/pedidos/pageable")
 	public Page<Pedido> listarPedidoAllPageable(
 								@RequestParam int pageNumber, 
@@ -109,14 +111,14 @@ public class PedidoRestController {
 	
 	
 	
-	@Secured({"ROLE_ADMIN"})
+	//@Secured({"ROLE_ADMIN"})
 	@PostMapping("/pedidos")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Pedido crear(@RequestBody Pedido pedido) {
 		return pedidoService.registrarPedido(pedido);
 	}
 	
-	@Secured("ROLE_ADMIN")
+	//@Secured("ROLE_ADMIN")
 	@PutMapping("/pedidos/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody Pedido pedido, BindingResult result, @PathVariable Long id) {
 		Pedido pedidoActualizado = null;

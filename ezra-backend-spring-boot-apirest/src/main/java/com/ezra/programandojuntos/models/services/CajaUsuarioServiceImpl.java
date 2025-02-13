@@ -117,6 +117,12 @@ public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
 	public CajaUsuario findCajaUsuarioByUserIdAndCajaId(Long userId, Byte cajaId) {
 		return cajaUsuarioDao.findCajaUsuarioByUserIdAndCajaId(userId, cajaId);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public CajaUsuario findCajaUsuarioByUsernameAndCajaId(String username, Byte cajaId) {
+		return cajaUsuarioDao.findCajaUsuarioByUsernameAndCajaId(username, cajaId);
+	}
 
 	
 	@Override

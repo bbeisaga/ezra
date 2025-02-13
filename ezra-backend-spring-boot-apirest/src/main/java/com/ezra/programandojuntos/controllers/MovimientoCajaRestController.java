@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -20,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ezra.programandojuntos.models.entity.MovimientoCaja;
 import com.ezra.programandojuntos.models.services.IMovimientoCajaService;
+
+import jakarta.validation.Valid;
 
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RestController

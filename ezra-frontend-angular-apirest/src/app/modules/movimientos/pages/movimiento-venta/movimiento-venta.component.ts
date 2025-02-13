@@ -1,5 +1,5 @@
 import swal from 'sweetalert2';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { MovimientoVenta } from '../../../../models/movimiento-venta';
 import { CajaService } from '../../../../services/caja.service';
 import { MovimientoService } from '../../../../services/movimiento.service';
@@ -21,7 +21,7 @@ import { COLOR_CAJA_USUARIO, ESTADO_CAJA_USUARIO } from '../../../../constants/c
   templateUrl: './movimiento-venta.component.html',
   styleUrl: './movimiento-venta.component.css'
 })
-export class MovimientoVentaComponent implements OnInit {
+export class MovimientoVentaComponent implements OnInit, AfterViewInit {
   titulo: string = 'Movimiento de pago'
   movimiento = new MovimientoVenta();
   cajaUsuario!: CajaUsuario;
@@ -29,7 +29,8 @@ export class MovimientoVentaComponent implements OnInit {
   tipoPagos: TipoPago[]=[];
   tipoMovimientos: TipoMovimiento[]=[];
   isAutenticado!: boolean;
-  user!: Usuario;
+  //user!: Usuario;
+  username!:string;
   estadoCajaUsuarioMap = ESTADO_CAJA_USUARIO;
 
 
@@ -44,14 +45,14 @@ export class MovimientoVentaComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.isAutenticado = this.authService.isAuthenticated();
-    if(this.isAutenticado){
-      this.user = this.authService.usuario;
+    //this.isAutenticado = this.authService.isAuthenticated();
+    if(this.authService.isAuthenticated()){
+      this.username = this.authService.usuario.username;
     }
     //trae pedidos
     this.pedido = {...this.pedidoService.pedido};
     console.log("pedido", this.pedido);
-    this.cajasService.getCajaUsuarioByUserName(this.user).subscribe(
+    this.cajasService.getCajaUsuarioByUserName(this.username).subscribe(
       res => {
         console.log("getCajaUsuarioByUserName...", res)
         if(res !== null && res.activa){
@@ -83,6 +84,10 @@ export class MovimientoVentaComponent implements OnInit {
     //console.log("movimiento", this.movimiento);
   }
 
+  ngAfterViewInit(): void {
+
+  }
+
   findTipoMovimiento(id: number): TipoMovimiento {
     return find(this.tipoMovimientos,{'id': id})!
   }
@@ -102,9 +107,15 @@ export class MovimientoVentaComponent implements OnInit {
 
   onSubmitForm(){
     this.movimiento.pedido = this.pedido
+    this.movimiento.pedido.createAt="";
+    this.movimiento.pedido.entregadoEn="";
     this.movimiento.pedido.items=[];
     this.movimiento.pedido.movimientosVenta=[];
+
+    this.cajaUsuario.fechaApertura="";
+    this.cajaUsuario.fechaActualizacion="";
     this.cajaUsuario.movimientosVenta=[]
+
     this.movimiento.cajaUsuario = {...this.cajaUsuario}
     console.log("onSubmitForm...", this.movimiento);
     this.movimientoService.createMovimiento(this.movimiento).subscribe(

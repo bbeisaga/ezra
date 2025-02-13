@@ -12,12 +12,15 @@ import com.ezra.programandojuntos.models.entity.CajaUsuario;
 
 public interface ICajaUsuarioDao extends CrudRepository<CajaUsuario, Long>{
 	
-	@Query (value = "SELECT * FROM caja_usuarios cu INNER JOIN usuarios u ON cu.usuario_id = u.id WHERE u.username = ?1 ORDER BY cu.fecha_apertura DESC LIMIT 1" ,nativeQuery = true)
+	@Query (value = "SELECT cu.* FROM caja_usuarios cu INNER JOIN usuarios u ON cu.usuario_id = u.id WHERE u.username = ?1 ORDER BY cu.fecha_apertura DESC LIMIT 1" ,nativeQuery = true)
 	CajaUsuario findCajaUsuarioByUserName(String userName);
 
 	
-	@Query (value = "SELECT * FROM caja_usuarios cu INNER JOIN usuarios u ON cu.usuario_id = u.id WHERE cu.usuario_id = ?1 AND cu.caja_id = ?2 ORDER BY cu.fecha_apertura DESC LIMIT 1" ,nativeQuery = true)
+	@Query (value = "SELECT cu.* FROM caja_usuarios cu INNER JOIN usuarios u ON cu.usuario_id = u.id WHERE cu.usuario_id = ?1 AND cu.caja_id = ?2 ORDER BY cu.fecha_apertura DESC LIMIT 1" ,nativeQuery = true)
 	CajaUsuario findCajaUsuarioByUserIdAndCajaId(Long userId, Byte cajaId);
+	
+	@Query (value = "SELECT cu.* FROM caja_usuarios cu INNER JOIN usuarios u ON cu.usuario_id = u.id WHERE u.username = ?1 AND cu.caja_id = ?2 ORDER BY cu.fecha_apertura DESC LIMIT 1" ,nativeQuery = true)
+	CajaUsuario findCajaUsuarioByUsernameAndCajaId(String username, Byte cajaId);
 	
 	@Transactional
 	@Modifying

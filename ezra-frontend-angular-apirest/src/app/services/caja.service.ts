@@ -7,33 +7,38 @@ import { Caja } from '../models/caja';
 import { CajaUsuario } from '../models/caja-usuario';
 import { Usuario } from '../models/usuario';
 import { forEach, tap } from 'lodash';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CajaService {
 
-  private urlEndPoint: string = 'http://localhost:8080/api/cajas';
+ // private urlEndPoint: string = 'http://localhost:8080/api/cajas';
 
-  private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
+  //private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
   constructor(private http: HttpClient,
               private authService: AuthService ) { }
 
-  private agregarAuthorizationHeader(){
+/*   private agregarAuthorizationHeader(){
     let token = this.authService.token;
     if(token != null){
       return this.httpHeaders.append('Authorization', 'Bearer ' + token)
     }
     return this.httpHeaders
-  }
+  } */
 
   getAllCaja(): Observable<Caja[]> {
-    return this.http.get<Caja[]>(`${this.urlEndPoint}`, {headers: this.agregarAuthorizationHeader()} );
+    return this.http.get<Caja[]>(`${environment.apiUrl}/cajas`
+    /*  , {headers: this.agregarAuthorizationHeader()} */
+    );
   }
 
-  getCajaUsuarioByUserName(user: Usuario): Observable<CajaUsuario>{
-    return this.http.get<CajaUsuario>(`${this.urlEndPoint}/usuarios/${user.username}`, {headers: this.agregarAuthorizationHeader()})
+  getCajaUsuarioByUserName(username: string): Observable<CajaUsuario>{
+    return this.http.get<CajaUsuario>(`${environment.apiUrl}/cajas/usuarios/${username}`
+      /*, {headers: this.agregarAuthorizationHeader()}*/
+    )
       .pipe(
        map<CajaUsuario ,CajaUsuario> ( resp =>{
         if(resp!= null && resp.movimientosVenta.length > 0){
@@ -46,16 +51,29 @@ export class CajaService {
   }
 
   getCajaUsuarioByCajaIdAndUserId(cajaId:number, userId: number): Observable<CajaUsuario>{
-    return this.http.get<CajaUsuario>(`${this.urlEndPoint}/${cajaId}/usuarios/${userId}`, {headers: this.agregarAuthorizationHeader()} );
+    return this.http.get<CajaUsuario>(`${environment.apiUrl}/cajas/${cajaId}/usuarios/${userId}`
+      /*, {headers: this.agregarAuthorizationHeader()} */
+    );
+
+  }
+
+  getCajaUsuarioByCajaIdAndUsername(cajaId:number, username: string): Observable<CajaUsuario>{
+    return this.http.get<CajaUsuario>(`${environment.apiUrl}/cajas/${cajaId}/usuarios/${username}`
+      /*, {headers: this.agregarAuthorizationHeader()} */
+    );
 
   }
 
   create(cajaUsuario: CajaUsuario): Observable<any> {
-    return this.http.post<any>(`${this.urlEndPoint}/usuarios`, cajaUsuario, {headers: this.agregarAuthorizationHeader()});
+    return this.http.post<any>(`${environment.apiUrl}/cajas/usuarios`, cajaUsuario
+      /*, {headers: this.agregarAuthorizationHeader()}*/
+    );
   }
 
   update(cajaUsuario: CajaUsuario): Observable<any> {
-    return this.http.put<any>(`${this.urlEndPoint}/usuarios/${cajaUsuario.id}`, cajaUsuario, {headers: this.agregarAuthorizationHeader()}).pipe(
+    return this.http.put<any>(`${environment.apiUrl}/cajas/usuarios/${cajaUsuario.id}`, cajaUsuario
+      /*, {headers: this.agregarAuthorizationHeader()}*/
+    ).pipe(
       catchError(e => {
         if (e.status == 400) {
           return throwError(e);
