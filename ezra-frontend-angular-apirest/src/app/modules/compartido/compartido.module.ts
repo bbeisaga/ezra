@@ -24,12 +24,14 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import { SearchBoxTableComponent } from './search-box-table/search-box-table.component';
+import { ModalDialogAlertComponent } from './modal-dialog/modal-dialog-alert.component';
 
 
 
 @NgModule({
   declarations: [
-    SearchBoxTableComponent
+    SearchBoxTableComponent,
+    ModalDialogAlertComponent
   ],
   imports: [
     CommonModule,

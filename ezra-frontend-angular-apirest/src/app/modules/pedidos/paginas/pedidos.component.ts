@@ -19,7 +19,7 @@ import { findIndex } from 'lodash';
 import { MovimientoVentaComponent } from '../../movimientos/pages/movimiento-venta/movimiento-venta.component';
 import moment from 'moment';
 import { COLOR_ESTADO_PEDIDO } from '../../../constants/pedido.constants';
-import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constantes/constantes';
+import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constants/constantes';
 import { PageableResponse } from '../../../models/pageable-response';
 
 @Component({

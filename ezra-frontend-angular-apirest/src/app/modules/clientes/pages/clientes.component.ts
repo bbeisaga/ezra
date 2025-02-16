@@ -14,7 +14,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { PageableParams } from '../../../models/pageable-params';
 import { PageableResponse } from '../../../models/pageable-response';
-import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constantes/constantes';
+import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constants/constantes';
+import { MatDialog } from '@angular/material/dialog';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
   selector: 'app-clientes',
@@ -26,19 +28,13 @@ export class ClientesComponent implements OnInit , AfterViewInit{
 
   displayedColumns: string[] = ['apellidos','nombres','createAt' ,'numeroDocumento','celular','acciones' ];
   //dataSource!: MatTableDataSource<Cliente>;
-
   dataSource : Cliente[]=[];
+ //clientes: Cliente[]=[];
+  clienteSeleccionado!: Cliente;
   pageable: PageableResponse = new PageableResponse();
   querySearch!: string;
-
-  // dataSource = new MatTableDataSource<Cliente>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
-
-  clientes: Cliente[]=[];
-  //paginador: any;
-  clienteSeleccionado!: Cliente;
   isLoading = true;
 
 
@@ -46,6 +42,8 @@ export class ClientesComponent implements OnInit , AfterViewInit{
     private clienteService: ClienteService,
     private modalService: ModalService,
     public authService: AuthService,
+    private modal: MatDialog,
+    private alertService: AlertService,
     private activatedRoute: ActivatedRoute) {
 
     }
@@ -96,7 +94,7 @@ export class ClientesComponent implements OnInit , AfterViewInit{
 
       this.clienteService.getAllClientesPageable(params).subscribe(response => {
         this.dataSource = response.content as Cliente[];
-        this.clientes = this.dataSource;
+        //this.clientes = this.dataSource;
         this.pageable = response;
 
        /* this.dataSource = new MatTableDataSource(this.clientes);
@@ -125,17 +123,37 @@ export class ClientesComponent implements OnInit , AfterViewInit{
   }
 
   delete(cliente: Cliente): void {
-    swal.fire({
+
+    const dialogRef = this.alertService.decision(`¿Seguro que desea eliminar al cliente ${cliente.nombres} ${cliente.apellidos}?`,"Borrar cliente")
+      dialogRef.afterClosed().subscribe((result:boolean) => {
+        if (result) {
+            this.clienteService.delete(cliente.id).subscribe(
+              () => {
+                this.loadItems();
+                ///this.dataSource = this.clientes.filter(cli => cli !== cliente)
+                this.alertService.success(`Cliente ${cliente.nombres} eliminado con éxito.`,'Cliente Eliminado!')
+                 /* swal.fire(
+                  'Cliente Eliminado!',
+                  `Cliente ${cliente.nombres} eliminado con éxito.`,
+                  'success'
+                ) */
+              }
+            )
+        }
+      });
+
+
+/*
+
+
+     swal.fire({
       title: 'Está seguro?',
       text: `¿Seguro que desea eliminar al cliente ${cliente.nombres} ${cliente.apellidos}?`,
-//       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Si, eliminar!',
       cancelButtonText: 'No, cancelar!',
-    //  confirmButtonClass: 'btn btn-success',
-    //  cancelButtonClass: 'btn btn-danger',
       buttonsStyling: false,
       reverseButtons: true
     }).then((result) => {
@@ -153,7 +171,7 @@ export class ClientesComponent implements OnInit , AfterViewInit{
         )
 
       }
-    });
+    });  */
   }
 
   abrirModal(cliente: Cliente) {

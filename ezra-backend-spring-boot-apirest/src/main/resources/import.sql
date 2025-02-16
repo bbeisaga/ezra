@@ -82,3 +82,50 @@ INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES
 
 INSERT INTO pedidos (observacion, cliente_id, estado_pedido_id, create_at, entregado_en,vencido, aceptado, pagado, costo_total, precio_bruto_total, precio_neto_total,pago_bruto_total, pago_neto_total, saldo_pedido) VALUES('Vendra a recoger en el local de Jerusalen el miercols en la tarde', 2, 3, NOW(), '2024-11-14',false,false, false, 0, 0, 15,0,0,15);
 INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(3, 2, 6, 'Enviara por correo o whattsao excel con cargas de empleados y el logo de la empresa');
+
+/*Parametros generales COLORES*/
+INSERT INTO parametros_generales (id, parametro) VALUES(10,'Color');
+INSERT INTO parametros_generales (id, parametro) VALUES(11,'Café');
+INSERT INTO parametros_generales (id, parametro) VALUES(12,'Rojo');
+INSERT INTO parametros_generales (id, parametro) VALUES(13,'Blanco');
+INSERT INTO parametros_generales (id, parametro) VALUES(14,'Negro');
+INSERT INTO parametros_generales (id, parametro) VALUES(15,'Celeste');
+INSERT INTO parametros_generales (id, parametro) VALUES(16,'Verde');
+INSERT INTO parametros_generales (id, parametro) VALUES(17,'Otro color');
+/*Parametros generales MATERIAL*/
+INSERT INTO parametros_generales (id, parametro) VALUES(30,'Material');
+INSERT INTO parametros_generales (id, parametro) VALUES(31,'Papel');
+INSERT INTO parametros_generales (id, parametro) VALUES(32,'Papel corrugado');
+INSERT INTO parametros_generales (id, parametro) VALUES(33,'Cartulina');
+INSERT INTO parametros_generales (id, parametro) VALUES(34,'Cartón corrugado');
+INSERT INTO parametros_generales (id, parametro) VALUES(35,'Cerámica');
+INSERT INTO parametros_generales (id, parametro) VALUES(36,'Aluminio');
+INSERT INTO parametros_generales (id, parametro) VALUES(37,'Peltre');
+INSERT INTO parametros_generales (id, parametro) VALUES(38,'Otro material');
+
+/*Parametros generales ORIGEN*/
+INSERT INTO parametros_generales (id, parametro) VALUES(50,'Origen');
+INSERT INTO parametros_generales (id, parametro) VALUES(51,'Lima - Perú');
+INSERT INTO parametros_generales (id, parametro) VALUES(52,'China');
+INSERT INTO parametros_generales (id, parametro) VALUES(53,'USA');
+
+/*Parametros generales EMPAQUE*/
+INSERT INTO parametros_generales (id, parametro) VALUES(70,'Empaque');
+INSERT INTO parametros_generales (id, parametro) VALUES(71,'Caja');
+INSERT INTO parametros_generales (id, parametro) VALUES(72,'Papel');
+INSERT INTO parametros_generales (id, parametro) VALUES(73,'Bolsa de papel');
+INSERT INTO parametros_generales (id, parametro) VALUES(74,'Bolsa de plastico');
+
+/*Parametros generales CATEGORIA*/
+INSERT INTO parametros_generales (id, parametro) VALUES(90,'Categoria');
+INSERT INTO parametros_generales (id, parametro) VALUES(91,'Pizza');
+INSERT INTO parametros_generales (id, parametro) VALUES(92,'Tortas');
+INSERT INTO parametros_generales (id, parametro) VALUES(93,'Pasteles');
+INSERT INTO parametros_generales (id, parametro) VALUES(94,'Comida');
+INSERT INTO parametros_generales (id, parametro) VALUES(95,'Joyeria');
+INSERT INTO parametros_generales (id, parametro) VALUES(96,'Opticas');
+
+/*Parametros generales USO*/
+INSERT INTO parametros_generales (id, parametro) VALUES(100,'Uso');
+INSERT INTO parametros_generales (id, parametro) VALUES(101,'Insumo');
+INSERT INTO parametros_generales (id, parametro) VALUES(102,'Producto');
