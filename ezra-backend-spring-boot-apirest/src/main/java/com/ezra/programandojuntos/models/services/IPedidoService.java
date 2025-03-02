@@ -11,6 +11,7 @@ import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.EstadoPedido;
 import com.ezra.programandojuntos.models.entity.Pedido;
 import com.ezra.programandojuntos.models.entity.Producto;
+import com.ezra.programandojuntos.models.entity.TipoPedido;
 
 public interface IPedidoService {
 	
@@ -30,6 +31,8 @@ public interface IPedidoService {
 	
 	public List<EstadoPedido> findAllEstadoPedido();
 	
+	public List<TipoPedido> listarTipoPedidoAll();
+	
 	public Pedido findPedidoById(Long id);
 	
 	public Pedido registrarPedido(Pedido pedido);
@@ -38,9 +41,8 @@ public interface IPedidoService {
 
 	public void deletePedidoById(Long id);
 	
-	public List<Producto> findProductoByNombre(String term);
 	
-	public Map<String, BigDecimal> movimientoPorPedido(Long pedidoId);
+	public Map<String, BigDecimal> movimientoPorPedido(Long pedidoId, Long tipoPedido);
 
 
 }

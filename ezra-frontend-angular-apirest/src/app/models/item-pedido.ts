@@ -2,11 +2,17 @@ import { Producto } from './producto';
 
 export class ItemPedido {
   producto!: Producto;
-  cantidad: number = 1;
+  cantidad: number=1;
+ // costo!: number;
   importe!: number;
   descripcion!: string;
 
-  public calcularImporte(): number {
-    return this.cantidad * this.producto.precioNeto;
+  /*
+  public calcularImporteVentaCliente(): number {
+    return this.cantidad * this.importe;
   }
+
+   public calcularCosto(): number {
+    return this.cantidad * this.importe;
+  } */
 }

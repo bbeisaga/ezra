@@ -48,12 +48,24 @@ public class Pedido implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
 	
-	@NotNull(message = "no puede estar vacio")
+	//@NotNull(message = "no puede estar vacio")
 	@Column(name = "entregado_en")
 	@Temporal(TemporalType.DATE)
 	private Date entregadoEn;
 	
-	@NotNull(message = "Estado pedido no puede ser vacio")
+	//@NotNull(message = "no puede estar vacio")
+	@Column(name = "adquirido_en")
+	@Temporal(TemporalType.DATE)
+	private Date adquiridoEn;
+	
+	//@NotNull(message = "Estado pedido no puede ser vacio")
+	//@Column(name = "tipo_pedido_id")
+	//private Integer tipoPedidoId; /*1-PEDIDO DE VENTA; 2-PEDIDO DE COMPRA*/
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "tipo_pedido_id")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private TipoPedido tipoPedido;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "estado_pedido_id")
@@ -241,5 +253,34 @@ public class Pedido implements Serializable {
 	}
 
 
+//	public Integer getTipoPedidoId() {
+//		return tipoPedidoId;
+//	}
+//
+//	public void setTipoPedidoId(Integer tipoPedidoId) {
+//		this.tipoPedidoId = tipoPedidoId;
+//	}
+
+
 	private static final long serialVersionUID = 1L;
+
+	public TipoPedido getTipoPedido() {
+		return tipoPedido;
+	}
+
+	public void setTipoPedido(TipoPedido tipoPedido) {
+		this.tipoPedido = tipoPedido;
+	}
+
+	public Date getAdquiridoEn() {
+		return adquiridoEn;
+	}
+
+	public void setAdquiridoEn(Date adquiridoEn) {
+		this.adquiridoEn = adquiridoEn;
+	}
+
+
+	
+	
 }

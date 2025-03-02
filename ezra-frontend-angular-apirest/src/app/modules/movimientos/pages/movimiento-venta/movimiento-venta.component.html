@@ -41,14 +41,26 @@
       </mat-form-field>
 
       <ng-container *ngIf="pedido.cliente">
-          <mat-form-field>
-            <mat-label>PAGAR</mat-label>
-            <input matInput type="number" name="pagoDinero" #pagoDinero="ngModel" [(ngModel)]="movimiento.ingresoDinero" (keyup)="setMovimientoDinero()" required>
-            <div *ngIf="pagoDinero.invalid && (pagoDinero.dirty || pagoDinero.touched)">
-              <mat-error *ngIf="pagoDinero?.errors?.['required']">
+          <mat-form-field *ngIf="pedido.tipoPedido.nombre=='VENTA AL CLIENTE'">
+            <mat-label>PAGO DEL CLIENTE</mat-label>
+            <input matInput type="number" name="ingresoDinero" #ingresoDinero="ngModel" [(ngModel)]="movimiento.ingresoDinero" (keyup)="setMovimientoDinero()" required>
+            <div *ngIf="ingresoDinero.invalid && (ingresoDinero.dirty || ingresoDinero.touched)">
+              <mat-error *ngIf="ingresoDinero?.errors?.['required']">
                 Pago es requerido
               </mat-error>
-              <mat-error *ngIf="pagoDinero?.errors?.['required']">
+              <mat-error *ngIf="ingresoDinero?.errors?.['required']">
+                Pago es requerido
+              </mat-error>
+            </div>
+          </mat-form-field>
+          <mat-form-field *ngIf="pedido.tipoPedido.nombre=='COMPRA O ADQUISICION'">
+            <mat-label>PAGO POR COMPRA</mat-label>
+            <input matInput type="number" name="egresoDinero" #egresoDinero="ngModel" [(ngModel)]="movimiento.egresoDinero" (keyup)="setMovimientoDinero()" required>
+            <div *ngIf="egresoDinero.invalid && (egresoDinero.dirty || egresoDinero.touched)">
+              <mat-error *ngIf="egresoDinero?.errors?.['required']">
+                Pago es requerido
+              </mat-error>
+              <mat-error *ngIf="egresoDinero?.errors?.['required']">
                 Pago es requerido
               </mat-error>
             </div>

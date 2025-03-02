@@ -74,14 +74,30 @@ public class MovimientoVentaServiceImpl implements IMovimientoVentaService {
 		log.info("MovimientoServiceImpl.saveMovimiento... estadoPedido={}", pedido.getEstadoPedido().getEstado());
 				
 		if(pedido == null ){return null;}
-		BigDecimal newSaldo = pedido.getSaldoPedido().subtract(movimiento.getIngresoDinero());
-		if (newSaldo.intValue() >= 0) {
-			movimiento.setEgresoDinero(BigDecimal.valueOf(0));
+		
+		BigDecimal newSaldo = BigDecimal.valueOf(0);
+		if(movimiento.getPedido().getTipoPedido().getNombre().equalsIgnoreCase("VENTA AL CLIENTE"))
+		{
+			newSaldo = pedido.getSaldoPedido().subtract(movimiento.getIngresoDinero());
+			if (newSaldo.intValue() >= 0) {
+				movimiento.setEgresoDinero(BigDecimal.valueOf(0));
+			}
+			if (newSaldo.intValue() < 0) {
+				movimiento.setEgresoDinero(newSaldo.abs());//- con abs cambiamos a +
+			}
 		}
-		if (newSaldo.intValue() < 0) {
-			movimiento.setEgresoDinero(newSaldo);
+		if(movimiento.getPedido().getTipoPedido().getNombre().equalsIgnoreCase("COMPRA O ADQUISICION"))
+		{
+			newSaldo = pedido.getSaldoPedido().subtract(movimiento.getEgresoDinero());
+			if (newSaldo.intValue() >= 0) {
+				movimiento.setIngresoDinero(BigDecimal.valueOf(0));
+			}
+			if (newSaldo.intValue() < 0) {
+				movimiento.setIngresoDinero(newSaldo.abs());
+			}
 		}
 		movimiento.setCajaUsuario(cajaUsuario);
+
 		//movimiento.setTipoPago(tipoPago);
 		//movimiento.setTipoMovimiento(tipoMovimiento);
 //		movimiento.setTipoPago(new TipoPago());

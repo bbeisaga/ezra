@@ -78,6 +78,7 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/pedidos").permitAll() 
 			   .requestMatchers(HttpMethod.GET,"api/pedidos/pageable").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/pedidos/estado-pedido").permitAll()
+			   .requestMatchers(HttpMethod.GET,"api/pedidos/tipo-pedido").permitAll()
 			   .requestMatchers(HttpMethod.POST,"api/pedidos").hasAnyRole("USER","ADMIN") 
 			   .requestMatchers(HttpMethod.PUT,"api/pedidos/{id}").hasAnyRole("USER","ADMIN")
 			   .requestMatchers(HttpMethod.DELETE,"api/pedidos/{id}").hasRole("ADMIN")
@@ -97,6 +98,17 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/cajas").hasAnyRole("USER","ADMIN")
 			   //Permisos para las URLs de Usuarios
 			   .requestMatchers(HttpMethod.GET,"api/usuarios/{username}").hasAnyRole("USER","ADMIN")
+				 //Permisos par alas URLs de PRODUCXTOS
+			   .requestMatchers(HttpMethod.GET,"api/producto/colores").permitAll()
+			   .requestMatchers(HttpMethod.GET,"api/producto/materiales").permitAll()
+			   .requestMatchers(HttpMethod.GET,"api/producto/categorias").permitAll()
+			   .requestMatchers(HttpMethod.GET,"api/producto/usos").permitAll()
+			   .requestMatchers(HttpMethod.POST,"api/producto").hasAnyRole("USER","ADMIN") 
+			   .requestMatchers(HttpMethod.PUT,"api/producto/{id}").hasAnyRole("USER","ADMIN")
+
+			   //.requestMatchers(HttpMethod.GET,"api/productos/generico").permitAll()
+			   .requestMatchers(HttpMethod.GET,"api/producto/filtrar-productos/{term}").permitAll()
+			   //.requestMatchers(HttpMethod.GET,"api/genericos-de-producto").permitAll()
 
 			   ///////////////////////////////////////////////////////////////////////
 			   .anyRequest().authenticated())

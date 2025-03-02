@@ -4,13 +4,17 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 
 
 @Entity
 @Table(name = "productos")
 public class Producto implements Serializable {
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,13 +22,16 @@ public class Producto implements Serializable {
 
 	private String nombre;
 	
-	private String tamanio;
+	private String medidas;
 	
-	private Float peso;
+	private String peso;
 	
-	private String marca;
+//	private String marca;
+//	
+//	private String modelo;
 	
-	private String modelo;
+	@Column(name = "cantidad_stock")
+	private Long cantidadStock; /*cuenta cuesta hacer el producto*/
 	
 	@Column(name = "costo_unitario")
 	private BigDecimal costoUnitario; /*cuenta cuesta hacer el producto*/
@@ -39,26 +46,32 @@ public class Producto implements Serializable {
 	@Column(name = "precio_neto")
 	private BigDecimal precioNeto; /*Es el total mas impuestos*/
 	
-	
 	//private Double precio; /*esto deberá borrarse*/
-
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
 	
+	//@NotNull(message = "Tipo documento no puede ser vacio")
+	@JoinColumn(name = "color_id")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Color color;
 	
-	private Integer colorId;
+	@JoinColumn(name = "material_id")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Material material;
 	
-	private Integer materialId;
-
-	private Integer origenId;
+	@JoinColumn(name = "categoria_id")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Categoria categoria;
 	
-	private Integer empaqueId;
+	@JoinColumn(name = "uso_id")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Uso uso;
 	
-	private Integer categoriaId;
-
-	
-
 	@PrePersist
 	public void prePersist() {
 		this.createAt = new Date();
@@ -113,38 +126,22 @@ public class Producto implements Serializable {
 		this.createAt = createAt;
 	}
 
-	
-	
-	public String getTamanio() {
-		return tamanio;
+	public Long getCantidadStock() {
+		return cantidadStock;
 	}
 
-	public void setTamanio(String tamanio) {
-		this.tamanio = tamanio;
+	public void setCantidadStock(Long cantidadStock) {
+		this.cantidadStock = cantidadStock;
 	}
 
-	public Float getPeso() {
+
+
+	public String getPeso() {
 		return peso;
 	}
 
-	public void setPeso(Float peso) {
+	public void setPeso(String peso) {
 		this.peso = peso;
-	}
-
-	public String getMarca() {
-		return marca;
-	}
-
-	public void setMarca(String marca) {
-		this.marca = marca;
-	}
-
-	public String getModelo() {
-		return modelo;
-	}
-
-	public void setModelo(String modelo) {
-		this.modelo = modelo;
 	}
 
 	public BigDecimal getCostoUnitarioEmpaque() {
@@ -155,49 +152,45 @@ public class Producto implements Serializable {
 		this.costoUnitarioEmpaque = costoUnitarioEmpaque;
 	}
 
-
-
-	public Integer getColorId() {
-		return colorId;
+	public String getMedidas() {
+		return medidas;
 	}
 
-	public void setColorId(Integer colorId) {
-		this.colorId = colorId;
+	public void setMedidas(String medidas) {
+		this.medidas = medidas;
 	}
 
-	public Integer getMaterialId() {
-		return materialId;
+	public Color getColor() {
+		return color;
 	}
 
-	public void setMaterialId(Integer materialId) {
-		this.materialId = materialId;
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
-	public Integer getOrigenId() {
-		return origenId;
+	public Material getMaterial() {
+		return material;
 	}
 
-	public void setOrigenId(Integer origenId) {
-		this.origenId = origenId;
+	public void setMaterial(Material material) {
+		this.material = material;
 	}
 
-	public Integer getEmpaqueId() {
-		return empaqueId;
+	public Categoria getCategoria() {
+		return categoria;
 	}
 
-	public void setEmpaqueId(Integer empaqueId) {
-		this.empaqueId = empaqueId;
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
 	}
 
-	public Integer getCategoriaId() {
-		return categoriaId;
+	public Uso getUso() {
+		return uso;
 	}
 
-	public void setCategoriaId(Integer categoriaId) {
-		this.categoriaId = categoriaId;
+	public void setUso(Uso uso) {
+		this.uso = uso;
 	}
-
-
 
 	private static final long serialVersionUID = 1L;
 }

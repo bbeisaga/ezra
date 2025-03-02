@@ -21,7 +21,7 @@ import com.ezra.programandojuntos.models.entity.EstadoPedido;
 import com.ezra.programandojuntos.models.entity.ItemPedido;
 import com.ezra.programandojuntos.models.entity.MovimientoVenta;
 import com.ezra.programandojuntos.models.entity.Pedido;
-import com.ezra.programandojuntos.models.entity.Producto;
+import com.ezra.programandojuntos.models.entity.TipoPedido;
 
 @Service
 public class PedidoServiceImpl implements IPedidoService {
@@ -39,6 +39,9 @@ Entregado	si		-						si*/
 	public static final Long PEDIDO_VENCIDO = 2L;
 	public static final Long PEDIDO_DEVUELTO = 3L;
 	public static final Long PEDIDO_ENTREGADO = 4L;
+	public static final Long TIPO_PEDIDO_VENTA = 1L;
+	public static final Long TIPO_PEDIDO_COMPRA = 2L;
+
 
 	@Autowired
 	private IPedidoDao pedidoDao;
@@ -70,30 +73,37 @@ Entregado	si		-						si*/
 
 	@Override
 	@Transactional
-	public Pedido registrarPedido(Pedido pedido) {		
+	public Pedido registrarPedido(Pedido pedido) {	
+		TipoPedido tipoPedido = pedidoDao.findTipoPedidoById(pedido.getTipoPedido().getId());
 		pedido.setPagado(false);
 		pedido.setAceptado(false);
 		pedido.setVencido(false);
-		if(pedido.getEntregadoEn().before(new Date())) {
+		if((pedido.getEntregadoEn()!=null && pedido.getEntregadoEn().before(new Date())) || 
+		   (pedido.getAdquiridoEn()!=null && pedido.getAdquiridoEn().before(new Date()))
+		){
 			pedido.setVencido(true);
 		}
 		pedido.setPrecioBrutoTotal(new BigDecimal(0));
 		pedido.setPagoBrutoTotal(new BigDecimal(0));
 		pedido.setPagoNetoTotal(new BigDecimal(0));
-		pedido.setPrecioNetoTotal(pendientePago(pedido.getItems(), pedido.getPagoNetoTotal()));
-		pedido.setSaldoPedido(pedido.getPrecioNetoTotal());
+//				.stream()
+//				.filter(tipo -> tipo.getId()== TIPO_PEDIDO_VENTA)
+//				.collect(Collectors.toList())
+//				.get(0));
+		
+		if(tipoPedido.getId()==TIPO_PEDIDO_VENTA){
+			pedido.setPrecioNetoTotal(pendienteImporte(pedido.getItems(), new BigDecimal(0)));
+			pedido.setSaldoPedido(pedido.getPrecioNetoTotal());
+			
+		} else if(tipoPedido.getId()==TIPO_PEDIDO_COMPRA) {
+			pedido.setCostoTotal(pendienteImporte(pedido.getItems(), new BigDecimal(0)));
+			pedido.setSaldoPedido(pedido.getCostoTotal());
+		}
+		pedido.setTipoPedido(tipoPedido);
+
 		if(pedido.getSaldoPedido().intValue() < 1) {
 			pedido.setPagado(true);
-		}
-//		pedido.setEstadoPedido(new EstadoPedido());
-//		if(pedido.isVencido() && !pedido.isAceptado()) {
-//			pedido.getEstadoPedido()
-//			.setId(PEDIDO_VENCIDO);
-//		} else {
-//			pedido.getEstadoPedido()
-//			.setId(PEDIDO_REGISTRADO);
-//		}
-		
+		}		
 		if(pedido.isVencido() && !pedido.isAceptado()) {
 			pedido.setEstadoPedido(pedidoDao.findAllEstadoPedido()
 					.stream()
@@ -106,7 +116,7 @@ Entregado	si		-						si*/
 					.filter(estado -> estado.getId()== PEDIDO_REGISTRADO)
 					.collect(Collectors.toList())
 					.get(0));
-
+			
 		}
 		return pedidoDao.save(pedido);
 	}
@@ -115,55 +125,64 @@ Entregado	si		-						si*/
 	@Transactional
 	public Pedido updatePedido(Pedido pedido, Long id) {	
 		Pedido pedidoActual = findPedidoById(id);
+		//TipoPedido tipoPedido = pedidoDao.findTipoPedidoById(pedido.getTipoPedido().getId());
+
 		List<EstadoPedido> lstEstadosPedido = findAllEstadoPedido();
 		if (pedidoActual!=null) {
-			if(pedidoActual.getEntregadoEn().before(new Date())) {
-				pedidoActual.setVencido(true);
-			}
-			pedidoActual.setPrecioNetoTotal(pendientePago(pedidoActual.getItems(), new BigDecimal(0)));
-			pedidoActual.setPagoBrutoTotal(new BigDecimal(0));
 			
-			Map<String, BigDecimal> movimientosPedido = movimientoPorPedido(id);
-
-			//pedidoActual.setPagoNetoTotal(ingresoDineroPorPedido(pedidoActual.getMovimientos(),  new BigDecimal(0)));
-			
+			//pedido.setVencido(false);
+		if((pedidoActual.getEntregadoEn()!=null && pedidoActual.getEntregadoEn().before(new Date())) || 
+			   (pedidoActual.getAdquiridoEn()!=null && pedidoActual.getAdquiridoEn().before(new Date()))
+		){
+			pedidoActual.setVencido(true);
+		}
+		Map<String, BigDecimal> movimientosPedido = null;	
+		if(pedidoActual.getTipoPedido().getId()==TIPO_PEDIDO_VENTA){
+			movimientosPedido = movimientoPorPedido(id, TIPO_PEDIDO_VENTA);
+			pedidoActual.setPrecioNetoTotal(pendienteImporte(pedidoActual.getItems(), new BigDecimal(0)));
 			pedidoActual.setPagoNetoTotal(movimientosPedido.get("ingresoPedido"));
-			pedidoActual.setVueltoNetoTotal(movimientosPedido.get("egresoPedido"));
-			pedidoActual.setSaldoPedido(pendientePago(pedidoActual.getItems(), movimientosPedido.get("saldoPedido")));
-			if(pedidoActual.getSaldoPedido().intValue() < 1) {
-				pedidoActual.setPagado(true);
-			}
-			
-			pedidoActual.setAceptado(pedido.isAceptado());
-			//pedidoActual.getEstadoPedido().setId(PEDIDO_REGISTRADO);
+			pedidoActual.setVueltoNetoTotal(movimientosPedido.get("egresoPedido"));	
+		}
+		else if(pedidoActual.getTipoPedido().getId()==TIPO_PEDIDO_COMPRA) {
+			movimientosPedido = movimientoPorPedido(id, TIPO_PEDIDO_COMPRA);
+			pedidoActual.setCostoTotal(pendienteImporte(pedidoActual.getItems(), new BigDecimal(0)));
+			pedidoActual.setPagoNetoTotal(movimientosPedido.get("egresoPedido"));
+			pedidoActual.setVueltoNetoTotal(movimientosPedido.get("ingresoPedido"));
+		}
+		pedidoActual.setPagoBrutoTotal(new BigDecimal(0));		
+		pedidoActual.setSaldoPedido(pendienteImporte(pedidoActual.getItems(), movimientosPedido.get("saldoPedido")));
+		if(pedidoActual.getSaldoPedido().intValue() < 1) {
+			pedidoActual.setPagado(true);
+		}
+		
+		pedidoActual.setAceptado(pedido.isAceptado());
+		pedidoActual.setEstadoPedido(
+				lstEstadosPedido.stream()
+				.filter(e->e.getId()==PEDIDO_REGISTRADO)
+				.collect(Collectors.toList())
+				.get(0));
+	
+		if(pedidoActual.isVencido() && !pedido.isAceptado()) {
 			pedidoActual.setEstadoPedido(
 					lstEstadosPedido.stream()
-					.filter(e->e.getId()==PEDIDO_REGISTRADO)
+					.filter(e->e.getId()==PEDIDO_VENCIDO)
 					.collect(Collectors.toList())
-					.get(0));
-
-			if(pedidoActual.isVencido() && !pedido.isAceptado()) {
+					.get(0));			}  
+		
+		if(pedidoActual.isPagado() && pedido.isAceptado()) {
+				pedidoActual.setAceptado(true);
+				pedidoActual.setEntregadoEn(new Date());
 				pedidoActual.setEstadoPedido(
 						lstEstadosPedido.stream()
-						.filter(e->e.getId()==PEDIDO_VENCIDO)
+						.filter(e->e.getId()==PEDIDO_ENTREGADO)
 						.collect(Collectors.toList())
-						.get(0));			}  
-			
-			if(pedidoActual.isPagado() && pedido.isAceptado()) {
-					pedidoActual.setAceptado(true);
-					pedidoActual.setEntregadoEn(new Date());
-					pedidoActual.setEstadoPedido(
-							lstEstadosPedido.stream()
-							.filter(e->e.getId()==PEDIDO_ENTREGADO)
-							.collect(Collectors.toList())
-							.get(0));			} 
-			
+						.get(0));			} 			
 		} 
 		return pedidoDao.save(pedidoActual);
 	}
 	
 	
-	public BigDecimal pendientePago (List<ItemPedido> itemPedido, BigDecimal pago) {
+	public BigDecimal pendienteImporte (List<ItemPedido> itemPedido, BigDecimal pago) {
 		BigDecimal total = new BigDecimal(0);
 		for (ItemPedido item : itemPedido) {
 			total = total.add(item.getImporte());
@@ -173,7 +192,7 @@ Entregado	si		-						si*/
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, BigDecimal> movimientoPorPedido(Long pedidoId){
+	public Map<String, BigDecimal> movimientoPorPedido(Long pedidoId, Long tipoPedido){
 		Pedido pedido = findPedidoById(pedidoId);
 		List<MovimientoVenta> items= pedido.getMovimientosVenta();
 		BigDecimal saldoPedido = new BigDecimal(0);
@@ -184,7 +203,13 @@ Entregado	si		-						si*/
 			ingresoPedido = ingresoPedido.add(item.getIngresoDinero()); //+
 			egresoPedido = egresoPedido.add(item.getEgresoDinero()); // -
 		}
-		saldoPedido = ingresoPedido.add(egresoPedido);
+		
+		if(tipoPedido==TIPO_PEDIDO_VENTA){
+			saldoPedido = ingresoPedido.subtract(egresoPedido);
+		} else if(tipoPedido==TIPO_PEDIDO_COMPRA){
+			saldoPedido = egresoPedido.subtract(ingresoPedido);
+		}
+		
         Map<String, BigDecimal> mapa = new HashMap<String, BigDecimal>();
         mapa.put("ingresoPedido", ingresoPedido);
         mapa.put("egresoPedido", egresoPedido);
@@ -198,11 +223,7 @@ Entregado	si		-						si*/
 		pedidoDao.deleteById(id);
 	}
 	
-	@Override
-	@Transactional(readOnly = true)
-	public List<Producto> findProductoByNombre(String term) {
-		return productoDao.findByNombreContainingIgnoreCase(term);
-	}
+
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -211,7 +232,11 @@ Entregado	si		-						si*/
 	}
 
 	
-	
+	@Override
+	@Transactional(readOnly = true)
+	public List<TipoPedido> listarTipoPedidoAll(){
+		return pedidoDao.findAllTipoPedido();
+	}
 	
 
 

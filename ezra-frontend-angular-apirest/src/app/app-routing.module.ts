@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'pr', component: PrincipalComponent ,
     children:[
       { path: '', component:HomeDashboardComponent },
+
       { path: 'clientes',
         loadChildren: () =>import("./modules/clientes/clientes.module").then((m) => m.ClientesModule),
       },
@@ -24,6 +25,9 @@ const routes: Routes = [
       },
       { path: 'movimientos',
         loadChildren: () =>import("./modules/movimientos/movimientos.module").then((m) => m.MovimientosModule),
+      },
+      { path: 'productos',
+        loadChildren: () =>import("./modules/producto/producto.module").then((m) => m.ProductoModule),
       }
 
   /*     { path: 'clientes/form', component: FormComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } },

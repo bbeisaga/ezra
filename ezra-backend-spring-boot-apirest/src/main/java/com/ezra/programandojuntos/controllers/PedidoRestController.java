@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,7 +32,7 @@ import com.ezra.programandojuntos.enums.SortActivePedido;
 import com.ezra.programandojuntos.enums.SortDirection;
 import com.ezra.programandojuntos.models.entity.EstadoPedido;
 import com.ezra.programandojuntos.models.entity.Pedido;
-import com.ezra.programandojuntos.models.entity.Producto;
+import com.ezra.programandojuntos.models.entity.TipoPedido;
 import com.ezra.programandojuntos.models.services.IPedidoService;
 
 import jakarta.validation.Valid;
@@ -48,6 +46,9 @@ public class PedidoRestController {
 	
 	@Autowired
 	private IPedidoService pedidoService;
+	
+//	@Autowired
+//	private ProductoService productoService;
 	
 	//@Secured({"ROLE_ADMIN" , "ROLE_USER"})
 	@GetMapping("/pedidos")
@@ -64,11 +65,11 @@ public class PedidoRestController {
 	}
 	
 	//@Secured({"ROLE_ADMIN"})
-	@GetMapping("/pedidos/filtrar-productos/{term}")
-	@ResponseStatus(HttpStatus.OK)
-	public List<Producto> filtrarProductos(@PathVariable String term){
-		return pedidoService.findProductoByNombre(term);
-	}
+//	@GetMapping("/pedidos/filtrar-productos/{term}")
+//	@ResponseStatus(HttpStatus.OK)
+//	public List<Producto> filtrarProductos(@PathVariable String term){
+//		return productoService.findProductoByNombre(term);
+//	}
 	
 	//@Secured({"ROLE_ADMIN"})
 	@DeleteMapping("/pedidos/{id}")
@@ -109,13 +110,30 @@ public class PedidoRestController {
 		return pedidoService.findAllEstadoPedido();
 	}
 	
+	@GetMapping("/pedidos/tipo-pedido")
+	@ResponseStatus(HttpStatus.OK)
+	public List<TipoPedido> listarTipoPedidoAll() {
+		return pedidoService.listarTipoPedidoAll();
+	}
 	
 	
 	//@Secured({"ROLE_ADMIN"})
 	@PostMapping("/pedidos")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Pedido crear(@RequestBody Pedido pedido) {
-		return pedidoService.registrarPedido(pedido);
+	public ResponseEntity<?> crear(@RequestBody Pedido pedido) {
+		Pedido pedidoNew = null;
+		Map<String, Object> response = new HashMap<>();
+		try {
+			pedidoNew = pedidoService.registrarPedido(pedido);
+
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al crear el pedido en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put("mensaje", "El pedido ha sido actualizado con éxito!");
+		response.put("pedido", pedidoNew);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
 	//@Secured("ROLE_ADMIN")

@@ -8,16 +8,22 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "pedidos_items")
+@Getter
+@Setter
 public class ItemPedido implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private Integer cantidad;
+	private Long cantidad;
+	
+	private BigDecimal importe; /*cuenta cuesta hacer el producto*/
 
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -26,46 +32,10 @@ public class ItemPedido implements Serializable {
 	
 	private String descripcion;
 
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Integer getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(Integer cantidad) {
-		this.cantidad = cantidad;
-	}
-
-	public BigDecimal getImporte() {
-		return BigDecimal.valueOf( cantidad ).multiply( producto.getPrecioNeto() );
-				
-				//cantidad  producto.getPrecioNeto();
-	}
-
-	public Producto getProducto() {
-		return producto;
-	}
-
-	public void setProducto(Producto producto) {
-		this.producto = producto;
-	}
-
+//	public BigDecimal getImporte() {
+//	return BigDecimal.valueOf( cantidad ).multiply( producto.getPrecioNeto() );				
+//}
 	
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
 
 	private static final long serialVersionUID = 1L;
 }

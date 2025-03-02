@@ -53,17 +53,67 @@ INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Taxis','E');
 INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Regalos','E');
 INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Otros gastos','E');
 
+/*Parametros generales COLORES*/
+INSERT INTO colores (id, nombre) VALUES(0,'Vacio');
+INSERT INTO colores (id, nombre) VALUES(1,'Café');
+INSERT INTO colores (id, nombre) VALUES(2,'Rojo');
+INSERT INTO colores (id, nombre) VALUES(3,'Blanco');
+INSERT INTO colores (id, nombre) VALUES(4,'Negro');
+INSERT INTO colores (id, nombre) VALUES(5,'Celeste');
+INSERT INTO colores (id, nombre) VALUES(6,'Verde');
+INSERT INTO colores (id, nombre) VALUES(7,'Azul');
+INSERT INTO colores (id, nombre) VALUES(8,'Naranja');
+INSERT INTO colores (id, nombre) VALUES(9,'Amarillo');
+INSERT INTO colores (id, nombre) VALUES(10,'Rosdo');
+INSERT INTO colores (id, nombre) VALUES(11,'Blanco con verde');
+INSERT INTO colores (id, nombre) VALUES(12,'Blanco con rojo');
+INSERT INTO colores (id, nombre) VALUES(13,'Blanco con naranja');
+INSERT INTO colores (id, nombre) VALUES(14,'Blanco con amarillo');
+INSERT INTO colores (id, nombre) VALUES(15,'Blanco con celeste');
+INSERT INTO colores (id, nombre) VALUES(16,'Blanco con rosado');
+INSERT INTO colores (id, nombre) VALUES(17,'Otro color');
+
+/*Parametros generales MATERIAL*/
+INSERT INTO materiales (id, nombre) VALUES(0,'Vacio');
+INSERT INTO materiales (id, nombre) VALUES(1,'Papel');
+INSERT INTO materiales (id, nombre) VALUES(2,'Papel corrugado');
+INSERT INTO materiales (id, nombre) VALUES(3,'Cartulina');
+INSERT INTO materiales (id, nombre) VALUES(4,'Cartón corrugado');
+INSERT INTO materiales (id, nombre) VALUES(5,'Cerámica');
+INSERT INTO materiales (id, nombre) VALUES(6,'Aluminio');
+INSERT INTO materiales (id, nombre) VALUES(7,'Peltre');
+INSERT INTO materiales (id, nombre) VALUES(8,'Otro material');
+
+/*Parametros generales CATEGORIA*/
+INSERT INTO categorias (id, nombre) VALUES(0,'Seleccione la categoria');
+INSERT INTO categorias (id, nombre) VALUES(1,'Pizza');
+INSERT INTO categorias (id, nombre) VALUES(2,'Tortas');
+INSERT INTO categorias (id, nombre) VALUES(3,'Pasteles');
+INSERT INTO categorias (id, nombre) VALUES(4,'Comida');
+INSERT INTO categorias (id, nombre) VALUES(5,'Joyeria');
+INSERT INTO categorias (id, nombre) VALUES(6,'Opticas');
+INSERT INTO categorias (id, nombre) VALUES(7,'Merchandaising');
+
+/*Parametros generales USO*/
+INSERT INTO usos (id, nombre) VALUES(0,'Seleccione el uso Interno');
+INSERT INTO usos (id, nombre) VALUES(1,'Insumo');
+INSERT INTO usos (id, nombre) VALUES(2,'Producto reventa');
+
 /* Populate tabla productos */
-INSERT INTO productos (nombre, precio_neto, create_at) VALUES('Letrero luminoso', 10, NOW());
-INSERT INTO productos (nombre, precio_neto, create_at) VALUES('Letrero en strucutura', 15, NOW());
-INSERT INTO productos (nombre, precio_neto, create_at) VALUES('Letrero en parante', 20, NOW());
-INSERT INTO productos (nombre, precio_neto, create_at) VALUES('Letrero en Roll Screen', 10, NOW());
-INSERT INTO productos (nombre, precio_neto, create_at) VALUES('Sellos', 12, NOW());
-INSERT INTO productos (nombre, precio_neto, create_at) VALUES('Fotocheck', 5, NOW());
-INSERT INTO productos (nombre, precio_neto, create_at) VALUES('Tarjeta matrimonio', 2, NOW());
-INSERT INTO productos (nombre, precio_neto, create_at) VALUES('Tarjeta bautizo', 1, NOW());
-INSERT INTO productos (nombre, precio_neto, create_at) VALUES('Tarjeta personales', 5, NOW());
-INSERT INTO productos (nombre, precio_neto, create_at) VALUES('Tarjeta varios', 8, NOW());
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(0,0,0,0,230,'Letrero luminoso', 10, NOW());
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(1,1,0,1,240,'Letrero en strucutura', 15, NOW());
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(0,2,0,1,200,'Letrero en parante', 20, NOW());
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(0,3,0,1,200,'Letrero en Roll Screen', 10, NOW());
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(3,4,0,1,210,'Sellos', 12, NOW());
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(0,0,0,1,260,'Fotocheck', 5, NOW());
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(0,0,0,1,200,'Tarjeta matrimonio', 2, NOW());
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(2,0,0,2,200,'Tarjeta bautizo', 1, NOW());
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(3,0,0,2,200,'Tarjeta personales', 5, NOW());
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(4,0,0,2,230,'Tarjeta varios', 8, NOW());
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(1,5,2,2,200,'Taza', 8, NOW());
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(2,5,3,2,20,'Taza', 8, NOW());
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(3,5,3,2,90,'Taza', 8, NOW());
+
 
 /* Creamos estado de pedidos */
 INSERT INTO estado_pedido (estado, descripcion) VALUES ('Registrado', 'No venció, no aceptado');
@@ -71,61 +121,33 @@ INSERT INTO estado_pedido (estado, descripcion) VALUES ('Vencido', 'Venció, no 
 INSERT INTO estado_pedido (estado, descripcion) VALUES ('Devuelto', 'Devuelto por errores');
 INSERT INTO estado_pedido (estado, descripcion) VALUES ('Entregado', 'Pagado, entregado al cliente');
 
+/* Creamos estado de pedidos */
+INSERT INTO tipo_pedido (id, nombre) VALUES (1, 'VENTA AL CLIENTE');
+INSERT INTO tipo_pedido (id, nombre) VALUES (2, 'COMPRA O ADQUISICION');
+
  /*Creamos algunos pedidos */
-INSERT INTO pedidos (observacion, cliente_id, estado_pedido_id, create_at, entregado_en,vencido, aceptado, pagado, costo_total, precio_bruto_total, precio_neto_total,pago_bruto_total, pago_neto_total, saldo_pedido) VALUES('Envío delivery el dia miercoles en la tarde, contactar al señor ramirez', 1, 1, NOW(),'2024-11-16',false,false,false, 0,0,44,0,0,44);
+/*INSERT INTO pedidos (observacion, cliente_id,tipo_pedido_id, estado_pedido_id, create_at, entregado_en,vencido, aceptado, pagado, costo_total, precio_bruto_total, precio_neto_total,pago_bruto_total, pago_neto_total, saldo_pedido) VALUES('Envío delivery el dia miercoles en la tarde, contactar al señor ramirez', 1, 1,1, NOW(),'2024-11-16',false,false,false, 0,0,44,0,0,44);*/
 
-INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(1, 1, 1, 'Traera diseño de letrero en USB');
-INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(2, 1, 4, 'Enviara texto por Whatssap, para que nosotros diseñemos');
-INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(1, 1, 5, 'RALPH GODIER, ASESOR INMOBILIARIO, 974798823,rgodier@gmail.com');
-INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(1, 1, 7, 'Se escogio em modelo DORADO de matrimonio con letra San Serif');
+/*INSERT INTO pedidos_items (cantidad,importe, pedido_id, producto_id, descripcion) VALUES(1,25, 1, 1, 'Traera diseño de letrero en USB');*/
+/*INSERT INTO pedidos_items (cantidad,importe, pedido_id, producto_id, descripcion) VALUES(2,30, 1, 4, 'Enviara texto por Whatssap, para que nosotros diseñemos');*/
+/*INSERT INTO pedidos_items (cantidad,importe, pedido_id, producto_id, descripcion) VALUES(1,20, 1, 5, 'RALPH GODIER, ASESOR INMOBILIARIO, 974798823,rgodier@gmail.com');*/
+/*INSERT INTO pedidos_items (cantidad,importe, pedido_id, producto_id, descripcion) VALUES(1,21, 1, 7, 'Se escogio em modelo DORADO de matrimonio con letra San Serif');*/
 
 
-INSERT INTO pedidos (observacion, cliente_id, estado_pedido_id, create_at, entregado_en,vencido, aceptado, pagado, costo_total, precio_bruto_total, precio_neto_total,pago_bruto_total, pago_neto_total, saldo_pedido) VALUES('Vendra a recoger en el local de Jerusalen el miercols en la tarde', 2, 3, NOW(), '2024-11-14',false,false, false, 0, 0, 15,0,0,15);
-INSERT INTO pedidos_items (cantidad, pedido_id, producto_id, descripcion) VALUES(3, 2, 6, 'Enviara por correo o whattsao excel con cargas de empleados y el logo de la empresa');
-
-/*Parametros generales COLORES*/
-INSERT INTO parametros_generales (id, parametro) VALUES(10,'Color');
-INSERT INTO parametros_generales (id, parametro) VALUES(11,'Café');
-INSERT INTO parametros_generales (id, parametro) VALUES(12,'Rojo');
-INSERT INTO parametros_generales (id, parametro) VALUES(13,'Blanco');
-INSERT INTO parametros_generales (id, parametro) VALUES(14,'Negro');
-INSERT INTO parametros_generales (id, parametro) VALUES(15,'Celeste');
-INSERT INTO parametros_generales (id, parametro) VALUES(16,'Verde');
-INSERT INTO parametros_generales (id, parametro) VALUES(17,'Otro color');
-/*Parametros generales MATERIAL*/
-INSERT INTO parametros_generales (id, parametro) VALUES(30,'Material');
-INSERT INTO parametros_generales (id, parametro) VALUES(31,'Papel');
-INSERT INTO parametros_generales (id, parametro) VALUES(32,'Papel corrugado');
-INSERT INTO parametros_generales (id, parametro) VALUES(33,'Cartulina');
-INSERT INTO parametros_generales (id, parametro) VALUES(34,'Cartón corrugado');
-INSERT INTO parametros_generales (id, parametro) VALUES(35,'Cerámica');
-INSERT INTO parametros_generales (id, parametro) VALUES(36,'Aluminio');
-INSERT INTO parametros_generales (id, parametro) VALUES(37,'Peltre');
-INSERT INTO parametros_generales (id, parametro) VALUES(38,'Otro material');
+/*INSERT INTO pedidos (observacion, cliente_id,tipo_pedido_id, estado_pedido_id, create_at, entregado_en,vencido, aceptado, pagado, costo_total, precio_bruto_total, precio_neto_total,pago_bruto_total, pago_neto_total, saldo_pedido) VALUES('Vendra a recoger en el local de Jerusalen el miercols en la tarde', 2, 1,3, NOW(), '2024-11-14',false,false, false, 0, 0, 15,0,0,15);*/
+/*INSERT INTO pedidos_items (cantidad,importe, pedido_id, producto_id, descripcion) VALUES(3,45, 2, 6, 'Enviara por correo o whattsao excel con cargas de empleados y el logo de la empresa');*/
 
 /*Parametros generales ORIGEN*/
-INSERT INTO parametros_generales (id, parametro) VALUES(50,'Origen');
-INSERT INTO parametros_generales (id, parametro) VALUES(51,'Lima - Perú');
-INSERT INTO parametros_generales (id, parametro) VALUES(52,'China');
-INSERT INTO parametros_generales (id, parametro) VALUES(53,'USA');
+INSERT INTO genericos_producto (id, nombre) VALUES(50,'Seleccione el origen');
+INSERT INTO genericos_producto (id, nombre) VALUES(51,'Lima - Perú');
+INSERT INTO genericos_producto (id, nombre) VALUES(52,'China');
+INSERT INTO genericos_producto (id, nombre) VALUES(53,'USA');
 
 /*Parametros generales EMPAQUE*/
-INSERT INTO parametros_generales (id, parametro) VALUES(70,'Empaque');
-INSERT INTO parametros_generales (id, parametro) VALUES(71,'Caja');
-INSERT INTO parametros_generales (id, parametro) VALUES(72,'Papel');
-INSERT INTO parametros_generales (id, parametro) VALUES(73,'Bolsa de papel');
-INSERT INTO parametros_generales (id, parametro) VALUES(74,'Bolsa de plastico');
+INSERT INTO genericos_producto (id, nombre) VALUES(70,'Seleccione el empaque');
+INSERT INTO genericos_producto (id, nombre) VALUES(71,'Caja');
+INSERT INTO genericos_producto (id, nombre) VALUES(72,'Papel');
+INSERT INTO genericos_producto (id, nombre) VALUES(73,'Bolsa de papel');
+INSERT INTO genericos_producto (id, nombre) VALUES(74,'Bolsa de plastico');
 
-/*Parametros generales CATEGORIA*/
-INSERT INTO parametros_generales (id, parametro) VALUES(90,'Categoria');
-INSERT INTO parametros_generales (id, parametro) VALUES(91,'Pizza');
-INSERT INTO parametros_generales (id, parametro) VALUES(92,'Tortas');
-INSERT INTO parametros_generales (id, parametro) VALUES(93,'Pasteles');
-INSERT INTO parametros_generales (id, parametro) VALUES(94,'Comida');
-INSERT INTO parametros_generales (id, parametro) VALUES(95,'Joyeria');
-INSERT INTO parametros_generales (id, parametro) VALUES(96,'Opticas');
 
-/*Parametros generales USO*/
-INSERT INTO parametros_generales (id, parametro) VALUES(100,'Uso');
-INSERT INTO parametros_generales (id, parametro) VALUES(101,'Insumo');
-INSERT INTO parametros_generales (id, parametro) VALUES(102,'Producto');

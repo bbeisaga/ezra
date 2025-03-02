@@ -7,6 +7,8 @@ import { AuthService } from './auth.service';
 import { EstadoPedido } from '../models/estado-pedido';
 import { PageableResponse } from '../models/pageable-response';
 import { environment } from '../../environments/environment';
+import { TipoPedido } from '../models/tipo-pedido';
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +21,9 @@ export class PedidoService {
 
   //private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
-  constructor(private http: HttpClient, private authService: AuthService ) { }
+  constructor(private http: HttpClient,
+    private authService: AuthService,
+  private alertService: AlertService ) { }
 
 /*   private agregarAuthorizationHeader(){
     let token = this.authService.token;
@@ -54,7 +58,11 @@ export class PedidoService {
     return this.http.get<EstadoPedido[]>(`${environment.apiUrl}/pedidos/estado-pedido`
       /*, {headers: this.agregarAuthorizationHeader()} */
     );
+  }
 
+  getAllTipoPedido(): Observable<TipoPedido[]>{
+    return this.http.get<TipoPedido[]>(`${environment.apiUrl}/pedidos/tipo-pedido`
+    );
   }
 
   getPedido(id: number): Observable<Pedido> {
@@ -69,16 +77,24 @@ export class PedidoService {
   );
   }
 
-  filtrarProductos(term: string): Observable<Producto[]> {
+/*   filtrarProductos(term: string): Observable<Producto[]> {
     return this.http.get<Producto[]>(`${environment.apiUrl}/pedidos/filtrar-productos/${term}`
-     /* , {headers: this.agregarAuthorizationHeader()} */
     );
-  }
+  } */
 
-  create(pedido: Pedido): Observable<Pedido> {
-    return this.http.post<Pedido>(`${environment.apiUrl}/pedidos`, pedido
-      /*, {headers: this.agregarAuthorizationHeader()}*/
-    );
+  create(pedido: Pedido): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/pedidos`, pedido
+    ).pipe(
+      catchError(e => {
+         if (e.status == 400) {
+          return throwError(e);
+        }
+        if (e.error.mensaje) {
+          this.alertService.error(e.error.error,e.error.mensaje);
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));
   }
 
   update(pedido: Pedido): Observable<any> {

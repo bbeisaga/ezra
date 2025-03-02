@@ -71,7 +71,7 @@ public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
 			ingresoCju = ingresoCju.add(item.getIngresoDinero()); //+
 			egresoCju = egresoCju.add(item.getEgresoDinero()); // -
 		}
-		saldoCju = ingresoCju.add(egresoCju);
+		saldoCju = ingresoCju.subtract(egresoCju);				
         Map<String, BigDecimal> mapa = new HashMap<String, BigDecimal>();
         mapa.put("ingresoVentas", ingresoCju);
         mapa.put("egresoVentas", egresoCju);

@@ -13,7 +13,7 @@ export class MovimientoVenta {
 	//createAt!: string;
 	//pagoDinero!:number;
   //vueltoDinero!:number;
-  ingresoDinero!:number;
-  egresoDinero!:number;
+  ingresoDinero:number=0;
+  egresoDinero:number=0;
   saldoDinero!:number;
 }

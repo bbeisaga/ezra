@@ -2,6 +2,7 @@ import { Cliente } from './cliente';
 import { EstadoPedido } from './estado-pedido';
 import { ItemPedido } from './item-pedido';
 import { MovimientoVenta } from './movimiento-venta';
+import { TipoPedido } from './tipo-pedido';
 
 export class Pedido {
   id!:number;
@@ -11,15 +12,17 @@ export class Pedido {
   movimientosVenta:Array<MovimientoVenta> = [];
   cliente?:Cliente;
   estadoPedido!:EstadoPedido;
-  costoTotal!:number;
+  tipoPedido!:TipoPedido;
+  costoTotal:number=0;
   precioBrutoTotal!:number;
-  precioNetoTotal!:number;
+  precioNetoTotal:number=0;
   pagoBrutoTotal!:number;
   pagoNetoTotal!:number;
   saldoPedido!:number;
   //total!:number;
   createAt!:string;
   entregadoEn!:string;
+  adquiridoEn!:string;
   aceptado:boolean = true;
   vencido:boolean = false;
   pagado:boolean = false;

@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { concat } from 'rxjs';
 import moment from 'moment';
 import { COLOR_CAJA_USUARIO, ESTADO_CAJA_USUARIO } from '../../../../constants/caja-usuario.constants';
+import { AlertService } from '../../../../services/alert.service';
 
 @Component({
   selector: 'app-movimiento-venta',
@@ -38,6 +39,7 @@ export class MovimientoVentaComponent implements OnInit, AfterViewInit {
               private movimientoService: MovimientoService,
               private pedidoService : PedidoService,
               private authService: AuthService,
+              private alertService:AlertService,
               private router: Router
   ){
 
@@ -63,7 +65,8 @@ export class MovimientoVentaComponent implements OnInit, AfterViewInit {
 
 
         } else {
-          swal.fire('', `Debe aperturar caja`, 'info');
+          this.alertService.info(`Debe aperturar caja`,"Caja")
+          //swal.fire('', `Debe aperturar caja`, 'info');
           this.router.navigate(['/pr']);
         }
       }
@@ -93,15 +96,29 @@ export class MovimientoVentaComponent implements OnInit, AfterViewInit {
   }
 
   setMovimientoDinero():void{
-    let newSaldo = (this.pedido.saldoPedido - this.movimiento.ingresoDinero)
-    this.movimiento.ingresoDinero = this.movimiento.ingresoDinero
-    if(newSaldo >= 0) {
-      this.movimiento.egresoDinero = 0
-      this.movimiento.saldoDinero = newSaldo;
+    if(this.pedido.tipoPedido.nombre=="VENTA AL CLIENTE"){
+      let newSaldo = (this.pedido.saldoPedido - this.movimiento.ingresoDinero)
+     // this.movimiento.ingresoDinero = this.movimiento.ingresoDinero
+      if(newSaldo >= 0) {
+        this.movimiento.egresoDinero = 0
+        this.movimiento.saldoDinero = newSaldo;
+      }
+      if(newSaldo < 0) {
+        this.movimiento.egresoDinero = newSaldo
+        this.movimiento.saldoDinero = 0
+      }
     }
-    if(newSaldo < 0) {
-      this.movimiento.egresoDinero = newSaldo
-      this.movimiento.saldoDinero = 0
+    if(this.pedido.tipoPedido.nombre=="COMPRA O ADQUISICION"){
+      let newSaldo = (this.pedido.saldoPedido - this.movimiento.egresoDinero)
+      //this.movimiento.ingresoDinero = this.movimiento.ingresoDinero
+      if(newSaldo >= 0) {
+        this.movimiento.ingresoDinero = 0
+        this.movimiento.saldoDinero = newSaldo;
+      }
+      if(newSaldo < 0) {
+        this.movimiento.ingresoDinero = newSaldo
+        this.movimiento.saldoDinero = 0
+      }
     }
   }
 
@@ -109,6 +126,7 @@ export class MovimientoVentaComponent implements OnInit, AfterViewInit {
     this.movimiento.pedido = this.pedido
     this.movimiento.pedido.createAt="";
     this.movimiento.pedido.entregadoEn="";
+    this.movimiento.pedido.adquiridoEn="";
     this.movimiento.pedido.items=[];
     this.movimiento.pedido.movimientosVenta=[];
 
@@ -120,7 +138,8 @@ export class MovimientoVentaComponent implements OnInit, AfterViewInit {
     console.log("onSubmitForm...", this.movimiento);
     this.movimientoService.createMovimiento(this.movimiento).subscribe(
       resp => {
-          swal.fire(this.titulo, `Movimiento ${resp.cajaUsuario.id}, creado con éxito!`, 'success');
+        this.alertService.success(`Movimiento ${resp.cajaUsuario.id}, creado con éxito!`, this.titulo)
+          //swal.fire(this.titulo, `Movimiento ${resp.cajaUsuario.id}, creado con éxito!`, 'success');
           this.router.navigate(['/pr']);
       })
   }
