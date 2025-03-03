@@ -1,7 +1,7 @@
 import { Cliente } from './cliente';
 import { EstadoPedido } from './estado-pedido';
 import { ItemPedido } from './item-pedido';
-import { MovimientoVenta } from './movimiento-venta';
+import { Movimiento } from './movimiento';
 import { TipoPedido } from './tipo-pedido';
 
 export class Pedido {
@@ -9,7 +9,7 @@ export class Pedido {
   //descripcion!: string;
   observacion!: string;
   items:Array<ItemPedido> = [];
-  movimientosVenta:Array<MovimientoVenta> = [];
+  movimientos:Array<Movimiento> = [];
   cliente?:Cliente;
   estadoPedido!:EstadoPedido;
   tipoPedido!:TipoPedido;

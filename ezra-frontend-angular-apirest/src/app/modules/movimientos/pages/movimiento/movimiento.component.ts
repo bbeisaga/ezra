@@ -1,6 +1,5 @@
-import swal from 'sweetalert2';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { MovimientoVenta } from '../../../../models/movimiento-venta';
+import { Movimiento } from '../../../../models/movimiento';
 import { CajaService } from '../../../../services/caja.service';
 import { MovimientoService } from '../../../../services/movimiento.service';
 import { TipoPago } from '../../../../models/tipo-pago';
@@ -8,23 +7,21 @@ import { Pedido } from '../../../../models/pedido';
 import { PedidoService } from '../../../../services/pedido.service';
 import { CajaUsuario } from '../../../../models/caja-usuario';
 import { AuthService } from '../../../../services/auth.service';
-import { Usuario } from '../../../../models/usuario';
 import { TipoMovimiento } from '../../../../models/tipo-movimiento';
 import { find } from 'lodash';
 import { Router } from '@angular/router';
-import { concat } from 'rxjs';
 import moment from 'moment';
 import { COLOR_CAJA_USUARIO, ESTADO_CAJA_USUARIO } from '../../../../constants/caja-usuario.constants';
 import { AlertService } from '../../../../services/alert.service';
 
 @Component({
-  selector: 'app-movimiento-venta',
-  templateUrl: './movimiento-venta.component.html',
-  styleUrl: './movimiento-venta.component.css'
+  selector: 'app-movimiento',
+  templateUrl: './movimiento.component.html',
+  styleUrl: './movimiento.component.css'
 })
-export class MovimientoVentaComponent implements OnInit, AfterViewInit {
+export class MovimientoComponent implements OnInit {
   titulo: string = 'Movimiento de pago'
-  movimiento = new MovimientoVenta();
+  movimiento = new Movimiento();
   cajaUsuario!: CajaUsuario;
   pedido! : Pedido;
   tipoPagos: TipoPago[]=[];
@@ -87,9 +84,7 @@ export class MovimientoVentaComponent implements OnInit, AfterViewInit {
     //console.log("movimiento", this.movimiento);
   }
 
-  ngAfterViewInit(): void {
 
-  }
 
   findTipoMovimiento(id: number): TipoMovimiento {
     return find(this.tipoMovimientos,{'id': id})!
@@ -128,11 +123,11 @@ export class MovimientoVentaComponent implements OnInit, AfterViewInit {
     this.movimiento.pedido.entregadoEn="";
     this.movimiento.pedido.adquiridoEn="";
     this.movimiento.pedido.items=[];
-    this.movimiento.pedido.movimientosVenta=[];
+    this.movimiento.pedido.movimientos=[];
 
     this.cajaUsuario.fechaApertura="";
     this.cajaUsuario.fechaActualizacion="";
-    this.cajaUsuario.movimientosVenta=[]
+    this.cajaUsuario.movimientos=[]
 
     this.movimiento.cajaUsuario = {...this.cajaUsuario}
     console.log("onSubmitForm...", this.movimiento);

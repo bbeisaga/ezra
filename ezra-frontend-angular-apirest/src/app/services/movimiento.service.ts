@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 import { Caja } from '../models/caja';
 import { CajaUsuario } from '../models/caja-usuario';
 import { Usuario } from '../models/usuario';
-import { MovimientoVenta } from '../models/movimiento-venta';
+import { Movimiento } from '../models/movimiento';
 import { TipoMovimiento } from '../models/tipo-movimiento';
 import { TipoPago } from '../models/tipo-pago';
 import { MovimientoCaja } from '../models/movimiento-caja';
@@ -45,12 +45,12 @@ export class MovimientoService {
       );
   }
 
-  createMovimiento(movimientoVenta:MovimientoVenta): Observable <MovimientoVenta> {
-    return this.http.post(`${environment.apiUrl}/movimientos`, movimientoVenta
+  createMovimiento(movimiento:Movimiento): Observable <Movimiento> {
+    return this.http.post(`${environment.apiUrl}/movimientos`, movimiento
       /*, {headers: this.agregarAuthorizationHeader()}*/
     )
         .pipe(
-          map((response: any) => response.movimientoVenta as MovimientoVenta),
+          map((response: any) => response.movimiento as Movimiento),
           catchError(e => {
             if (e.status == 400) {
               return throwError(e);

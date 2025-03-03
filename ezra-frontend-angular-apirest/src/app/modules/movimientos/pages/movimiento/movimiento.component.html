@@ -11,7 +11,7 @@
       </div>
     </mat-card-header>
     <mat-card-content class="d-flex flex-column">
-      <ul class="list-group">
+       <ul class="list-group">
         <li class="list-group-item list-group-item-primary">Caja Usuario</li>
         <li class="list-group-item">Caja: {{cajaUsuario.caja.nombre}}</li>
         <li class="list-group-item">Ubicacion: {{cajaUsuario.caja.ubicacion}}</li>
@@ -74,31 +74,32 @@
     </mat-card-content>
   </form>
 
-  <div class="d-flex flex-row justify-content-center">
-      <div class="card border-info" style="margin-right: 5px;">
-        <div class="card card-header">
-          SALDO TOTAL
+    <div class="d-flex flex-row justify-content-center">
+        <div class="card border-info" style="margin-right: 5px;">
+          <div class="card card-header">
+            SALDO TOTAL
+          </div>
+          <div class="card card-body" >
+            <p style="font-size: 30px; font-weight: bolder;">{{pedido.saldoPedido| number:'2.2-2'}}</p>
+          </div>
         </div>
-        <div class="card card-body" >
-          <p style="font-size: 30px; font-weight: bolder;">{{pedido.saldoPedido| number:'2.2-2'}}</p>
+        <div class="card border-info" style="margin-right: 5px;">
+          <div class="card card-header">
+            PAGO
+          </div>
+          <div class="card card-body" >
+            <p style="font-size: 30px; font-weight: bolder;">{{movimiento.ingresoDinero| number:'2.2-2'}}</p>
+          </div>
         </div>
-      </div>
-      <div class="card border-info" style="margin-right: 5px;">
-        <div class="card card-header">
-          PAGO
+        <div class="card border-info">
+          <div class="card card-header">
+            VUELTO
+          </div>
+          <div class="card card-body" >
+            <p style="font-size: 30px; font-weight: bolder; color: red;">{{movimiento.egresoDinero| number:'2.2-2'}}</p>
+          </div>
         </div>
-        <div class="card card-body" >
-          <p style="font-size: 30px; font-weight: bolder;">{{movimiento.ingresoDinero| number:'2.2-2'}}</p>
-        </div>
-      </div>
-      <div class="card border-info">
-        <div class="card card-header">
-          VUELTO
-        </div>
-        <div class="card card-body" >
-          <p style="font-size: 30px; font-weight: bolder; color: red;">{{movimiento.egresoDinero| number:'2.2-2'}}</p>
-        </div>
-      </div>
-  </div>
+    </div>
 </mat-card>
+
 

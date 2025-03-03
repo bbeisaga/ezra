@@ -90,7 +90,7 @@ export class MovimientoCajaComponent implements OnInit, AfterViewInit {
   }
 
   onSubmitForm(){
-    this.cajaUsuario.movimientosVenta=[]
+    this.cajaUsuario.movimientos=[]
     this.cajaUsuario.movimientosCaja=[]
     this.cajaUsuario.fechaApertura="";
     this.cajaUsuario.fechaActualizacion="";

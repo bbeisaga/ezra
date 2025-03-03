@@ -55,7 +55,7 @@ public class CajaUsuario implements Serializable {
 	
 	@JsonIgnoreProperties({"cajaUsuario", "hibernateLazyInitializer", "handler" })
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cajaUsuario", cascade = CascadeType.ALL)
-	private List<MovimientoVenta> movimientosVenta;
+	private List<Movimiento> movimientos;
 	
 	@JsonIgnoreProperties({"cajaUsuario", "hibernateLazyInitializer", "handler" })
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cajaUsuario", cascade = CascadeType.ALL)
@@ -73,7 +73,7 @@ public class CajaUsuario implements Serializable {
 	}
 
 	public CajaUsuario() {
-		this.movimientosVenta = new ArrayList<>();
+		this.movimientos = new ArrayList<>();
 	}
 
 	public Long getId() {
@@ -107,14 +107,6 @@ public class CajaUsuario implements Serializable {
 	public void setIngresoEsperado(BigDecimal ingresoEsperado) {
 		this.ingresoEsperado = ingresoEsperado;
 	}
-
-//	public BigDecimal getIngresoPorConteo() {
-//		return ingresoPorConteo;
-//	}
-//
-//	public void setIngresoPorConteo(BigDecimal ingresoPorConteo) {
-//		this.ingresoPorConteo = ingresoPorConteo;
-//	}
 
 	
 	
@@ -159,12 +151,22 @@ public class CajaUsuario implements Serializable {
 	}
 
 
-	public List<MovimientoVenta> getMovimientosVenta() {
-		return movimientosVenta;
+
+
+	public Date getFechaActualizacion() {
+		return fechaActualizacion;
 	}
 
-	public void setMovimientosVenta(List<MovimientoVenta> movimientosVenta) {
-		this.movimientosVenta = movimientosVenta;
+	public void setFechaActualizacion(Date fechaActualizacion) {
+		this.fechaActualizacion = fechaActualizacion;
+	}
+
+	public List<Movimiento> getMovimientos() {
+		return movimientos;
+	}
+
+	public void setMovimientos(List<Movimiento> movimientos) {
+		this.movimientos = movimientos;
 	}
 
 	public BigDecimal getSaldoCaja() {

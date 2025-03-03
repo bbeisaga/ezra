@@ -9,20 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ezra.programandojuntos.models.dao.IMovimientoVentaDao;
+import com.ezra.programandojuntos.models.dao.IMovimientoDao;
 import com.ezra.programandojuntos.models.entity.CajaUsuario;
-import com.ezra.programandojuntos.models.entity.MovimientoVenta;
+import com.ezra.programandojuntos.models.entity.Movimiento;
 import com.ezra.programandojuntos.models.entity.Pedido;
 import com.ezra.programandojuntos.models.entity.TipoMovimiento;
 import com.ezra.programandojuntos.models.entity.TipoPago;
 
 @Service
-public class MovimientoVentaServiceImpl implements IMovimientoVentaService {
+public class MovimientoServiceImpl implements IMovimientoService {
 	
-	Logger log = LoggerFactory.getLogger(MovimientoVentaServiceImpl.class);
+	Logger log = LoggerFactory.getLogger(MovimientoServiceImpl.class);
 	
 	@Autowired
-	IMovimientoVentaDao movimientoDao;
+	IMovimientoDao movimientoDao;
 	
 //	@Autowired
 //	IPedidoDao pedidoDao;
@@ -51,8 +51,8 @@ public class MovimientoVentaServiceImpl implements IMovimientoVentaService {
 	
 	@Override
 	@Transactional
-	public MovimientoVenta saveMovimiento (MovimientoVenta movimiento){
-		MovimientoVenta newMovimiento = null;
+	public Movimiento saveMovimiento (Movimiento movimiento){
+		Movimiento newMovimiento = null;
 		CajaUsuario cajaUsuario = cajaUsuarioService
 				.findCajaUsuarioByUserIdAndCajaId(movimiento.getCajaUsuario().getUsuario().getId(), movimiento.getCajaUsuario().getCaja().getId());
 		

@@ -58,7 +58,7 @@ public class MovimientoCajaServiceImpl implements IMovimientoCajaService {
 			newSaldoCaja = cajaUsuario.getSaldoCaja().subtract(movimiento.getEgresoDinero());
 			if (newSaldoCaja.intValue() > 0) {
 				movimiento.setIngresoDinero(BigDecimal.valueOf(0));
-				movimiento.setEgresoDinero(movimiento.getEgresoDinero().multiply(BigDecimal.valueOf(-1)));		
+				movimiento.setEgresoDinero(movimiento.getEgresoDinero());		
 			} else {
 				return null;
 				//el saldo en caja no es suficiente para la transaccion

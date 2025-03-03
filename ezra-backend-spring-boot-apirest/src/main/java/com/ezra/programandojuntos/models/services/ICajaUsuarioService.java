@@ -23,7 +23,7 @@ public interface ICajaUsuarioService {
 
 	public CajaUsuario findById(Long id);
 	
-	public Map<String, BigDecimal> movimientoVentaDeCajaUsuario(Long cajaUsuarioId);
+	public Map<String, BigDecimal> movimientoDeCajaUsuario(Long cajaUsuarioId);
 	
 	public Map<String, BigDecimal> movimientoCajaDeCajaUsuario(Long cajaUsuarioId);
 

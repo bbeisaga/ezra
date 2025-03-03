@@ -19,7 +19,7 @@ import com.ezra.programandojuntos.models.dao.IPedidoDao;
 import com.ezra.programandojuntos.models.dao.IProductoDao;
 import com.ezra.programandojuntos.models.entity.EstadoPedido;
 import com.ezra.programandojuntos.models.entity.ItemPedido;
-import com.ezra.programandojuntos.models.entity.MovimientoVenta;
+import com.ezra.programandojuntos.models.entity.Movimiento;
 import com.ezra.programandojuntos.models.entity.Pedido;
 import com.ezra.programandojuntos.models.entity.TipoPedido;
 
@@ -194,12 +194,12 @@ Entregado	si		-						si*/
 	@Transactional(readOnly = true)
 	public Map<String, BigDecimal> movimientoPorPedido(Long pedidoId, Long tipoPedido){
 		Pedido pedido = findPedidoById(pedidoId);
-		List<MovimientoVenta> items= pedido.getMovimientosVenta();
+		List<Movimiento> items= pedido.getMovimientos();
 		BigDecimal saldoPedido = new BigDecimal(0);
 		BigDecimal ingresoPedido = new BigDecimal(0);
 		BigDecimal egresoPedido = new BigDecimal(0);
 
-		for (MovimientoVenta item : items) {
+		for (Movimiento item : items) {
 			ingresoPedido = ingresoPedido.add(item.getIngresoDinero()); //+
 			egresoPedido = egresoPedido.add(item.getEgresoDinero()); // -
 		}

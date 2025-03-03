@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MovimientosRoutingModule } from './movimientos-routing.module';
 import { CompartidoModule } from '../compartido/compartido.module';
-import { MovimientoVentaComponent } from './pages/movimiento-venta/movimiento-venta.component';
+import { MovimientoComponent } from './pages/movimiento/movimiento.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MovimientoCajaComponent } from './pages/movimiento-caja/movimiento-caja.component';
@@ -11,7 +11,7 @@ import { MovimientoCajaComponent } from './pages/movimiento-caja/movimiento-caja
 
 @NgModule({
   declarations: [
-    MovimientoVentaComponent,
+    MovimientoComponent,
     MovimientoCajaComponent],
   imports: [
     CommonModule,

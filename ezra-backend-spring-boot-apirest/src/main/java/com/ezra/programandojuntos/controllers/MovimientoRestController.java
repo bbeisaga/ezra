@@ -18,20 +18,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ezra.programandojuntos.models.entity.MovimientoVenta;
+import com.ezra.programandojuntos.models.entity.Movimiento;
 import com.ezra.programandojuntos.models.entity.TipoMovimiento;
 import com.ezra.programandojuntos.models.entity.TipoPago;
-import com.ezra.programandojuntos.models.services.IMovimientoVentaService;
+import com.ezra.programandojuntos.models.services.IMovimientoService;
 
 import jakarta.validation.Valid;
 
 @CrossOrigin(origins = { "http://localhost:4200" })
 @RestController
 @RequestMapping("/api")
-public class MovimientoVentaRestController {
+public class MovimientoRestController {
 
 	@Autowired
-	private IMovimientoVentaService movimientoService;
+	private IMovimientoService movimientoService;
 
 	@GetMapping("movimientos/tipoPagos")
 	@ResponseStatus(HttpStatus.OK)
@@ -47,9 +47,9 @@ public class MovimientoVentaRestController {
 	
 	//@Secured("ROLE_ADMIN")
 	@PostMapping("movimientos")
-	public ResponseEntity<?> create(@Valid @RequestBody MovimientoVenta movimientoVenta, BindingResult result) {
+	public ResponseEntity<?> create(@Valid @RequestBody Movimiento movimiento, BindingResult result) {
 		
-		MovimientoVenta movimientoNew = null;
+		Movimiento movimientoNew = null;
 		Map<String, Object> response = new HashMap<>();
 		
 		if(result.hasErrors()) {
@@ -63,7 +63,7 @@ public class MovimientoVentaRestController {
 		}
 		
 		try {
-			movimientoNew = movimientoService.saveMovimiento(movimientoVenta);
+			movimientoNew = movimientoService.saveMovimiento(movimiento);
 		} catch(DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert movimientos en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -71,7 +71,7 @@ public class MovimientoVentaRestController {
 		}
 		
 		response.put("mensaje", "Movimiento registrado con éxito!");
-		response.put("movimientoVenta", movimientoNew);
+		response.put("movimiento", movimientoNew);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	

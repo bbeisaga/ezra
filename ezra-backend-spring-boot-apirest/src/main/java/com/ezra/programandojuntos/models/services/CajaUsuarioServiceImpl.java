@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ezra.programandojuntos.models.dao.ICajaUsuarioDao;
 import com.ezra.programandojuntos.models.entity.CajaUsuario;
 import com.ezra.programandojuntos.models.entity.MovimientoCaja;
-import com.ezra.programandojuntos.models.entity.MovimientoVenta;
+import com.ezra.programandojuntos.models.entity.Movimiento;
 
 @Service
 public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
@@ -37,17 +37,17 @@ public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
 //		}
 		
 		if (cjActual!=null) {
-			Map<String, BigDecimal> movimientosVentas = movimientoVentaDeCajaUsuario(cajaUsuario.getId());
+			Map<String, BigDecimal> movimientos = movimientoDeCajaUsuario(cajaUsuario.getId());
 			Map<String, BigDecimal> movimientosCju = movimientoCajaDeCajaUsuario(cajaUsuario.getId());
 
 			cjActual.setIngresoEsperado(
-					movimientosVentas.get("ingresoVentas").add(
+					movimientos.get("ingresos").add(
 					movimientosCju.get("ingresoCju")));
 			cjActual.setEgresoEsperado(
-					movimientosVentas.get("egresoVentas").add(
+					movimientos.get("egresos").add(
 					movimientosCju.get("egresoCju")));
 			cjActual.setSaldoCaja(
-					movimientosVentas.get("saldoVentas").add(			
+					movimientos.get("saldos").add(			
 					movimientosCju.get("saldoCju")));
 			cjActual.setSaldoPorConteo(cajaUsuario.getSaldoPorConteo());
 			cjActual.setActiva(cajaUsuario.isActiva());
@@ -60,22 +60,22 @@ public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, BigDecimal> movimientoVentaDeCajaUsuario(Long cajaUsuarioId){
+	public Map<String, BigDecimal> movimientoDeCajaUsuario(Long cajaUsuarioId){
 		CajaUsuario cju = findById(cajaUsuarioId);
-		List<MovimientoVenta> items= cju.getMovimientosVenta();
+		List<Movimiento> items= cju.getMovimientos();
 		BigDecimal saldoCju = new BigDecimal(0);
 		BigDecimal ingresoCju = new BigDecimal(0);
 		BigDecimal egresoCju = new BigDecimal(0);
 
-		for (MovimientoVenta item : items) {
+		for (Movimiento item : items) {
 			ingresoCju = ingresoCju.add(item.getIngresoDinero()); //+
 			egresoCju = egresoCju.add(item.getEgresoDinero()); // -
 		}
 		saldoCju = ingresoCju.subtract(egresoCju);				
         Map<String, BigDecimal> mapa = new HashMap<String, BigDecimal>();
-        mapa.put("ingresoVentas", ingresoCju);
-        mapa.put("egresoVentas", egresoCju);
-        mapa.put("saldoVentas", saldoCju);
+        mapa.put("ingresos", ingresoCju);
+        mapa.put("egresos", egresoCju);
+        mapa.put("saldos", saldoCju);
 		return mapa;
 	}
 	

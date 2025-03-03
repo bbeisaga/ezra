@@ -66,6 +66,16 @@
         <td mat-cell *matCellDef="let element"> {{element.entregadoEn}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="adquiridoEn">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha compra </th>
+        <td mat-cell *matCellDef="let element"> {{element.adquiridoEn}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="tipoPedido">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo Pedido</th>
+        <td mat-cell *matCellDef="let element"> {{element.tipoPedido.nombre}} </td>
+      </ng-container>
+
 <!--       <ng-container matColumnDef="observacion">
         <th mat-header-cell *matHeaderCellDef> Observacion </th>
         <td mat-cell *matCellDef="let element"> {{element.observacion}} </td>
@@ -73,7 +83,7 @@
 
       <ng-container matColumnDef="saldoPedido">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Saldo </th>
-        <td mat-cell *matCellDef="let element"> {{element.saldoPedido}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.saldoPedido | currency: 'PEN'}} </td>
       </ng-container>
 
 <!--       <ng-container matColumnDef="pago">

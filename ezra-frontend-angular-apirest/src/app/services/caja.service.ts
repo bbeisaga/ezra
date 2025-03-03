@@ -41,8 +41,8 @@ export class CajaService {
     )
       .pipe(
        map<CajaUsuario ,CajaUsuario> ( resp =>{
-        if(resp!= null && resp.movimientosVenta.length > 0){
-          resp.movimientosVenta.splice(0,resp.movimientosVenta.length)
+        if(resp!= null && resp.movimientos.length > 0){
+          resp.movimientos.splice(0,resp.movimientos.length)
           }
         return resp
       }

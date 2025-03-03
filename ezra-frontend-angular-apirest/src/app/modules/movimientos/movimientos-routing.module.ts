@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MovimientoVentaComponent } from './pages/movimiento-venta/movimiento-venta.component';
+import { MovimientoComponent } from './pages/movimiento/movimiento.component';
 import { MovimientoCajaComponent } from './pages/movimiento-caja/movimiento-caja.component';
 
 const routes: Routes = [
-    { path: 'venta', component: MovimientoVentaComponent},
+    { path: '', component: MovimientoComponent},
     { path: 'caja', component: MovimientoCajaComponent},
 
 

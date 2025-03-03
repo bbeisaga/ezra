@@ -16,7 +16,7 @@ import { MatSort } from '@angular/material/sort';
 import { AuthService } from '../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { findIndex } from 'lodash';
-import { MovimientoVentaComponent } from '../../movimientos/pages/movimiento-venta/movimiento-venta.component';
+import { MovimientoComponent } from '../../movimientos/pages/movimiento/movimiento.component';
 import moment from 'moment';
 import { COLOR_ESTADO_PEDIDO } from '../../../constants/pedido.constants';
 import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constants/constantes';
@@ -31,7 +31,7 @@ import { PageableResponse } from '../../../models/pageable-response';
 export class PedidosComponent implements OnInit, AfterViewInit {
 
   title:string = 'Listado de pedidos'
-  displayedColumns: string[] = ['nombres','apellidos','createAt', 'entregadoEn', 'saldoPedido','estado','acciones' ];
+  displayedColumns: string[] = ['nombres','apellidos','createAt', 'entregadoEn','adquiridoEn', 'tipoPedido', 'saldoPedido','estado','acciones' ];
  // dataSource = new MatTableDataSource<Pedido>();
   dataSource: Pedido[]=[];
   pageable: PageableResponse = new PageableResponse();
@@ -66,7 +66,6 @@ export class PedidosComponent implements OnInit, AfterViewInit {
         this.paginator._intl.nextPageLabel = SIGUIENTE_PAGINA;
         this.paginator._intl.lastPageLabel = ULTIMA_PAGINA;
         this.loadItems();
-
   }
 
   loadItems():void {
@@ -84,7 +83,8 @@ export class PedidosComponent implements OnInit, AfterViewInit {
           this.dataSource = response.content as Pedido[];
           this.dataSource.forEach( (r : Pedido) => {
             r.createAt =  moment(r.createAt).format('DD/MM/YYYY');
-            r.entregadoEn = moment(r.entregadoEn).format('DD/MM/YYYY');
+            r.entregadoEn = r.entregadoEn==null?'-':moment(r.entregadoEn).format('DD/MM/YYYY');
+            r.adquiridoEn = r.adquiridoEn==null?'-':moment(r.adquiridoEn).format('DD/MM/YYYY');
             r.estadoPedido.color = COLOR_ESTADO_PEDIDO[ (''+ r.estadoPedido.id) as keyof typeof COLOR_ESTADO_PEDIDO];
           })
           //console.log(response);
@@ -115,7 +115,7 @@ export class PedidosComponent implements OnInit, AfterViewInit {
 
   setPedido (pedido: Pedido): void {
     this.pedidoService.setPedido(pedido);
-    this.ro.navigate(['pr/movimientos/venta']);
+    this.ro.navigate(['pr/movimientos']);
   }
 
 /*   updateItem(pedido: Pedido): void {

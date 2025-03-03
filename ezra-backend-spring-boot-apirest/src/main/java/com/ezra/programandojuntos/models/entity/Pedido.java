@@ -84,11 +84,11 @@ public class Pedido implements Serializable {
 	
 	@JsonIgnoreProperties({"pedido", "hibernateLazyInitializer", "handler" })
 	@OneToMany(fetch = FetchType.LAZY,mappedBy = "pedido" , cascade = CascadeType.ALL)
-	private List<MovimientoVenta> movimientosVenta;
+	private List<Movimiento> movimientos;
 
 	public Pedido() {
 		items = new ArrayList<>();
-		movimientosVenta = new ArrayList<>();
+		movimientos = new ArrayList<>();
 	}
 
 	@PrePersist
@@ -220,12 +220,12 @@ public class Pedido implements Serializable {
 
 
 
-	public List<MovimientoVenta> getMovimientosVenta() {
-		return movimientosVenta;
+	public List<Movimiento> getMovimientos() {
+		return movimientos;
 	}
 
-	public void setMovimientosVenta(List<MovimientoVenta> movimientosVenta) {
-		this.movimientosVenta = movimientosVenta;
+	public void setMovimientos(List<Movimiento> movimientos) {
+		this.movimientos = movimientos;
 	}
 
 	public BigDecimal getCostoTotal() {
