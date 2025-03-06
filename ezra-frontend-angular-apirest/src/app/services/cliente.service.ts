@@ -11,6 +11,7 @@ import { TipoDocumento } from '../models/tipo-documento';
 import { PageableParams } from '../models/pageable-params';
 import { PageableResponse } from '../models/pageable-response';
 import { environment } from '../../environments/environment';
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,10 @@ export class ClienteService {
 
   //private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
+  constructor(private http: HttpClient,
+    private router: Router,
+    private alertService: AlertService,
+    private authService: AuthService) {}
 
 /*   private agregarAuthorizationHeader(){
     let token = this.authService.token;
@@ -75,16 +79,15 @@ export class ClienteService {
 
   create(cliente: Cliente): Observable<Cliente> {
     return this.http.post(`${environment.apiUrl}/clientes`, cliente
-      /*,{headers: this.agregarAuthorizationHeader()}*/
     )
       .pipe(
         map((response: any) => response.cliente as Cliente),
         catchError(e => {
-          if (e.status == 400) {
+ /*          if (e.status == 400) {
             return throwError(e);
-          }
+          } */
           if (e.error.mensaje) {
-            console.error(e.error.mensaje);
+            this.alertService.error(e.error.mensaje,e.error.err);
           }
           return throwError(e);
         }));

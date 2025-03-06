@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ezra.programandojuntos.enums.SortActiveCliente;
 import com.ezra.programandojuntos.enums.SortDirection;
+import com.ezra.programandojuntos.exceptions.ClienteExceptions;
 import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.TipoDocumento;
 import com.ezra.programandojuntos.models.services.IClienteService;
@@ -123,7 +124,6 @@ public class ClienteRestController {
 		
 		Cliente clienteNew = null;
 		Map<String, Object> response = new HashMap<>();
-		
 		if(result.hasErrors()) {
 
 			List<String> errors = result.getFieldErrors()
@@ -134,17 +134,19 @@ public class ClienteRestController {
 			response.put("errors", errors);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
-		
 		try {
-			clienteNew = clienteService.save(cliente);
+			clienteNew = clienteService.insertar(cliente);
+			response.put("mensaje", "El cliente ha sido creado con éxito!");
+			response.put("cliente", clienteNew);
 		} catch(DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert en la base de datos");
-			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			response.put("err", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch(ClienteExceptions ce) {
+			response.put("mensaje", ce.getMessage());
+			response.put("err", "Error cliente");
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
-		response.put("mensaje", "El cliente ha sido creado con éxito!");
-		response.put("cliente", clienteNew);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
@@ -152,11 +154,8 @@ public class ClienteRestController {
 	@PutMapping("/clientes/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody Cliente cliente, BindingResult result, @PathVariable Long id) {
 
-		Cliente clienteActual = clienteService.findById(id);
-		Cliente clienteUpdated = null;
 		Map<String, Object> response = new HashMap<>();
 		if(result.hasErrors()) {
-
 			List<String> errors = result.getFieldErrors()
 					.stream()
 					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
@@ -166,30 +165,15 @@ public class ClienteRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
 		
-		if (clienteActual == null) {
-			response.put("mensaje", "Error: no se pudo editar, el cliente ID: "
-					.concat(id.toString().concat(" no existe en la base de datos!")));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
-		}
-
 		try {
-
-			clienteActual.setApellidos(cliente.getApellidos());
-			clienteActual.setNombres(cliente.getNombres());
-			clienteActual.setCelular(cliente.getCelular());
-			//clienteActual.setRegion(cliente.getRegion());
-			clienteActual.setTipoDocumento(cliente.getTipoDocumento());
-			clienteActual.setNumeroDocumento(cliente.getNumeroDocumento());
-			clienteUpdated = clienteService.save(clienteActual);
-
+			Cliente clienteUpdated  = clienteService.actualizar(cliente, id);
+			response.put("mensaje", "El cliente ha sido actualizado con éxito!");
+			response.put("cliente", clienteUpdated);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al actualizar el cliente en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
-		response.put("mensaje", "El cliente ha sido actualizado con éxito!");
-		response.put("cliente", clienteUpdated);
 
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
@@ -242,7 +226,7 @@ public class ClienteRestController {
 						
 			//cliente.setFoto(nombreArchivo);
 			
-			clienteService.save(cliente);
+			clienteService.insertar(cliente);
 			
 			response.put("cliente", cliente);
 			response.put("mensaje", "Has subido correctamente la imagen: " + nombreArchivo);

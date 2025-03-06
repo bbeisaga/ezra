@@ -25,8 +25,8 @@
       </ul>
       <ng-container>
         <mat-form-field>
-          <mat-label>PENDIENTE PAGO</mat-label>
-          <input matInput type="text" name="saldoPedido" #saldoPedidp="ngModel" [(ngModel)]="pedido.saldoPedido" disabled>
+          <mat-label>SALDO NETO PENDIENTE PAGO</mat-label>
+          <input matInput type="text" name="saldoPedido" #saldoPedido="ngModel" [(ngModel)]="pedido.saldoPedido" disabled>
         </mat-form-field>
       </ng-container>
       <mat-form-field class="example-full-width">
@@ -77,7 +77,7 @@
     <div class="d-flex flex-row justify-content-center">
         <div class="card border-info" style="margin-right: 5px;">
           <div class="card card-header">
-            SALDO TOTAL
+            SALDO NETO TOTAL
           </div>
           <div class="card card-body" >
             <p style="font-size: 30px; font-weight: bolder;">{{pedido.saldoPedido| number:'2.2-2'}}</p>

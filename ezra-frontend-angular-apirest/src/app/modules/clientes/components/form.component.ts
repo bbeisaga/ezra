@@ -5,6 +5,7 @@ import { ClienteService } from '../../../services/cliente.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { TipoDocumento } from '../../../models/tipo-documento';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
   selector: 'app-form',
@@ -14,20 +15,22 @@ export class FormComponent implements OnInit {
 
   cliente: Cliente = new Cliente();
   tipoDocumentos: TipoDocumento[]=[];
+  tipoDocumentoSelected!: TipoDocumento;
   titulo: string = "Crear Cliente";
 
   errores: string[]=[];
 
   constructor(private clienteService: ClienteService,
     private router: Router,
+    private alertServie: AlertService,
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(params => {
       let id = +params.get('id')!;
       if (id) {
-        this.clienteService.getCliente(id).subscribe((cliente) => this.cliente = cliente);
-        console.log("cliente=>", this.cliente);
+        this.clienteService.getCliente(id).subscribe((cliente) => {this.cliente = cliente});
+        console.log("clienteeeeeeeeeee=>", this.cliente);
       }
     });
 
@@ -36,23 +39,27 @@ export class FormComponent implements OnInit {
     /*     this.clienteService.getRegiones().subscribe(regiones => this.regiones = regiones);
      */
 
-    this.clienteService.getTipoDocumento().subscribe(doc => this.tipoDocumentos = doc);
-    console.log("documentos=>", this.tipoDocumentos);
+    this.clienteService.getTipoDocumento().subscribe(doc => {
+      this.tipoDocumentos = doc
+      console.log("documentos=>", this.tipoDocumentos);
+
+      this.tipoDocumentoSelected = this.tipoDocumentos[0]
+    });
   }
 
   create(): void {
-    console.log(this.cliente);
+    this.cliente.tipoDocumento = this.tipoDocumentoSelected
     this.clienteService.create(this.cliente)
       .subscribe(
         cliente => {
           this.router.navigate(['/pr']);
-          swal.fire('Nuevo cliente', `El cliente ${cliente.nombres} ha sido creado con éxito`, 'success');
+          this.alertServie.success(`El cliente ${cliente.nombres} ha sido creado con éxito`,'Nuevo cliente' )
         },
-        err => {
+/*         err => {
           this.errores = err.error.errors as string[];
           console.error('Código del error desde el backend: ' + err.status);
           console.error(err.error.errors);
-        }
+        } */
       );
   }
 
@@ -63,7 +70,7 @@ export class FormComponent implements OnInit {
       .subscribe(
         json => {
           this.router.navigate(['/pr/clientes']);
-          swal.fire('Cliente Actualizado', `${json.mensaje}: ${json.cliente.nombre}`, 'success');
+          this.alertServie.success(`${json.mensaje}: ${json.cliente.nombre}`,'Cliente Actualizado' )
         },
         err => {
           this.errores = err.error.errors as string[];

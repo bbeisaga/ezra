@@ -26,41 +26,44 @@ import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "clientes")
+@Getter
+@Setter
 public class Cliente implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotEmpty(message = "no puede estar vacio")
-	@Size(min = 4, max = 12, message = "el tamaño tiene que estar entre 4 y 12")
-	@Column(nullable = false)
+	//@NotEmpty(message = "no puede estar vacio")
+	@Size(min = 2, max = 25, message = "el tamaño tiene que estar entre 4 y 25")
+	//@Column(nullable = false)
 	private String nombres;
 
-	@NotEmpty(message = "no puede estar vacio")
+	//@NotEmpty(message = "no puede estar vacio")
+	@Size(min = 2, max = 25, message = "el tamaño tiene que estar entre 4 y 25")
 	private String apellidos;
+	
+	//@NotEmpty(message = "no puede estar vacio")
+	@Size(min = 2, message = "el tamaño muy pequeño")
+	private String razonSocial;
+	
+	//@NotEmpty(message = "no puede estar vacio")
+	private String direccion;
 
-//	@NotEmpty(message = "no puede estar vacio")
-//	@Email(message = "no es una dirección de correo bien formada")
-//	@Column(nullable = false, unique = true)
-//	private String email;
 
 //	@NotNull(message = "no puede estar vacio")
 	@Column(name = "create_at")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createAt;
 
-//	private String foto;
-
-//	@NotNull(message = "la región no puede ser vacia")
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "region_id")
-//	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-//	private Region region;
-	
+	@Column(name = "update_at")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date updateAt;
 
 	@NotNull(message = "Tipo documento no puede ser vacio")
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -68,10 +71,10 @@ public class Cliente implements Serializable {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private TipoDocumento tipoDocumento;
 	
-	@Column(name = "numero_documento")
+	@Column(name = "numero_documento", unique=true)
 	private String numeroDocumento;
 	
-	@Column(name = "celular")
+	@Column(name = "celular", unique=true)
 	private String celular;
 
 	@JsonIgnoreProperties(value={"cliente", "hibernateLazyInitializer", "handler"}, allowSetters=true)
@@ -86,101 +89,6 @@ public class Cliente implements Serializable {
 	public void prePersist() {
 		this.createAt = new Date();
 	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-
-
-//	public String getEmail() {
-//		return email;
-//	}
-//
-//	public void setEmail(String email) {
-//		this.email = email;
-//	}
-
-	public String getNombres() {
-		return nombres;
-	}
-
-	public void setNombres(String nombres) {
-		this.nombres = nombres;
-	}
-
-	public String getApellidos() {
-		return apellidos;
-	}
-
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
-	}
-
-	public Date getCreateAt() {
-		return createAt;
-	}
-
-	public void setCreateAt(Date createAt) {
-		this.createAt = createAt;
-	}
-
-//	public String getFoto() {
-//		return foto;
-//	}
-//
-//	public void setFoto(String foto) {
-//		this.foto = foto;
-//	}
-
-//	public Region getRegion() {
-//		return region;
-//	}
-//
-//	public void setRegion(Region region) {
-//		this.region = region;
-//	}
-	
-	public void setTipoDocumento(TipoDocumento tipoDocumento) {
-		this.tipoDocumento = tipoDocumento;
-	}
-
-	public void setPedidos(List<Pedido> pedidos) {
-		this.pedidos = pedidos;
-	}
-	
-
-	public List<Pedido> getPedidos() {
-		return pedidos;
-	}
-
-	public TipoDocumento getTipoDocumento() {
-		return tipoDocumento;
-	}
-
-
-	public String getNumeroDocumento() {
-		return numeroDocumento;
-	}
-
-	public void setNumeroDocumento(String numeroDocumento) {
-		this.numeroDocumento = numeroDocumento;
-	}
-
-
-
-	public String getCelular() {
-		return celular;
-	}
-
-	public void setCelular(String celular) {
-		this.celular = celular;
-	}
-
 
 
 	private static final long serialVersionUID = 1L;

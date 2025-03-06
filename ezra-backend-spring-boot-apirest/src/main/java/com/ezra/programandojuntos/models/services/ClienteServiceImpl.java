@@ -1,18 +1,25 @@
 package com.ezra.programandojuntos.models.services;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ezra.programandojuntos.dto.ParametrosPageable;
+import com.ezra.programandojuntos.errors.ClienteMapErrors;
+import com.ezra.programandojuntos.exceptions.ClienteExceptions;
+import com.ezra.programandojuntos.exceptions.PedidoExceptions;
 import com.ezra.programandojuntos.models.dao.IClienteDao;
 import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.TipoDocumento;
@@ -74,8 +81,42 @@ public class ClienteServiceImpl implements IClienteService {
 
 	@Override
 	@Transactional
-	public Cliente save(Cliente cliente) {
+	public Cliente insertar(Cliente cliente) {
+		Cliente clienteActual = null;
+		clienteActual = clienteDao.findByCelular(cliente.getCelular()).orElse(null);
+			
+		if (clienteActual != null) {
+			throw new ClienteExceptions(
+					ClienteMapErrors.getErrorString(ClienteMapErrors.CODE_CEL_DUPLICADO, clienteActual.getCelular())
+			);
+		}
+		
+		clienteActual = clienteDao.findByNumeroDocumento(cliente.getNumeroDocumento()).orElse(null);
+
+		if (clienteActual != null) {
+			throw new ClienteExceptions(
+					ClienteMapErrors.getErrorString(ClienteMapErrors.CODE_NUM_DOC_DUPLICADO, clienteActual.getNumeroDocumento())
+			);
+		}
 		return clienteDao.save(cliente);
+	}
+	
+	@Override
+	@Transactional
+	public Cliente actualizar(Cliente cliente, Long clienteId) {
+		
+		Cliente clienteActual = clienteDao.findById(clienteId)
+				.orElseThrow( ()-> new ClienteExceptions(
+						ClienteMapErrors.getErrorString(ClienteMapErrors.MSJ_NO_CLIENTE_ID, clienteId)
+				));
+		
+		clienteActual.setApellidos(cliente.getApellidos());
+		clienteActual.setNombres(cliente.getNombres());
+		clienteActual.setCelular(cliente.getCelular());
+		clienteActual.setTipoDocumento(cliente.getTipoDocumento());
+		clienteActual.setNumeroDocumento(cliente.getNumeroDocumento());
+		
+		return clienteDao.save(clienteActual);
 	}
 
 	@Override

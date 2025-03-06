@@ -26,7 +26,7 @@ import { AlertService } from '../../../services/alert.service';
 })
 export class ClientesComponent implements OnInit , AfterViewInit{
 
-  displayedColumns: string[] = ['apellidos','nombres','createAt' ,'numeroDocumento','celular','acciones' ];
+  displayedColumns: string[] = ['apellidos','nombres','razonSocial','createAt' ,'numeroDocumento','celular','acciones' ];
   //dataSource!: MatTableDataSource<Cliente>;
   dataSource : Cliente[]=[];
  //clientes: Cliente[]=[];

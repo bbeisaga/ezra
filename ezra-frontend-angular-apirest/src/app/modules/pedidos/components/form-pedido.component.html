@@ -13,9 +13,13 @@
     </mat-card-header>
     <mat-card-content class="d-flex flex-column">
        <ng-container>
-        <mat-form-field >
+        <mat-form-field *ngIf="!this.razonSocialActivate" >
           <mat-label>Cliente</mat-label>
           <input matInput  type="text" value="{{cliente.apellidos}} {{cliente.nombres}}" disabled>
+        </mat-form-field>
+        <mat-form-field *ngIf="this.razonSocialActivate" >
+          <mat-label>Razón social</mat-label>
+          <input matInput  type="text" value="{{cliente.razonSocial}}" disabled>
         </mat-form-field>
         <section >
           <label>Tipo pedido:</label>
@@ -59,15 +63,8 @@
             <th>Peso(KG)</th>
             <th>Medidas</th>
             <th *ngIf="tipoPedidoVentaClientes.activo">Precio Sugerido</th>
-
-
-<!--             <th *ngIf="!tipoPedidoIdSelected">Empaque</th>
- -->
             <th>Cantidad</th>
-            <th>Importe S/.</th>
-
-<!--             <th>Total S/.</th>
- -->
+            <th>S/.Importe con IGV</th>
             <th>Descripcion/Detalle</th>
             <th>Eliminar</th>
           </tr>
@@ -80,26 +77,12 @@
             <td>{{item.producto.peso}}</td>
             <td>{{item.producto.medidas}}</td>
             <td *ngIf="tipoPedidoVentaClientes.activo">{{item.producto.precioNeto| currency:'PEN'}}</td>
-            <!--Empaques
-            <td *ngIf="!tipoPedidoIdSelected">
-              <mat-form-field appearance="fill">
-                  <mat-select [(ngModel)]="item.producto.empaqueId" name="tipoDocumento">
-                    <mat-option *ngFor="let empaque of empaques" [value]="empaque.id">{{empaque.nombre}}</mat-option>
-                  </mat-select>
-              </mat-form-field>
-            </td>-->
             <td>
                <input matInput style="width:80px" type="number" value="{{item.cantidad}}" (change)="actualizarCantidad(item.producto.id, $event);calcularGranTotal(item.producto.id, $event) ">
-                <!--<input matInput style="width:80px" type="number" name="cantidad" [(ngModel)]="item.cantidad" ngModel="cantidad" (change)="actualizarCantidad(item.producto.id, $event)">-->
             </td>
             <td>
                <input mapinput style="width:90px" type="number" value="{{item.importe}}" (change)="calcularGranTotal(item.producto.id, $event)">
-
-                <!--<input matInput style="width:80px" type="number" name="costo" [(ngModel)]="item.costo" ngModel="costo" >-->
             </td>
-<!--             <td>
-              {{item.calcularImporteVentaCliente() | currency:'PEN'}}
-            </td> -->
             <td>
               <mat-form-field [ngStyle]="{'width': '100%'}">
                 <input matInput #message [(ngModel)]="item.descripcion" name="descripcion" #descripcion=ngModel maxlength="256" placeholder="Detalle el producto...">
@@ -114,15 +97,9 @@
                <td><mat-form-field style="width:100%">
                 <mat-label>GRANT TOTAL</mat-label>
                 <input *ngIf="tipoPedidoVentaClientes.activo" matInput value = "{{pedido.precioNetoTotal| currency:'PEN' }}" disabled>
-                <input *ngIf="!tipoPedidoVentaClientes.activo" matInput value = "{{pedido.costoTotal| currency:'PEN' }}" disabled>
+                <input *ngIf="!tipoPedidoVentaClientes.activo" matInput value = "{{pedido.costoNetoTotal| currency:'PEN' }}" disabled>
 
               </mat-form-field></td>
-
-      <!--         <td><mat-form-field style="width:100%">
-          <mat-label>A CUENTA/PAGO</mat-label>
-          <input matInput type="number" [(ngModel)]="pedido.pago" name="acuenta" #acuenta="ngModel" required>
-        </mat-form-field></td> -->
-
         <td>
           <mat-form-field *ngIf="tipoPedidoVentaClientes.activo" style="width:100%">
             <mat-label>FECHA ENTREGA</mat-label>

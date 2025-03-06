@@ -1,6 +1,7 @@
 package com.ezra.programandojuntos.models.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +20,9 @@ public interface IClienteDao extends JpaRepository<Cliente, Long>{
 	@Query("from TipoDocumento")
 	public List<TipoDocumento> findAllDocumentos();
 	
+	Optional<Cliente> findByNumeroDocumento(String numeroDocumento);
+	Optional<Cliente> findByCelular(String celular);
 	
-	@Query("SELECT c FROM Cliente c WHERE (c.nombres like %:query% OR c.apellidos like %:query% OR c.tipoDocumento.acronimo like %:query% OR c.numeroDocumento like %:query% OR c.celular like %:query%)")
+	@Query("SELECT c FROM Cliente c WHERE (c.nombres like %:query% OR c.apellidos like %:query% OR c.razonSocial like %:query% OR c.tipoDocumento.acronimo like %:query% OR c.numeroDocumento like %:query% OR c.celular like %:query%)")
 	Page<Cliente> findAllClientePageable(@Param("query") String query, Pageable pageRequest);
 }

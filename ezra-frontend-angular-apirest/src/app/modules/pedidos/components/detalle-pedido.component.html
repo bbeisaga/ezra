@@ -10,8 +10,9 @@
     <mat-card-content class="d-flex flex-column">
       <ul class="list-group my-2">
         <li class="list-group-item list-group-item-primary">Datos del cliente</li>
-        <li class="list-group-item">{{pedido.cliente!.nombres}}</li>
-        <li class="list-group-item">{{pedido.cliente!.apellidos}}</li>
+        <li *ngIf="this.razonSocialActivate" class="list-group-item">{{pedido.cliente!.razonSocial}}</li>
+        <li *ngIf="!this.razonSocialActivate" class="list-group-item">{{pedido.cliente!.nombres}}</li>
+        <li *ngIf="!this.razonSocialActivate" class="list-group-item">{{pedido.cliente!.apellidos}}</li>
         <li class="list-group-item">{{pedido.cliente!.tipoDocumento.acronimo}} : {{pedido.cliente!.numeroDocumento}}</li>
         <li class="list-group-item">Celular: {{pedido.cliente!.celular}}</li>
       </ul>
@@ -65,7 +66,7 @@
             PAGADO
           </div>
           <div class="card card-body" >
-            <p style="font-size: 30px; font-weight: bolder;">{{pedido.pagoNetoTotal | number:'2.2-2'}}</p>
+            <p style="font-size: 30px; font-weight: bolder;">{{pedido.pagoTotal | number:'2.2-2'}}</p>
           </div>
         </div>
         <div class="card border-info">

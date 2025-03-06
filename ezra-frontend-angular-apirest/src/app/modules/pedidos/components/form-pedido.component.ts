@@ -24,20 +24,14 @@ import { AlertService } from '../../../services/alert.service';
 })
 export class FormPedidoComponent implements OnInit {
 
-  //titulo: string = 'Nuevo Pedido';
-  //  displayedColumns: string[] = ['producto', 'precio', 'cantidad', 'importe', 'descripcion', 'eliminar'];
     pedido: Pedido = new Pedido();
     empaques: Empaque[]=[];
     cliente!: Cliente;
     autocompleteControl = new FormControl();
     tipoPedidoVentaClientes!:TipoPedido ;
-    //tipoPedidoVentaClientes: boolean=false;
-/*     tipoPedidos: TipoPedido[] = [
-      {"id": 1, "codigo":true, "nombre": "VENTA A CLIENTES"},
-      {"id": 2, "codigo":false, "nombre": "COMPRA O ADQUISICION"},
-    ]; */
     tipoPedidos: TipoPedido[] =[];
     productosFiltrados!: Observable<Producto[]>;
+    razonSocialActivate:boolean=false;
 
 
     constructor(private clienteService: ClienteService,
@@ -51,7 +45,13 @@ export class FormPedidoComponent implements OnInit {
     ngOnInit() {
       this.activatedRoute.paramMap.subscribe(params => {
         let clienteId = +params.get('clienteId')! ;
-        this.clienteService.getCliente(clienteId).subscribe(cliente => this.cliente = cliente);
+        this.clienteService.getCliente(clienteId).subscribe(cliente => {
+          this.cliente = cliente
+          if(this.cliente.razonSocial.length>0 ){
+            this.razonSocialActivate=true;
+          }
+        }
+        );
       });
 
       this.productosFiltrados = this.autocompleteControl.valueChanges
@@ -66,15 +66,6 @@ export class FormPedidoComponent implements OnInit {
         )
         this.tipoPedidoVentaClientes = this.tipoPedidos[0];
       });
-       // this.genericosDeProductoService.getGenericos().subscribe(result =>{
-          //this.genericosDeProducto = result
-          //this.colores =  result.filter(p => p.id>=10 && p.id<30);
-          //this.materiales = result.filter(p => p.id>=30 && p.id<50);
-          //this.origenes = result.filter(p => p.id>=50 && p.id<70);
-          //this.empaques = result.filter(p => p.id>=70 && p.id<90);
-          //this.categorias = result.filter(p => p.id>=90 && p.id<100);
-          //this.usos = result.filter(p => p.id>=100 && p.id<120);
-        //});
     }
 
     private _filter(value: string): Observable<Producto[]> {
@@ -84,8 +75,6 @@ export class FormPedidoComponent implements OnInit {
     }
 
     mostrarNombre(producto: Producto): string  {
-/*       return producto ? (producto.nombre + producto.color?.nombre + producto.material?.nombre) : '';
- */
       return producto ? producto.nombre  : '';
 
     }
@@ -102,7 +91,6 @@ export class FormPedidoComponent implements OnInit {
       }
 
       this.autocompleteControl.setValue('');
-      //this.calcularGranTotal();
       event.option.focus();
       event.option.deselect();
 
@@ -110,7 +98,6 @@ export class FormPedidoComponent implements OnInit {
 
     actualizarCantidad(id: number, event: any): void {
       let cantidad: number = event.target.value as number;
-      //debugger;
       if (cantidad == 0) {
         return this.eliminarItemPedido(id);
       }
@@ -121,14 +108,10 @@ export class FormPedidoComponent implements OnInit {
         }
         return item;
       });
-
-      //this.calcularGranTotal();
     }
 
     calcularGranTotal(id: number, event: any): void {
-      //debugger;
       let importe: number = event.target.value as number;
-
       this.pedido.items = this.pedido.items.map((item: ItemPedido) => {
         if (id === item.producto.id) {
           item.importe = importe;
@@ -136,18 +119,15 @@ export class FormPedidoComponent implements OnInit {
         return item;
       });
 
-     // let grandTotal = 0;
       this.pedido.precioNetoTotal = 0;
-      this.pedido.costoTotal = 0;
+      this.pedido.costoNetoTotal = 0;
       this.pedido.items.forEach((item: ItemPedido) => {
         if(this.tipoPedidoVentaClientes.activo){
-              //this.pedido.precioNetoTotal += item.calcularImporteVentaCliente();
               this.pedido.precioNetoTotal +=parseFloat(item.importe.toString());
             } else {
-              this.pedido.costoTotal += parseFloat(item.importe.toString());
+              this.pedido.costoNetoTotal += parseFloat(item.importe.toString());
             }
         });
-     // return grandTotal;
     }
 
     existeItem(id: number): boolean {
@@ -183,10 +163,9 @@ export class FormPedidoComponent implements OnInit {
         this.cliente.pedidos=[];
         this.pedido.cliente = {...this.cliente}
         this.pedido.tipoPedido = this.tipoPedidoVentaClientes
-        console.log(this.pedido);
+        console.log(JSON.stringify(this.pedido));
 
         this.pedidoService.create(this.pedido).subscribe(json => {
-          //swal.fire(this.titulo, `Pedido para ${pedido.cliente?.apellidos}, ${pedido.cliente?.nombres} creado con éxito!`, 'success');
           this.alertService.success(`Pedido para ${json.pedido.cliente?.apellidos}, ${json.pedido.cliente?.nombres} creado con éxito!`,'success')
           this.router.navigate(['/pr/clientes']);
         });

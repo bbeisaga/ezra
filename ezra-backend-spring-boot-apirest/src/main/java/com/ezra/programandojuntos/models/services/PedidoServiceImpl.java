@@ -1,6 +1,7 @@
 package com.ezra.programandojuntos.models.services;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ezra.programandojuntos.errors.PedidoMapErrors;
+import com.ezra.programandojuntos.exceptions.PedidoExceptions;
 import com.ezra.programandojuntos.models.dao.IPedidoDao;
 import com.ezra.programandojuntos.models.dao.IProductoDao;
 import com.ezra.programandojuntos.models.entity.EstadoPedido;
@@ -41,6 +44,8 @@ Entregado	si		-						si*/
 	public static final Long PEDIDO_ENTREGADO = 4L;
 	public static final Long TIPO_PEDIDO_VENTA = 1L;
 	public static final Long TIPO_PEDIDO_COMPRA = 2L;
+	public static final BigDecimal IGV =new BigDecimal(0.18);
+
 
 
 	@Autowired
@@ -73,32 +78,40 @@ Entregado	si		-						si*/
 
 	@Override
 	@Transactional
-	public Pedido registrarPedido(Pedido pedido) {	
+	public Pedido registrarPedido(Pedido pedido) throws PedidoExceptions {	
 		TipoPedido tipoPedido = pedidoDao.findTipoPedidoById(pedido.getTipoPedido().getId());
 		pedido.setPagado(false);
 		pedido.setAceptado(false);
 		pedido.setVencido(false);
-		if((pedido.getEntregadoEn()!=null && pedido.getEntregadoEn().before(new Date())) || 
-		   (pedido.getAdquiridoEn()!=null && pedido.getAdquiridoEn().before(new Date()))
-		){
-			pedido.setVencido(true);
-		}
 		pedido.setPrecioBrutoTotal(new BigDecimal(0));
-		pedido.setPagoBrutoTotal(new BigDecimal(0));
-		pedido.setPagoNetoTotal(new BigDecimal(0));
-//				.stream()
-//				.filter(tipo -> tipo.getId()== TIPO_PEDIDO_VENTA)
-//				.collect(Collectors.toList())
-//				.get(0));
-		
+		pedido.setPagoTotal(new BigDecimal(0));
 		if(tipoPedido.getId()==TIPO_PEDIDO_VENTA){
-			pedido.setPrecioNetoTotal(pendienteImporte(pedido.getItems(), new BigDecimal(0)));
-			pedido.setSaldoPedido(pedido.getPrecioNetoTotal());
+			if(pedido.getEntregadoEn()==null){
+				throw new PedidoExceptions(PedidoMapErrors.getErrorString(PedidoMapErrors.CODE_FECHA_VENTA));
+			} 
 			
+			if(pedido.getEntregadoEn().before(new Date())){
+				pedido.setVencido(true);
+			}
+			pedido.setPrecioNetoTotal(pendienteImporte(pedido.getItems(), new BigDecimal(0)));
+			pedido.setPrecioBrutoTotal(pedido.getPrecioNetoTotal().divide(IGV.add(new BigDecimal(1)),2, RoundingMode.HALF_UP));
+			//pedido.setSaldoBrutoPedido(pedido.getPrecioBrutoTotal());
+			pedido.setSaldoPedido(pedido.getPrecioNetoTotal());
+
 		} else if(tipoPedido.getId()==TIPO_PEDIDO_COMPRA) {
-			pedido.setCostoTotal(pendienteImporte(pedido.getItems(), new BigDecimal(0)));
-			pedido.setSaldoPedido(pedido.getCostoTotal());
+			if(pedido.getAdquiridoEn()==null){
+				throw new PedidoExceptions(PedidoMapErrors.getErrorString(PedidoMapErrors.CODE_FECHA_ADQUISICION));
+			} 
+			if(pedido.getAdquiridoEn().before(new Date())){
+				pedido.setVencido(true);
+			}
+			
+			pedido.setCostoNetoTotal(pendienteImporte(pedido.getItems(), new BigDecimal(0)));
+			pedido.setCostoBrutoTotal(pedido.getCostoNetoTotal().divide(IGV.add(new BigDecimal(1)),2, RoundingMode.HALF_UP));
+			//pedido.setSaldoBrutoPedido(pedido.getCostoBrutoTotal());
+			pedido.setSaldoPedido(pedido.getCostoNetoTotal());
 		}
+		
 		pedido.setTipoPedido(tipoPedido);
 
 		if(pedido.getSaldoPedido().intValue() < 1) {
@@ -139,17 +152,18 @@ Entregado	si		-						si*/
 		Map<String, BigDecimal> movimientosPedido = null;	
 		if(pedidoActual.getTipoPedido().getId()==TIPO_PEDIDO_VENTA){
 			movimientosPedido = movimientoPorPedido(id, TIPO_PEDIDO_VENTA);
-			pedidoActual.setPrecioNetoTotal(pendienteImporte(pedidoActual.getItems(), new BigDecimal(0)));
-			pedidoActual.setPagoNetoTotal(movimientosPedido.get("ingresoPedido"));
-			pedidoActual.setVueltoNetoTotal(movimientosPedido.get("egresoPedido"));	
+			//pedidoActual.setPrecioNetoTotal(pendienteImporte(pedidoActual.getItems(), new BigDecimal(0)));
+			//pedidoActual.setPrecioBrutoTotal(pedidoActual.getPrecioBrutoTotal().divide(IGV.add(new BigDecimal(1))));
+			pedidoActual.setPagoTotal(movimientosPedido.get("ingresoPedido"));
+			pedidoActual.setVueltoTotal(movimientosPedido.get("egresoPedido"));	
 		}
 		else if(pedidoActual.getTipoPedido().getId()==TIPO_PEDIDO_COMPRA) {
 			movimientosPedido = movimientoPorPedido(id, TIPO_PEDIDO_COMPRA);
-			pedidoActual.setCostoTotal(pendienteImporte(pedidoActual.getItems(), new BigDecimal(0)));
-			pedidoActual.setPagoNetoTotal(movimientosPedido.get("egresoPedido"));
-			pedidoActual.setVueltoNetoTotal(movimientosPedido.get("ingresoPedido"));
+			//pedidoActual.setCostoNetoTotal(pendienteImporte(pedidoActual.getItems(), new BigDecimal(0)));
+			//pedidoActual.setCostoBrutoTotal(pedidoActual.getCostoBrutoTotal().divide(IGV.add(new BigDecimal(1))));
+			pedidoActual.setPagoTotal(movimientosPedido.get("egresoPedido"));
+			pedidoActual.setVueltoTotal(movimientosPedido.get("ingresoPedido"));
 		}
-		pedidoActual.setPagoBrutoTotal(new BigDecimal(0));		
 		pedidoActual.setSaldoPedido(pendienteImporte(pedidoActual.getItems(), movimientosPedido.get("saldoPedido")));
 		if(pedidoActual.getSaldoPedido().intValue() < 1) {
 			pedidoActual.setPagado(true);
@@ -185,6 +199,13 @@ Entregado	si		-						si*/
 	public BigDecimal pendienteImporte (List<ItemPedido> itemPedido, BigDecimal pago) {
 		BigDecimal total = new BigDecimal(0);
 		for (ItemPedido item : itemPedido) {
+			 if(item.getImporte()== null || item.getImporte().floatValue()<=0)  {
+				 throw new PedidoExceptions(
+						 PedidoMapErrors.getErrorString(
+								PedidoMapErrors.CODE_IMPORTE_ITEMS_PEDIDO, 
+						 		item.getProducto().getNombre()
+						 ));
+			 }
 			total = total.add(item.getImporte());
 		}
 		return (total.subtract(pago));

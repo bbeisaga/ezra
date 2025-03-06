@@ -31,7 +31,7 @@ import { PageableResponse } from '../../../models/pageable-response';
 export class PedidosComponent implements OnInit, AfterViewInit {
 
   title:string = 'Listado de pedidos'
-  displayedColumns: string[] = ['nombres','apellidos','createAt', 'entregadoEn','adquiridoEn', 'tipoPedido', 'saldoPedido','estado','acciones' ];
+  displayedColumns: string[] = ['nombres','apellidos','razonSocial','createAt', 'entregadoEn','adquiridoEn', 'tipoPedido', 'saldoPedido', 'estado','acciones' ];
  // dataSource = new MatTableDataSource<Pedido>();
   dataSource: Pedido[]=[];
   pageable: PageableResponse = new PageableResponse();

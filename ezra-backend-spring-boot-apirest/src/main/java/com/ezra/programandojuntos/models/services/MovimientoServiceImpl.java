@@ -75,7 +75,30 @@ public class MovimientoServiceImpl implements IMovimientoService {
 				
 		if(pedido == null ){return null;}
 		
+		//BigDecimal newSaldoBruto = BigDecimal.valueOf(0);
 		BigDecimal newSaldo = BigDecimal.valueOf(0);
+
+//		if(movimiento.getPedido().getTipoPedido().getNombre().equalsIgnoreCase("VENTA AL CLIENTE"))
+//		{
+//			newSaldoBruto = pedido.getSaldoBrutoPedido().subtract(movimiento.getIngresoDinero());
+//			if (newSaldoBruto.intValue() >= 0) {
+//				movimiento.setEgresoDinero(BigDecimal.valueOf(0));
+//			}
+//			if (newSaldoBruto.intValue() < 0) {
+//				movimiento.setEgresoDinero(newSaldoBruto.abs());//- con abs cambiamos a +
+//			}
+//		}
+//		if(movimiento.getPedido().getTipoPedido().getNombre().equalsIgnoreCase("COMPRA O ADQUISICION"))
+//		{
+//			newSaldoBruto = pedido.getSaldoBrutoPedido().subtract(movimiento.getEgresoDinero());
+//			if (newSaldoBruto.intValue() >= 0) {
+//				movimiento.setIngresoDinero(BigDecimal.valueOf(0));
+//			}
+//			if (newSaldoBruto.intValue() < 0) {
+//				movimiento.setIngresoDinero(newSaldoBruto.abs());
+//			}
+//		}
+		
 		if(movimiento.getPedido().getTipoPedido().getNombre().equalsIgnoreCase("VENTA AL CLIENTE"))
 		{
 			newSaldo = pedido.getSaldoPedido().subtract(movimiento.getIngresoDinero());

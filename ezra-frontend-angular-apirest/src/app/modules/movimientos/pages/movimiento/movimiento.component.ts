@@ -92,8 +92,17 @@ export class MovimientoComponent implements OnInit {
 
   setMovimientoDinero():void{
     if(this.pedido.tipoPedido.nombre=="VENTA AL CLIENTE"){
+     // let newSaldoBruto = (this.pedido.saldoBrutoPedido - this.movimiento.ingresoDinero)
       let newSaldo = (this.pedido.saldoPedido - this.movimiento.ingresoDinero)
-     // this.movimiento.ingresoDinero = this.movimiento.ingresoDinero
+/*
+      if(newSaldoBruto >= 0) {
+        this.movimiento.egresoDinero = 0
+        this.movimiento.saldoBrutoDinero = newSaldoBruto;
+      }
+      if(newSaldoBruto < 0) {
+        this.movimiento.egresoDinero = newSaldoBruto
+        this.movimiento.saldoBrutoDinero = 0
+      } */
       if(newSaldo >= 0) {
         this.movimiento.egresoDinero = 0
         this.movimiento.saldoDinero = newSaldo;
@@ -104,8 +113,17 @@ export class MovimientoComponent implements OnInit {
       }
     }
     if(this.pedido.tipoPedido.nombre=="COMPRA O ADQUISICION"){
+      //let newSaldoBruto = (this.pedido.saldoBrutoPedido - this.movimiento.egresoDinero)
       let newSaldo = (this.pedido.saldoPedido - this.movimiento.egresoDinero)
-      //this.movimiento.ingresoDinero = this.movimiento.ingresoDinero
+
+/*       if(newSaldoBruto >= 0) {
+        this.movimiento.ingresoDinero = 0
+        this.movimiento.saldoBrutoDinero = newSaldoBruto;
+      }
+      if(newSaldoBruto < 0) {
+        this.movimiento.ingresoDinero = newSaldoBruto
+        this.movimiento.saldoBrutoDinero = 0
+      } */
       if(newSaldo >= 0) {
         this.movimiento.ingresoDinero = 0
         this.movimiento.saldoDinero = newSaldo;

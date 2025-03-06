@@ -37,7 +37,6 @@ export class CajaService {
 
   getCajaUsuarioByUserName(username: string): Observable<CajaUsuario>{
     return this.http.get<CajaUsuario>(`${environment.apiUrl}/cajas/usuarios/${username}`
-      /*, {headers: this.agregarAuthorizationHeader()}*/
     )
       .pipe(
        map<CajaUsuario ,CajaUsuario> ( resp =>{

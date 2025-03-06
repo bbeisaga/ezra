@@ -11,6 +11,7 @@ export class DetallePedidoComponent implements OnInit {
 
   pedido!: Pedido;
   titulo: string = 'Pedido';
+  razonSocialActivate:boolean=false;
 
   constructor(private pedidoService: PedidoService,
               private activatedRoute: ActivatedRoute) { }
@@ -20,6 +21,9 @@ export class DetallePedidoComponent implements OnInit {
       let pedidoId = +params.get('pedidoId')!;
       this.pedidoService.getPedido(pedidoId).subscribe(pedido => {
         this.pedido = pedido
+        if(this.pedido!.cliente!.razonSocial.length>0 ){
+          this.razonSocialActivate=true;
+        }
         console.log("Detalle pedido....", this.pedido)
 
       });

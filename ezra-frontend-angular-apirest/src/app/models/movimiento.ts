@@ -15,5 +15,7 @@ export class Movimiento {
   //vueltoDinero!:number;
   ingresoDinero:number=0;
   egresoDinero:number=0;
+  //saldoBrutoDinero!:number;
   saldoDinero!:number;
+
 }

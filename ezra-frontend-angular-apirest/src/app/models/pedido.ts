@@ -13,12 +13,14 @@ export class Pedido {
   cliente?:Cliente;
   estadoPedido!:EstadoPedido;
   tipoPedido!:TipoPedido;
-  costoTotal:number=0;
+  costoBrutoTotal:number=0;
+  costoNetoTotal:number=0;
   precioBrutoTotal!:number;
   precioNetoTotal:number=0;
-  pagoBrutoTotal!:number;
-  pagoNetoTotal!:number;
+  pagoTotal!:number;
+  vueltoTotal!:number;
   saldoPedido!:number;
+
   //total!:number;
   createAt!:string;
   entregadoEn!:string;

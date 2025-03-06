@@ -19,8 +19,10 @@ public interface IClienteService {
 	
 	public Cliente findById(Long id);
 	
-	public Cliente save(Cliente cliente);
+	public Cliente insertar(Cliente cliente);
 	
+	public Cliente actualizar(Cliente cliente, Long clienteId);
+
 	public void delete(Long id);
 	
 	//public List<Region> findAllRegiones();

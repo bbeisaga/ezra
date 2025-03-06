@@ -86,12 +86,12 @@ export class PedidoService {
     return this.http.post<any>(`${environment.apiUrl}/pedidos`, pedido
     ).pipe(
       catchError(e => {
-         if (e.status == 400) {
+/*          if (e.status == 400) {
           return throwError(e);
-        }
+        } */
         if (e.error.mensaje) {
-          this.alertService.error(e.error.error,e.error.mensaje);
-          console.error(e.error.mensaje);
+          this.alertService.error(e.error.mensaje, e.error.err);
+          //console.error(e.error.mensaje);
         }
         return throwError(e);
       }));

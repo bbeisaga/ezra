@@ -1,8 +1,8 @@
-<ul class="alert alert-danger" *ngIf="errores.length > 0">
+<!-- <ul class="alert alert-danger" *ngIf="errores.length > 0">
   <li *ngFor="let err of errores">
     {{ err }}
   </li>
-</ul>
+</ul> -->
 
 <mat-card appearance="outlined">
   <form class="d-flex flex-column" #clienteForm="ngForm">
@@ -19,22 +19,28 @@
     </mat-card-header>
       <!--   <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
     <mat-card-content class="d-flex flex-column">
-          <!--       <div class="form-group row">
-          <label for="nombre" class="col-form-label col-sm-2">Nombre</label>
-          <div class="col-sm-6">
-            <input type="text" class="form-control" [(ngModel)]="cliente.nombre" name="nombre" #nombre="ngModel">
-            <div class="alert alert-danger" *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)">
-              <div *ngIf="nombre?.errors?.['required']">
-                Nombre es requerido
-              </div>
-              <div *ngIf="nombre.errors?.['minlength']">
-                Nombre debe tener al menos 4 caracteres
-              </div>
-            </div>
-          </div>
-        </div> -->
+      <mat-form-field appearance="fill">
+        <mat-label>Tipo documento</mat-label>
+          <mat-select [compareWith]="compararDocumento" [(ngModel)]="tipoDocumentoSelected" name="tipoDocumento">
+            <mat-option [value]="undefined">--- selecionar documento ---</mat-option>
+            <mat-option *ngFor="let documento of tipoDocumentos" [value]="documento">{{documento.nombre}}</mat-option>
+          </mat-select>
+      </mat-form-field>
+      <mat-form-field class="fill">
+        <mat-label>Número documento</mat-label>
+        <input type="text" matInput [(ngModel)]="cliente.numeroDocumento" name="numeroDocumento" #numeroDocumento="ngModel" minlength="8">
+        <!-- <mat-hint>Errors appear instantly!</mat-hint> -->
+        <div *ngIf="numeroDocumento.invalid && (numeroDocumento.dirty || numeroDocumento.touched)">
+          <mat-error *ngIf="numeroDocumento.errors?.['required']">
+            Documento es requerido
+          </mat-error>
+          <mat-error *ngIf="numeroDocumento.errors?.['minlength']">
+            Documento debe tener al menos 8 caracteres
+          </mat-error>
+        </div>
+    </mat-form-field>
 
-        <mat-form-field class="example-full-width">
+        <mat-form-field *ngIf="tipoDocumentoSelected.acronimo!=='RUC'" class="example-full-width">
           <mat-label>Nombres</mat-label>
           <input matInput  type="text" class="form-control" [(ngModel)]="cliente.nombres" name="nombres" #nombres="ngModel">
           <div *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)">
@@ -59,7 +65,7 @@
           </div>
         </div> -->
 
-        <mat-form-field class="example-full-width">
+        <mat-form-field *ngIf="tipoDocumentoSelected.acronimo!=='RUC'" class="example-full-width">
           <mat-label>Apellidos</mat-label>
           <input matInput  type="text" class="form-control" [(ngModel)]="cliente.apellidos" name="apellidos" #apellidos="ngModel">
           <div *ngIf="apellidos.invalid && (apellidos.dirty || apellidos.touched)">
@@ -69,6 +75,18 @@
             <mat-error *ngIf="apellidos.errors?.['minlength']">
               Apellidos debe tener al menos 4 caracteres
             </mat-error>
+          </div>
+        </mat-form-field>
+        <mat-form-field *ngIf="tipoDocumentoSelected.acronimo=='RUC'" class="example-full-width">
+          <mat-label>Razón social</mat-label>
+          <input matInput  type="text" class="form-control" [(ngModel)]="cliente.razonSocial" name="razonSocial" #razonSocial="ngModel">
+          <div *ngIf="razonSocial.invalid && (razonSocial.dirty || razonSocial.touched)">
+            <mat-error *ngIf="razonSocial.errors?.['required']">
+              Razón social es requerido
+            </mat-error>
+ <!--            <mat-error *ngIf="razonSocial.errors?.['minlength']">
+              Apellidos debe tener al menos 4 caracteres
+            </mat-error> -->
           </div>
         </mat-form-field>
 
@@ -88,16 +106,27 @@
           </div> -->
 
 
-
+          <mat-form-field class="example-full-width">
+            <mat-label>Direccion</mat-label>
+            <input matInput [(ngModel)]="cliente.direccion" name="direccion" #direccion="ngModel" minlength="4">
+            <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)">
+<!--               <mat-error *ngIf="direccion.errors?.['required']">
+                Celular es requerido
+              </mat-error> -->
+              <mat-error *ngIf="direccion.errors?.['minlength']">
+                Direccion debe tener mas de 4 caracteres
+              </mat-error>
+            </div>
+          </mat-form-field>
         <mat-form-field class="example-full-width">
           <mat-label>Celular</mat-label>
-          <input matInput [(ngModel)]="cliente.celular" name="celular" #celular="ngModel">
+          <input matInput [(ngModel)]="cliente.celular" name="celular" #celular="ngModel" minlength="6">
           <div *ngIf="celular.invalid && (celular.dirty || celular.touched)">
-            <mat-error *ngIf="celular.errors?.['required']">
+<!--             <mat-error *ngIf="celular.errors?.['required']">
               Celular es requerido
-            </mat-error>
+            </mat-error> -->
             <mat-error *ngIf="celular.errors?.['minlength']">
-              Celular debe tener al menos 4 caracteres
+              Celular tiene pocos digitos
             </mat-error>
           </div>
         </mat-form-field>
@@ -128,26 +157,6 @@
             </div>
           </div> -->
 
-          <mat-form-field appearance="fill">
-            <mat-label>Tipo documento</mat-label>
-              <mat-select [compareWith]="compararDocumento" [(ngModel)]="cliente.tipoDocumento" name="tipoDocumento">
-                <mat-option [value]="undefined">--- selecionar documento ---</mat-option>
-                <mat-option *ngFor="let documento of tipoDocumentos" [value]="documento">{{documento.nombre}}</mat-option>
-              </mat-select>
-          </mat-form-field>
-          <mat-form-field class="fill">
-            <mat-label>Número documento</mat-label>
-            <input type="text" matInput [(ngModel)]="cliente.numeroDocumento" name="numeroDocumento" #numeroDocumento="ngModel" minlength="8">
-            <!-- <mat-hint>Errors appear instantly!</mat-hint> -->
-            <div *ngIf="numeroDocumento.invalid && (numeroDocumento.dirty || numeroDocumento.touched)">
-              <mat-error *ngIf="numeroDocumento.errors?.['required']">
-                Documento es requerido
-              </mat-error>
-              <mat-error *ngIf="numeroDocumento.errors?.['minlength']">
-                Documento debe tener al menos 8 caracteres
-              </mat-error>
-            </div>
-        </mat-form-field>
 
     </mat-card-content>
       <!--   <mat-card-actions>

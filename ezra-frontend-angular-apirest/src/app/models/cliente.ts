@@ -5,6 +5,8 @@ export class Cliente {
   id!: number;
   nombres!: string;
   apellidos!: string;
+  razonSocial!:string;
+  direccion!:string;
   createAt!: string;
 /*   email!: string;
   foto!: string; */

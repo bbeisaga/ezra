@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ezra.programandojuntos.enums.SortActivePedido;
 import com.ezra.programandojuntos.enums.SortDirection;
+import com.ezra.programandojuntos.exceptions.PedidoExceptions;
 import com.ezra.programandojuntos.models.entity.EstadoPedido;
 import com.ezra.programandojuntos.models.entity.Pedido;
 import com.ezra.programandojuntos.models.entity.TipoPedido;
@@ -125,14 +126,17 @@ public class PedidoRestController {
 		Map<String, Object> response = new HashMap<>();
 		try {
 			pedidoNew = pedidoService.registrarPedido(pedido);
-
-		} catch (DataAccessException e) {
+			response.put("mensaje", "El pedido ha sido actualizado con éxito!");
+			response.put("pedido", pedidoNew);
+		} catch (DataAccessException de) {
 			response.put("mensaje", "Error al crear el pedido en la base de datos");
-			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			response.put("err", de.getMessage().concat(": ").concat(de.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch(PedidoExceptions pe) {
+			response.put("mensaje", pe.getMessage());
+			response.put("err", "Error");
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		response.put("mensaje", "El pedido ha sido actualizado con éxito!");
-		response.put("pedido", pedidoNew);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	

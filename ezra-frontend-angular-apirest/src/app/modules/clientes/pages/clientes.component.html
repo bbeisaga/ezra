@@ -1,5 +1,5 @@
-<detalle-cliente *ngIf="clienteSeleccionado" [cliente] ="clienteSeleccionado"></detalle-cliente>
-
+<!-- <detalle-cliente *ngIf="clienteSeleccionado" [cliente] ="clienteSeleccionado"></detalle-cliente>
+ -->
 
 <mat-card class="example-card">
   <mat-card-header class="d-flex justify-content-start">
@@ -11,25 +11,10 @@
       </div>
   </mat-card-header>
 
-<!--    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
- -->
+
    <mat-card-content>
-
-<!--
-    <div *ngIf="clientes?.length == 0" class="alert alert-info">
-      No hay registros en la base de datos!
-    </div> -->
-
-<!--     <mat-form-field>
-      <mat-label>Filtrar</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ejem. juan" #input>
-    </mat-form-field> -->
-
     <search-box-table (searchEvent)="searchEvent($event)"></search-box-table>
-
-
     <div class="mat-elevation-z8">
-
       <table [ngClass]="{'d-none': !dataSource.length}" mat-table [dataSource]="dataSource" matSort
       matSortActive="createAt" matSortDisableClear matSortDirection="desc">
 
@@ -41,6 +26,11 @@
       <ng-container matColumnDef="nombres">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombres </th>
         <td mat-cell *matCellDef="let element"> {{element.nombres}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="razonSocial">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Razon Social </th>
+        <td mat-cell *matCellDef="let element"> {{element.razonSocial}} </td>
       </ng-container>
 
       <ng-container matColumnDef="createAt">
@@ -69,9 +59,7 @@
             <button mat-icon-button color="primary" *ngIf="authService.hasRole('ROLE_ADMIN')" [routerLink]="['form', element.id]" matTooltip="Editar">
               <mat-icon>edit</mat-icon>
             </button>
-            <!--           <button mat-fab color="primary" aria-label="Editar" [routerLink]="['/clientes/form', element.id]" matTooltip="Editar">
-              <mat-icon>edit</mat-icon>
-            </button> -->
+
             <button mat-icon-button  color="warn" aria-label="Eliminar" (click)='delete(element)' matTooltip="Elimnar">
               <mat-icon>delete</mat-icon>
             </button>
@@ -81,28 +69,11 @@
 
        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-    <!--       <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-          </tr> -->
     </table>
-<!--       <mat-paginator [length]="pageable.totalElements" class="table-paginator" [ngClass]="{'hidden': !dataSource.length}"
-        [pageSizeOptions]="[10, 20, 50]" [pageSize]="10" (page)="loadItems()"></mat-paginator> -->
-
         <mat-paginator [length]="pageable.totalElements" class="table-paginator" [ngClass]="{'d-none': !dataSource.length}"
         [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons [pageSize]="10" (page)="loadItems()"></mat-paginator>
-
-<!--    <mat-paginator [pageSizeOptions]="[10, 20, 40]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
- -->
   </div>
 
   </mat-card-content>
-<!--   <mat-card-actions>
-    <div class="my-2 text-left">
-        <button *ngIf="authService.hasRole('ROLE_ADMIN')" class="btn btn-rounded btn-primary" type="button" [routerLink]="['/clientes/form']">
-          Crear Cliente
-        </button>
-    </div>
-    </mat-card-actions> -->
   </mat-card>
 

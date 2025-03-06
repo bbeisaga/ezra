@@ -2,11 +2,6 @@
 <mat-card>
   <mat-card-header class="d-flex justify-content-start">
       <mat-card-title>{{title}}</mat-card-title>
-<!--       <div class="ms-auto">
-          <button *ngIf="authService.hasRole('ROLE_ADMIN')" color="primary" mat-raised-button [routerLink]="['form']">
-            Crear Cliente
-          </button>
-      </div> -->
   </mat-card-header>
 
    <mat-card-content>
@@ -15,30 +10,11 @@
       No hay registros en la base de datos!
     </div>
 
-<!--     <mat-form-field>
-      <mat-label>Filtrar</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ejem. juan" #input>
-    </mat-form-field> -->
-
-    <search-box-table (searchEvent)="searchEvent($event)"></search-box-table>
-
+    <search-box-table *ngIf="pedidos?.length !== 0" (searchEvent)="searchEvent($event)"></search-box-table>
 
     <div class="mat-elevation-z8">
      <table [ngClass]="{'d-none': !dataSource.length}" mat-table [dataSource]="dataSource" matSort
         matSortActive="entregadoEn" matSortDisableClear matSortDirection="desc">
-
-<!--       <ng-container matColumnDef="foto">
-        <th mat-header-cell *matHeaderCellDef> Foto </th>
-        <td mat-cell *matCellDef="let element">
-          <img (click)="abrirModal(element)" *ngIf="element?.foto"
-            src="http://localhost:8080/api/uploads/img/{{element.foto}}" alt="{{element.foto}}" class="img-thumbnail rounded"
-            style="width:64px; cursor: pointer;">
-
-          <img (click)="abrirModal(element)" *ngIf="!element?.foto"
-            src="http://localhost:8080/images/no-usuario.png" alt="Sin foto" class="img-thumbnail rounded"
-            style="width:64px; cursor: pointer;">
-        </td>
-      </ng-container> -->
 
       <ng-container matColumnDef="nombres">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombres </th>
@@ -50,11 +26,10 @@
         <td mat-cell *matCellDef="let element"> {{element.cliente.apellidos}} </td>
       </ng-container>
 
-
-<!--       <ng-container matColumnDef="documento">
-        <th mat-header-cell *matHeaderCellDef> Documento </th>
-        <td mat-cell *matCellDef="let element"> {{element.cliente.tipoDocumento.acronimo}}: {{element.cliente.numeroDocumento}} </td>
-      </ng-container> -->
+      <ng-container matColumnDef="razonSocial">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Razón social </th>
+        <td mat-cell *matCellDef="let element"> {{element.cliente.razonSocial}} </td>
+      </ng-container>
 
       <ng-container matColumnDef="createAt">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Creacion </th>
@@ -76,25 +51,10 @@
         <td mat-cell *matCellDef="let element"> {{element.tipoPedido.nombre}} </td>
       </ng-container>
 
-<!--       <ng-container matColumnDef="observacion">
-        <th mat-header-cell *matHeaderCellDef> Observacion </th>
-        <td mat-cell *matCellDef="let element"> {{element.observacion}} </td>
-      </ng-container> -->
-
       <ng-container matColumnDef="saldoPedido">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Saldo </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo con IGV</th>
         <td mat-cell *matCellDef="let element"> {{element.saldoPedido | currency: 'PEN'}} </td>
       </ng-container>
-
-<!--       <ng-container matColumnDef="pago">
-        <th mat-header-cell *matHeaderCellDef> Pago </th>
-        <td mat-cell *matCellDef="let element"> {{element.pago}} </td>
-      </ng-container> -->
-
-<!--       <ng-container matColumnDef="saldo">
-        <th mat-header-cell *matHeaderCellDef> Saldo </th>
-        <td mat-cell *matCellDef="let element"> {{element.saldo}} </td>
-      </ng-container> -->
 
       <ng-container matColumnDef="estado">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
@@ -102,14 +62,6 @@
           <span class="celda-estado {{element.estadoPedido.color}}">{{element.estadoPedido.estado}} </span>
         </td>
       </ng-container>
-
-<!--       <ng-container matColumnDef="nombre">
-        <th mat-header-cell *matHeaderCellDef style="text-align: center;">SEMÁFORO</th>
-        <td mat-cell *matCellDef="let row" style="text-align: center;">
-          <span class="celda-estado {{row.color}}">{{ row.nombre }} </span>
-        </td>
-      </ng-container> -->
-
 
       <ng-container matColumnDef="acciones">
         <th mat-header-cell *matHeaderCellDef> Acciones </th>

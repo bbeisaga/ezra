@@ -1,13 +1,89 @@
 
 <mat-sidenav-container fullscreen>
-  <mat-sidenav #sidenavLeft mode="side" opened="false">
-    <mat-toolbar class="d-flex justify-content-center">
-      <button mat-icon-button (click)="sideNavToggle(sidenavLeft, false)">
-        <mat-icon>close</mat-icon>
-      </button>
+  <mat-sidenav class="main-sidenav" #sidenavLeft mode="side" opened="false">
+    <mat-toolbar>
+      <div class="d-flex justify-content-end" [ngStyle]="{'width' : '100%'}">
+      <div class="me-auto" [ngStyle]="{'padding-left' : '0px','padding-top' : '8px' , 'font-size': '18px', 'font-weight': 'bold'}">EZRA</div>
+      <div>
+          <button mat-icon-button (click)="sideNavToggle(sidenavLeft, false)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
     </mat-toolbar>
-    <div class="d-flex flex-column" [ngStyle]="{'height' : '100%'}">
-      <mat-nav-list>
+    <mat-nav-list>
+        <div mat-subheader><mat-icon>home</mat-icon>INICIO</div>
+        <ng-container>
+          <a mat-list-item [routerLink]="['']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+            Inicio</a>
+        </ng-container>
+        <mat-divider></mat-divider>
+        <div mat-subheader><mat-icon >diversity_3</mat-icon>
+          CLIENTES</div>
+        <ng-container>
+          <a mat-list-item [routerLink]="['/pr/clientes']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+            Listado de clientes</a>
+        </ng-container>
+        <ng-container>
+          <a mat-list-item [routerLink]="['/pr/clientes/form']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+            Registro de clientes</a>
+        </ng-container>
+        <mat-divider></mat-divider>
+        <div mat-subheader><mat-icon >insert_chart</mat-icon>
+          PEDIDOS</div>
+        <ng-container>
+          <a mat-list-item [routerLink]="['/pr/pedidos']" [routerLinkActive]="['active']">
+            Listado de pedidos</a>
+        </ng-container>
+        <mat-divider></mat-divider>
+        <div mat-subheader><mat-icon >assignment_ind</mat-icon>
+          CAJA</div>
+        <ng-container>
+          <a mat-list-item [routerLink]="['/pr/cajas']" [routerLinkActive]="['active']">
+            Apertura/Cierre</a>
+        </ng-container>
+        <mat-divider></mat-divider>
+        <div mat-subheader><mat-icon >currency_exchange</mat-icon>
+          MOVIMIENTOS CAJA</div>
+        <ng-container>
+          <a mat-list-item [routerLink]="['/pr/movimientos/caja']" [routerLinkActive]="['active']">
+            Ingreso/Egreso</a>
+        </ng-container>
+        <mat-divider></mat-divider>
+        <div mat-subheader><mat-icon >list_alt_check</mat-icon>
+          PRODUCTOS</div>
+        <ng-container>
+          <a mat-list-item [routerLink]="['/pr/productos']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+            Listado de productos</a>
+        </ng-container>
+        <ng-container>
+          <a mat-list-item [routerLink]="['/pr/productos/form-producto']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+            Registro de productos</a>
+        </ng-container>
+        <mat-divider></mat-divider>
+<!--         <div mat-subheader><mat-icon >list_alt_check</mat-icon>
+          REPORTES</div>
+        <ng-container>
+          <a mat-list-item [routerLink]="['/pr/productos']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+            Listado de productos</a>
+        </ng-container>
+        <ng-container>
+          <a mat-list-item [routerLink]="['/pr/productos/form-producto']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+            Registro de productos</a>
+        </ng-container>
+        <ng-container>
+          <a mat-list-item [routerLink]="['/pr/productos']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+            Listado de productos</a>
+        </ng-container>
+        <ng-container>
+          <a mat-list-item [routerLink]="['/pr/productos/form-producto']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+            Registro de productos</a>
+        </ng-container> -->
+
+    </mat-nav-list>
+
+      <!--menus en forma de iconos-->
+      <!--       <mat-nav-list>
         <mat-list-item>
         <a [routerLink]="['']" [routerLinkActive]="['active']" matListItemTitle >
           <mat-icon>home</mat-icon>
@@ -23,43 +99,6 @@
             <mat-icon>insert_chart</mat-icon>
           <div matListItemLine>Pedidos</div></a>
         </mat-list-item>
-
- <!--        <mat-list-item>
-          <a [routerLink]="['']" [routerLinkActive]="['active']" matListItemTitle >
-            <mat-icon>people</mat-icon>
-          <div matListItemLine>Usuarios</div></a>
-        </mat-list-item>
-        <mat-list-item>
-          <a [routerLink]="['']" [routerLinkActive]="['active']" matListItemTitle >
-            <mat-icon>groups</mat-icon>
-          <div matListItemLine>Trabajadores</div></a>
-        </mat-list-item>
-        <mat-list-item>
-          <a matListItemTitle >
-            <mat-icon>admin_panel_settings</mat-icon>
-          <div matListItemLine>Perfiles</div></a>
-        </mat-list-item>
-        <mat-list-item *ngIf="false">
-          <a [routerLink]="['']" [routerLinkActive]="['active']" matListItemTitle>
-            <mat-icon>manage_accounts</mat-icon>
-          <div matListItemLine>Bloqueo de usuarios</div></a>
-        </mat-list-item>
-        <mat-list-item>
-          <a [routerLink]="['']" [routerLinkActive]="['active']" matListItemTitle >
-            <mat-icon>security</mat-icon>
-          <div matListItemLine>Seguridad</div></a>
-        </mat-list-item>
-        <mat-list-item *ngIf="false">
-          <a [routerLink]="['']" [routerLinkActive]="['active']" matListItemTitle >
-            <mat-icon>confirmation_number</mat-icon>
-          <div matListItemLine>Rango de Fecha Cese</div></a>
-        </mat-list-item>
-
-        <mat-list-item>
-          <a [routerLink]="['']" [routerLinkActive]="['active']" matListItemTitle >
-            <mat-icon>domain</mat-icon>
-          <div matListItemLine>Correos</div></a>
-        </mat-list-item> -->
         <mat-list-item>
           <a [routerLink]="['/pr/cajas']" [routerLinkActive]="['active']" matListItemTitle >
             <mat-icon>assignment_ind</mat-icon>
@@ -75,68 +114,15 @@
             <mat-icon>list_alt_check</mat-icon>
           <div matListItemLine>Productos</div></a>
         </mat-list-item>
-<!--         <mat-list-item>
-          <a [routerLink]="['']" [routerLinkActive]="['active']" matListItemTitle >
-            <mat-icon>dashboard</mat-icon>
-          <div matListItemLine>Reportes</div></a>
-        </mat-list-item> -->
-
-<!--         <mat-list-item *ngIf="false">
-          <a [routerLink]="['']" [routerLinkActive]="['active']" matListItemTitle >
-            <mat-icon>history</mat-icon>
-          <div matListItemLine>Historial</div></a>
-        </mat-list-item>
-        <mat-list-item *ngIf="false">
-          <a [routerLink]="['']" [routerLinkActive]="['active']" matListItemTitle >
-            <mat-icon>admin_panel_settings</mat-icon>
-          <div matListItemLine>Configuracion</div></a>
-        </mat-list-item>
-        <mat-list-item  *ngIf="false">
-          <a [routerLink]="['']" [routerLinkActive]="['active']" matListItemTitle >
-            <mat-icon>person_off</mat-icon>
-          <div matListItemLine>Bloquear usuario</div></a>
-        </mat-list-item>
-        <mat-list-item *ngIf="false">
-          <a [routerLink]="['']" [routerLinkActive]="['active']" matListItemTitle >
-            <mat-icon>settings</mat-icon>
-          <div matListItemLine>Ajustes</div></a>
-        </mat-list-item> -->
-<!--         <mat-list-item>
-          <a routerLink="/ayuda" routerLinkActive='active' matListItemTitle >
-            <mat-icon>live_help</mat-icon>
-          <div matListItemLine>Ayuda</div></a>
-        </mat-list-item> -->
-      </mat-nav-list>
-
-<!--       <span class="spacer"></span>
-      <mat-list>
-        <mat-list-item>
-          <div matListItemTitle>SIRA</div>
-          <div matListItemTitle><mat-icon>settings</mat-icon></div>
-        </mat-list-item>
-      </mat-list> -->
-    </div>
+      </mat-nav-list> -->
 
   </mat-sidenav>
-
   <mat-sidenav-content>
-
       <app-header (clickMenuEvent)="sideNavToggle(sidenavLeft, true)"></app-header>
-
-<!--       <button mat-icon-button  (click)="sidenavLeft.toggle()">
-       <mat-icon>menu</mat-icon>
-     </button>
-      <span>My App</span>
-     <span class="spacer"></span> -->
-
    <div class="container">
-
              <router-outlet></router-outlet>
-
    </div>
-
    </mat-sidenav-content>
-
 </mat-sidenav-container>
 
 

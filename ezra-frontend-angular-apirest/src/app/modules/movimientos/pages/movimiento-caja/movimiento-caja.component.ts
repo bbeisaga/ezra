@@ -11,6 +11,7 @@ import swal from 'sweetalert2';
 import { find, keys } from 'lodash';
 import moment from 'moment';
 import { COLOR_CAJA_USUARIO, ESTADO_CAJA_USUARIO } from '../../../../constants/caja-usuario.constants';
+import { AlertService } from '../../../../services/alert.service';
 
 @Component({
   selector: 'app-movimiento-caja',
@@ -32,6 +33,7 @@ export class MovimientoCajaComponent implements OnInit, AfterViewInit {
 
   constructor(private cajasService: CajaService,
               private movimientoService: MovimientoService,
+              private alertService: AlertService,
               private authService: AuthService,
               private router: Router
   ){
@@ -47,7 +49,6 @@ export class MovimientoCajaComponent implements OnInit, AfterViewInit {
 
     this.cajasService.getCajaUsuarioByUserName(this.username).subscribe(
       res => {
-        //console.log("getCajaUsuarioByUserName...", res)
         if(res !== null && res.activa){
           this.cajaUsuario = res
           this.cajaUsuario.fechaApertura = moment(this.cajaUsuario.fechaApertura).format('DD/MM/YYYY HH:mm:ss');
@@ -55,9 +56,8 @@ export class MovimientoCajaComponent implements OnInit, AfterViewInit {
           this.cajaUsuario.color = COLOR_CAJA_USUARIO[('' + res.activa) as keyof typeof COLOR_CAJA_USUARIO ];
           //this.colores[('' + res.activa) as keyof typeof this.colores ];
           //        console.log("getCajaUsuarioByUserName...", res)
-
         } else {
-          swal.fire('', `Debe aperturar caja`, 'info');
+          this.alertService.info(`Debe aperturar caja`, 'Caja usuario')
           this.router.navigate(['/pr']);
         }
       }
