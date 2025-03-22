@@ -1,5 +1,6 @@
 package com.ezra.programandojuntos.controllers;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,12 +9,15 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -28,14 +32,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ezra.programandojuntos.dto.report.FiltrosReporte;
+import com.ezra.programandojuntos.dto.report.Report;
 import com.ezra.programandojuntos.enums.SortActivePedido;
 import com.ezra.programandojuntos.enums.SortDirection;
+import com.ezra.programandojuntos.enums.TypeFile;
 import com.ezra.programandojuntos.exceptions.PedidoExceptions;
 import com.ezra.programandojuntos.models.entity.EstadoPedido;
 import com.ezra.programandojuntos.models.entity.Pedido;
 import com.ezra.programandojuntos.models.entity.TipoPedido;
 import com.ezra.programandojuntos.models.services.IPedidoService;
+import com.ezra.programandojuntos.util.StorageUtil;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @CrossOrigin(origins = { "http://localhost:4200" })
@@ -47,6 +56,9 @@ public class PedidoRestController {
 	
 	@Autowired
 	private IPedidoService pedidoService;
+	
+    @Autowired
+    private StorageUtil storageUtil;
 	
 //	@Autowired
 //	private ProductoService productoService;
@@ -165,5 +177,55 @@ public class PedidoRestController {
 		response.put("pedido", pedidoActualizado);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
-
+	
+//	@PostMapping("/pedidos/reporte")
+//    public void ejecutarReporte(
+//            @Valid @RequestBody FiltrosReporte params, HttpServletResponse response) {
+//
+//        final String nomReporte = params.getNombre();
+//        final String nomArchivo = params.getNombreArchivo();
+//        final String tipo = params.getTipo();
+//        final var parametros = params.getFiltros();// Map<String, List<Object>>
+//        long userId = SiamSession.getInstance().getUsuarioId();
+//        Report report = new Report.Builder()
+//        				.name(nomReporte)
+//        				.type(TypeFile.valueOf(tipo))
+//        				.parameter(parametros)
+//        				.build();
+//        
+//        String nomArchivoXX = nomReporte.toLowerCase() + "." + report.getType().getExtension();
+//       this.storageUtil.manageDownload(file -> reportService.download(report, file), nomArchivo, response);
+//        this.storageUtil.manageDownload(file -> pedidoService.createReportVentas(report), nomArchivoXX, response);
+//
+//    }
+	
+	
+	@PostMapping("/pedidos/reporte/ventas")
+    public ResponseEntity<?> descargarPedidoVenta(@Valid @RequestBody FiltrosReporte params, BindingResult result) {
+		
+		Map<String, Object> response = new HashMap<>();
+		if(result.hasErrors()) {
+			List<String> errors = result.getFieldErrors()
+					.stream()
+					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
+					.collect(Collectors.toList());
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+		
+        Report report = new Report.Builder()
+				.name(params.getNombre())
+				.type(TypeFile.valueOf(params.getTipo()))
+				.parameter(params.getFiltros())
+				.build();
+        
+        
+        final String  nombreArchivo = report.getName().concat(".xlsx");
+        InputStreamResource file = new InputStreamResource(pedidoService.createReportVentas(report));
+        return ResponseEntity.ok()
+        		.header( HttpHeaders.CONTENT_DISPOSITION, 
+        				"attachment; filename=" + nombreArchivo)
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(file);
+    }
 }

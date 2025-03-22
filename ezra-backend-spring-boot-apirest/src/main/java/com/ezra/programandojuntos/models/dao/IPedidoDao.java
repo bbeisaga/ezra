@@ -14,6 +14,7 @@ import com.ezra.programandojuntos.models.entity.TipoPedido;
 
 public interface IPedidoDao extends JpaRepository<Pedido, Long>{
 	
+
 	@Query("from EstadoPedido")
 	public List<EstadoPedido> findAllEstadoPedido();
 	
@@ -25,5 +26,6 @@ public interface IPedidoDao extends JpaRepository<Pedido, Long>{
 	
 	@Query("SELECT p FROM Pedido p WHERE (p.cliente.nombres like %:query% OR p.cliente.apellidos like %:query% OR p.estadoPedido.estado like %:query%)")
 	Page<Pedido> findAllPedidoPageable(@Param("query") String query, Pageable pageable);
+	
 
 }

@@ -23,6 +23,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatExpansionModule} from '@angular/material/expansion';
+
+
 import { SearchBoxTableComponent } from './search-box-table/search-box-table.component';
 import { ModalDialogAlertComponent } from './modal-dialog/modal-dialog-alert.component';
 
@@ -56,7 +59,8 @@ import { ModalDialogAlertComponent } from './modal-dialog/modal-dialog-alert.com
     MatAutocompleteModule,
     MatDialogModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    MatExpansionModule
   ],
   exports: [
     FormsModule,
@@ -81,6 +85,7 @@ import { ModalDialogAlertComponent } from './modal-dialog/modal-dialog-alert.com
     MatDialogModule,
     MatCheckboxModule,
     MatRadioModule,
+    MatExpansionModule,
     SearchBoxTableComponent
   ]
 })

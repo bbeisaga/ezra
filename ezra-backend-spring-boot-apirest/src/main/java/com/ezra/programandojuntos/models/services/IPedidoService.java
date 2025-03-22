@@ -1,12 +1,15 @@
 package com.ezra.programandojuntos.models.services;
 
+import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.ezra.programandojuntos.dto.report.Report;
 import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.EstadoPedido;
 import com.ezra.programandojuntos.models.entity.Pedido;
@@ -43,6 +46,8 @@ public interface IPedidoService {
 	
 	
 	public Map<String, BigDecimal> movimientoPorPedido(Long pedidoId, Long tipoPedido);
+	
+	public ByteArrayInputStream createReportVentas(Report reporte);
 
 
 }

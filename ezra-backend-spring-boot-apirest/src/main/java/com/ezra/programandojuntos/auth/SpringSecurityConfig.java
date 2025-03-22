@@ -82,6 +82,8 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.POST,"api/pedidos").hasAnyRole("USER","ADMIN") 
 			   .requestMatchers(HttpMethod.PUT,"api/pedidos/{id}").hasAnyRole("USER","ADMIN")
 			   .requestMatchers(HttpMethod.DELETE,"api/pedidos/{id}").hasRole("ADMIN")
+			   .requestMatchers(HttpMethod.POST,"api/pedidos/reporte/ventas").permitAll() 
+
 			 //Permisos par alas URLs de movimientos VENTAS
 			   .requestMatchers(HttpMethod.GET,"api/movimientos/tipoPagos").permitAll() 
 			   .requestMatchers(HttpMethod.GET,"api/movimientos/tipoMovimientos").permitAll() 
@@ -126,7 +128,9 @@ public class SpringSecurityConfig {
 	        config.setAllowedOriginPatterns(Arrays.asList("*"));
 	        config.setAllowedOrigins(Arrays.asList("http://localhost:4200"));//al pasar a produccion cambiar
 	        config.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE"));
-	        config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+	        //config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Content-Disposition", "Access-Control-Allow-Headers", "Access-Control-Expose-Headers"));
+	        config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Content-Disposition"));
+	        config.addExposedHeader("Content-Disposition");// sirve para download archivos xls en cliente
 	        config.setAllowCredentials(true);
 
 	        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

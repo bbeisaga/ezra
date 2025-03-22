@@ -118,10 +118,13 @@ INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,n
 
 
 /* Creamos estado de pedidos */
-INSERT INTO estado_pedido (estado, descripcion) VALUES ('Registrado', 'No venció, no aceptado');
+INSERT INTO estado_pedido (estado, descripcion) VALUES ('Pendiente', 'No venció, no aceptado');
 INSERT INTO estado_pedido (estado, descripcion) VALUES ('Vencido', 'Venció, no aceptado'); /*este campo se implementará con Schduled en segunda version*/
 INSERT INTO estado_pedido (estado, descripcion) VALUES ('Devuelto', 'Devuelto por errores');
+INSERT INTO estado_pedido (estado, descripcion) VALUES ('Cancelado', 'Devuelto por errores');
 INSERT INTO estado_pedido (estado, descripcion) VALUES ('Entregado', 'Pagado, entregado al cliente');
+INSERT INTO estado_pedido (estado, descripcion) VALUES ('Adquirido', 'Pagado, adquirido del proveedor');
+
 
 /* Creamos estado de pedidos */
 INSERT INTO tipo_pedido (id, nombre) VALUES (1, 'VENTA AL CLIENTE');

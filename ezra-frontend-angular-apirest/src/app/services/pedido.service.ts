@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Pedido } from '../models/pedido';
 import { Producto } from '../models/producto';
@@ -9,6 +9,7 @@ import { PageableResponse } from '../models/pageable-response';
 import { environment } from '../../environments/environment';
 import { TipoPedido } from '../models/tipo-pedido';
 import { AlertService } from './alert.service';
+import * as fileSaver from 'file-saver';
 
 @Injectable({
   providedIn: 'root'
@@ -96,6 +97,21 @@ export class PedidoService {
         return throwError(e);
       }));
   }
+
+   ceateReporteVentas(filtros: any): Observable<HttpResponse<Blob>>{
+
+    return this.http.post<Blob>(`${environment.apiUrl}/pedidos/reporte/ventas`, filtros,
+       {observe: 'response', responseType:'blob' as 'json'})
+  }
+
+/*   private getFilename(headers: HttpHeaders): string {
+    debugger;
+    const disposition = headers.get('Content-Disposition');
+    if (!disposition || disposition.indexOf('filename=') < 0) {
+      return '';
+    }
+    return disposition.substring(disposition.indexOf('filename=')+9, disposition.length-1);
+  } */
 
   update(pedido: Pedido): Observable<any> {
     return this.http.put<any>(`${environment.apiUrl}/pedidos/${pedido.id}`, pedido

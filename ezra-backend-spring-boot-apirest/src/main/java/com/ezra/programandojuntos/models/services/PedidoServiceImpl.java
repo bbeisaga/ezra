@@ -1,13 +1,24 @@
 package com.ezra.programandojuntos.models.services;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.nio.file.Path;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
+import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +27,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ezra.programandojuntos.dto.report.Report;
 import com.ezra.programandojuntos.errors.PedidoMapErrors;
 import com.ezra.programandojuntos.exceptions.PedidoExceptions;
 import com.ezra.programandojuntos.models.dao.IPedidoDao;
@@ -25,6 +37,8 @@ import com.ezra.programandojuntos.models.entity.ItemPedido;
 import com.ezra.programandojuntos.models.entity.Movimiento;
 import com.ezra.programandojuntos.models.entity.Pedido;
 import com.ezra.programandojuntos.models.entity.TipoPedido;
+import com.ezra.programandojuntos.models.repository.PedidoRepository;
+import com.ezra.programandojuntos.util.ExcelUtil;
 
 @Service
 public class PedidoServiceImpl implements IPedidoService {
@@ -53,6 +67,9 @@ Entregado	si		-						si*/
 		
 	@Autowired
 	private IProductoDao productoDao;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -259,6 +276,46 @@ Entregado	si		-						si*/
 		return pedidoDao.findAllTipoPedido();
 	}
 	
-
+	@Override
+	public ByteArrayInputStream createReportVentas(Report reporte) {
+		String[] cabeceraReporte = new String[] {
+				"Código", 
+				"Precio Bruto", 
+				"Precio Neto IGV", 
+				"Saldo",
+				 };		
+		XSSFWorkbook excelbook = new XSSFWorkbook();
+		XSSFSheet excelHoja = excelbook.createSheet("data");
+		ExcelUtil.generarCabecera(excelbook, excelHoja, cabeceraReporte);
+		
+		DataFormat fmt =  excelbook.createDataFormat();
+		XSSFCellStyle style =ExcelUtil.crearStyle(excelbook, 
+							HorizontalAlignment.CENTER, 
+							HSSFColorPredefined.GREY_25_PERCENT.getIndex(), 
+							(short) 10, 
+							HSSFColorPredefined.BLACK.getIndex());
+		style.setDataFormat(fmt.getFormat("@"));
+		
+		int numFila = 1;
+		List<Pedido> pedidos = pedidoRepository.listarPedidoConFiltros(reporte);
+		for(Pedido p: pedidos) {
+			short numColumn = 0;
+			XSSFRow fila = excelHoja.createRow(numFila);
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getId().toString(), style);
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getPrecioBrutoTotal().toString(), style);
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getPrecioNetoTotal().toString(), style);
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getSaldoPedido().toString(), style);
+			numFila++;
+		};
+		
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		try {
+			excelbook.write(out);
+		} catch (IOException e) {
+			e.getCause();
+			//throw new RuntimeException("Error al descargar plantilla baja",e);
+		}
+		return new ByteArrayInputStream(out.toByteArray());
+	}
 
 }

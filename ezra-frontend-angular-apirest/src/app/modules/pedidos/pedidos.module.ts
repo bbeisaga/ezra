@@ -6,12 +6,14 @@ import { CompartidoModule } from '../compartido/compartido.module';
 import { PedidosComponent } from './paginas/pedidos.component';
 import { DetallePedidoComponent } from './components/detalle-pedido.component';
 import { FormPedidoComponent } from './components/form-pedido.component';
+import { RpteVentasComponent } from './reportes/rpte-ventas/rpte-ventas.component';
 
 @NgModule({
   declarations: [
     FormPedidoComponent,
     PedidosComponent,
-    DetallePedidoComponent
+    DetallePedidoComponent,
+    RpteVentasComponent
   ],
   imports: [
     CommonModule,

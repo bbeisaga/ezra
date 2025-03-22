@@ -12,55 +12,51 @@
       </div>
     </mat-toolbar>
     <mat-nav-list>
-        <div mat-subheader><mat-icon>home</mat-icon>INICIO</div>
-        <ng-container>
+        <div mat-subheader><mat-icon>home</mat-icon>
           <a mat-list-item [routerLink]="['']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
-            Inicio</a>
-        </ng-container>
+            INICIO</a></div>
         <mat-divider></mat-divider>
-        <div mat-subheader><mat-icon >diversity_3</mat-icon>
-          CLIENTES</div>
-        <ng-container>
+        <div mat-subheader><mat-icon >diversity_3</mat-icon>CLIENTES</div>
           <a mat-list-item [routerLink]="['/pr/clientes']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
-            Listado de clientes</a>
-        </ng-container>
-        <ng-container>
+            Listado clientes</a>
           <a mat-list-item [routerLink]="['/pr/clientes/form']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
-            Registro de clientes</a>
-        </ng-container>
+            Registro cliente</a>
         <mat-divider></mat-divider>
-        <div mat-subheader><mat-icon >insert_chart</mat-icon>
-          PEDIDOS</div>
-        <ng-container>
-          <a mat-list-item [routerLink]="['/pr/pedidos']" [routerLinkActive]="['active']">
+        <div mat-subheader><mat-icon >insert_chart</mat-icon>PEDIDOS</div>
+          <a mat-list-item [routerLink]="['/pr/pedidos']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
             Listado de pedidos</a>
-        </ng-container>
+          <a mat-list-item [routerLink]="['/pr/pedidos/rpteventas']" [routerLinkActive]="['active']">
+            Reporte Ventas</a>
+<!--               <a mat-list-item [routerLink]="['/pr/pedidos/rpte-compras']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+                Compras</a> -->
         <mat-divider></mat-divider>
-        <div mat-subheader><mat-icon >assignment_ind</mat-icon>
-          CAJA</div>
-        <ng-container>
-          <a mat-list-item [routerLink]="['/pr/cajas']" [routerLinkActive]="['active']">
-            Apertura/Cierre</a>
-        </ng-container>
+        <div mat-subheader><mat-icon >assignment_ind</mat-icon>CAJA</div>
+            <a mat-list-item [routerLink]="['/pr/cajas']" [routerLinkActive]="['active']">Apertura/Cierre</a>
         <mat-divider></mat-divider>
-        <div mat-subheader><mat-icon >currency_exchange</mat-icon>
-          MOVIMIENTOS CAJA</div>
-        <ng-container>
-          <a mat-list-item [routerLink]="['/pr/movimientos/caja']" [routerLinkActive]="['active']">
-            Ingreso/Egreso</a>
-        </ng-container>
+        <div mat-subheader><mat-icon >currency_exchange</mat-icon>MOVIMIENTOS CAJA</div>
+               <a mat-list-item [routerLink]="['/pr/movimientos/caja']" [routerLinkActive]="['active']">Ingreso/Egreso</a>
         <mat-divider></mat-divider>
-        <div mat-subheader><mat-icon >list_alt_check</mat-icon>
-          PRODUCTOS</div>
-        <ng-container>
-          <a mat-list-item [routerLink]="['/pr/productos']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
-            Listado de productos</a>
-        </ng-container>
-        <ng-container>
-          <a mat-list-item [routerLink]="['/pr/productos/form-producto']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
-            Registro de productos</a>
-        </ng-container>
-        <mat-divider></mat-divider>
+        <div mat-subheader><mat-icon >list_alt_check</mat-icon>PRODUCTOS</div>
+            <a mat-list-item [routerLink]="['/pr/productos']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+                Listado de productos</a>
+            <a mat-list-item [routerLink]="['/pr/productos/form-producto']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+                Registro de productos</a>
+<!--           <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                REPORTES
+              </mat-panel-title>
+              <mat-panel-description>
+                <mat-icon>arrow_drop_down</mat-icon>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+              <a mat-list-item [routerLink]="['/pr/clientes']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+                Reporte 9</a>
+              <a mat-list-item [routerLink]="['/pr/clientes/form']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+                Reporte 10</a>
+          </mat-expansion-panel> -->
+
+
 <!--         <div mat-subheader><mat-icon >list_alt_check</mat-icon>
           REPORTES</div>
         <ng-container>

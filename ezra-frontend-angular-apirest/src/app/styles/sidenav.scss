@@ -19,6 +19,30 @@
     }
   }
 
+  .mat-expansion-panel, .mat-expansion-panel-header-title {
+    background-color:inherit;
+    color:white;
+  }
+
+  .headers-align .mat-expansion-panel-header-description {
+    justify-content: end;
+    align-items: center;
+    margin-left: 2px;
+    color:white;
+
+  }
+
+/*   .headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+    margin-left: 8px;
+  } */
+
+
+
+/*   .mat-expansion-panel-header{
+    background-color:inherit;
+    color: $ezra-pink;
+  } */
+
   * .mat-icon, .mat-subheader {
     color: $ezra-pink !important;
   }
@@ -28,7 +52,7 @@
   }
 
   .mdc-list-item {
-    padding:0px 13px;
+    padding:0px 4px;
   }
   .mdc-list-item__primary-text {
     color: $ezra-gray1;
