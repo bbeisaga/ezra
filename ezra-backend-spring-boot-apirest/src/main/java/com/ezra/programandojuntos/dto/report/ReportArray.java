@@ -1,16 +1,17 @@
 package com.ezra.programandojuntos.dto.report;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.ezra.programandojuntos.enums.TypeFile;
 
-public class Report  {
+public class ReportArray  {
     private final String name;    
-    private final Long tipoPedido;
     private final TypeFile type;
-    private final Map<String, String> parameters;
+    private final Map<String, List<String>> parameters;
 
     public String getName() {
 		return name;
@@ -20,18 +21,13 @@ public class Report  {
 		return type;
 	}
 	
+    public Map<String, List<String>> getParameters() {
+        return parameters;
+    }
 	
-	public Long getTipoPedido() {
-		return tipoPedido;
-	}
-
-	public Map<String, String> getParameters() {
-		return parameters;
-	}
-	
-	private Report(Builder builder) {
+	private ReportArray(Builder builder) {
         this.name = builder.name;
-        this.tipoPedido = builder.tipoPedido;
+       // this.tipoPedido = builder.tipoPedido;
         this.type = builder.type;
         this.parameters = Collections.unmodifiableMap(builder.parameters);//no permite adicionar mas elementos a parameters
     }
@@ -49,10 +45,10 @@ public class Report  {
 	public static class Builder {
 
         private String name;
-        private Long tipoPedido;
+   //     private Long tipoPedido;
         private TypeFile type;
         //private Type type = Type.EXCELOPENXML;
-        private Map<String, String> parameters = new LinkedHashMap<>();
+        private Map<String, List<String>> parameters = new LinkedHashMap<>();
         //private boolean keepNullParams = true;
 
 
@@ -61,33 +57,29 @@ public class Report  {
             return this;
         }
         
-        public Builder tipoPedido(Long tipoPedido) {
-            this.tipoPedido = tipoPedido;
-            return this;
-        }
         
         public Builder type(TypeFile type) {
             this.type = type;
             return this;
         }
-//
-//        public Builder parameter(String name, String value) {
-//            this.parameters.computeIfAbsent(name, k -> new ArrayList<>()).add(value);
-//            return this;
-//        }
 
-//        public Builder parameter(String name, List<Object> values) {
-//            this.parameters.computeIfAbsent(name, k -> new ArrayList<>()).addAll(values);
-//            return this;
-//        }
+        public Builder parameter(String key, String value) {
+            this.parameters.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
+            return this;
+        }
 
-        public Builder parameter(Map<String, String> parameters) {
+        public Builder parameter(String key, List<String> values) {
+            this.parameters.computeIfAbsent(name, k -> new ArrayList<>()).addAll(values);
+            return this;
+        }
+
+        public Builder parameter(Map<String, List<String>> parameters) {
             this.parameters = parameters;
             return this;
         }
 
-        public Report build() {
-            return new Report(this);
+        public ReportArray build() {
+            return new ReportArray(this);
         }
     }
 

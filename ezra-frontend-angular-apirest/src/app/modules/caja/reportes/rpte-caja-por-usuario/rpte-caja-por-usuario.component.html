@@ -1,0 +1,37 @@
+<div>
+  <p>{{titulo}}</p>
+</div>
+
+<form [formGroup]="formCierreCajaPorUsuario" (ngSubmit)="generarReporte()">
+  <mat-form-field>
+    <mat-label>Desde</mat-label>
+    <input matInput [matDatepicker]="fchDesde" formControlName="fchDesde">
+    <mat-datepicker-toggle matIconSuffix [for]="fchDesde"></mat-datepicker-toggle>
+    <mat-datepicker #fchDesde></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Hasta</mat-label>
+    <input matInput [matDatepicker]="fchHasta" formControlName="fchHasta">
+    <mat-datepicker-toggle matIconSuffix [for]="fchHasta"></mat-datepicker-toggle>
+    <mat-datepicker #fchHasta></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Estado caja</mat-label>
+    <mat-select matNativeControl formControlName="estadoCajaUsuario" multiple>
+      <mat-option *ngFor="let e of estadoCajaUsuarioLst" value={{e.id}}>{{e.nombre}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Cajas</mat-label>
+    <mat-select matNativeControl formControlName="cajasId" multiple>
+      <mat-option *ngFor="let e of cajaLst" value={{e.id}}>{{e.nombre}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div class="button-group d-flex justify-content-end">
+    <button type="submit" mat-fab extended color="primary" class="">
+      Descargar reporte
+      <mat-icon>download</mat-icon>
+    </button>
+  </div>
+</form>

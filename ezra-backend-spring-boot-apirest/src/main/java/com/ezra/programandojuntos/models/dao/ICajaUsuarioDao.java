@@ -24,6 +24,6 @@ public interface ICajaUsuarioDao extends CrudRepository<CajaUsuario, Long>{
 	
 	@Transactional
 	@Modifying
-	@Query (value = "INSERT INTO caja_usuarios (fecha_apertura, saldo_caja, activa, caja_id, usuario_id) VALUES (?1, ?2, ?3, ?4, ?5);" ,nativeQuery = true)
-	void persistCajaUsuario(Date fechaApertura,  BigDecimal saldoCaja, boolean activa, Byte cajaId, Long usuarioId );
+	@Query (value = "INSERT INTO caja_usuarios (fecha_apertura, saldo_caja, saldo_por_conteo, ingreso_esperado, egreso_esperado, activa, caja_id, usuario_id) VALUES (?1, ?2, 0, 0, 0, ?3, ?4, ?5);" ,nativeQuery = true)
+	void persistCajaUsuario(Date fechaApertura,  BigDecimal saldoCaja, BigDecimal saldoPorConteo, boolean activa, Byte cajaId, Long usuarioId );
 }

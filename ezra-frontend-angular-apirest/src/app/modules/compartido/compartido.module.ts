@@ -60,7 +60,7 @@ import { ModalDialogAlertComponent } from './modal-dialog/modal-dialog-alert.com
     MatDialogModule,
     MatCheckboxModule,
     MatRadioModule,
-    MatExpansionModule
+    MatExpansionModule,
   ],
   exports: [
     FormsModule,

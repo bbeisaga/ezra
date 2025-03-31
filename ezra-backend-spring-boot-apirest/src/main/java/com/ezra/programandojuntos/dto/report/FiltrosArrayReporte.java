@@ -1,5 +1,6 @@
 package com.ezra.programandojuntos.dto.report;
 
+import java.util.List;
 import java.util.Map;
 
 import jakarta.validation.constraints.NotBlank;
@@ -10,14 +11,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class FiltrosReporte {
+public class FiltrosArrayReporte {
 	@NotBlank
     private String nombre;
-	private Long tipoPedido;
-//	@NotBlank
-//    private String nombreArchivo;
 	@NotBlank
     private String tipo = "EXCELOPENXML";
-//	private Object filtros;
-    private Map<String, String> filtros;
+    private Map<String, List<String>> filtros;
 }

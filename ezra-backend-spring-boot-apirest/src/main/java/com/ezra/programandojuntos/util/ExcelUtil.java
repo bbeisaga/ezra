@@ -1,5 +1,7 @@
 package com.ezra.programandojuntos.util;
 
+import java.math.BigDecimal;
+
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -59,10 +61,24 @@ public class ExcelUtil {
 		return font;
 	}
 	
-	public static void insertarDataCelda(XSSFRow fila, Short columna, String data, XSSFCellStyle style) {
+	public static <T> void insertarDataCelda(XSSFRow fila, Short columna, T data, XSSFCellStyle style) {
 		XSSFCell contentCell = fila.createCell(columna);
-		contentCell.setCellValue(data);
+		if (data instanceof String) {
+			contentCell.setCellValue(data.toString());	
+		}
+		if (data instanceof Number) { //Number representan valores numéricos convertibles a los tipos primitivos byte, double, float, int, long y short.
+			contentCell.setCellValue( ((Number) data).doubleValue());
+		}
 		contentCell.setCellStyle(style);
+	}
+	
+	static String formatNameName(String name) {
+		name = name.replaceAll(" ", "").replaceAll("-", "_").replaceAll(":", ".");
+		if (Character.isDigit(name.charAt(0))) {
+			name = "_" + name;
+		}
+
+		return name;
 	}
 
 }

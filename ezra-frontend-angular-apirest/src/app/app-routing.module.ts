@@ -5,15 +5,17 @@ import { AyudaComponent } from './modules/principal/paginas/ayuda/ayuda.componen
 import { ErrorComponent } from './modules/principal/paginas/error/error.component';
 import { PrincipalModule } from './modules/principal/principal.module';
 import { LoginComponent } from './modules/auth/login.component';
-import { HomeDashboardComponent } from './modules/home-dashboard/home-dashboard.component';
+import { DashboardComponent } from './modules/home/pages/dashboard/dashboard.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'pr', component: PrincipalComponent ,
+  { path: '', component: PrincipalComponent ,
     children:[
-      { path: '', component:HomeDashboardComponent },
-
+      { path: '',
+        loadChildren: () =>import("./modules/home/home.module").then((m) => m.HomeModule),
+        canActivate: [AuthGuard],
+      },
       { path: 'clientes',
         loadChildren: () =>import("./modules/clientes/clientes.module").then((m) => m.ClientesModule),
       },

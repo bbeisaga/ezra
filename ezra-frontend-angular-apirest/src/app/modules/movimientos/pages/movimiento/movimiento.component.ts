@@ -64,7 +64,7 @@ export class MovimientoComponent implements OnInit {
         } else {
           this.alertService.info(`Debe aperturar caja`,"Caja")
           //swal.fire('', `Debe aperturar caja`, 'info');
-          this.router.navigate(['/pr']);
+          this.router.navigate(['/']);
         }
       }
     )
@@ -153,7 +153,7 @@ export class MovimientoComponent implements OnInit {
       resp => {
         this.alertService.success(`Movimiento ${resp.cajaUsuario.id}, creado con éxito!`, this.titulo)
           //swal.fire(this.titulo, `Movimiento ${resp.cajaUsuario.id}, creado con éxito!`, 'success');
-          this.router.navigate(['/pr']);
+          this.router.navigate(['/']);
       })
   }
 

@@ -27,6 +27,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ezra.programandojuntos.dto.PedidoReporte;
 import com.ezra.programandojuntos.dto.report.Report;
 import com.ezra.programandojuntos.errors.PedidoMapErrors;
 import com.ezra.programandojuntos.exceptions.PedidoExceptions;
@@ -277,34 +278,68 @@ Entregado	si		-						si*/
 	}
 	
 	@Override
-	public ByteArrayInputStream createReportVentas(Report reporte) {
-		String[] cabeceraReporte = new String[] {
-				"Código", 
-				"Precio Bruto", 
-				"Precio Neto IGV", 
-				"Saldo",
-				 };		
+	@Transactional(readOnly = true)
+	public TipoPedido tipoPedidoById(Long id){
+		return pedidoDao.findTipoPedidoById(id);
+	}
+	
+	@Override
+	public ByteArrayInputStream createReportPedidos(Report reporte) {
+		String[] cabeceraReporte = null;
+		if(reporte.getTipoPedido()==TIPO_PEDIDO_VENTA) {
+			cabeceraReporte = new String[] {
+				"Apellidos", "Nombres", "Razón Social", "Código pedido", "Fecha creación", "Fecha entrega", "Estado pedido", 
+				"Descripción estado", "Precio Total Bruto", "Precio Total Neto(IGV)", "Saldo pedido","Es pagado","Tipo pedido",};
+		}
+		
+		if(reporte.getTipoPedido()==TIPO_PEDIDO_COMPRA) {
+			cabeceraReporte = new String[] {
+				"Apellidos", "Nombres", "Razón Social", "Código pedido", "Fecha creación", "Fecha adquisición", "Estado pedido", 
+				"Descripción estado", "Costo Total Bruto", "Costo Total Neto(IGV)", "Saldo pedido", "Es pagado","Tipo pedido",};}
+		
 		XSSFWorkbook excelbook = new XSSFWorkbook();
 		XSSFSheet excelHoja = excelbook.createSheet("data");
 		ExcelUtil.generarCabecera(excelbook, excelHoja, cabeceraReporte);
 		
-		DataFormat fmt =  excelbook.createDataFormat();
+		//DataFormat fmt =  excelbook.createDataFormat();
 		XSSFCellStyle style =ExcelUtil.crearStyle(excelbook, 
 							HorizontalAlignment.CENTER, 
 							HSSFColorPredefined.GREY_25_PERCENT.getIndex(), 
 							(short) 10, 
 							HSSFColorPredefined.BLACK.getIndex());
-		style.setDataFormat(fmt.getFormat("@"));
+		//style.setDataFormat(fmt.getFormat("@"));
+		//dataFormat.GetFormat("M/D/YYYY");
 		
 		int numFila = 1;
-		List<Pedido> pedidos = pedidoRepository.listarPedidoConFiltros(reporte);
-		for(Pedido p: pedidos) {
+		List<PedidoReporte> pedidos = pedidoRepository.listarPedidosConFiltros(reporte);
+		for(PedidoReporte p: pedidos) {
 			short numColumn = 0;
 			XSSFRow fila = excelHoja.createRow(numFila);
-			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getId().toString(), style);
-			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getPrecioBrutoTotal().toString(), style);
-			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getPrecioNetoTotal().toString(), style);
-			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getSaldoPedido().toString(), style);
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getApellidos(), style);
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getNombres(), style);
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getRazonSocial(), style);
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getCodigoPedido(), style);
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getFechaCreacion(), style);
+			if(reporte.getTipoPedido()==TIPO_PEDIDO_VENTA) {
+				ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getFechaEntrega(), style);}
+			if(reporte.getTipoPedido()==TIPO_PEDIDO_COMPRA) {
+				ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getAdquiridoEn(), style);}
+			
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getEstadoPedido(), style);
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getDescripcionPedido(), style);
+			
+			if(reporte.getTipoPedido()==TIPO_PEDIDO_VENTA) {
+				ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getPrecioTotalBruto().doubleValue(), style);}
+			if(reporte.getTipoPedido()==TIPO_PEDIDO_COMPRA) {
+				ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getCostoBrutoTotal().doubleValue(), style);}
+			if(reporte.getTipoPedido()==TIPO_PEDIDO_VENTA) {
+				ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getPrecioTotalNeto().doubleValue(), style);}
+			if(reporte.getTipoPedido()==TIPO_PEDIDO_COMPRA) {
+				ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getCostoNetoTotal().doubleValue(), style);}
+			
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getSaldoPedido().doubleValue(), style);			
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getEsPagado(), style);			
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getTipoPedido(), style);			
 			numFila++;
 		};
 		

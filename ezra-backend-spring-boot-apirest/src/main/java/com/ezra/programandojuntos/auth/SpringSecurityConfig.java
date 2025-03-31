@@ -79,10 +79,11 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/pedidos/pageable").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/pedidos/estado-pedido").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/pedidos/tipo-pedido").permitAll()
+			   .requestMatchers(HttpMethod.GET,"api/pedidos/tipo-pedido/{tipoPedidoId}").permitAll()
 			   .requestMatchers(HttpMethod.POST,"api/pedidos").hasAnyRole("USER","ADMIN") 
 			   .requestMatchers(HttpMethod.PUT,"api/pedidos/{id}").hasAnyRole("USER","ADMIN")
 			   .requestMatchers(HttpMethod.DELETE,"api/pedidos/{id}").hasRole("ADMIN")
-			   .requestMatchers(HttpMethod.POST,"api/pedidos/reporte/ventas").permitAll() 
+			   .requestMatchers(HttpMethod.POST,"api/pedidos/reporte/tipo-pedido").permitAll() 
 
 			 //Permisos par alas URLs de movimientos VENTAS
 			   .requestMatchers(HttpMethod.GET,"api/movimientos/tipoPagos").permitAll() 
@@ -96,9 +97,12 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/cajas/{cajaId}/usuarios/{username}").hasAnyRole("USER","ADMIN")
 			   .requestMatchers(HttpMethod.POST,"api/cajas/usuarios").hasAnyRole("USER","ADMIN")
 			   .requestMatchers(HttpMethod.PUT,"api/cajas/usuarios/{id}").hasAnyRole("USER","ADMIN")
+			   .requestMatchers(HttpMethod.POST,"api/cajas/reporte/cierre-caja").permitAll()
+
 			   //Permisos par alas URLs de CAJAS
 			   .requestMatchers(HttpMethod.GET,"api/cajas").hasAnyRole("USER","ADMIN")
 			   //Permisos para las URLs de Usuarios
+			   .requestMatchers(HttpMethod.GET,"api/usuarios").hasAnyRole("USER","ADMIN")
 			   .requestMatchers(HttpMethod.GET,"api/usuarios/{username}").hasAnyRole("USER","ADMIN")
 				 //Permisos par alas URLs de PRODUCXTOS
 			   .requestMatchers(HttpMethod.GET,"api/producto/colores").permitAll()

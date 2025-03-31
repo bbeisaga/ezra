@@ -42,6 +42,14 @@ export class PedidoService {
     return {...this._pedido}
   }
 
+  public filenameFromHeader(headers: HttpHeaders): string {
+    const disposition = headers.get('Content-Disposition');
+    if (!disposition || disposition.indexOf('filename=') < 0) {
+      return '';
+    }
+    return disposition.substring(disposition.indexOf('filename=')+9, disposition.length);
+  }
+
   getAllPedidos(): Observable<Pedido[]> {
     return this.http.get<Pedido[]>(`${environment.apiUrl}/pedidos`
      /* , {headers: this.agregarAuthorizationHeader()} */
@@ -63,6 +71,11 @@ export class PedidoService {
 
   getAllTipoPedido(): Observable<TipoPedido[]>{
     return this.http.get<TipoPedido[]>(`${environment.apiUrl}/pedidos/tipo-pedido`
+    );
+  }
+
+  getTipoPedido(tipoPedidoId: number): Observable<TipoPedido>{
+    return this.http.get<TipoPedido>(`${environment.apiUrl}/pedidos/tipo-pedido/${tipoPedidoId}`
     );
   }
 
@@ -98,20 +111,17 @@ export class PedidoService {
       }));
   }
 
-   ceateReporteVentas(filtros: any): Observable<HttpResponse<Blob>>{
+  ceateReportePorTipoPedido(filtros: any): Observable<HttpResponse<Blob>>{
 
-    return this.http.post<Blob>(`${environment.apiUrl}/pedidos/reporte/ventas`, filtros,
+    return this.http.post<Blob>(`${environment.apiUrl}/pedidos/reporte/tipo-pedido`, filtros,
        {observe: 'response', responseType:'blob' as 'json'})
   }
 
-/*   private getFilename(headers: HttpHeaders): string {
-    debugger;
-    const disposition = headers.get('Content-Disposition');
-    if (!disposition || disposition.indexOf('filename=') < 0) {
-      return '';
-    }
-    return disposition.substring(disposition.indexOf('filename=')+9, disposition.length-1);
-  } */
+  ceateReporteCompras(filtros: any): Observable<HttpResponse<Blob>>{
+
+    return this.http.post<Blob>(`${environment.apiUrl}/pedidos/reporte/compras`, filtros,
+       {observe: 'response', responseType:'blob' as 'json'})
+  }
 
   update(pedido: Pedido): Observable<any> {
     return this.http.put<any>(`${environment.apiUrl}/pedidos/${pedido.id}`, pedido

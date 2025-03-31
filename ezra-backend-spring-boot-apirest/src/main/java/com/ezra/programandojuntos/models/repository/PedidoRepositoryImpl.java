@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.ezra.programandojuntos.constants.DataJdbcContants;
+import com.ezra.programandojuntos.dto.PedidoReporte;
 import com.ezra.programandojuntos.dto.report.Report;
 import com.ezra.programandojuntos.models.entity.Pedido;
 import com.ezra.programandojuntos.util.DateUtil;
@@ -22,7 +23,7 @@ public class PedidoRepositoryImpl implements PedidoRepository {
 	@Autowired
 	NamedParameterJdbcTemplate jdbc;
 		
-	public String armarFiltroSql(Map<String, String> parametros) {
+	public String armarFiltroSql(Map<String, String> parametros, String aliasTablaPrincipal) {
 		 String filtroSql = ""; //local variable no defined inclosed escope
 	      if (parametros == null) { 
 	    	  return filtroSql;
@@ -41,18 +42,18 @@ public class PedidoRepositoryImpl implements PedidoRepository {
 	        	   }
 	        	     
 	        	   if(isDate  && ultimo =='1') {//Si hay numero al final de la cadena
-		            	filtroSql += " and " + newKey + ">='" + p.getValue() +"'";
+		            	filtroSql += " and " + aliasTablaPrincipal+"."+newKey + ">='" + p.getValue() +"'";
 	        	   }else 
 	        		if(isDate && ultimo =='2') {
-		            	filtroSql += " and " + newKey + "<='" + p.getValue() +"'";
+		            	filtroSql += " and " + aliasTablaPrincipal+"."+newKey + "<='" + p.getValue() +"'";
 	        	   }else 
 	        		if(ultimo =='1') {
-		            	filtroSql += " and " + newKey + ">=" + p.getValue();
+		            	filtroSql += " and " + aliasTablaPrincipal+"."+newKey + ">=" + p.getValue();
 	        	   }else 
 	        		if(ultimo =='2') {
-		            	filtroSql += " and " + newKey + "<=" + p.getValue();
+		            	filtroSql += " and " + aliasTablaPrincipal+"."+newKey + "<=" + p.getValue();
 	        	   } else {
-		            	filtroSql += " and " + p.getKey() + "=" + p.getValue();
+		            	filtroSql += " and " + aliasTablaPrincipal+"."+p.getKey() + "=" + p.getValue();
 	        	   }
 	            }
 	      }
@@ -61,11 +62,21 @@ public class PedidoRepositoryImpl implements PedidoRepository {
 	}
 	
 	@Override
-	public List<Pedido> listarPedidoConFiltros(Report reporte){
-		String filtros = this.armarFiltroSql(reporte.getParameters());
-		String sql = "SELECT * FROM pedidos WHERE 1=1";
+	public List<PedidoReporte> listarPedidosConFiltros(Report reporte){
+		String sql = "SELECT cl.apellidos, cl.nombres, cl.razon_social AS razonSocial, pe.id AS codigoPedido,"
+				+ "pe.create_at AS fechaCreacion, pe.entregado_en AS fechaEntrega, pe.adquirido_en as adquiridoEn,"
+				+ "ep.estado AS estadoPedido,ep.descripcion AS descripcionPedido, pe.costo_bruto_total as costoBrutoTotal,"
+				+ "pe.costo_neto_total as costoNetoTotal, pe.precio_bruto_total AS precioTotalBruto,"
+				+ "pe.precio_neto_total AS precioTotalNeto, pe.saldo_pedido AS saldoPedido,"
+				+ "(CASE pe.pagado when 0 then 'NO' when 1 then 'SI' END) AS esPagado, tp.nombre AS tipoPedido "
+				+ "FROM pedidos pe " //--> alias tabla principal
+				+ "INNER JOIN clientes cl ON pe.cliente_id = cl.id "
+				+ "INNER JOIN estado_pedido ep ON ep.id = pe.estado_pedido_id "
+				+ "INNER JOIN tipo_pedido tp ON tp.id = pe.tipo_pedido_id "
+				+ "WHERE pe.tipo_pedido_id = :tipoPedidoId ";
+		String filtros = this.armarFiltroSql(reporte.getParameters(), "pe");
 		sql +=filtros;
-        return jdbc.query(sql, Map.of(), new BeanPropertyRowMapper<> (Pedido.class));
+        return jdbc.query(sql, Map.of("tipoPedidoId",reporte.getTipoPedido()), new BeanPropertyRowMapper<> (PedidoReporte.class));
 	}
 	
 	

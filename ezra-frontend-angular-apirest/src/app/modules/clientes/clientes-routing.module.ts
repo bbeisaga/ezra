@@ -12,8 +12,7 @@ import { PedidosModule } from '../pedidos/pedidos.module';
 const routes: Routes = [
 
 /*   { path: '', redirectTo: 'clientes', pathMatch: 'full' }, */
-  { path: '', component: ClientesComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' }, pathMatch: 'full' },
-  //{ path: 'page/:page', component: ClientesComponent },
+  { path: '', component: ClientesComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } },
   { path: 'form/:id', component: FormComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' }  },
   { path: 'form', component: FormComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } },
 

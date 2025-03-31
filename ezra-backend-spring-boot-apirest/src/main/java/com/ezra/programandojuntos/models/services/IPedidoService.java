@@ -36,6 +36,8 @@ public interface IPedidoService {
 	
 	public List<TipoPedido> listarTipoPedidoAll();
 	
+	public TipoPedido tipoPedidoById(Long id);
+	
 	public Pedido findPedidoById(Long id);
 	
 	public Pedido registrarPedido(Pedido pedido);
@@ -47,7 +49,7 @@ public interface IPedidoService {
 	
 	public Map<String, BigDecimal> movimientoPorPedido(Long pedidoId, Long tipoPedido);
 	
-	public ByteArrayInputStream createReportVentas(Report reporte);
+	public ByteArrayInputStream createReportPedidos(Report reporte);
 
 
 }

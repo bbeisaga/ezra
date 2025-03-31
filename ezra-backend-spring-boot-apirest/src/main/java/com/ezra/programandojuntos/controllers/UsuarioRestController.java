@@ -66,4 +66,10 @@ public class UsuarioRestController {
 		return newUsuario;
 	}
 	
+	@GetMapping("/usuarios")
+	public List<Usuario> allUsuarios() {
+		//List<Usuario> usuarios = usuarioService.getAllUsuarios();
+		return usuarioService.getAllUsuarios();
+	}
+	
 }

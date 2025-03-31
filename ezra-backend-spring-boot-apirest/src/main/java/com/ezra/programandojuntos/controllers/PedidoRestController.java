@@ -129,6 +129,12 @@ public class PedidoRestController {
 		return pedidoService.listarTipoPedidoAll();
 	}
 	
+	@GetMapping("/pedidos/tipo-pedido/{tipoPedidoId}")
+	@ResponseStatus(HttpStatus.OK)
+	public TipoPedido getTipoPedido(@PathVariable Long tipoPedidoId) {
+		return pedidoService.tipoPedidoById(tipoPedidoId);
+	}
+	
 	
 	//@Secured({"ROLE_ADMIN"})
 	@PostMapping("/pedidos")
@@ -200,8 +206,8 @@ public class PedidoRestController {
 //    }
 	
 	
-	@PostMapping("/pedidos/reporte/ventas")
-    public ResponseEntity<?> descargarPedidoVenta(@Valid @RequestBody FiltrosReporte params, BindingResult result) {
+	@PostMapping("/pedidos/reporte/tipo-pedido")
+    public ResponseEntity<?> descargarPedidos(@Valid @RequestBody FiltrosReporte params, BindingResult result) {
 		
 		Map<String, Object> response = new HashMap<>();
 		if(result.hasErrors()) {
@@ -215,17 +221,20 @@ public class PedidoRestController {
 		
         Report report = new Report.Builder()
 				.name(params.getNombre())
+				.tipoPedido(params.getTipoPedido())
 				.type(TypeFile.valueOf(params.getTipo()))
 				.parameter(params.getFiltros())
 				.build();
         
         
         final String  nombreArchivo = report.getName().concat(".xlsx");
-        InputStreamResource file = new InputStreamResource(pedidoService.createReportVentas(report));
+        InputStreamResource file = new InputStreamResource(pedidoService.createReportPedidos(report));
         return ResponseEntity.ok()
         		.header( HttpHeaders.CONTENT_DISPOSITION, 
         				"attachment; filename=" + nombreArchivo)
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(file);
     }
+	
+	
 }

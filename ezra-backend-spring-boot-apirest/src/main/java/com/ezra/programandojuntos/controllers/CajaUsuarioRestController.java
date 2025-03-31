@@ -8,8 +8,11 @@ import java.util.stream.Collectors;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
@@ -22,6 +25,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ezra.programandojuntos.dto.report.FiltrosArrayReporte;
+import com.ezra.programandojuntos.dto.report.FiltrosReporte;
+import com.ezra.programandojuntos.dto.report.Report;
+import com.ezra.programandojuntos.dto.report.ReportArray;
+import com.ezra.programandojuntos.enums.TypeFile;
 import com.ezra.programandojuntos.models.entity.CajaUsuario;
 import com.ezra.programandojuntos.models.services.ICajaUsuarioService;
 
@@ -117,6 +125,36 @@ public class CajaUsuarioRestController {
 
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
+	
+	@PostMapping("/cajas/reporte/cierre-caja")
+    public ResponseEntity<?> descargarReporteCierreCaja(@Valid @RequestBody FiltrosArrayReporte params, BindingResult result) {
+		
+		Map<String, Object> response = new HashMap<>();
+		if(result.hasErrors()) {
+			List<String> errors = result.getFieldErrors()
+					.stream()
+					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
+					.collect(Collectors.toList());
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+		
+        ReportArray report = new ReportArray.Builder()
+				.name(params.getNombre())
+			//	.tipoPedido(params.getTipoPedido())
+				.type(TypeFile.valueOf(params.getTipo()))
+				.parameter(params.getFiltros())
+				.build();
+        
+        
+        final String  nombreArchivo = report.getName().concat(".xlsx");
+        InputStreamResource file = new InputStreamResource(cajaUsuarioService.createReportCajaUsuario(report));
+        return ResponseEntity.ok()
+        		.header( HttpHeaders.CONTENT_DISPOSITION, 
+        				"attachment; filename=" + nombreArchivo)
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(file);
+    }
 	
 //	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 //	@GetMapping("/clientes/page/{page}")

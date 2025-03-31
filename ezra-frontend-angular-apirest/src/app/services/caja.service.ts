@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
 
 import { AuthService } from './auth.service';
@@ -83,6 +83,11 @@ export class CajaService {
         return throwError(e);
       }));
   }
+
+    ceateReporteCierreCaja(filtros: any): Observable<HttpResponse<Blob>>{
+      return this.http.post<Blob>(`${environment.apiUrl}/cajas/reporte/cierre-caja`, filtros,
+         {observe: 'response', responseType:'blob' as 'json'})
+    }
 
 /*   getPedido(id: number): Observable<Pedido> {
     return this.http.get<Pedido>(`${this.urlEndPoint}/${id}`, {headers: this.agregarAuthorizationHeader()} );

@@ -70,7 +70,7 @@
             <button mat-icon-button color="warn" (click)="setPedido(element)" matTooltip="Pagar">
               <mat-icon>price_change</mat-icon>
             </button>
-            <button mat-icon-button color="primary" *ngIf="authService.hasRole('ROLE_ADMIN')" [routerLink]="['/pr/pedidos', element.id]" matTooltip="Ver Detalle">
+            <button mat-icon-button color="primary" *ngIf="authService.hasRole('ROLE_ADMIN')" [routerLink]="['/pedidos/detalle', element.id]" matTooltip="Ver Detalle">
               <mat-icon>visibility</mat-icon>
             </button>
           </div>

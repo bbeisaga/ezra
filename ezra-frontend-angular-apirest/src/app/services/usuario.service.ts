@@ -33,6 +33,11 @@ export class UsuarioService {
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
 
+  getAllUsers():  Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(`${environment.apiUrl}/usuarios`
+    )
+  }
+
   getUsuarioByUsername(username: string): Observable<Usuario> {
     return this.http.get<Usuario>(`${environment.apiUrl}/usuarios/${username}`
 /*       , {headers: this.agregarAuthorizationHeader()}

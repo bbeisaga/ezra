@@ -115,7 +115,7 @@ export class PedidosComponent implements OnInit, AfterViewInit {
 
   setPedido (pedido: Pedido): void {
     this.pedidoService.setPedido(pedido);
-    this.ro.navigate(['pr/movimientos']);
+    this.ro.navigate(['/movimientos']);
   }
 
 /*   updateItem(pedido: Pedido): void {

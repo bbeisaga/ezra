@@ -8,25 +8,39 @@ import { EstadoPedido } from '../../../../models/estado-pedido';
 // 2- npm i --save @types/file-saver
 import * as fileSaver from 'file-saver';
 import { HttpHeaders } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { TipoPedido } from '../../../../models/tipo-pedido';
 
 @Component({
-  selector: 'app-rpte-ventas',
-  templateUrl: './rpte-ventas.component.html',
-  styleUrl: './rpte-ventas.component.css'
+  selector: 'app-rpte-pedido',
+  templateUrl: './rpte-pedido.component.html',
+  styleUrl: './rpte-pedido.component.css'
 })
-export class RpteVentasComponent implements OnInit {
-  titulo: string = "Reporte de ventas de pedido"
+export class RptePedidoComponent implements OnInit {
+  titulo!: string;
   formVenta!: FormGroup;
   filtrosReporte!: FiltrosReporte;
   estadoPedidoLst: EstadoPedido[] = [];
+  tipoPedido!: TipoPedido;
   pagadoLst: Pagado[] = [];
 
   constructor(
     private fb: FormBuilder,
-    private pedidoService: PedidoService
+    private pedidoService: PedidoService,
+    private ar: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
+
+    this.ar.paramMap.subscribe(params => {
+      let tipoPedidoId = +params.get('tipoPedidoId')! ;
+      this.pedidoService.getTipoPedido(tipoPedidoId)
+      .subscribe(tipoPedido => { this.tipoPedido = tipoPedido
+        this.titulo = `Reporte de ${this.tipoPedido.nombre}`
+        }
+      );
+    });
+
     this.cargarPagado();
     this.cargarEstadoPedido();
     this.filtrosReporte = {
@@ -47,28 +61,30 @@ export class RpteVentasComponent implements OnInit {
 
     const filtros = {
       nombre: this.titulo.replaceAll(" ",""),
+      tipoPedido: this.tipoPedido.id,
       tipo:"EXCELOPENXML",
       filtros: this.filtrosReporte
     }
 
-    this.pedidoService.ceateReporteVentas(filtros)
+    this.pedidoService.ceateReportePorTipoPedido(filtros)
     .subscribe(response => {
-      fileSaver.saveAs(response.body!, this.getFilename(response.headers)) //utilidad pra qeu descargue automaticamente
+      fileSaver.saveAs(response.body!,
+        this.pedidoService.filenameFromHeader(response.headers)) //utilidad pra qeu descargue automaticamente
     })
   }
 
-  private getFilename(headers: HttpHeaders): string {
+/*   private getFilename(headers: HttpHeaders): string {
     const disposition = headers.get('Content-Disposition');
     if (!disposition || disposition.indexOf('filename=') < 0) {
       return '';
     }
     return disposition.substring(disposition.indexOf('filename=')+9, disposition.length);
-  }
+  } */
 
   cargarPagado() {
     this.pagadoLst = [/*{ id: -1, pagado: '--Seleccione' },*/
-    { id: 1, pagado: 'Pagado' },
-    { id: 0, pagado: 'Pendiente' }]
+    { id: 1, pagado: 'Si' },
+    { id: 0, pagado: 'No' }]
   }
 
   cargarEstadoPedido() {
