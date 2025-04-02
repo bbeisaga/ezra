@@ -153,7 +153,7 @@ export class MovimientoComponent implements OnInit {
       resp => {
         this.alertService.success(`Movimiento ${resp.cajaUsuario.id}, creado con éxito!`, this.titulo)
           //swal.fire(this.titulo, `Movimiento ${resp.cajaUsuario.id}, creado con éxito!`, 'success');
-          this.router.navigate(['/']);
+          this.router.navigate(['/pedidos']);
       })
   }
 

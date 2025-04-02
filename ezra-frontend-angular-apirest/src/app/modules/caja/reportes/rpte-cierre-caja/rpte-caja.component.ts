@@ -38,9 +38,14 @@ export class RpteCajaComponent implements OnInit {
     this.cargarEstadoCajaUsuario();
     this.cargarCajas();
     this.cargarUsuarios();
+    /***********alista la fecha para el campo datetime-local******************* */
+    //en un futuro puede sustituirse por timepicker
+    var now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+
     this.filtrosReporte = {
-      fecha_apertura1: [moment(new Date()).subtract(2, 'days').toISOString()],
-      fecha_apertura2: [new Date().toISOString()],
+      fecha_apertura1: [moment(now).subtract(1, 'days').toISOString().slice(0,16)],
+      fecha_apertura2: [now.toISOString().slice(0,16)],
       activa: [],
       caja_id:[],
       usuario_id:[]
@@ -51,8 +56,8 @@ export class RpteCajaComponent implements OnInit {
   }
 
    generarReporte() {
-    this.filtrosReporte.fecha_apertura1 = [moment(this.formCierreCaja.get("fchDesde")?.value).format("YYYY-MM-DD")];
-    this.filtrosReporte.fecha_apertura2 = [moment(this.formCierreCaja.get("fchHasta")?.value).format("YYYY-MM-DD")];
+    this.filtrosReporte.fecha_apertura1 = [moment(this.formCierreCaja.get("fchTimeDesde")?.value).format("YYYY-MM-DD HH:mm")];
+    this.filtrosReporte.fecha_apertura2 = [moment(this.formCierreCaja.get("fchTimeHasta")?.value).format("YYYY-MM-DD HH:mm")];
     this.filtrosReporte.activa = this.formCierreCaja.get("estadoCajaUsuario")?.value;
     this.filtrosReporte.caja_id=this.formCierreCaja.get("cajasId")?.value;
     this.filtrosReporte.usuario_id=this.formCierreCaja.get("usuariosId")?.value;
@@ -96,8 +101,8 @@ export class RpteCajaComponent implements OnInit {
   createForm() {
     this.formCierreCaja = this.formBuilder.group(
       {
-        fchDesde: [this.filtrosReporte.fecha_apertura1[0]],
-        fchHasta: [this.filtrosReporte.fecha_apertura2[0]],
+        fchTimeDesde: [this.filtrosReporte.fecha_apertura1[0]],
+        fchTimeHasta: [this.filtrosReporte.fecha_apertura2[0]],
         estadoCajaUsuario: [this.filtrosReporte.activa[0]],
         cajasId:[this.filtrosReporte.caja_id[0]],
         usuariosId:[this.filtrosReporte.usuario_id[0]]

@@ -52,7 +52,7 @@ export class FormComponent implements OnInit {
     this.clienteService.create(this.cliente)
       .subscribe(
         cliente => {
-          this.router.navigate(['/pr']);
+          this.router.navigate(['/clientes']);
           this.alertServie.success(`El cliente ${cliente.nombres} ha sido creado con éxito`,'Nuevo cliente' )
         },
 /*         err => {
@@ -69,8 +69,8 @@ export class FormComponent implements OnInit {
     this.clienteService.update(this.cliente)
       .subscribe(
         json => {
-          this.router.navigate(['/pr/clientes']);
-          this.alertServie.success(`${json.mensaje}: ${json.cliente.nombre}`,'Cliente Actualizado' )
+          this.router.navigate(['/clientes']);
+          this.alertServie.success(`${json.mensaje}`,'Cliente Actualizado' )
         },
         err => {
           this.errores = err.error.errors as string[];

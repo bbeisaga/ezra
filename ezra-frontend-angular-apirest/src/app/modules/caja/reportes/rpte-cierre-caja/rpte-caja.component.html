@@ -2,18 +2,16 @@
   <p>{{titulo}}</p>
 </div>
 
-<form [formGroup]="formCierreCaja" (ngSubmit)="generarReporte()">
+<form [formGroup]="formCierreCaja">
   <mat-form-field>
-    <mat-label>Desde</mat-label>
-    <input matInput [matDatepicker]="fchDesde" formControlName="fchDesde">
-    <mat-datepicker-toggle matIconSuffix [for]="fchDesde"></mat-datepicker-toggle>
-    <mat-datepicker #fchDesde></mat-datepicker>
+    <mat-label for="fchTimeDesde">Desde</mat-label>
+    <input matInput type="datetime-local" #fchTimeDesde name="fchTimeDesde" formControlName="fchTimeDesde">
+    <button (click)="fchTimeDesde.showPicker()" mat-icon-button matIconSuffix><mat-icon>today</mat-icon></button>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Hasta</mat-label>
-    <input matInput [matDatepicker]="fchHasta" formControlName="fchHasta">
-    <mat-datepicker-toggle matIconSuffix [for]="fchHasta"></mat-datepicker-toggle>
-    <mat-datepicker #fchHasta></mat-datepicker>
+    <input matInput type="datetime-local" #fchTimeHasta name="fchTimeHasta" formControlName="fchTimeHasta">
+    <button (click)="fchTimeHasta.showPicker()" mat-icon-button matIconSuffix><mat-icon>today</mat-icon></button>
   </mat-form-field>
   <mat-form-field>
     <mat-label>Estado caja</mat-label>
@@ -34,7 +32,7 @@
     </mat-select>
   </mat-form-field>
   <div class="button-group d-flex justify-content-end">
-    <button type="submit" mat-fab extended color="primary" class="">
+    <button type="submit" mat-fab extended color="primary" (click)="generarReporte()">
       Descargar reporte
       <mat-icon>download</mat-icon>
     </button>

@@ -99,7 +99,7 @@ export class MovimientoCajaComponent implements OnInit, AfterViewInit {
     this.movimientoService.createMovimientoCaja(this.movimiento).subscribe(
       resp => {
           swal.fire(this.titulo, `Movimiento ${resp.cajaUsuario.id}, creado con éxito!`, 'success');
-          this.router.navigate(['/pr']);
+          this.router.navigate(['/']);
       })
   }
 

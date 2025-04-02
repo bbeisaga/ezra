@@ -30,7 +30,7 @@ export class AuthService {
       this._token = sessionStorage.getItem('token');
       return this._token;
     }
-    return 'null';
+    return null;
   }
 
   login(usuario: Usuario): Observable<any> {

@@ -3,6 +3,7 @@ import { AuthService } from '../../../../services/auth.service';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { Usuario } from '../../../../models/usuario';
+import { AlertService } from '../../../../services/alert.service';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,9 @@ export class HeaderComponent implements OnInit {
   @Output()
   clickMenuEvent = new EventEmitter();
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService,
+              private router: Router,
+            private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.isAutenticado = this.authService.isAuthenticated();
@@ -29,7 +32,8 @@ export class HeaderComponent implements OnInit {
   logout(): void {
     let username = this.authService.usuario.username;
     this.authService.logout();
-    swal.fire('Logout', `Hola ${username}, has cerrado sesión con éxito!`, 'success');
+    this.alertService.success(`Hola ${username}, has cerrado sesión con éxito!`,'Cerrar sesión');
+    //swal.fire('Logout', `Hola ${username}, has cerrado sesión con éxito!`, 'success');
     this.router.navigate(['/login']);
   }
 
