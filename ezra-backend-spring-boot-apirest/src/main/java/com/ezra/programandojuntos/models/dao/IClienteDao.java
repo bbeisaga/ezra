@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.ezra.programandojuntos.models.entity.Cliente;
+import com.ezra.programandojuntos.models.entity.Producto;
 import com.ezra.programandojuntos.models.entity.TipoDocumento;
 
 public interface IClienteDao extends JpaRepository<Cliente, Long>{
@@ -23,6 +24,9 @@ public interface IClienteDao extends JpaRepository<Cliente, Long>{
 	Optional<Cliente> findByNumeroDocumento(String numeroDocumento);
 	Optional<Cliente> findByCelular(String celular);
 	
-	@Query("SELECT c FROM Cliente c WHERE (c.nombres like %:query% OR c.apellidos like %:query% OR c.razonSocial like %:query% OR c.tipoDocumento.acronimo like %:query% OR c.numeroDocumento like %:query% OR c.celular like %:query%)")
+	public List<Cliente> findByNomApellRzContainingIgnoreCase(String term);
+
+	
+	@Query("SELECT c FROM Cliente c WHERE (c.nomApellRz like %:query% OR c.tipoDocumento.acronimo like %:query% OR c.numeroDocumento like %:query% OR c.celular like %:query%)")
 	Page<Cliente> findAllClientePageable(@Param("query") String query, Pageable pageRequest);
 }

@@ -54,18 +54,18 @@ public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
 //		}
 		
 		if (cjActual!=null) {
-			Map<String, BigDecimal> movimientos = movimientoDeCajaUsuario(cajaUsuario.getId());
-			Map<String, BigDecimal> movimientosCju = movimientoCajaDeCajaUsuario(cajaUsuario.getId());
+			Map<String, BigDecimal> movPorCju = movimientoPorCajaUsuario(cajaUsuario.getId());
+			Map<String, BigDecimal> movCajaPorCju = movimientoCajaPorCajaUsuario(cajaUsuario.getId());
 
 			cjActual.setIngresoEsperado(
-					movimientos.get("ingresos").add(
-					movimientosCju.get("ingresoCju")));
+					movPorCju.get("ingreso").add(
+					movCajaPorCju.get("ingreso")));
 			cjActual.setEgresoEsperado(
-					movimientos.get("egresos").add(
-					movimientosCju.get("egresoCju")));
+					movPorCju.get("egreso").add(
+					movCajaPorCju.get("egreso")));
 			cjActual.setSaldoCaja(
-					movimientos.get("saldos").add(			
-					movimientosCju.get("saldoCju")));
+					movPorCju.get("flujoEfectivo").subtract(			
+					movCajaPorCju.get("flujoEfectivo")));
 			cjActual.setSaldoPorConteo(cajaUsuario.getSaldoPorConteo());
 			cjActual.setActiva(cajaUsuario.isActiva());
 			if(!cajaUsuario.isActiva()) {
@@ -75,12 +75,13 @@ public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
 		return cajaUsuarioDao.save(cjActual);
 	}
 	
+	
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, BigDecimal> movimientoDeCajaUsuario(Long cajaUsuarioId){
+	public Map<String, BigDecimal> movimientoPorCajaUsuario(Long cajaUsuarioId){
 		CajaUsuario cju = findById(cajaUsuarioId);
 		List<Movimiento> items= cju.getMovimientos();
-		BigDecimal saldoCju = new BigDecimal(0);
+		//BigDecimal saldoCju = new BigDecimal(0);
 		BigDecimal ingresoCju = new BigDecimal(0);
 		BigDecimal egresoCju = new BigDecimal(0);
 
@@ -88,32 +89,32 @@ public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
 			ingresoCju = ingresoCju.add(item.getIngresoDinero()); //+
 			egresoCju = egresoCju.add(item.getEgresoDinero()); // -
 		}
-		saldoCju = ingresoCju.subtract(egresoCju);				
+		//saldoCju = ingresoCju.subtract(egresoCju);				
         Map<String, BigDecimal> mapa = new HashMap<String, BigDecimal>();
-        mapa.put("ingresos", ingresoCju);
-        mapa.put("egresos", egresoCju);
-        mapa.put("saldos", saldoCju);
+        mapa.put("ingreso", ingresoCju);
+        mapa.put("egreso", egresoCju);
+        mapa.put("flujoEfectivo", ingresoCju.subtract(egresoCju).abs());
 		return mapa;
 	}
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Map<String, BigDecimal> movimientoCajaDeCajaUsuario(Long cajaUsuarioId){
+	public Map<String, BigDecimal> movimientoCajaPorCajaUsuario(Long cajaUsuarioId){
 		CajaUsuario cju = findById(cajaUsuarioId);
 		List<MovimientoCaja> items= cju.getMovimientosCaja();
-		BigDecimal saldoCju = new BigDecimal(0);
-		BigDecimal ingresoCju = new BigDecimal(0);
-		BigDecimal egresoCju = new BigDecimal(0);
+		//BigDecimal saldoCju = new BigDecimal(0);
+		BigDecimal ingresoCajaCju = new BigDecimal(0);
+		BigDecimal egresoCajaCju = new BigDecimal(0);
 
 		for (MovimientoCaja item : items) {
-			ingresoCju = ingresoCju.add(item.getIngresoDinero()); //+
-			egresoCju = egresoCju.add(item.getEgresoDinero()); // -
+			ingresoCajaCju = ingresoCajaCju.add(item.getIngresoDinero()); //+
+			egresoCajaCju = egresoCajaCju.add(item.getEgresoDinero()); // -
 		}
-		saldoCju = ingresoCju.add(egresoCju);
+		//saldoCju = ingresoCju.add(egresoCju);
         Map<String, BigDecimal> mapa = new HashMap<String, BigDecimal>();
-        mapa.put("ingresoCju", ingresoCju);
-        mapa.put("egresoCju", egresoCju);
-        mapa.put("saldoCju", saldoCju);
+        mapa.put("ingreso", ingresoCajaCju);
+        mapa.put("egreso", egresoCajaCju);
+        mapa.put("flujoEfectivo", ingresoCajaCju.subtract(egresoCajaCju).abs());
 		return mapa;
 	}
 	

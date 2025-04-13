@@ -1,17 +1,15 @@
+import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Cliente } from '../models/cliente';
-import { Region } from '../models/region';
-import { HttpClient, HttpRequest, HttpEvent, HttpHeaders, HttpParams } from '@angular/common/http';
-import { map, catchError, tap } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
+import { Cliente } from '../models/cliente';
 
 import { Router } from '@angular/router';
-import { AuthService } from './auth.service';
-import { TipoDocumento } from '../models/tipo-documento';
-import { PageableParams } from '../models/pageable-params';
-import { PageableResponse } from '../models/pageable-response';
 import { environment } from '../../environments/environment';
+import { PageableResponse } from '../models/pageable-response';
+import { TipoDocumento } from '../models/tipo-documento';
 import { AlertService } from './alert.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,15 +22,15 @@ export class ClienteService {
   constructor(private http: HttpClient,
     private router: Router,
     private alertService: AlertService,
-    private authService: AuthService) {}
+    private authService: AuthService) { }
 
-/*   private agregarAuthorizationHeader(){
-    let token = this.authService.token;
-    if(token != null){
-      return this.httpHeaders.append('Authorization', 'Bearer ' + token)
-    }
-    return this.httpHeaders
-  } */
+  /*   private agregarAuthorizationHeader(){
+      let token = this.authService.token;
+      if(token != null){
+        return this.httpHeaders.append('Authorization', 'Bearer ' + token)
+      }
+      return this.httpHeaders
+    } */
 
   getTipoDocumento(): Observable<TipoDocumento[]> {
     return this.http.get<TipoDocumento[]>(environment.apiUrl + '/clientes/documentos'
@@ -48,32 +46,32 @@ export class ClienteService {
 
   getAllClientesPageable(params: any): Observable<PageableResponse> {
 
-    return this.http.get<any>(`${environment.apiUrl}/clientes/pageable`,{
-     /* headers: this.agregarAuthorizationHeader(),*/
-      params : params,
+    return this.http.get<any>(`${environment.apiUrl}/clientes/pageable`, {
+      /* headers: this.agregarAuthorizationHeader(),*/
+      params: params,
     });
 
 
-/*     return this.http.post<PageableResponse>(`${this.urlEndPoint}/pageable`  ,{headers: this.agregarAuthorizationHeader(), params : params});
- */
+    /*     return this.http.post<PageableResponse>(`${this.urlEndPoint}/pageable`  ,{headers: this.agregarAuthorizationHeader(), params : params});
+     */
   }
 
   getClientes(page: number): Observable<any> {
     return this.http.get(`${environment.apiUrl}/clientes` + '/page/' + page).pipe(
       tap((response: any) => {
         console.log('ClienteService: tap 1');
-        (response.content as Cliente[]).forEach(cliente => console.log(cliente.nombres));
+        (response.content as Cliente[]).forEach(cliente => console.log(cliente.nomApellRz));
       }),
       map((response: any) => {
         (response.content as Cliente[]).map(cliente => {
-          cliente.nombres = cliente.nombres.toUpperCase();
+          cliente.nomApellRz = cliente.nomApellRz.toUpperCase();
           return cliente;
         });
         return response;
       }),
       tap(response => {
         console.log('ClienteService: tap 2');
-        (response.content as Cliente[]).forEach(cliente => console.log(cliente.nombres));
+        (response.content as Cliente[]).forEach(cliente => console.log(cliente.nomApellRz));
       }));
   }
 
@@ -83,11 +81,11 @@ export class ClienteService {
       .pipe(
         map((response: any) => response.cliente as Cliente),
         catchError(e => {
- /*          if (e.status == 400) {
-            return throwError(e);
-          } */
+          /*          if (e.status == 400) {
+                     return throwError(e);
+                   } */
           if (e.error.mensaje) {
-            this.alertService.error(e.error.mensaje,e.error.err);
+            this.alertService.error(e.error.mensaje, e.error.err);
           }
           return throwError(e);
         }));
@@ -144,5 +142,10 @@ export class ClienteService {
     });
 
     return this.http.request(req);
+  }
+
+  filtrarClientes(term: string): Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(`${environment.apiUrl}/clientes/filtrar-cliente/${term}`
+    );
   }
 }

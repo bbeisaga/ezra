@@ -28,13 +28,15 @@ import {MatExpansionModule} from '@angular/material/expansion';
 
 import { SearchBoxTableComponent } from './search-box-table/search-box-table.component';
 import { ModalDialogAlertComponent } from './modal-dialog/modal-dialog-alert.component';
+import { AutocompleteClienteComponent } from './autocomplete-box/autocomplete-cliente.component';
 
 
 
 @NgModule({
   declarations: [
     SearchBoxTableComponent,
-    ModalDialogAlertComponent
+    ModalDialogAlertComponent,
+    AutocompleteClienteComponent
   ],
   imports: [
     CommonModule,
@@ -86,7 +88,8 @@ import { ModalDialogAlertComponent } from './modal-dialog/modal-dialog-alert.com
     MatCheckboxModule,
     MatRadioModule,
     MatExpansionModule,
-    SearchBoxTableComponent
+    SearchBoxTableComponent,
+    AutocompleteClienteComponent
   ]
 })
 export class CompartidoModule { }

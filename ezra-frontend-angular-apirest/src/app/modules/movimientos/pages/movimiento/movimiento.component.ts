@@ -7,12 +7,12 @@ import { Pedido } from '../../../../models/pedido';
 import { PedidoService } from '../../../../services/pedido.service';
 import { CajaUsuario } from '../../../../models/caja-usuario';
 import { AuthService } from '../../../../services/auth.service';
-import { TipoMovimiento } from '../../../../models/tipo-movimiento';
 import { find } from 'lodash';
 import { Router } from '@angular/router';
 import moment from 'moment';
 import { COLOR_CAJA_USUARIO, ESTADO_CAJA_USUARIO } from '../../../../constants/caja-usuario.constants';
 import { AlertService } from '../../../../services/alert.service';
+import { TipoMovimientoPedido } from '../../../../models/tipo-movimiento-pedido';
 
 @Component({
   selector: 'app-movimiento',
@@ -25,10 +25,13 @@ export class MovimientoComponent implements OnInit {
   cajaUsuario!: CajaUsuario;
   pedido! : Pedido;
   tipoPagos: TipoPago[]=[];
-  tipoMovimientos: TipoMovimiento[]=[];
+  tipoMovimientosPedidoLst: TipoMovimientoPedido[]=[];
+  tipoMovPedidoIngresos: TipoMovimientoPedido[] = [];
+  tipoMovPedidoEgresos: TipoMovimientoPedido[] = [];
   isAutenticado!: boolean;
   //user!: Usuario;
   username!:string;
+  iMovimiento: string = "I";
   estadoCajaUsuarioMap = ESTADO_CAJA_USUARIO;
 
 
@@ -74,35 +77,60 @@ export class MovimientoComponent implements OnInit {
     )
 
     //trae tipo de movimientos
-    this.movimientoService.getAllTipoMovimientos().subscribe(
+    this.movimientoService.getAllTipoMovimientosPedido().subscribe(
       response => {
-        this.tipoMovimientos = response
-        this.movimiento.tipoMovimiento = this.findTipoMovimiento(1);
+        //this.tipoMovimientosPedidoLst = response
+        //this.movimiento.tipoMovimientoPedido = this.findTipoMovimientoPedido(1);
+        this.tipoMovPedidoIngresos = response.filter(f => f.tipo == "I")
+        this.tipoMovPedidoEgresos = response.filter(f => f.tipo == "E")
       })
     //console.log()
 
     //console.log("movimiento", this.movimiento);
   }
 
-
-
-  findTipoMovimiento(id: number): TipoMovimiento {
-    return find(this.tipoMovimientos,{'id': id})!
+  ngAfterViewInit(): void {
+    if(this.pedido.tipoPedido.nombre=="VENTA AL CLIENTE"){
+      this.iMovimiento = 'I'
+      this.changeTipoMovimiento(this.iMovimiento);
+    }
+    if(this.pedido.tipoPedido.nombre=="COMPRA O ADQUISICION"){
+      this.iMovimiento = 'E'
+      this.changeTipoMovimiento(this.iMovimiento);
+    }
   }
 
-  setMovimientoDinero():void{
-    if(this.pedido.tipoPedido.nombre=="VENTA AL CLIENTE"){
-     // let newSaldoBruto = (this.pedido.saldoBrutoPedido - this.movimiento.ingresoDinero)
-      let newSaldo = (this.pedido.saldoPedido - this.movimiento.ingresoDinero)
-/*
-      if(newSaldoBruto >= 0) {
-        this.movimiento.egresoDinero = 0
-        this.movimiento.saldoBrutoDinero = newSaldoBruto;
+  changeTipoMovimiento(tipo: string) {
+    this.tipoMovimientosPedidoLst = []
+    this.movimiento.egresoDinero = 0;
+    this.movimiento.ingresoDinero = 0;
+    if (tipo == "I" ) {
+      this.tipoMovimientosPedidoLst = this.tipoMovPedidoIngresos
+      if(this.pedido.tipoPedido.nombre=="VENTA AL CLIENTE"){
+        this.movimiento.tipoMovimientoPedido = this.findTipoMovimientoPedido(1);
       }
-      if(newSaldoBruto < 0) {
-        this.movimiento.egresoDinero = newSaldoBruto
-        this.movimiento.saldoBrutoDinero = 0
-      } */
+      if(this.pedido.tipoPedido.nombre=="COMPRA O ADQUISICION"){
+        this.movimiento.tipoMovimientoPedido = this.findTipoMovimientoPedido(4);
+      }
+    }
+    if (tipo == "E" ) {
+      this.tipoMovimientosPedidoLst = this.tipoMovPedidoEgresos
+      if(this.pedido.tipoPedido.nombre=="VENTA AL CLIENTE"){
+        this.movimiento.tipoMovimientoPedido = this.findTipoMovimientoPedido(2);
+      }
+      if(this.pedido.tipoPedido.nombre=="COMPRA O ADQUISICION"){
+        this.movimiento.tipoMovimientoPedido = this.findTipoMovimientoPedido(3);
+      }
+    }
+  }
+
+  findTipoMovimientoPedido(id: number): TipoMovimientoPedido {
+    return find(this.tipoMovimientosPedidoLst,{'id': id})!
+  }
+
+  setMovimientoDinero(tipo:String):void{
+    if(tipo == 'I'){
+      let newSaldo = (this.pedido.saldoPedido - this.movimiento.ingresoDinero)
       if(newSaldo >= 0) {
         this.movimiento.egresoDinero = 0
         this.movimiento.saldoDinero = newSaldo;
@@ -112,18 +140,8 @@ export class MovimientoComponent implements OnInit {
         this.movimiento.saldoDinero = 0
       }
     }
-    if(this.pedido.tipoPedido.nombre=="COMPRA O ADQUISICION"){
-      //let newSaldoBruto = (this.pedido.saldoBrutoPedido - this.movimiento.egresoDinero)
+    if(tipo == 'E'){
       let newSaldo = (this.pedido.saldoPedido - this.movimiento.egresoDinero)
-
-/*       if(newSaldoBruto >= 0) {
-        this.movimiento.ingresoDinero = 0
-        this.movimiento.saldoBrutoDinero = newSaldoBruto;
-      }
-      if(newSaldoBruto < 0) {
-        this.movimiento.ingresoDinero = newSaldoBruto
-        this.movimiento.saldoBrutoDinero = 0
-      } */
       if(newSaldo >= 0) {
         this.movimiento.ingresoDinero = 0
         this.movimiento.saldoDinero = newSaldo;

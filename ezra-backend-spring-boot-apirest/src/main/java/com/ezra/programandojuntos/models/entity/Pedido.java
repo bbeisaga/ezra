@@ -67,11 +67,13 @@ public class Pedido implements Serializable {
 	@Column(name = "saldo_pedido")
 	private BigDecimal saldoPedido;
 	
+	@Column(name = "flujo_efectivo_total")
+	private BigDecimal flujoEfectivoTotal;
+	
 //	@Column(name = "saldo_bruto_pedido")
 //	private BigDecimal saldoBrutoPedido;
 	
-	private boolean aceptado; //candidato a irse
-	private boolean vencido; //candidat a irse
+	private boolean devuelto; 
 	private boolean pagado;
 
 	@Column(name = "create_at")

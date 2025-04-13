@@ -26,7 +26,7 @@ import { AlertService } from '../../../services/alert.service';
 })
 export class ClientesComponent implements OnInit , AfterViewInit{
 
-  displayedColumns: string[] = ['apellidos','nombres','razonSocial','createAt' ,'numeroDocumento','celular','acciones' ];
+  displayedColumns: string[] = ['nomApellRz','createAt' ,'numeroDocumento','celular','acciones' ];
   //dataSource!: MatTableDataSource<Cliente>;
   dataSource : Cliente[]=[];
  //clientes: Cliente[]=[];
@@ -124,14 +124,14 @@ export class ClientesComponent implements OnInit , AfterViewInit{
 
   delete(cliente: Cliente): void {
 
-    const dialogRef = this.alertService.decision(`¿Seguro que desea eliminar al cliente ${cliente.nombres} ${cliente.apellidos}?`,"Borrar cliente")
+    const dialogRef = this.alertService.decision(`¿Seguro que desea eliminar al cliente ${cliente.nomApellRz}?`,"Borrar cliente")
       dialogRef.afterClosed().subscribe((result:boolean) => {
         if (result) {
             this.clienteService.delete(cliente.id).subscribe(
               () => {
                 this.loadItems();
                 ///this.dataSource = this.clientes.filter(cli => cli !== cliente)
-                this.alertService.success(`Cliente ${cliente.nombres} eliminado con éxito.`,'Cliente Eliminado!')
+                this.alertService.success(`Cliente ${cliente.nomApellRz} eliminado con éxito.`,'Cliente Eliminado!')
                  /* swal.fire(
                   'Cliente Eliminado!',
                   `Cliente ${cliente.nombres} eliminado con éxito.`,

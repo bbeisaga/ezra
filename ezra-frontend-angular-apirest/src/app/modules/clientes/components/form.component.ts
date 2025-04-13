@@ -16,7 +16,7 @@ export class FormComponent implements OnInit {
   cliente: Cliente = new Cliente();
   tipoDocumentos: TipoDocumento[]=[];
   tipoDocumentoSelected!: TipoDocumento;
-  titulo: string = "Crear Cliente";
+  titulo: string = "Crear cliente o proveedor";
 
   errores: string[]=[];
 
@@ -53,7 +53,7 @@ export class FormComponent implements OnInit {
       .subscribe(
         cliente => {
           this.router.navigate(['/clientes']);
-          this.alertServie.success(`El cliente ${cliente.nombres} ha sido creado con éxito`,'Nuevo cliente' )
+          this.alertServie.success(`El cliente ${cliente.nomApellRz} ha sido creado con éxito`,'Nuevo cliente' )
         },
 /*         err => {
           this.errores = err.error.errors as string[];

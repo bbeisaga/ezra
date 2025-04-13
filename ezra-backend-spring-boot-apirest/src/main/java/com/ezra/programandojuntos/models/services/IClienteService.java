@@ -25,6 +25,8 @@ public interface IClienteService {
 
 	public void delete(Long id);
 	
+	public List<Cliente> findClienteByNomApellRz (String term);
+	
 	//public List<Region> findAllRegiones();
 	
 	public List<TipoDocumento> findAllTipoDocumento();

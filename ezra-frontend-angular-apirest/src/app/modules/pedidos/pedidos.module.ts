@@ -7,6 +7,7 @@ import { PedidosComponent } from './paginas/pedidos.component';
 import { DetallePedidoComponent } from './components/detalle-pedido.component';
 import { FormPedidoComponent } from './components/form-pedido.component';
 import { RptePedidoComponent } from './reportes/rpte-pedido/rpte-pedido.component';
+import { DetalleItemPedidoComponent } from './components/detalle-item-pedido/detalle-item-pedido.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { RptePedidoComponent } from './reportes/rpte-pedido/rpte-pedido.componen
     PedidosComponent,
     DetallePedidoComponent,
     RptePedidoComponent,
+    DetalleItemPedidoComponent,
   ],
   imports: [
     CommonModule,

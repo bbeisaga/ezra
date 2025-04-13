@@ -23,11 +23,61 @@
       <ul class="list-group">
         <li class="list-group-item list-group-item-primary">Movimiento</li>
       </ul>
-      <ng-container>
-        <mat-form-field>
-          <mat-label>SALDO NETO PENDIENTE PAGO</mat-label>
+      <mat-radio-group class="example-full-width" name="iMovimiento" [(ngModel)]="iMovimiento"
+      (change)="changeTipoMovimiento($event.value)">
+        <mat-radio-button value="I">Ingreso</mat-radio-button>
+        <mat-radio-button value="E">Egreso</mat-radio-button>
+      </mat-radio-group>
+      <mat-form-field class="example-full-width">
+        <mat-label>Tipo movimiento</mat-label>
+        <mat-select
+          name="tipoMovimientoPedido"
+          [disabled]="true"
+          [(ngModel)]="movimiento.tipoMovimientoPedido">
+          <mat-option *ngFor="let tipoMovimientoPedido of tipoMovimientosPedidoLst" [value]="tipoMovimientoPedido">
+            {{tipoMovimientoPedido.movimiento}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <ng-container *ngIf="pedido.tipoPedido.nombre=='VENTA AL CLIENTE'">
+        <mat-form-field *ngIf="iMovimiento=='I'">
+          <mat-label>SALDO NETO PENDIENTE</mat-label>
           <input matInput type="text" name="saldoPedido" #saldoPedido="ngModel" [(ngModel)]="pedido.saldoPedido" disabled>
         </mat-form-field>
+        <mat-form-field *ngIf="iMovimiento=='E'">
+          <mat-label>FLUJO EFECTIVO</mat-label>
+          <input matInput type="text" name="flujoEfectivoTotal" #flujoEfectivoTotal="ngModel" [(ngModel)]="pedido.flujoEfectivoTotal" disabled>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="pedido.tipoPedido.nombre=='COMPRA O ADQUISICION'">
+        <mat-form-field *ngIf="iMovimiento=='E'">
+          <mat-label>SALDO NETO PENDIENTE</mat-label>
+          <input matInput type="text" name="saldoPedido" #saldoPedido="ngModel" [(ngModel)]="pedido.saldoPedido" disabled>
+        </mat-form-field>
+        <mat-form-field *ngIf="iMovimiento=='I'">
+          <mat-label>FLUJO EFECTIVO</mat-label>
+          <input matInput type="text" name="flujoEfectivoTotal" #flujoEfectivoTotal="ngModel" [(ngModel)]="pedido.flujoEfectivoTotal" disabled>
+        </mat-form-field>
+      </ng-container>
+      <ng-container *ngIf="pedido.cliente">
+          <mat-form-field *ngIf="iMovimiento=='I'">
+            <mat-label>INGRESO DINERO</mat-label>
+            <input matInput type="number" name="ingresoDinero" #ingresoDinero="ngModel" [(ngModel)]="movimiento.ingresoDinero" (keyup)="setMovimientoDinero(iMovimiento)"  required>
+            <div *ngIf="ingresoDinero.invalid && (ingresoDinero.dirty || ingresoDinero.touched)">
+              <mat-error *ngIf="ingresoDinero?.errors?.['required']">
+                Pago es requerido
+              </mat-error>
+            </div>
+          </mat-form-field>
+          <mat-form-field *ngIf="iMovimiento=='E'">
+            <mat-label>EGRESO DINERO</mat-label>
+            <input matInput type="number" name="egresoDinero" #egresoDinero="ngModel" [(ngModel)]="movimiento.egresoDinero" (keyup)="setMovimientoDinero(iMovimiento)" required>
+            <div *ngIf="egresoDinero.invalid && (egresoDinero.dirty || egresoDinero.touched)">
+              <mat-error *ngIf="egresoDinero?.errors?.['required']">
+                Pago es requerido
+              </mat-error>
+            </div>
+          </mat-form-field>
       </ng-container>
       <mat-form-field class="example-full-width">
         <mat-label>Tipo pago</mat-label>
@@ -39,38 +89,11 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
-      <ng-container *ngIf="pedido.cliente">
-          <mat-form-field *ngIf="pedido.tipoPedido.nombre=='VENTA AL CLIENTE'">
-            <mat-label>PAGO DEL CLIENTE</mat-label>
-            <input matInput type="number" name="ingresoDinero" #ingresoDinero="ngModel" [(ngModel)]="movimiento.ingresoDinero" (keyup)="setMovimientoDinero()" required>
-            <div *ngIf="ingresoDinero.invalid && (ingresoDinero.dirty || ingresoDinero.touched)">
-              <mat-error *ngIf="ingresoDinero?.errors?.['required']">
-                Pago es requerido
-              </mat-error>
-              <mat-error *ngIf="ingresoDinero?.errors?.['required']">
-                Pago es requerido
-              </mat-error>
-            </div>
-          </mat-form-field>
-          <mat-form-field *ngIf="pedido.tipoPedido.nombre=='COMPRA O ADQUISICION'">
-            <mat-label>PAGO POR COMPRA</mat-label>
-            <input matInput type="number" name="egresoDinero" #egresoDinero="ngModel" [(ngModel)]="movimiento.egresoDinero" (keyup)="setMovimientoDinero()" required>
-            <div *ngIf="egresoDinero.invalid && (egresoDinero.dirty || egresoDinero.touched)">
-              <mat-error *ngIf="egresoDinero?.errors?.['required']">
-                Pago es requerido
-              </mat-error>
-              <mat-error *ngIf="egresoDinero?.errors?.['required']">
-                Pago es requerido
-              </mat-error>
-            </div>
-          </mat-form-field>
-      </ng-container>
-      <ng-container>
+<!--       <ng-container>
           <mat-checkbox name="aceptado" #aceptado="ngModel" [(ngModel)]="pedido.aceptado">
             El cliente ACEPTA y recibio su pedido (No tiene ningun error)
           </mat-checkbox>
-      </ng-container>
+      </ng-container> -->
     </mat-card-content>
   </form>
 

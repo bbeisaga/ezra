@@ -11,9 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PedidoReporte {
-	String apellidos;
-	String nombres;
-	String razonSocial;
+	String nomApellRz;
 	Long codigoPedido;
 	String fechaCreacion;
 	String fechaEntrega;
@@ -25,6 +23,8 @@ public class PedidoReporte {
 	BigDecimal precioTotalBruto;
 	BigDecimal precioTotalNeto;
 	BigDecimal saldoPedido;
+	BigDecimal pagoTotal;
+	BigDecimal vueltoTotal;
 	String esPagado;
 	String tipoPedido;
 

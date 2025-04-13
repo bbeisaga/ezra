@@ -63,11 +63,11 @@ public class PedidoRepositoryImpl implements PedidoRepository {
 	
 	@Override
 	public List<PedidoReporte> listarPedidosConFiltros(Report reporte){
-		String sql = "SELECT cl.apellidos, cl.nombres, cl.razon_social AS razonSocial, pe.id AS codigoPedido,"
+		String sql = "SELECT cl.nom_apell_rz AS nomApellRz, pe.id AS codigoPedido,"
 				+ "pe.create_at AS fechaCreacion, pe.entregado_en AS fechaEntrega, pe.adquirido_en as adquiridoEn,"
 				+ "ep.estado AS estadoPedido,ep.descripcion AS descripcionPedido, pe.costo_bruto_total as costoBrutoTotal,"
 				+ "pe.costo_neto_total as costoNetoTotal, pe.precio_bruto_total AS precioTotalBruto,"
-				+ "pe.precio_neto_total AS precioTotalNeto, pe.saldo_pedido AS saldoPedido,"
+				+ "pe.precio_neto_total AS precioTotalNeto, pe.saldo_pedido AS saldoPedido, pe.pago_total AS pagoTotal, pe.vuelto_total as vueltoTotal,"
 				+ "(CASE pe.pagado when 0 then 'NO' when 1 then 'SI' END) AS esPagado, tp.nombre AS tipoPedido "
 				+ "FROM pedidos pe " //--> alias tabla principal
 				+ "INNER JOIN clientes cl ON pe.cliente_id = cl.id "

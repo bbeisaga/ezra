@@ -7,8 +7,8 @@ import jakarta.persistence.*;
 
 
 @Entity
-@Table(name="tipo_movimientos")
-public class TipoMovimiento implements Serializable{
+@Table(name="tipo_movimientos_pedido")
+public class TipoMovimientoPedido implements Serializable{
 	
 
 	@Id
@@ -16,8 +16,6 @@ public class TipoMovimiento implements Serializable{
 	private Long id;
 	private String movimiento;
 	private String tipo;
-	
-
 	
 	public Long getId() {
 		return id;
@@ -32,8 +30,6 @@ public class TipoMovimiento implements Serializable{
 		this.movimiento = movimiento;
 	}
 
-
-
 	public String getTipo() {
 		return tipo;
 	}
@@ -41,11 +37,6 @@ public class TipoMovimiento implements Serializable{
 		this.tipo = tipo;
 	}
 
-
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 }

@@ -22,6 +22,7 @@ import com.ezra.programandojuntos.exceptions.ClienteExceptions;
 import com.ezra.programandojuntos.exceptions.PedidoExceptions;
 import com.ezra.programandojuntos.models.dao.IClienteDao;
 import com.ezra.programandojuntos.models.entity.Cliente;
+import com.ezra.programandojuntos.models.entity.Producto;
 import com.ezra.programandojuntos.models.entity.TipoDocumento;
 
 @Service
@@ -62,6 +63,12 @@ public class ClienteServiceImpl implements IClienteService {
 //    	
 //    	clienteDao.findAllClientePageable(null, null)
 //    }
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Cliente> findClienteByNomApellRz (String term) {
+		return clienteDao.findByNomApellRzContainingIgnoreCase(term);
+	}
 	
 
 	@Override
@@ -110,8 +117,9 @@ public class ClienteServiceImpl implements IClienteService {
 						ClienteMapErrors.getErrorString(ClienteMapErrors.MSJ_NO_CLIENTE_ID, clienteId)
 				));
 		
-		clienteActual.setApellidos(cliente.getApellidos());
-		clienteActual.setNombres(cliente.getNombres());
+//		clienteActual.setApellidos(cliente.getApellidos());
+//		clienteActual.setNombres(cliente.getNombres());
+		clienteActual.setNomApellRz(cliente.getNomApellRz());
 		clienteActual.setCelular(cliente.getCelular());
 		clienteActual.setTipoDocumento(cliente.getTipoDocumento());
 		clienteActual.setNumeroDocumento(cliente.getNumeroDocumento());

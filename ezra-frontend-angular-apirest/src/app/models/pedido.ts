@@ -20,14 +20,16 @@ export class Pedido {
   pagoTotal!:number;
   vueltoTotal!:number;
   saldoPedido!:number;
+  flujoEfectivoTotal!:number;
 
   //total!:number;
   createAt!:string;
   entregadoEn!:string;
   adquiridoEn!:string;
-  aceptado:boolean = true;
-  vencido:boolean = false;
+  //aceptado:boolean = true;
+  //vencido:boolean = false;
   pagado:boolean = false;
+  devuelto:boolean = false;
 
 
 /*    calcularGranTotal(): number {
@@ -41,5 +43,6 @@ export class Pedido {
   calcularGranSaldo(): number {
     return this.calcularGranTotal() - this.pago;
   } */
+
 
 }

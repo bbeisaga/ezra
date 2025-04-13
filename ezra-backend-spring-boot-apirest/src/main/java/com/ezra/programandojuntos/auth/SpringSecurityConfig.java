@@ -74,6 +74,8 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/clientes/{id}").permitAll()
 			   .requestMatchers(HttpMethod.PUT,"api/clientes/{id}").hasAnyRole("USER","ADMIN")
 			   .requestMatchers(HttpMethod.DELETE,"api/clientes/{id}").hasRole("ADMIN")
+			   .requestMatchers(HttpMethod.GET,"api/cleintes/filtrar-cliente/{term}").permitAll()
+
 			 //Permisos par alas URLs de pedido
 			   .requestMatchers(HttpMethod.GET,"api/pedidos").permitAll() 
 			   .requestMatchers(HttpMethod.GET,"api/pedidos/pageable").permitAll()
@@ -87,10 +89,13 @@ public class SpringSecurityConfig {
 
 			 //Permisos par alas URLs de movimientos VENTAS
 			   .requestMatchers(HttpMethod.GET,"api/movimientos/tipoPagos").permitAll() 
-			   .requestMatchers(HttpMethod.GET,"api/movimientos/tipoMovimientos").permitAll() 
+			   .requestMatchers(HttpMethod.GET,"api/movimientos/tipoMovimientosPedido").permitAll() 
 			   .requestMatchers(HttpMethod.POST,"api/movimientos").hasAnyRole("USER","ADMIN")
 			 //Permisos par alas URLs de movimientos CAJAS
-			   .requestMatchers(HttpMethod.POST,"api/movimientos/caja").hasAnyRole("USER","ADMIN")			   
+			   .requestMatchers(HttpMethod.POST,"api/movimientos/caja").hasAnyRole("USER","ADMIN")
+			   .requestMatchers(HttpMethod.GET,"api/movimientos/tipoMovimientosCaja").permitAll() 
+			   .requestMatchers(HttpMethod.POST,"api/movimientos/reporte/mov-en-caja").permitAll() 
+
 			 //Permisos par alas URLs de CAJAS USUARIOS
 			   .requestMatchers(HttpMethod.GET,"api/cajas/usuarios/{userName}").hasAnyRole("USER","ADMIN")	
 			   .requestMatchers(HttpMethod.GET,"api/cajas/{cajaId}/usuarios/{userId}").hasAnyRole("USER","ADMIN")

@@ -39,18 +39,23 @@ public class Cliente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	//@NotEmpty(message = "no puede estar vacio")
-	@Size(min = 2, max = 25, message = "el tamaño tiene que estar entre 4 y 25")
-	//@Column(nullable = false)
-	private String nombres;
-
-	//@NotEmpty(message = "no puede estar vacio")
-	@Size(min = 2, max = 25, message = "el tamaño tiene que estar entre 4 y 25")
-	private String apellidos;
+//	@NotEmpty(message = "no puede estar vacio")
+//	@Size(min = 2, max = 25, message = "el tamaño tiene que estar entre 4 y 25")
+//	@Column(nullable = false)
+//	private String nombres;
+//
+//	@NotEmpty(message = "no puede estar vacio")
+//	@Size(min = 2, max = 25, message = "el tamaño tiene que estar entre 4 y 25")
+//	private String apellidos;
+//	
+//	@NotEmpty(message = "no puede estar vacio")
+//	@Size(min = 2, message = "el tamaño muy pequeño")
+//	private String razonSocial;
 	
-	//@NotEmpty(message = "no puede estar vacio")
+	@NotEmpty(message = "no puede estar vacio")
 	@Size(min = 2, message = "el tamaño muy pequeño")
-	private String razonSocial;
+	@Column(name = "nom_apell_rz")
+	private String nomApellRz;
 	
 	//@NotEmpty(message = "no puede estar vacio")
 	private String direccion;

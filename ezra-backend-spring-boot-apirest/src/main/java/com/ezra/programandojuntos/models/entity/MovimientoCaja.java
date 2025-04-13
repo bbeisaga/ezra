@@ -33,9 +33,14 @@ public class MovimientoCaja implements Serializable {
 	private CajaUsuario cajaUsuario;
 		
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "tipo_movimiento_id")
+	@JoinColumn(name = "tipo_movimiento_caja_id")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	private TipoMovimiento tipoMovimiento;
+	private TipoMovimientoCaja tipoMovimientoCaja;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "tipo_pago_id")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private TipoPago tipoPago;
 	
 	@Column(name = "create_at")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -93,12 +98,12 @@ public class MovimientoCaja implements Serializable {
 
 
 
-	public TipoMovimiento getTipoMovimiento() {
-		return tipoMovimiento;
+	public TipoMovimientoCaja getTipoMovimientoCaja() {
+		return tipoMovimientoCaja;
 	}
 
-	public void setTipoMovimiento(TipoMovimiento tipoMovimiento) {
-		this.tipoMovimiento = tipoMovimiento;
+	public void setTipoMovimientoCaja(TipoMovimientoCaja tipoMovimientoCaja) {
+		this.tipoMovimientoCaja = tipoMovimientoCaja;
 	}
 
 	public BigDecimal getIngresoDinero() {
@@ -117,13 +122,16 @@ public class MovimientoCaja implements Serializable {
 		this.egresoDinero = egresoDinero;
 	}
 
-//	public BigDecimal getSaldoDinero() {
-//		return saldoDinero;
-//	}
-//
-//	public void setSaldoDinero(BigDecimal saldoDinero) {
-//		this.saldoDinero = saldoDinero;
-//	}
+
+	public TipoPago getTipoPago() {
+		return tipoPago;
+	}
+
+	public void setTipoPago(TipoPago tipoPago) {
+		this.tipoPago = tipoPago;
+	}
+
+
 
 	/**
 	 * 

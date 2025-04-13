@@ -12,6 +12,7 @@ import { AuthService } from '../../../../services/auth.service';
 import { CajaService } from '../../../../services/caja.service';
 import moment from 'moment';
 import { UsuarioService } from '../../../../services/usuario.service';
+import { AlertService } from '../../../../services/alert.service';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class AperturaCierreCajaComponent implements OnInit ,AfterViewInit {
               private authService: AuthService,
               private cajaService: CajaService,
               private usuarioService: UsuarioService,
+              private alertService: AlertService,
               private router: Router){
 
   }
@@ -120,8 +122,9 @@ export class AperturaCierreCajaComponent implements OnInit ,AfterViewInit {
     this.cajaUsuario.usuario.roles = [];
      this.cajaService.create(this.cajaUsuario).subscribe(
       response => {
-        swal.fire("Caja", `Se habrió ${this.cajaUsuario.caja.nombre}, para ${this.cajaUsuario.usuario.username} con éxito!`, 'success');
-        this.router.navigate(['/pr']);
+        this.alertService.success(`Se habrió ${this.cajaUsuario.caja.nombre}, para ${this.cajaUsuario.usuario.username} con éxito!`,"Caja", )
+       // swal.fire("Caja", `Se habrió ${this.cajaUsuario.caja.nombre}, para ${this.cajaUsuario.usuario.username} con éxito!`, 'success');
+        this.router.navigate(['/']);
       } )
   }
 
@@ -135,12 +138,14 @@ export class AperturaCierreCajaComponent implements OnInit ,AfterViewInit {
       this.cajaUsuario.activa=false;
       this.cajaService.update(this.cajaUsuario).subscribe(
         response => {
-          swal.fire("Caja", `Se cerró ${this.cajaUsuario.caja.nombre}, para ${this.cajaUsuario.usuario.username} con éxito!`, 'success');
-          this.router.navigate(['/pr']);
+          this.alertService.success( `Se cerró ${this.cajaUsuario.caja.nombre}, para ${this.cajaUsuario.usuario.username} con éxito!`, "Caja" )
+       //   swal.fire("Caja", `Se cerró ${this.cajaUsuario.caja.nombre}, para ${this.cajaUsuario.usuario.username} con éxito!`, 'success');
+          this.router.navigate(['/']);
         }
       )
     } else {
-      swal.fire("Caja", `No puede cerrar ${this.cajaUsuario.caja.nombre}, existe diferencias`, 'warning');
+      this.alertService.warning(`No puede cerrar ${this.cajaUsuario.caja.nombre}, existe diferencias`,"Caja" )
+      //swal.fire("Caja", `No puede cerrar ${this.cajaUsuario.caja.nombre}, existe diferencias`, 'warning');
     }
   }
 

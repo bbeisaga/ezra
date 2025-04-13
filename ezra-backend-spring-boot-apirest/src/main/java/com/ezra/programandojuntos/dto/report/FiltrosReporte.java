@@ -11,13 +11,12 @@ import lombok.ToString;
 @Setter
 @ToString
 public class FiltrosReporte {
-	@NotBlank
-    private String nombre;
+	private String nombre;
 	private Long tipoPedido;
 //	@NotBlank
 //    private String nombreArchivo;
 	@NotBlank
-    private String tipo = "EXCELOPENXML";
+	private String tipo = "EXCELOPENXML";
 //	private Object filtros;
-    private Map<String, String> filtros;
+	private Map<String, String> filtros;
 }

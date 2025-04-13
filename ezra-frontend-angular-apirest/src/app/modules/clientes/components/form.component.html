@@ -39,54 +39,13 @@
           </mat-error>
         </div>
     </mat-form-field>
-
-        <mat-form-field *ngIf="tipoDocumentoSelected.acronimo!=='RUC'" class="example-full-width">
-          <mat-label>Nombres</mat-label>
-          <input matInput  type="text" class="form-control" [(ngModel)]="cliente.nombres" name="nombres" #nombres="ngModel">
-          <div *ngIf="nombres.invalid && (nombres.dirty || nombres.touched)">
-            <mat-error *ngIf="nombres?.errors?.['required']">
-              Nombre es requerido
+        <mat-form-field class="example-full-width">
+          <mat-label>Nombres y apellidos o Razón Social</mat-label>
+          <input matInput  type="text" class="form-control" [(ngModel)]="cliente.nomApellRz" name="nomApellRz" #nomApellRz="ngModel">
+          <div *ngIf="nomApellRz.invalid && (nomApellRz.dirty || nomApellRz.touched)">
+            <mat-error *ngIf="nomApellRz.errors?.['required']">
+              Nombres y apellidos o Razón Social es requerido
             </mat-error>
-            <mat-error *ngIf="nombres.errors?.['minlength']">
-              Nombre debe tener al menos 4 caracteres
-            </mat-error>
-          </div>
-        </mat-form-field>
-        <!--
-        <div class="form-group row">
-          <label for="apellido" class="col-form-label col-sm-2">Apellido</label>
-          <div class="col-sm-6">
-            <input type="text" class="form-control" [(ngModel)]="cliente.apellido" name="apellido" #apellido="ngModel">
-            <div class="alert alert-danger" *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)">
-              <div *ngIf="apellido.errors?.['required']">
-                Apellido es requerido
-              </div>
-            </div>
-          </div>
-        </div> -->
-
-        <mat-form-field *ngIf="tipoDocumentoSelected.acronimo!=='RUC'" class="example-full-width">
-          <mat-label>Apellidos</mat-label>
-          <input matInput  type="text" class="form-control" [(ngModel)]="cliente.apellidos" name="apellidos" #apellidos="ngModel">
-          <div *ngIf="apellidos.invalid && (apellidos.dirty || apellidos.touched)">
-            <mat-error *ngIf="apellidos.errors?.['required']">
-              Apellidos es requerido
-            </mat-error>
-            <mat-error *ngIf="apellidos.errors?.['minlength']">
-              Apellidos debe tener al menos 4 caracteres
-            </mat-error>
-          </div>
-        </mat-form-field>
-        <mat-form-field *ngIf="tipoDocumentoSelected.acronimo=='RUC'" class="example-full-width">
-          <mat-label>Razón social</mat-label>
-          <input matInput  type="text" class="form-control" [(ngModel)]="cliente.razonSocial" name="razonSocial" #razonSocial="ngModel">
-          <div *ngIf="razonSocial.invalid && (razonSocial.dirty || razonSocial.touched)">
-            <mat-error *ngIf="razonSocial.errors?.['required']">
-              Razón social es requerido
-            </mat-error>
- <!--            <mat-error *ngIf="razonSocial.errors?.['minlength']">
-              Apellidos debe tener al menos 4 caracteres
-            </mat-error> -->
           </div>
         </mat-form-field>
 

@@ -1,14 +1,15 @@
 import { CajaUsuario } from "./caja-usuario";
 import { Pedido } from "./pedido";
-import { TipoMovimiento } from "./tipo-movimiento";
+import { TipoMovimientoCaja } from "./tipo-movimiento-caja";
 import { TipoPago } from "./tipo-pago";
 
 
 export class MovimientoCaja {
-  id!:number;
-	cajaUsuario!: CajaUsuario;
-  tipoMovimiento!: TipoMovimiento;
-  ingresoDinero:number=0;
-  egresoDinero:number=0;
-  descripcion!:string;
+  id!: number;
+  cajaUsuario!: CajaUsuario;
+  tipoPago!: TipoPago;
+  tipoMovimientoCaja!: TipoMovimientoCaja;
+  ingresoDinero: number = 0;
+  egresoDinero: number = 0;
+  descripcion!: string;
 }

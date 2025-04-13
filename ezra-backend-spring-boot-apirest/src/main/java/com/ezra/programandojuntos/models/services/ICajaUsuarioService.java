@@ -26,9 +26,9 @@ public interface ICajaUsuarioService {
 
 	public CajaUsuario findById(Long id);
 	
-	public Map<String, BigDecimal> movimientoDeCajaUsuario(Long cajaUsuarioId);
+	public Map<String, BigDecimal> movimientoPorCajaUsuario(Long cajaUsuarioId);
 	
-	public Map<String, BigDecimal> movimientoCajaDeCajaUsuario(Long cajaUsuarioId);
+	public Map<String, BigDecimal> movimientoCajaPorCajaUsuario(Long cajaUsuarioId);
 
 
 	public ByteArrayInputStream createReportCajaUsuario(ReportArray reporte);

@@ -12,12 +12,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ezra.programandojuntos.models.entity.MovimientoCaja;
+import com.ezra.programandojuntos.models.entity.TipoMovimientoCaja;
 import com.ezra.programandojuntos.models.services.IMovimientoCajaService;
 
 import jakarta.validation.Valid;
@@ -28,17 +31,17 @@ import jakarta.validation.Valid;
 public class MovimientoCajaRestController {
 
 	@Autowired
-	private IMovimientoCajaService movimientoService;
+	private IMovimientoCajaService movimientoCajaService;
 
 	
-//	@GetMapping("movimientos/tipoMovimientos")
-//	@ResponseStatus(HttpStatus.OK)
-//	public List<TipoMovimiento> getAllTipoMovimientos() {
-//		return movimientoService.lstAllTipoMovimientos();
-//	}
+	@GetMapping("movimientosCaja/tipoMovimientosCaja")
+	@ResponseStatus(HttpStatus.OK)
+	public List<TipoMovimientoCaja> getAllTipoMovimientosCaja() {
+		return movimientoCajaService.lstAllTipoMovimientosCaja();
+	}
 	
 	//@Secured("ROLE_ADMIN")
-	@PostMapping("movimientos/caja")
+	@PostMapping("movimientosCaja")
 	public ResponseEntity<?> createMovimientoCaja(@Valid @RequestBody MovimientoCaja movimientoCaja, BindingResult result) {
 		
 		MovimientoCaja movimientoNew = null;
@@ -55,7 +58,7 @@ public class MovimientoCajaRestController {
 		}
 		
 		try {
-			movimientoNew = movimientoService.saveMovimiento(movimientoCaja);
+			movimientoNew = movimientoCajaService.saveMovimiento(movimientoCaja);
 		} catch(DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert movimientos en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

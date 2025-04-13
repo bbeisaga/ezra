@@ -7,12 +7,16 @@ import { MovimientoComponent } from './pages/movimiento/movimiento.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MovimientoCajaComponent } from './pages/movimiento-caja/movimiento-caja.component';
+import { RpteMovimientoEnCajaComponent } from './reportes/rpte-movimiento-en-caja/rpte-movimiento-en-caja.component';
+import { RpteMovimientoEnCajaPorUsuarioComponent } from './reportes/rpte-movimiento-en-caja-por-usuario/rpte-movimiento-en-caja-por-usuario.component';
 
 
 @NgModule({
   declarations: [
     MovimientoComponent,
-    MovimientoCajaComponent],
+    MovimientoCajaComponent,
+    RpteMovimientoEnCajaComponent,
+    RpteMovimientoEnCajaPorUsuarioComponent],
   imports: [
     CommonModule,
     RouterModule,

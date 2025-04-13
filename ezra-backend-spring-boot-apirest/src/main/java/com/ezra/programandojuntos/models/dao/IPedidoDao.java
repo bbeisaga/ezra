@@ -24,7 +24,7 @@ public interface IPedidoDao extends JpaRepository<Pedido, Long>{
 	@Query("from TipoPedido tp WHERE tp.id=:id")
 	public TipoPedido findTipoPedidoById(Long id);
 	
-	@Query("SELECT p FROM Pedido p WHERE (p.cliente.nombres like %:query% OR p.cliente.apellidos like %:query% OR p.estadoPedido.estado like %:query%)")
+	@Query("SELECT p FROM Pedido p WHERE (p.cliente.nomApellRz like %:query% OR p.estadoPedido.estado like %:query%)")
 	Page<Pedido> findAllPedidoPageable(@Param("query") String query, Pageable pageable);
 	
 

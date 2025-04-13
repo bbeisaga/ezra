@@ -114,7 +114,7 @@ export class FormProductoComponent implements OnInit, AfterViewInit {
         producto => {
          // swal.fire('Nuevo cliente', `El cliente ${cliente.nombres} ha sido creado con éxito`, 'success');
          this.alertService.success(`${producto.nombre} ha sido creado con éxito`,'Nueo producto');
-         this.router.navigate(['/pr/productos']);
+         this.router.navigate(['/productos']);
 
         },
         err => {

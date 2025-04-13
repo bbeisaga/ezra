@@ -6,18 +6,18 @@ INSERT INTO tipo_documentos (acronimo, nombre) VALUES ('RUC', 'Registro único d
 
 
 
-INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(1, 'Andrés', 'Guzmán', '2018-01-01','41953480','054292');
-INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(1, 'Mr. John', 'Doe', '2018-01-02','11953480','0544222');
-INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(1, 'Linus', 'Torvalds', '2018-01-03','02953480','0543292');
-INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(1, 'Rasmus', 'Lerdorf',  '2018-01-04','71953480','9544292');
-INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(2, 'Erich', 'Gamma',  '2018-02-01','41955680','8544292');
-INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(2, 'Richard', 'Helm',  '2018-02-10','40053480','7544292');
-INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(1, 'Ralph', 'Johnson',  '2018-02-18','41953120','6544292');
-INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(1, 'John', 'Vlissides',  '2018-02-28','21953480','5544292');
-INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(2, 'Dr. James', 'Gosling',  '2018-03-03','47653480','4444292');
-INSERT INTO clientes (tipo_documentos_id, nombres, apellidos, create_at, numero_documento, celular) VALUES(2, 'Magma', 'Lee',  '2018-03-04','01953480','9944292');
-INSERT INTO clientes (tipo_documentos_id, razon_social, create_at, numero_documento, celular) VALUES(3, 'Rico Pollo', '2018-03-05','10413534801','9744292');
-INSERT INTO clientes (tipo_documentos_id, razon_social, create_at, numero_documento, celular) VALUES(3, 'Clinica Zorana', '2018-03-06','10418934802','99544292');
+INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(1, 'Andrés Guzmán', '2018-01-01','41953480','054292');
+INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(1, 'John Doe', '2018-01-02','11953480','0544222');
+INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(1, 'Linus Torvalds', '2018-01-03','02953480','0543292');
+INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(1, 'Rasmus Lerdorf',  '2018-01-04','71953480','9544292');
+INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(2, 'Erich Gamma',  '2018-02-01','41955680','8544292');
+INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(2, 'Richard Helm',  '2018-02-10','40053480','7544292');
+INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(1, 'Ralph Johnson',  '2018-02-18','41953120','6544292');
+INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(1, 'John Vlissides',  '2018-02-28','21953480','5544292');
+INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(2, 'James Gosling',  '2018-03-03','47653480','4444292');
+INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(2, 'Magma Lee',  '2018-03-04','01953480','9944292');
+INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(3, 'Rico Pollo', '2018-03-05','10413534801','9744292');
+INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(3, 'Clinica Zorana', '2018-03-06','10418934802','99544292');
 
 /* Creamos algunos usuarios con sus roles */
 INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email) VALUES ('admin','$2a$10$RmdEsvEfhI7Rcm9f/uZXPebZVCcPC7ZXZwV51efAvMAp1rIaRAfPK',1, 'Bhernard Shomert', 'Beisaga Arenas','jhon.doe@bolsadeideas.com');
@@ -48,16 +48,34 @@ INSERT INTO tipo_pagos (nombre, moneda, cc, cci) VALUES ('BCP Cuenta', 'soles','
 INSERT INTO tipo_pagos (nombre, moneda, cc, cci) VALUES ('INTERBANK Cuenta', 'soles','14522333','45556677');
 INSERT INTO tipo_pagos (nombre, moneda, cc, cci) VALUES ('BBVA Cuenta', 'soles','14522345','4555667745');
 
+/* creamos tipo movimiento PEDIDO*/
+INSERT INTO tipo_movimientos_pedido (movimiento, tipo) VALUES ('Pago del cliente','I');
+INSERT INTO tipo_movimientos_pedido (movimiento, tipo) VALUES ('Devolución de pago al Cliente','E');
+INSERT INTO tipo_movimientos_pedido (movimiento, tipo) VALUES ('Egreso por Compra','E');
+INSERT INTO tipo_movimientos_pedido (movimiento, tipo) VALUES ('Ingreso por devolución de compra','I');
 
-/* creamos tipo movimiento*/
-INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Venta','I');
-INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Sobrante','I');
-INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Saldo','I');
-INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Otros ingresos','I');
-INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Alimento','E');
-INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Taxis','E');
-INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Regalos','E');
-INSERT INTO tipo_movimientos (movimiento, tipo) VALUES ('Otros gastos','E');
+/* creamos tipo movimiento CAJA*/
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Ingreso cápital','I');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Sobrante en caja','I');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Otros ingresos','I');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Alimentos','E');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Asignación familiar','E');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Movilidad','E');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Regalos','E');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Dias festivos','E');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Cumpleaños','E');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Comisiones','E');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Bonos','E');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Fondos de pensiones','E');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Sistema nacion de pensiones','E');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Seguro Invalidez','E');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('5ta Categria','E');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('ESSALUD','E');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Seguro vida ley','E');
+INSERT INTO tipo_movimientos_caja (movimiento, tipo) VALUES ('Otros gastos','E');
+
+
+
 
 /*Parametros generales COLORES*/
 INSERT INTO colores (id, nombre) VALUES(0,'Vacio');
@@ -122,12 +140,12 @@ INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,n
 
 
 /* Creamos estado de pedidos */
-INSERT INTO estado_pedido (estado, descripcion) VALUES ('Pendiente', 'Pendiente, no venció, no aceptado');
-INSERT INTO estado_pedido (estado, descripcion) VALUES ('Vencido', 'Venció, no aceptado'); /*este campo se implementará con Schduled en segunda version*/
-INSERT INTO estado_pedido (estado, descripcion) VALUES ('Devuelto', 'Devuelto por errores');
-INSERT INTO estado_pedido (estado, descripcion) VALUES ('Cancelado', 'Devuelto por errores');
-INSERT INTO estado_pedido (estado, descripcion) VALUES ('Entregado', 'Pagado, entregado al cliente');
-INSERT INTO estado_pedido (estado, descripcion) VALUES ('Adquirido', 'Pagado, adquirido del proveedor');
+INSERT INTO estado_pedido (estado, descripcion) VALUES ('Pendiente', 'Pendiente de realizar');
+INSERT INTO estado_pedido (estado, descripcion) VALUES ('Vencido', 'Venció por imcumplimiento de fecha de entrega'); /*este campo se implementará con Schduled en segunda version*/
+INSERT INTO estado_pedido (estado, descripcion) VALUES ('Devuelto', 'Devuelto por vencimiento o errores');
+INSERT INTO estado_pedido (estado, descripcion) VALUES ('Cancelado', 'Cancelado por falta de inicial o desánimo');
+INSERT INTO estado_pedido (estado, descripcion) VALUES ('Entregado', 'Entregado y aceptado por el cliente');
+INSERT INTO estado_pedido (estado, descripcion) VALUES ('Adquirido', 'Adquirido del proveedor');
 
 
 /* Creamos estado de pedidos */

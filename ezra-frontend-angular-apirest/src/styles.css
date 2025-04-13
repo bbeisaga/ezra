@@ -39,7 +39,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   margin: 0 auto;
 } */
 
-.registrado{
+.pendiente{
   background-color:#1086b1;
 }
 
@@ -50,5 +50,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color:rgb(233, 66, 109);
 }
 .entregado{
+  background-color:rgb(91, 197, 0);
+}
+.cancelado{
+  background-color:rgb(120, 120, 120);
+}
+.adquirido{
   background-color:rgb(91, 197, 0);
 }

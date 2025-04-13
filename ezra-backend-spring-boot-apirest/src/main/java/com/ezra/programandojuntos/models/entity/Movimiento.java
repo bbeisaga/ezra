@@ -50,9 +50,9 @@ public class Movimiento implements Serializable {
 	
 	//@NotNull(message = "Estado pedido no puede ser vacio")
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "tipo_movimiento_id")
+	@JoinColumn(name = "tipo_movimiento_pedido_id")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	private TipoMovimiento tipoMovimiento;
+	private TipoMovimientoPedido tipoMovimientoPedido;
 	
 //	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 //	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

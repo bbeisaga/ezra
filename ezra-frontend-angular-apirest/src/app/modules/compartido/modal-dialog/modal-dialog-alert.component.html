@@ -17,6 +17,6 @@
   </div>
 </div>
 <div mat-dialog-actions align=center>
-  <button *ngIf="showYesButton" mat-raised-button color="warn"  [mat-dialog-close]="showYesButton" cdkFocusInitial>Si</button>
   <button mat-raised-button color="primary" (click)="closeModal()">{{(showYesButton)?"No":"Aceptar"}}</button>
+  <button *ngIf="showYesButton" mat-raised-button color="warn"  [mat-dialog-close]="showYesButton" cdkFocusInitial>Si</button>
 </div>

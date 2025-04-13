@@ -1,10 +1,11 @@
-
 <mat-sidenav-container fullscreen>
   <mat-sidenav class="main-sidenav" #sidenavLeft mode="side" opened="false">
     <mat-toolbar>
       <div class="d-flex justify-content-end" [ngStyle]="{'width' : '100%'}">
-      <div class="me-auto" [ngStyle]="{'padding-left' : '0px','padding-top' : '8px' , 'font-size': '18px', 'font-weight': 'bold'}">EZRA</div>
-      <div>
+        <div class="me-auto"
+          [ngStyle]="{'padding-left' : '0px','padding-top' : '8px' , 'font-size': '18px', 'font-weight': 'bold'}">EZRA
+        </div>
+        <div>
           <button mat-icon-button (click)="sideNavToggle(sidenavLeft, false)">
             <mat-icon>close</mat-icon>
           </button>
@@ -12,40 +13,52 @@
       </div>
     </mat-toolbar>
     <mat-nav-list>
-        <div mat-subheader><mat-icon>home</mat-icon>
-          <a mat-list-item [routerLink]="['']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
-            INICIO</a></div>
-        <mat-divider></mat-divider>
-        <div mat-subheader><mat-icon >diversity_3</mat-icon>CLIENTES</div>
-          <a mat-list-item [routerLink]="['/clientes']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
-            Listado clientes</a>
-          <a mat-list-item [routerLink]="['/clientes/form']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
-            Registro cliente</a>
-        <mat-divider></mat-divider>
-        <div mat-subheader><mat-icon >insert_chart</mat-icon>PEDIDOS</div>
-          <a mat-list-item [routerLink]="['/pedidos']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
-            Listado de pedidos</a>
-          <a mat-list-item [routerLink]="['/pedidos/rpte-pedidos',1]" [routerLinkActive]="['active']">
-            Reporte Ventas</a>
-            <a mat-list-item [routerLink]="['/pedidos/rpte-pedidos',2]" [routerLinkActive]="['active']">
-            Reporte Compras</a>
-<!--               <a mat-list-item [routerLink]="['/pedidos/rpte-compras']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+      <div mat-subheader><mat-icon>home</mat-icon>
+        <a mat-list-item [routerLink]="['']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
+          INICIO</a>
+      </div>
+      <mat-divider></mat-divider>
+      <div mat-subheader><mat-icon>assignment_ind</mat-icon>CAJA USUARIO</div>
+        <a mat-list-item [routerLink]="['/cajas']" [routerLinkActive]="['active']"
+          [routerLinkActiveOptions]="{exact: true}">Apertura/Cierre</a>
+        <a mat-list-item [routerLink]="['/cajas/rpte-caja-por-usuario']" [routerLinkActive]="['active']">Reporte caja por
+          usuario</a>
+        <a mat-list-item [routerLink]="['/cajas/rpte-caja']" [routerLinkActive]="['active']">Reporte cierre caja</a>
+      <mat-divider></mat-divider>
+      <div mat-subheader><mat-icon>diversity_3</mat-icon>CLIENTES/PROVEEDORES</div>
+      <a mat-list-item [routerLink]="['/clientes']" [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{exact: true}">
+        Listado clientes o proveedores</a>
+      <a mat-list-item [routerLink]="['/clientes/form']" [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{exact: true}">
+        Registro cliente</a>
+      <mat-divider></mat-divider>
+      <div mat-subheader><mat-icon>insert_chart</mat-icon>PEDIDOS</div>
+      <a mat-list-item [routerLink]="['/pedidos']" [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{exact: true}">
+        Listado de pedidos</a>
+      <a mat-list-item [routerLink]="['/pedidos/rpte-pedidos',1]" [routerLinkActive]="['active']">
+        Reporte Ventas</a>
+      <a mat-list-item [routerLink]="['/pedidos/rpte-pedidos',2]" [routerLinkActive]="['active']">
+        Reporte Compras</a>
+      <!--               <a mat-list-item [routerLink]="['/pedidos/rpte-compras']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
                 Compras</a> -->
-        <mat-divider></mat-divider>
-        <div mat-subheader><mat-icon >assignment_ind</mat-icon>CAJA</div>
-            <a mat-list-item [routerLink]="['/cajas']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">Apertura/Cierre</a>
-            <a mat-list-item [routerLink]="['/cajas/rpte-caja-por-usuario']" [routerLinkActive]="['active']">Reporte caja por usuario</a>
-            <a mat-list-item [routerLink]="['/cajas/rpte-caja']" [routerLinkActive]="['active']">Reporte cierre caja</a>
-        <mat-divider></mat-divider>
-        <div mat-subheader><mat-icon >currency_exchange</mat-icon>MOVIMIENTOS CAJA</div>
-               <a mat-list-item [routerLink]="['/movimientos/caja']" [routerLinkActive]="['active']">Ingreso/Egreso</a>
-        <mat-divider></mat-divider>
-        <div mat-subheader><mat-icon >list_alt_check</mat-icon>PRODUCTOS</div>
-            <a mat-list-item [routerLink]="['/productos']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
-                Listado de productos</a>
-            <a mat-list-item [routerLink]="['/productos/form-producto']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
-                Registro de productos</a>
-<!--           <mat-expansion-panel hideToggle>
+      <mat-divider></mat-divider>
+      <div mat-subheader><mat-icon>currency_exchange</mat-icon>MOVIMIENTOS CAJA</div>
+      <a mat-list-item [routerLink]="['/movimientos/caja']" [routerLinkActive]="['active']">Ingreso/Egreso</a>
+      <a mat-list-item [routerLink]="['/movimientos/rpte-mov-en-caja']" [routerLinkActive]="['active']">Reporte
+        movimiento en caja</a>
+      <a mat-list-item [routerLink]="['/movimientos/rpte-mov-en-caja-por-usuario']"
+        [routerLinkActive]="['active']">Reporte movimiento por usuario</a>
+      <mat-divider></mat-divider>
+      <div mat-subheader><mat-icon>list_alt_check</mat-icon>PRODUCTOS</div>
+      <a mat-list-item [routerLink]="['/productos']" [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{exact: true}">
+        Listado de productos</a>
+      <a mat-list-item [routerLink]="['/productos/form-producto']" [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{exact: true}">
+        Registro de productos</a>
+      <!--           <mat-expansion-panel hideToggle>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 REPORTES
@@ -61,7 +74,7 @@
           </mat-expansion-panel> -->
 
 
-<!--         <div mat-subheader><mat-icon >list_alt_check</mat-icon>
+      <!--         <div mat-subheader><mat-icon >list_alt_check</mat-icon>
           REPORTES</div>
         <ng-container>
           <a mat-list-item [routerLink]="['/productos']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">
@@ -82,8 +95,8 @@
 
     </mat-nav-list>
 
-      <!--menus en forma de iconos-->
-      <!--       <mat-nav-list>
+    <!--menus en forma de iconos-->
+    <!--       <mat-nav-list>
         <mat-list-item>
         <a [routerLink]="['']" [routerLinkActive]="['active']" matListItemTitle >
           <mat-icon>home</mat-icon>
@@ -118,11 +131,9 @@
 
   </mat-sidenav>
   <mat-sidenav-content>
-      <app-header (clickMenuEvent)="sideNavToggle(sidenavLeft, true)"></app-header>
-   <div class="container">
-             <router-outlet></router-outlet>
-   </div>
-   </mat-sidenav-content>
+    <app-header (clickMenuEvent)="sideNavToggle(sidenavLeft, true)"></app-header>
+    <div class="container">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>
-
-

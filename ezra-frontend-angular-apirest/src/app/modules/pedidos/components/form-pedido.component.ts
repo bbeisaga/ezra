@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Pedido } from '../../../models/pedido';
-import { flatMap, map, Observable } from 'rxjs';
+import { flatMap, map, Observable, switchMap } from 'rxjs';
 import { Producto } from '../../../models/producto';
 import { ClienteService } from '../../../services/cliente.service';
 import { PedidoService } from '../../../services/pedido.service';
@@ -16,6 +16,8 @@ import { GenericosDeProductoService } from '../../../services/genericos-de-produ
 import { Empaque } from '../../../models/empaque';
 import { TipoPedido } from '../../../models/tipo-pedido';
 import { AlertService } from '../../../services/alert.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DetalleItemPedidoComponent } from './detalle-item-pedido/detalle-item-pedido.component';
 
 @Component({
   selector: 'app-form-pedido',
@@ -31,7 +33,7 @@ export class FormPedidoComponent implements OnInit {
     tipoPedidoVentaClientes!:TipoPedido ;
     tipoPedidos: TipoPedido[] =[];
     productosFiltrados!: Observable<Producto[]>;
-    razonSocialActivate:boolean=false;
+   // razonSocialActivate:boolean=false;
 
 
     constructor(private clienteService: ClienteService,
@@ -39,6 +41,7 @@ export class FormPedidoComponent implements OnInit {
       private productoService: ProductoService,
       private alertService: AlertService,
       private genericosDeProductoService: GenericosDeProductoService,
+      public matDialog: MatDialog,
       private router: Router,
       private activatedRoute: ActivatedRoute) { }
 
@@ -47,9 +50,6 @@ export class FormPedidoComponent implements OnInit {
         let clienteId = +params.get('clienteId')! ;
         this.clienteService.getCliente(clienteId).subscribe(cliente => {
           this.cliente = cliente
-          if(this.cliente.razonSocial.length>0 ){
-            this.razonSocialActivate=true;
-          }
         }
         );
       });
@@ -57,7 +57,7 @@ export class FormPedidoComponent implements OnInit {
       this.productosFiltrados = this.autocompleteControl.valueChanges
         .pipe(
           map(value => typeof value === 'string' ? value : value.nombre),
-          flatMap(value => value ? this._filter(value) : [])
+          switchMap(value => value ? this._filter(value) : [])
         );
       this.pedidoService.getAllTipoPedido().subscribe(result => {
         this.tipoPedidos = result
@@ -154,6 +154,20 @@ export class FormPedidoComponent implements OnInit {
       this.pedido.items = this.pedido.items.filter((item: ItemPedido) => id !== item.producto.id);
     }
 
+    openDialog(itemPedido: ItemPedido){
+      const dialogRef = this.matDialog.open(DetalleItemPedidoComponent, {
+        data: itemPedido.descripcion,
+        width: '550px',
+        disableClose: true
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        itemPedido.descripcion = result
+        console.log('Item Pedido: ', itemPedido);
+        //this.animal = result;
+      });
+    }
+
     create(pedidoForm: any): void {
       if (this.pedido.items.length == 0) {
         this.autocompleteControl.setErrors({ 'invalid': true });
@@ -167,7 +181,7 @@ export class FormPedidoComponent implements OnInit {
 
         this.pedidoService.create(this.pedido).subscribe(json => {
           this.alertService.success(`Pedido para ${json.pedido.cliente?.apellidos}, ${json.pedido.cliente?.nombres} creado con éxito!`,'success')
-          this.router.navigate(['/pr/clientes']);
+          this.router.navigate(['/pedidos']);
         });
       }
     }

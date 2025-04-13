@@ -1,6 +1,6 @@
 import { CajaUsuario } from "./caja-usuario";
 import { Pedido } from "./pedido";
-import { TipoMovimiento } from "./tipo-movimiento";
+import { TipoMovimientoPedido } from "./tipo-movimiento-pedido";
 import { TipoPago } from "./tipo-pago";
 
 
@@ -9,7 +9,7 @@ export class Movimiento {
   pedido!: Pedido;
 	cajaUsuario!: CajaUsuario;
   tipoPago!: TipoPago;
-  tipoMovimiento!: TipoMovimiento;
+  tipoMovimientoPedido!: TipoMovimientoPedido;
 	//createAt!: string;
 	//pagoDinero!:number;
   //vueltoDinero!:number;

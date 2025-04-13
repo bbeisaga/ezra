@@ -32,21 +32,28 @@
       <mat-form-field class="example-full-width">
         <mat-label>Tipo movimiento</mat-label>
         <mat-select
-          name="tipoMovimiento"
-          [(ngModel)]="movimiento.tipoMovimiento">
-          <mat-option *ngFor="let tipoMovimiento of tipoMovimientos" [value]="tipoMovimiento">
-            {{tipoMovimiento.movimiento}}
+          name="tipoMovimientoCaja"
+          [(ngModel)]="movimientoCaja.tipoMovimientoCaja">
+          <mat-option *ngFor="let tipoMovimientoCaja of tipoMovimientosCajaLst" [value]="tipoMovimientoCaja">
+            {{tipoMovimientoCaja.movimiento}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Tipo pago</mat-label>
+        <mat-select
+          name="tipoPago"
+          [(ngModel)]="movimientoCaja.tipoPago">
+          <mat-option *ngFor="let tipoPago of tipoPagos" [value]="tipoPago">
+            {{tipoPago.nombre}}
           </mat-option>
         </mat-select>
       </mat-form-field>
        <ng-container *ngIf="iMovimiento=='I'">
         <mat-form-field>
           <mat-label>INGRESO DINERO</mat-label>
-          <input matInput type="number" name="ingresoDinero" #ingresoDinero="ngModel" [(ngModel)]="movimiento.ingresoDinero" required>
+          <input matInput type="number" name="ingresoDinero" #ingresoDinero="ngModel" [(ngModel)]="movimientoCaja.ingresoDinero" required>
           <div *ngIf="ingresoDinero.invalid && (ingresoDinero.dirty || ingresoDinero.touched)">
-            <mat-error *ngIf="ingresoDinero?.errors?.['required']">
-              Pago es requerido
-            </mat-error>
             <mat-error *ngIf="ingresoDinero?.errors?.['required']">
               Pago es requerido
             </mat-error>
@@ -56,11 +63,8 @@
       <ng-container *ngIf="iMovimiento=='E'">
         <mat-form-field>
           <mat-label>EGRESO DINERO</mat-label>
-          <input matInput type="number" name="egresoDinero" #egresoDinero="ngModel" [(ngModel)]="movimiento.egresoDinero" required>
+          <input matInput type="number" name="egresoDinero" #egresoDinero="ngModel" [(ngModel)]="movimientoCaja.egresoDinero" required>
           <div *ngIf="egresoDinero.invalid && (egresoDinero.dirty || egresoDinero.touched)">
-            <mat-error *ngIf="egresoDinero?.errors?.['required']">
-              Pago es requerido
-            </mat-error>
             <mat-error *ngIf="egresoDinero?.errors?.['required']">
               Pago es requerido
             </mat-error>
@@ -88,7 +92,7 @@
           INGRESO CAJA
         </div>
         <div class="card card-body" >
-          <p style="font-size: 30px; font-weight: bolder;">{{movimiento.ingresoDinero| number:'2.2-2'}}</p>
+          <p style="font-size: 30px; font-weight: bolder;">{{movimientoCaja.ingresoDinero| number:'2.2-2'}}</p>
         </div>
       </div>
       <div class="card border-info">
@@ -96,7 +100,7 @@
           EGRESO DINERO
         </div>
         <div class="card card-body" >
-          <p style="font-size: 30px; font-weight: bolder; color: red;">{{movimiento.egresoDinero| number:'2.2-2'}}</p>
+          <p style="font-size: 30px; font-weight: bolder; color: red;">{{movimientoCaja.egresoDinero| number:'2.2-2'}}</p>
         </div>
       </div>
   </div>

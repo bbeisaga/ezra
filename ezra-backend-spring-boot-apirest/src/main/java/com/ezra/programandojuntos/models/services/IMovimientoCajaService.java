@@ -1,13 +1,15 @@
 package com.ezra.programandojuntos.models.services;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import com.ezra.programandojuntos.models.entity.MovimientoCaja;
-import com.ezra.programandojuntos.models.entity.TipoMovimiento;
+import com.ezra.programandojuntos.models.entity.TipoMovimientoCaja;
 
 public interface IMovimientoCajaService {
 	
-	public List<TipoMovimiento> lstAllTipoMovimientos();	
+	public List<TipoMovimientoCaja> lstAllTipoMovimientosCaja();	
 	public MovimientoCaja saveMovimiento(MovimientoCaja movimiento);
 
 

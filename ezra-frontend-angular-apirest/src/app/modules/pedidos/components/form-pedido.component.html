@@ -6,21 +6,21 @@
         <button type="submit" color="primary" mat-raised-button (click)="create(pedidoForm)">
           Crear pedido
         </button>
-        <button  color="primary" mat-raised-button [routerLink]="['/pr/clientes']">
+        <button  color="primary" mat-raised-button [routerLink]="['/pedidos']">
           Cancelar
         </button>
       </div>
     </mat-card-header>
     <mat-card-content class="d-flex flex-column">
        <ng-container>
-        <mat-form-field *ngIf="!this.razonSocialActivate" >
+        <mat-form-field >
           <mat-label>Cliente</mat-label>
-          <input matInput  type="text" value="{{cliente.apellidos}} {{cliente.nombres}}" disabled>
+          <input matInput  type="text" value="{{cliente.nomApellRz}}" disabled>
         </mat-form-field>
-        <mat-form-field *ngIf="this.razonSocialActivate" >
+<!--         <mat-form-field *ngIf="this.razonSocialActivate" >
           <mat-label>Razón social</mat-label>
           <input matInput  type="text" value="{{cliente.razonSocial}}" disabled>
-        </mat-form-field>
+        </mat-form-field> -->
         <section >
           <label>Tipo pedido:</label>
           <mat-radio-group name="tipoPedido" [(ngModel)]="tipoPedidoVentaClientes">
@@ -32,7 +32,7 @@
       </ng-container>
 
       <mat-form-field>
-        <input type="text" placeholder="Añadir producto" aria-label="Productos" matInput [formControl]="autocompleteControl" [matAutocomplete]="auto">
+        <input matInput placeholder="Añadir producto" [formControl]="autocompleteControl" [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarNombre" (optionSelected)="seleccionarProducto($event)">
               <mat-option *ngFor="let producto of productosFiltrados | async" [value]="producto">
                 <span class="text-bold-italic">Producto:</span>{{producto.nombre}}
@@ -42,8 +42,6 @@
                 <span class="text-bold-italic">Medidas:</span>{{  producto.medidas}}
                 <span class="text-bold-italic">Cantidad:</span>{{  producto.cantidadStock}}
                 <span class="text-bold-italic">Precio:</span>{{  producto.precioNeto | currency:'PEN'}}
-<!--                 <span class="text-bold-italic">Cod:</span>{{  producto.id}}
- -->
               </mat-option>
             </mat-autocomplete>
       </mat-form-field>
@@ -65,7 +63,7 @@
             <th *ngIf="tipoPedidoVentaClientes.activo">Precio Sugerido</th>
             <th>Cantidad</th>
             <th>S/.Importe con IGV</th>
-            <th>Descripcion/Detalle</th>
+            <th>Detalle</th>
             <th>Eliminar</th>
           </tr>
         </thead>
@@ -83,11 +81,14 @@
             <td>
                <input mapinput style="width:90px" type="number" value="{{item.importe}}" (change)="calcularGranTotal(item.producto.id, $event)">
             </td>
-            <td>
-              <mat-form-field [ngStyle]="{'width': '100%'}">
+            <td><button mat-icon-button color="primary" (click)="openDialog(item)" matTooltip="Detalle"><mat-icon>note_add</mat-icon></button>
+
+    <!--           <mat-form-field [ngStyle]="{'width': '100%'}">
                 <input matInput #message [(ngModel)]="item.descripcion" name="descripcion" #descripcion=ngModel maxlength="256" placeholder="Detalle el producto...">
                 <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
-              </mat-form-field></td>
+              </mat-form-field> -->
+
+            </td>
             <td><button mat-icon-button color="warn" (click)="eliminarItemPedido(item.producto.id)" matTooltip="Elimnar"><mat-icon>delete</mat-icon></button></td>
           </tr>
         </tbody>

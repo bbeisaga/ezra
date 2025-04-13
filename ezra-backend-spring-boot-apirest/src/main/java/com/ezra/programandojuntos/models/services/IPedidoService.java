@@ -18,6 +18,9 @@ import com.ezra.programandojuntos.models.entity.TipoPedido;
 
 public interface IPedidoService {
 	
+	public static final Long TIPO_PEDIDO_VENTA = 1L;
+	public static final Long TIPO_PEDIDO_COMPRA = 2L;
+	
 	public List<Pedido> findPedidoAll();
 	
 	public Page<Pedido> findAllPedidoPageable(String query, Pageable pagebale);
@@ -46,10 +49,9 @@ public interface IPedidoService {
 
 	public void deletePedidoById(Long id);
 	
-	
-	public Map<String, BigDecimal> movimientoPorPedido(Long pedidoId, Long tipoPedido);
-	
 	public ByteArrayInputStream createReportPedidos(Report reporte);
+	
+	public Map<String, BigDecimal> movimientoPorPedido(Long pedidoId);
 
 
 }

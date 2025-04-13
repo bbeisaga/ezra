@@ -3,9 +3,10 @@ import { TipoDocumento } from './tipo-documento';
 
 export class Cliente {
   id!: number;
-  nombres!: string;
+  nomApellRz!:string;
+/*   nombres!: string;
   apellidos!: string;
-  razonSocial!:string;
+  razonSocial!:string; */
   direccion!:string;
   createAt!: string;
 /*   email!: string;

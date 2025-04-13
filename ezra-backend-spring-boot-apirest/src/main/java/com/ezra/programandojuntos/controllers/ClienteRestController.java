@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,6 +40,7 @@ import com.ezra.programandojuntos.enums.SortActiveCliente;
 import com.ezra.programandojuntos.enums.SortDirection;
 import com.ezra.programandojuntos.exceptions.ClienteExceptions;
 import com.ezra.programandojuntos.models.entity.Cliente;
+import com.ezra.programandojuntos.models.entity.Producto;
 import com.ezra.programandojuntos.models.entity.TipoDocumento;
 import com.ezra.programandojuntos.models.services.IClienteService;
 import com.ezra.programandojuntos.models.services.IUploadFileService;
@@ -93,6 +95,12 @@ public class ClienteRestController {
 					Sort.by(active.getValue()).ascending());
         }
 		return clienteService.findAllClientePageable(query, pageRequest );
+	}
+	
+	@GetMapping("/clientes/filtrar-cliente/{term}")
+	@ResponseStatus(HttpStatus.OK)
+	public List<Cliente> filtrarClientes(@PathVariable String term){
+		return clienteService.findClienteByNomApellRz(term);
 	}
 	
 //	@Secured({"ROLE_ADMIN", "ROLE_USER"})

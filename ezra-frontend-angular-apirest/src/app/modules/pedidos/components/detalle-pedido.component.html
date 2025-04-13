@@ -10,9 +10,7 @@
     <mat-card-content class="d-flex flex-column">
       <ul class="list-group my-2">
         <li class="list-group-item list-group-item-primary">Datos del cliente</li>
-        <li *ngIf="this.razonSocialActivate" class="list-group-item">{{pedido.cliente!.razonSocial}}</li>
-        <li *ngIf="!this.razonSocialActivate" class="list-group-item">{{pedido.cliente!.nombres}}</li>
-        <li *ngIf="!this.razonSocialActivate" class="list-group-item">{{pedido.cliente!.apellidos}}</li>
+        <li class="list-group-item">{{pedido.cliente!.nomApellRz}}</li>
         <li class="list-group-item">{{pedido.cliente!.tipoDocumento.acronimo}} : {{pedido.cliente!.numeroDocumento}}</li>
         <li class="list-group-item">Celular: {{pedido.cliente!.celular}}</li>
       </ul>

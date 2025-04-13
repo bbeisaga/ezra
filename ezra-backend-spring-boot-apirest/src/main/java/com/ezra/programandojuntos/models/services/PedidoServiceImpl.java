@@ -46,17 +46,13 @@ public class PedidoServiceImpl implements IPedidoService {
 	
 	Logger log = LoggerFactory.getLogger(PedidoServiceImpl.class);
 	
-	/* Estados del pedido 
-			Pagado	entrega(vencido)		aceptado
-Registrado	-		no						no
-Vencido		-		si						no
-Devuelto 	-		si						no
-Entregado	si		-						si*/
-	
-	public static final Long PEDIDO_REGISTRADO = 1L;
+	public static final Long PEDIDO_PENDIENTE = 1L;
 	public static final Long PEDIDO_VENCIDO = 2L;
 	public static final Long PEDIDO_DEVUELTO = 3L;
-	public static final Long PEDIDO_ENTREGADO = 4L;
+	public static final Long PEDIDO_CANCELADO = 4L;
+	public static final Long PEDIDO_ENTREGADO = 5L;
+	public static final Long PEDIDO_ADQUIRIDO = 6L;
+	
 	public static final Long TIPO_PEDIDO_VENTA = 1L;
 	public static final Long TIPO_PEDIDO_COMPRA = 2L;
 	public static final BigDecimal IGV =new BigDecimal(0.18);
@@ -71,7 +67,7 @@ Entregado	si		-						si*/
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;
-
+	
 	@Override
 	@Transactional(readOnly = true)
 	public List<Pedido> findPedidoAll() {
@@ -99,18 +95,26 @@ Entregado	si		-						si*/
 	public Pedido registrarPedido(Pedido pedido) throws PedidoExceptions {	
 		TipoPedido tipoPedido = pedidoDao.findTipoPedidoById(pedido.getTipoPedido().getId());
 		pedido.setPagado(false);
-		pedido.setAceptado(false);
-		pedido.setVencido(false);
 		pedido.setPrecioBrutoTotal(new BigDecimal(0));
 		pedido.setPagoTotal(new BigDecimal(0));
+		pedido.setFlujoEfectivoTotal(new BigDecimal(0));
+		pedido.setEstadoPedido(pedidoDao.findAllEstadoPedido()
+				.stream()
+				.filter(e->e.getId()==PEDIDO_PENDIENTE) 
+				.collect(Collectors.toList())
+				.get(0));
 		if(tipoPedido.getId()==TIPO_PEDIDO_VENTA){
 			if(pedido.getEntregadoEn()==null){
 				throw new PedidoExceptions(PedidoMapErrors.getErrorString(PedidoMapErrors.CODE_FECHA_VENTA));
 			} 
 			
-			if(pedido.getEntregadoEn().before(new Date())){
-				pedido.setVencido(true);
-			}
+//			if(pedido.getEntregadoEn().before(new Date())){
+//				pedido.setEstadoPedido(pedidoDao.findAllEstadoPedido()
+//						.stream()
+//						.filter(estado -> estado.getId()== PEDIDO_VENCIDO)
+//						.collect(Collectors.toList())
+//						.get(0));
+//			}
 			pedido.setPrecioNetoTotal(pendienteImporte(pedido.getItems(), new BigDecimal(0)));
 			pedido.setPrecioBrutoTotal(pedido.getPrecioNetoTotal().divide(IGV.add(new BigDecimal(1)),2, RoundingMode.HALF_UP));
 			//pedido.setSaldoBrutoPedido(pedido.getPrecioBrutoTotal());
@@ -120,9 +124,13 @@ Entregado	si		-						si*/
 			if(pedido.getAdquiridoEn()==null){
 				throw new PedidoExceptions(PedidoMapErrors.getErrorString(PedidoMapErrors.CODE_FECHA_ADQUISICION));
 			} 
-			if(pedido.getAdquiridoEn().before(new Date())){
-				pedido.setVencido(true);
-			}
+//			if(pedido.getAdquiridoEn().before(new Date())){
+//				pedido.setEstadoPedido(pedidoDao.findAllEstadoPedido()
+//						.stream()
+//						.filter(estado -> estado.getId()== PEDIDO_VENCIDO)
+//						.collect(Collectors.toList())
+//						.get(0));			
+//			}
 			
 			pedido.setCostoNetoTotal(pendienteImporte(pedido.getItems(), new BigDecimal(0)));
 			pedido.setCostoBrutoTotal(pedido.getCostoNetoTotal().divide(IGV.add(new BigDecimal(1)),2, RoundingMode.HALF_UP));
@@ -130,25 +138,22 @@ Entregado	si		-						si*/
 			pedido.setSaldoPedido(pedido.getCostoNetoTotal());
 		}
 		
+		if((pedido.getEntregadoEn()!=null && pedido.getEntregadoEn().before(new Date())) || 
+				   (pedido.getAdquiridoEn()!=null && pedido.getAdquiridoEn().before(new Date()))
+			){			
+			pedido.setEstadoPedido(pedidoDao.findAllEstadoPedido()
+						.stream()
+						.filter(estado -> estado.getId()== PEDIDO_VENCIDO)
+						.collect(Collectors.toList())
+						.get(0));	
+			}
+		
 		pedido.setTipoPedido(tipoPedido);
 
 		if(pedido.getSaldoPedido().intValue() < 1) {
 			pedido.setPagado(true);
 		}		
-		if(pedido.isVencido() && !pedido.isAceptado()) {
-			pedido.setEstadoPedido(pedidoDao.findAllEstadoPedido()
-					.stream()
-					.filter(estado -> estado.getId()== PEDIDO_VENCIDO)
-					.collect(Collectors.toList())
-					.get(0));
-		} else {
-			pedido.setEstadoPedido(pedidoDao.findAllEstadoPedido()
-					.stream()
-					.filter(estado -> estado.getId()== PEDIDO_REGISTRADO)
-					.collect(Collectors.toList())
-					.get(0));
-			
-		}
+
 		return pedidoDao.save(pedido);
 	}
 	
@@ -157,60 +162,100 @@ Entregado	si		-						si*/
 	public Pedido updatePedido(Pedido pedido, Long id) {	
 		Pedido pedidoActual = findPedidoById(id);
 		//TipoPedido tipoPedido = pedidoDao.findTipoPedidoById(pedido.getTipoPedido().getId());
-
 		List<EstadoPedido> lstEstadosPedido = findAllEstadoPedido();
-		if (pedidoActual!=null) {
+		if (pedidoActual!=null) {		
+			pedidoActual.setPagado(false);	
+			//pedidoActual.setDevuelto(pedido.isDevuelto());
+			if((pedidoActual.getEntregadoEn()!=null && pedidoActual.getEntregadoEn().before(new Date())) || 
+				   (pedidoActual.getAdquiridoEn()!=null && pedidoActual.getAdquiridoEn().before(new Date()))
+			){			
+				pedidoActual.setEstadoPedido(pedidoDao.findAllEstadoPedido()
+						.stream()
+						.filter(estado -> estado.getId()== PEDIDO_VENCIDO)
+						.collect(Collectors.toList())
+						.get(0));	
+				
+			}
+			Map<String, BigDecimal> movimientosPedido = null;	
+			//movimientosPedido = movimientoPorPedido(id, pedidoActual.getTipoPedido().getId());
+			movimientosPedido = movimientoPorPedido(id);
+			pedidoActual.setFlujoEfectivoTotal(movimientosPedido.get("flujoEfectivo"));
+			pedidoActual.setSaldoPedido(pendienteImporte(pedidoActual.getItems(), movimientosPedido.get("flujoEfectivo")));	
 			
-			//pedido.setVencido(false);
-		if((pedidoActual.getEntregadoEn()!=null && pedidoActual.getEntregadoEn().before(new Date())) || 
-			   (pedidoActual.getAdquiridoEn()!=null && pedidoActual.getAdquiridoEn().before(new Date()))
-		){
-			pedidoActual.setVencido(true);
-		}
-		Map<String, BigDecimal> movimientosPedido = null;	
-		if(pedidoActual.getTipoPedido().getId()==TIPO_PEDIDO_VENTA){
-			movimientosPedido = movimientoPorPedido(id, TIPO_PEDIDO_VENTA);
-			//pedidoActual.setPrecioNetoTotal(pendienteImporte(pedidoActual.getItems(), new BigDecimal(0)));
-			//pedidoActual.setPrecioBrutoTotal(pedidoActual.getPrecioBrutoTotal().divide(IGV.add(new BigDecimal(1))));
-			pedidoActual.setPagoTotal(movimientosPedido.get("ingresoPedido"));
-			pedidoActual.setVueltoTotal(movimientosPedido.get("egresoPedido"));	
-		}
-		else if(pedidoActual.getTipoPedido().getId()==TIPO_PEDIDO_COMPRA) {
-			movimientosPedido = movimientoPorPedido(id, TIPO_PEDIDO_COMPRA);
-			//pedidoActual.setCostoNetoTotal(pendienteImporte(pedidoActual.getItems(), new BigDecimal(0)));
-			//pedidoActual.setCostoBrutoTotal(pedidoActual.getCostoBrutoTotal().divide(IGV.add(new BigDecimal(1))));
-			pedidoActual.setPagoTotal(movimientosPedido.get("egresoPedido"));
-			pedidoActual.setVueltoTotal(movimientosPedido.get("ingresoPedido"));
-		}
-		pedidoActual.setSaldoPedido(pendienteImporte(pedidoActual.getItems(), movimientosPedido.get("saldoPedido")));
-		if(pedidoActual.getSaldoPedido().intValue() < 1) {
-			pedidoActual.setPagado(true);
-		}
-		
-		pedidoActual.setAceptado(pedido.isAceptado());
-		pedidoActual.setEstadoPedido(
-				lstEstadosPedido.stream()
-				.filter(e->e.getId()==PEDIDO_REGISTRADO)
-				.collect(Collectors.toList())
-				.get(0));
+			if(pedidoActual.getTipoPedido().getId()==TIPO_PEDIDO_VENTA){
+				pedidoActual.setPagoTotal(movimientosPedido.get("ingreso"));
+				pedidoActual.setVueltoTotal(movimientosPedido.get("egreso"));				
+				if(pedidoActual.getSaldoPedido().intValue() < 1 && pedidoActual.getPagoTotal().intValue() > 0 ) {
+					pedidoActual.setEstadoPedido(
+							lstEstadosPedido.stream()
+							.filter(e->e.getId()==PEDIDO_ENTREGADO)
+							.collect(Collectors.toList())
+							.get(0));	
+				}
+			}else if(pedidoActual.getTipoPedido().getId()==TIPO_PEDIDO_COMPRA) {
+				pedidoActual.setPagoTotal(movimientosPedido.get("egreso"));
+				pedidoActual.setVueltoTotal(movimientosPedido.get("ingreso"));
+				if(pedidoActual.getSaldoPedido().intValue() < 1 && pedidoActual.getPagoTotal().intValue() > 0 ) {
+					pedidoActual.setEstadoPedido(
+							lstEstadosPedido.stream()
+							.filter(e->e.getId()==PEDIDO_ADQUIRIDO)
+							.collect(Collectors.toList())
+							.get(0));	
+				}
+			}
 	
-		if(pedidoActual.isVencido() && !pedido.isAceptado()) {
-			pedidoActual.setEstadoPedido(
-					lstEstadosPedido.stream()
-					.filter(e->e.getId()==PEDIDO_VENCIDO)
-					.collect(Collectors.toList())
-					.get(0));			}  
-		
-		if(pedidoActual.isPagado() && pedido.isAceptado()) {
-				pedidoActual.setAceptado(true);
-				pedidoActual.setEntregadoEn(new Date());
+			if(pedidoActual.getSaldoPedido().intValue() > 0 && pedidoActual.getPagoTotal().intValue() < 1) {
 				pedidoActual.setEstadoPedido(
 						lstEstadosPedido.stream()
-						.filter(e->e.getId()==PEDIDO_ENTREGADO)
+						.filter(e->e.getId()==PEDIDO_CANCELADO)
 						.collect(Collectors.toList())
-						.get(0));			} 			
+						.get(0));		
+			}
+			
+			if(pedidoActual.getSaldoPedido().intValue() < 1 && pedidoActual.getPagoTotal().intValue() > 0 ) {
+				pedidoActual.setPagado(true);	
+			}		
+			
+			if(pedido.isDevuelto() ) {
+				pedidoActual.setDevuelto(pedido.isDevuelto());
+				pedidoActual.setEstadoPedido(pedidoDao.findAllEstadoPedido()
+						.stream()
+						.filter(estado -> estado.getId()== PEDIDO_DEVUELTO)
+						.collect(Collectors.toList())
+						.get(0));
+			}
+		
 		} 
 		return pedidoDao.save(pedidoActual);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Map<String, BigDecimal> movimientoPorPedido(Long pedidoId){
+		Pedido pedido = findPedidoById(pedidoId);
+		List<Movimiento> items= pedido.getMovimientos();
+//		BigDecimal saldoPedido = new BigDecimal(0);
+		BigDecimal ingresoPedido = new BigDecimal(0);
+		BigDecimal egresoPedido = new BigDecimal(0);
+
+		for (Movimiento item : items) {
+			ingresoPedido = ingresoPedido.add(item.getIngresoDinero()); //+
+			egresoPedido = egresoPedido.add(item.getEgresoDinero()); // -
+		}
+		
+//		if(tipoPedido==TIPO_PEDIDO_VENTA){
+//			saldoPedido = ingresoPedido.subtract(egresoPedido);
+//		} else if(tipoPedido==TIPO_PEDIDO_COMPRA){
+//			saldoPedido = egresoPedido.subtract(ingresoPedido);
+//		}
+		
+        Map<String, BigDecimal> mapa = new HashMap<String, BigDecimal>();
+        mapa.put("ingreso", ingresoPedido);
+        mapa.put("egreso", egresoPedido);
+//        mapa.put("saldoPedido", saldoPedido);
+        mapa.put("flujoEfectivo", ingresoPedido.subtract(egresoPedido).abs());
+
+		return mapa;
 	}
 	
 	
@@ -229,32 +274,7 @@ Entregado	si		-						si*/
 		return (total.subtract(pago));
 	}
 	
-	@Override
-	@Transactional(readOnly = true)
-	public Map<String, BigDecimal> movimientoPorPedido(Long pedidoId, Long tipoPedido){
-		Pedido pedido = findPedidoById(pedidoId);
-		List<Movimiento> items= pedido.getMovimientos();
-		BigDecimal saldoPedido = new BigDecimal(0);
-		BigDecimal ingresoPedido = new BigDecimal(0);
-		BigDecimal egresoPedido = new BigDecimal(0);
 
-		for (Movimiento item : items) {
-			ingresoPedido = ingresoPedido.add(item.getIngresoDinero()); //+
-			egresoPedido = egresoPedido.add(item.getEgresoDinero()); // -
-		}
-		
-		if(tipoPedido==TIPO_PEDIDO_VENTA){
-			saldoPedido = ingresoPedido.subtract(egresoPedido);
-		} else if(tipoPedido==TIPO_PEDIDO_COMPRA){
-			saldoPedido = egresoPedido.subtract(ingresoPedido);
-		}
-		
-        Map<String, BigDecimal> mapa = new HashMap<String, BigDecimal>();
-        mapa.put("ingresoPedido", ingresoPedido);
-        mapa.put("egresoPedido", egresoPedido);
-        mapa.put("saldoPedido", saldoPedido);
-		return mapa;
-	}
 
 	@Override
 	@Transactional
@@ -288,14 +308,14 @@ Entregado	si		-						si*/
 		String[] cabeceraReporte = null;
 		if(reporte.getTipoPedido()==TIPO_PEDIDO_VENTA) {
 			cabeceraReporte = new String[] {
-				"Apellidos", "Nombres", "Razón Social", "Código pedido", "Fecha creación", "Fecha entrega", "Estado pedido", 
-				"Descripción estado", "Precio Total Bruto", "Precio Total Neto(IGV)", "Saldo pedido","Es pagado","Tipo pedido",};
+				"Cliente", "Código pedido", "Fecha creación", "Fecha entrega", "Estado pedido", 
+				"Descripción estado", "Precio Total Bruto", "Precio Total Neto(IGV)", "Saldo pedido","Pago total","Vuelto total","Es pagado","Tipo pedido",};
 		}
 		
 		if(reporte.getTipoPedido()==TIPO_PEDIDO_COMPRA) {
 			cabeceraReporte = new String[] {
-				"Apellidos", "Nombres", "Razón Social", "Código pedido", "Fecha creación", "Fecha adquisición", "Estado pedido", 
-				"Descripción estado", "Costo Total Bruto", "Costo Total Neto(IGV)", "Saldo pedido", "Es pagado","Tipo pedido",};}
+				"Proveedor", "Código pedido", "Fecha creación", "Fecha adquisición", "Estado pedido", 
+				"Descripción estado", "Costo Total Bruto", "Costo Total Neto(IGV)", "Saldo pedido","Pago total","Vuelto total", "Es pagado","Tipo pedido",};}
 		
 		XSSFWorkbook excelbook = new XSSFWorkbook();
 		XSSFSheet excelHoja = excelbook.createSheet("data");
@@ -315,9 +335,7 @@ Entregado	si		-						si*/
 		for(PedidoReporte p: pedidos) {
 			short numColumn = 0;
 			XSSFRow fila = excelHoja.createRow(numFila);
-			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getApellidos(), style);
-			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getNombres(), style);
-			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getRazonSocial(), style);
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getNomApellRz(), style);
 			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getCodigoPedido(), style);
 			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getFechaCreacion(), style);
 			if(reporte.getTipoPedido()==TIPO_PEDIDO_VENTA) {
@@ -337,7 +355,10 @@ Entregado	si		-						si*/
 			if(reporte.getTipoPedido()==TIPO_PEDIDO_COMPRA) {
 				ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getCostoNetoTotal().doubleValue(), style);}
 			
-			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getSaldoPedido().doubleValue(), style);			
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getSaldoPedido().doubleValue(), style);	
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getPagoTotal().doubleValue(), style);			
+			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getVueltoTotal().doubleValue(), style);			
+
 			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getEsPagado(), style);			
 			ExcelUtil.insertarDataCelda(fila, numColumn ++, p.getTipoPedido(), style);			
 			numFila++;

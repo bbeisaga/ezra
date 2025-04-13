@@ -1,7 +1,9 @@
 package com.ezra.programandojuntos.models.services;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ezra.programandojuntos.models.dao.IMovimientoCajaDao;
 import com.ezra.programandojuntos.models.entity.CajaUsuario;
 import com.ezra.programandojuntos.models.entity.MovimientoCaja;
-import com.ezra.programandojuntos.models.entity.TipoMovimiento;
+import com.ezra.programandojuntos.models.entity.TipoMovimientoCaja;
 
 @Service
 public class MovimientoCajaServiceImpl implements IMovimientoCajaService {
@@ -20,7 +22,7 @@ public class MovimientoCajaServiceImpl implements IMovimientoCajaService {
 	Logger log = LoggerFactory.getLogger(MovimientoCajaServiceImpl.class);
 	
 	@Autowired
-	IMovimientoCajaDao movimientoDao;
+	IMovimientoCajaDao movimientoCajaDao;
 	
 	
 	@Autowired
@@ -29,8 +31,8 @@ public class MovimientoCajaServiceImpl implements IMovimientoCajaService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<TipoMovimiento> lstAllTipoMovimientos(){
-		return movimientoDao.findAllTipoMovimientos();
+	public List<TipoMovimientoCaja> lstAllTipoMovimientosCaja(){
+		return movimientoCajaDao.findAllTipoMovimientosCaja();
 	}
 	
 	@Override
@@ -47,14 +49,14 @@ public class MovimientoCajaServiceImpl implements IMovimientoCajaService {
 		}
 		
 		BigDecimal newSaldoCaja = BigDecimal.valueOf(0);
-		if(movimiento.getTipoMovimiento().getTipo().equalsIgnoreCase("I")) {
+		if(movimiento.getTipoMovimientoCaja().getTipo().equalsIgnoreCase("I")) {
 			newSaldoCaja = cajaUsuario.getSaldoCaja().add(movimiento.getIngresoDinero());
 			if (newSaldoCaja.intValue() > 0) {
 				movimiento.setEgresoDinero(BigDecimal.valueOf(0));
 			}		
 		}
 		
-		if(movimiento.getTipoMovimiento().getTipo().equalsIgnoreCase("E")) {
+		if(movimiento.getTipoMovimientoCaja().getTipo().equalsIgnoreCase("E")) {
 			newSaldoCaja = cajaUsuario.getSaldoCaja().subtract(movimiento.getEgresoDinero());
 			if (newSaldoCaja.intValue() > 0) {
 				movimiento.setIngresoDinero(BigDecimal.valueOf(0));
@@ -68,9 +70,11 @@ public class MovimientoCajaServiceImpl implements IMovimientoCajaService {
 //		movimiento.setCajaUsuario(cajaUsuario);
 //		movimiento.setTipoMovimiento(new TipoMovimiento());
 //		movimiento.getTipoMovimiento().setId(movimiento.getTipoMovimiento().getId());
-		newMovimiento = movimientoDao.save(movimiento);
+		newMovimiento = movimientoCajaDao.save(movimiento);
 		newMovimiento.setCajaUsuario(cajaUsuarioService.updateCajaUsuario(newMovimiento.getCajaUsuario(), movimiento.getCajaUsuario().getId() ));
 		return newMovimiento;
 	};
+	
+
 
 }
