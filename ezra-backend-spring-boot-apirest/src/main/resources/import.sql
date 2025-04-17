@@ -20,15 +20,68 @@ INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_docume
 INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(3, 'Clinica Zorana', '2018-03-06','10418934802','99544292');
 
 /* Creamos algunos usuarios con sus roles */
-INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email) VALUES ('admin','$2a$10$RmdEsvEfhI7Rcm9f/uZXPebZVCcPC7ZXZwV51efAvMAp1rIaRAfPK',1, 'Bhernard Shomert', 'Beisaga Arenas','jhon.doe@bolsadeideas.com');
-INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email) VALUES ('steven','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1, 'Steven Albert', 'Beisaga Arenas','profesor@bolsadeideas.com');
-INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email) VALUES ('sonia','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1, 'Sonia Yanet', 'Arenas Alvarez','sy@bolsadeideas.com');
-INSERT INTO `usuarios` (username, password, enabled, nombre, apellido, email) VALUES ('vane','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1, 'Vanesa', 'Cojoma','vc@bolsadeideas.com');
+INSERT INTO `usuarios` (username, password, activo, bloqueado, nombres, apellidos, email) VALUES ('admin','$2a$10$RmdEsvEfhI7Rcm9f/uZXPebZVCcPC7ZXZwV51efAvMAp1rIaRAfPK',1,0, 'Bhernard Shomert', 'Beisaga Arenas','jhon.doe@bolsadeideas.com');
+INSERT INTO `usuarios` (username, password, activo, bloqueado, nombres, apellidos, email) VALUES ('steven','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1,0, 'Steven Albert', 'Beisaga Arenas','profesor@bolsadeideas.com');
+INSERT INTO `usuarios` (username, password, activo, bloqueado, nombres, apellidos, email) VALUES ('sonia','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1,0, 'Sonia Yanet', 'Arenas Alvarez','sy@bolsadeideas.com');
+INSERT INTO `usuarios` (username, password, activo, bloqueado, nombres, apellidos, email) VALUES ('vane','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1,0, 'Vanesa', 'Cojoma','vc@bolsadeideas.com');
 
-INSERT INTO `roles` (nombre) VALUES ('ROLE_ADMIN');
-INSERT INTO `roles` (nombre) VALUES ('ROLE_USER');
+INSERT INTO `modulos` (nombre) VALUES ('clientes/prveedores');
+INSERT INTO `modulos` (nombre) VALUES ('Pedidos venta');
+INSERT INTO `modulos` (nombre) VALUES ('Pedidos compra');
+INSERT INTO `modulos` (nombre) VALUES ('Caja usuario');
+INSERT INTO `modulos` (nombre) VALUES ('Movimientos');
+INSERT INTO `modulos` (nombre) VALUES ('Productos');
+
+
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (1, 'ROLE_ADMIN','administrador del sistema');
+/*INSERT INTO `roles` (nombre) VALUES ('ROLE_USER');*/
+
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (1, 'ROLE_LIST_CL','Listado de clientes');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (1, 'ROLE_INSERT_CL','Inserción de cliente');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (1, 'ROLE_UPDATE_CL','Edición de cliente');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (1, 'ROLE_DELETE_CL','Borrar cliente');
+
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (2, 'ROLE_LIST_VENTA','Listado de pedido ventas');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (2, 'ROLE_INSERT_VENTA','Inserción de pedido venta');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (2, 'ROLE_UPDATE_VENTA','Edición de pedido venta');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (2, 'ROLE_DELETE_VENTA','Borrar pedido venta');
+
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (3, 'ROLE_LIST_COMPRA','Listado de pedido compra');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (3, 'ROLE_INSERT_COMPRA','Inserción de pedido compra');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (3, 'ROLE_UPDATE_COMPRA','Edición de pedido compra');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (3, 'ROLE_DELETE_COMPRA','Borrar pedido compra');
+
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (4, 'ROLE_LIST_CJU','Listado de caja usuario');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (4, 'ROLE_INSERT_CJU','Inserción de caja usuario');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (4, 'ROLE_UPDATE_CJU','Edición de caja usuario');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (4, 'ROLE_DELETE_CJU','Borrar caja usuario');
+
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (5, 'ROLE_LIST_MOV','Listado de movimientos');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (5, 'ROLE_INSERT_MOV','Inserción de movimientos');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (5, 'ROLE_UPDATE_MOV','Edición de movimientos');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (5, 'ROLE_DELETE_MOV','Borrar movimientos');
+
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (6, 'ROLE_LIST_PRODUCTOS','Listado de productos');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (6, 'ROLE_INSERT_PRODUCTOS','Inserción de productos');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (6, 'ROLE_UPDATE_PRODUCTOS','Edición de productos');
+INSERT INTO `roles` (modulo_id, nombre,descripcion) VALUES (6, 'ROLE_DELETE_PRODUCTOS','Borrar producto');
 
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 1);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 2);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 3);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 4);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 5);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 6);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 7);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 8);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 9);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 10);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 11);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 12);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 13);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 14);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 15);
+
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 1);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 2);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (4, 2);

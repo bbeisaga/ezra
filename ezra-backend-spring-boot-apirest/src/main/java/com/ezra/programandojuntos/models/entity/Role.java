@@ -2,6 +2,8 @@ package com.ezra.programandojuntos.models.entity;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 
 
@@ -14,8 +16,15 @@ public class Role implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(unique=true, length=20)
+	@Column(unique=true, length=30)
 	private String nombre;
+	
+	private String descripcion;
+	
+//	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	@JoinColumn(name = "modulo_id" )
+//	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+//	private Modulo modulo;
 	
 	public Long getId() {
 		return id;
@@ -32,6 +41,28 @@ public class Role implements Serializable{
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
+	
+	
+//	public Modulo getModulo() {
+//		return modulo;
+//	}
+//
+//	public void setModulo(Modulo modulo) {
+//		this.modulo = modulo;
+//	}
+
+
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+
 
 	/**
 	 * 

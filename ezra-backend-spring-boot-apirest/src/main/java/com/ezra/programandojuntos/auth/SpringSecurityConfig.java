@@ -74,7 +74,7 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/clientes/{id}").permitAll()
 			   .requestMatchers(HttpMethod.PUT,"api/clientes/{id}").hasAnyRole("USER","ADMIN")
 			   .requestMatchers(HttpMethod.DELETE,"api/clientes/{id}").hasRole("ADMIN")
-			   .requestMatchers(HttpMethod.GET,"api/cleintes/filtrar-cliente/{term}").permitAll()
+			   .requestMatchers(HttpMethod.GET,"api/clientes/filtrar-cliente/{term}").permitAll()
 
 			 //Permisos par alas URLs de pedido
 			   .requestMatchers(HttpMethod.GET,"api/pedidos").permitAll() 
@@ -104,11 +104,17 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.PUT,"api/cajas/usuarios/{id}").hasAnyRole("USER","ADMIN")
 			   .requestMatchers(HttpMethod.POST,"api/cajas/reporte/cierre-caja").permitAll()
 
+				 //Permisos par alas URLs ROLES
+			   .requestMatchers(HttpMethod.GET,"api/roles").permitAll()
+			   .requestMatchers(HttpMethod.GET,"api/roles/modulos").permitAll()
+   
 			   //Permisos par alas URLs de CAJAS
 			   .requestMatchers(HttpMethod.GET,"api/cajas").hasAnyRole("USER","ADMIN")
 			   //Permisos para las URLs de Usuarios
 			   .requestMatchers(HttpMethod.GET,"api/usuarios").hasAnyRole("USER","ADMIN")
 			   .requestMatchers(HttpMethod.GET,"api/usuarios/{username}").hasAnyRole("USER","ADMIN")
+			   .requestMatchers(HttpMethod.GET,"api/usuarios/pageable").permitAll()
+
 				 //Permisos par alas URLs de PRODUCXTOS
 			   .requestMatchers(HttpMethod.GET,"api/producto/colores").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/producto/materiales").permitAll()
@@ -116,10 +122,9 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/producto/usos").permitAll()
 			   .requestMatchers(HttpMethod.POST,"api/producto").hasAnyRole("USER","ADMIN") 
 			   .requestMatchers(HttpMethod.PUT,"api/producto/{id}").hasAnyRole("USER","ADMIN")
-
-			   //.requestMatchers(HttpMethod.GET,"api/productos/generico").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/producto/filtrar-productos/{term}").permitAll()
-			   //.requestMatchers(HttpMethod.GET,"api/genericos-de-producto").permitAll()
+			   
+			   
 
 			   ///////////////////////////////////////////////////////////////////////
 			   .anyRequest().authenticated())

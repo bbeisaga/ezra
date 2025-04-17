@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ezra.programandojuntos.models.dao.IUsuarioDao;
+import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.Usuario;
 
 @Service
@@ -43,7 +46,7 @@ public class UsuarioService implements IUsuarioService, UserDetailsService{
 				.peek(authority -> logger.info("Role: " + authority.getAuthority()))
 				.collect(Collectors.toList());
 		
-		return new User(usuario.getUsername(), usuario.getPassword(), usuario.getEnabled(), true, true, true, authorities);
+		return new User(usuario.getUsername(), usuario.getPassword(), usuario.getActivo(), true, true, true, authorities);
 	}
 
 	@Override
@@ -56,6 +59,13 @@ public class UsuarioService implements IUsuarioService, UserDetailsService{
 	@Transactional(readOnly=true)
 	public List<Usuario> getAllUsuarios(){
 		return (List<Usuario>) usuarioDao.findAll();
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Page<Usuario> findAllUsuarioPageable(String query, Pageable pageRequest) {
+			
+		return usuarioDao.findAllUsuarioPageable(query, pageRequest);
 	}
 
 }

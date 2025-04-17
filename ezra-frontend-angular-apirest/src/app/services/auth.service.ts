@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../models/usuario';
+import { findIndex } from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -60,6 +61,7 @@ export class AuthService {
     //this._usuario.email = payload.email;
     this._usuario.username = payload.username;
     this._usuario.roles = payload.authorities;
+    //this._usuario.authorities = payload.authorities;
     sessionStorage.setItem('usuario', JSON.stringify(this._usuario));
   }
 
@@ -84,10 +86,17 @@ export class AuthService {
   }
 
   hasRole(role: string): boolean {
-    if (this.usuario.roles.includes(role)) {
+
+
+    this.usuario.roles.toString()
+
+     if (this.usuario.roles.toString().includes(role)) {
       return true;
     }
     return false;
+/*      debugger;
+    const index = findIndex(this.usuario.roles, (r) => r.nombre == role);
+    return index != -1; */
   }
 
   logout(): void {

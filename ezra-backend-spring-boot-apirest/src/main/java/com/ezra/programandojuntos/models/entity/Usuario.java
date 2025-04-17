@@ -19,10 +19,13 @@ public class Usuario implements Serializable {
 	@Column(length = 60)
 	private String password;
 
-	private Boolean enabled;
+	private Boolean activo;
 	
-	private String nombre;
-	private String apellido;
+	private Boolean bloqueado;
+
+	
+	private String nombres;
+	private String apellidos;
 	
 	@Column(unique = true)
 	private String email;
@@ -57,12 +60,13 @@ public class Usuario implements Serializable {
 		this.password = password;
 	}
 
-	public Boolean getEnabled() {
-		return enabled;
+
+	public Boolean getActivo() {
+		return activo;
 	}
 
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
+	public void setActivo(Boolean activo) {
+		this.activo = activo;
 	}
 
 	public List<Role> getRoles() {
@@ -73,20 +77,20 @@ public class Usuario implements Serializable {
 		this.roles = roles;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public String getNombres() {
+		return nombres;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombres(String nombres) {
+		this.nombres = nombres;
 	}
 
-	public String getApellido() {
-		return apellido;
+	public String getApellidos() {
+		return apellidos;
 	}
 
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
 	}
 
 	public String getEmail() {
@@ -96,6 +100,18 @@ public class Usuario implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	
+	
+	public Boolean getBloqueado() {
+		return bloqueado;
+	}
+
+	public void setBloqueado(Boolean bloqueado) {
+		this.bloqueado = bloqueado;
+	}
+
+
 
 	/**
 	 * 
