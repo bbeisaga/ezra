@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { RolService } from '../../../../services/rol.service';
 import { UsuarioService } from '../../../../services/usuario.service';
@@ -16,9 +16,9 @@ export class CheckboxUsuarioRolComponent implements OnInit {
 
   @Input() modulo!: Modulo;
   @Input() usuarioSeleccionado!: Usuario;
+  @Output() acumulaChecks: EventEmitter<Modulo> = new EventEmitter();
 
   //@Input() activatedActions: CheckboxActionItem[] = [];
-  //@Output() accumulatePermits: EventEmitter<TsgModule> = new EventEmitter();
   //@Input() validate: boolean;
 
   roles: string[] = [];
@@ -27,28 +27,11 @@ export class CheckboxUsuarioRolComponent implements OnInit {
   checkboxRoles: CheckboxRoles[]=[]
   checkboxModul!: CheckboxModul;
 
-
-/*   task: Task = {
-    name: 'Pedidos',
-    completed: false,
-    color: 'primary',
-    subtasks: [
-      { name: 'Listar', completed: false, color: 'primary' },
-      { name: 'Insertar', completed: false, color: 'accent' },
-      { name: 'Editar', completed: false, color: 'accent' },
-      { name: 'Borrar', completed: false, color: 'warn' },
-    ],
-  }; */
-
   allComplete: boolean = false;
 
-  constructor(private rolService: RolService,
-    private usuarioService: UsuarioService) { }
+  constructor(private rolService: RolService,private usuarioService: UsuarioService) { }
 
   ngOnInit() {
-  console.log("modulo",this.modulo);
-//  console.log("usuarioSeleccionado",this.usuario);
-
     this.modulo.roles.forEach((r) => {
           this.checkboxRoles.push({
             id: r.id,
@@ -56,7 +39,6 @@ export class CheckboxUsuarioRolComponent implements OnInit {
             descripcion:r.descripcion,
             activated:this.permissionIsActivated(r.id)
           })
-      //this.updateAllComplete()
     })
     this.checkboxModul = {
       id: this.modulo.id,
@@ -64,17 +46,12 @@ export class CheckboxUsuarioRolComponent implements OnInit {
       activated:false,
       checkboxRoles : this.checkboxRoles
     }
-
     this.updateAllComplete();
   }
 
-
-/*   updateAllComplete2() {
-    this.allComplete = this.task.subtasks != null && this.task.subtasks.every(t => t.completed);
-  }
- */
   updateAllComplete() {
     this.allComplete = this.checkboxModul.checkboxRoles != null && this.checkboxModul.checkboxRoles.every(t => t.activated);
+    this.acumulaChecks.emit(this.moduloExport());
   }
 
   someComplete(): boolean {
@@ -98,14 +75,14 @@ export class CheckboxUsuarioRolComponent implements OnInit {
     const index = findIndex(this.usuarioSeleccionado.roles, (ap) => ap.id == rolId);
     return index != -1;
   }
-}
 
-/* export interface Task {
-  name: string;
-  completed: boolean;
-  color: ThemePalette;
-  subtasks?: Task[];
-} */
+  moduloExport():Modulo{
+   //const roles = this.checkboxModul.checkboxRoles.filter(c=> c.activated);
+   const roles = this.checkboxModul.checkboxRoles;
+   this.modulo.roles = [... roles];
+   return this.modulo
+  }
+}
 
 
 export interface CheckboxModul {

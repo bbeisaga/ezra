@@ -5,5 +5,5 @@ export class Role {
   nombre!: string;
   descripcion!:string
   //modulo!: Modulo;
-  //activate:boolean=false;
+  activated:boolean=false;
 }

@@ -1,5 +1,6 @@
 package com.ezra.programandojuntos.models.services;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,8 +18,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ezra.programandojuntos.errors.ClienteMapErrors;
+import com.ezra.programandojuntos.exceptions.ClienteExceptions;
 import com.ezra.programandojuntos.models.dao.IUsuarioDao;
 import com.ezra.programandojuntos.models.entity.Cliente;
+import com.ezra.programandojuntos.models.entity.Role;
 import com.ezra.programandojuntos.models.entity.Usuario;
 
 @Service
@@ -67,5 +71,32 @@ public class UsuarioService implements IUsuarioService, UserDetailsService{
 			
 		return usuarioDao.findAllUsuarioPageable(query, pageRequest);
 	}
+
+	@Override
+	@Transactional
+	public Usuario updateRolUsuario(Usuario usuario, Long usuarioId) throws SQLException  {		
+	
+//		List<Long> idsDelete = usuario.getRoles().stream().filter(r -> !r.isActivated()).map(r -> r.getId()).collect(Collectors.toList());
+//		if(!idsDelete.isEmpty()) {
+//			deleteRolUsuarioForGroup(usuarioId, idsDelete);
+//		}
+		Usuario usuarioNew = usuarioDao.findById(usuarioId).orElse(null);
+		List<Role> rolesInsert = usuario.getRoles().stream().filter(r -> r.isActivated()).collect(Collectors.toList());
+		usuarioNew.setRoles(rolesInsert);
+		return usuarioDao.save(usuarioNew);
+	}
+	
+	
+	@Override
+	@Transactional
+	public void deleteRolUsuarioForGroup(Usuario usuario, Long usuarioId) throws SQLException {
+		List<Long> idsDelete = usuario.getRoles().stream().filter(r -> !r.isActivated()).map(r -> r.getId()).collect(Collectors.toList());
+//		if(!idsDelete.isEmpty()) {
+//			deleteRolUsuarioForGroup(usuarioId, idsDelete);
+//		}
+		
+		usuarioDao.deleteRolUsuario(usuarioId, idsDelete);
+	}
+	
 
 }

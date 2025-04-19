@@ -8,6 +8,7 @@ import { AuthService } from './auth.service';
 import { PageableResponse } from '../models/pageable-response';
 import { Usuario } from '../models/usuario';
 import { environment } from '../../environments/environment';
+import { Modulo } from '../models/modulo';
 
 
 @Injectable({
@@ -52,4 +53,13 @@ export class UsuarioService {
             return throwError(e);
           })); */
   }
+
+  updateRolUsuario(usuario:Usuario, usuarioId: number): Observable<any> {
+    return this.httpClient.put(`${environment.apiUrl}/usuarios-roles/update/${usuarioId}`, usuario);
+  }
+
+  deleteRolUsuario(usuario:Usuario, usuarioId: number): Observable<any> {
+    return this.httpClient.put(`${environment.apiUrl}/usuarios-roles/delete/${usuarioId}`, usuario);
+  }
+
 }

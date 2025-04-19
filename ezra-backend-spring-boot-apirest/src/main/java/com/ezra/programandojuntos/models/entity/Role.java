@@ -21,6 +21,8 @@ public class Role implements Serializable{
 	
 	private String descripcion;
 	
+	private boolean activated;
+	
 //	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //	@JoinColumn(name = "modulo_id" )
 //	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -53,6 +55,14 @@ public class Role implements Serializable{
 //	}
 
 
+
+	public boolean isActivated() {
+		return activated;
+	}
+
+	public void setActivated(boolean activated) {
+		this.activated = activated;
+	}
 
 	public String getDescripcion() {
 		return descripcion;

@@ -110,10 +110,13 @@ public class SpringSecurityConfig {
    
 			   //Permisos par alas URLs de CAJAS
 			   .requestMatchers(HttpMethod.GET,"api/cajas").hasAnyRole("USER","ADMIN")
-			   //Permisos para las URLs de Usuarios
+			   //Permisos para las URLs de USUARIOS
 			   .requestMatchers(HttpMethod.GET,"api/usuarios").hasAnyRole("USER","ADMIN")
 			   .requestMatchers(HttpMethod.GET,"api/usuarios/{username}").hasAnyRole("USER","ADMIN")
 			   .requestMatchers(HttpMethod.GET,"api/usuarios/pageable").permitAll()
+			   .requestMatchers(HttpMethod.PUT,"api/usuarios-roles/update/{usuarioId}").permitAll()
+			   .requestMatchers(HttpMethod.PUT,"api/usuarios-roles/delete/{usuarioId}").permitAll()
+
 
 				 //Permisos par alas URLs de PRODUCXTOS
 			   .requestMatchers(HttpMethod.GET,"api/producto/colores").permitAll()
