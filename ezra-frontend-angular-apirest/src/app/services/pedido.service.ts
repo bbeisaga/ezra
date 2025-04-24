@@ -56,8 +56,8 @@ export class PedidoService {
     );
   }
 
-  getAllPedidosPageable(params: any): Observable<PageableResponse> {
-    return this.http.get<any>(`${environment.apiUrl}/pedidos/pageable`, {
+  getAllPedidosPageable(params: any, tipoPedidoId:number): Observable<PageableResponse> {
+    return this.http.get<any>(`${environment.apiUrl}/pedidos/${tipoPedidoId}/pageable`, {
       /*headers: this.agregarAuthorizationHeader(),*/
       params : params,
       } );
@@ -117,11 +117,11 @@ export class PedidoService {
        {observe: 'response', responseType:'blob' as 'json'})
   }
 
-  ceateReporteCompras(filtros: any): Observable<HttpResponse<Blob>>{
+/*   ceateReporteCompras(filtros: any): Observable<HttpResponse<Blob>>{
 
     return this.http.post<Blob>(`${environment.apiUrl}/pedidos/reporte/compras`, filtros,
        {observe: 'response', responseType:'blob' as 'json'})
-  }
+  } */
 
   update(pedido: Pedido): Observable<any> {
     return this.http.put<any>(`${environment.apiUrl}/pedidos/${pedido.id}`, pedido

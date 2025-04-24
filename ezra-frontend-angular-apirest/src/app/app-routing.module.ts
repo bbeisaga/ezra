@@ -35,8 +35,6 @@ const routes: Routes = [
         loadChildren: () =>import("./modules/usuarios/usuarios.module").then((m) => m.UsuariosModule),
       }
 
-  /*     { path: 'clientes/form', component: FormComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } },
-      { path: 'clientes/form/:id', component: FormComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_ADMIN' } }, */
     ]
 
 

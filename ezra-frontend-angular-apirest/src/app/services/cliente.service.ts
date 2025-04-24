@@ -40,7 +40,6 @@ export class ClienteService {
 
   getAllClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${environment.apiUrl}/clientes`
-      /*,{headers: this.agregarAuthorizationHeader()}*/
     );
   }
 
@@ -51,12 +50,9 @@ export class ClienteService {
       params: params,
     });
 
-
-    /*     return this.http.post<PageableResponse>(`${this.urlEndPoint}/pageable`  ,{headers: this.agregarAuthorizationHeader(), params : params});
-     */
   }
 
-  getClientes(page: number): Observable<any> {
+/*   getClientes(page: number): Observable<any> {
     return this.http.get(`${environment.apiUrl}/clientes` + '/page/' + page).pipe(
       tap((response: any) => {
         console.log('ClienteService: tap 1');
@@ -73,7 +69,7 @@ export class ClienteService {
         console.log('ClienteService: tap 2');
         (response.content as Cliente[]).forEach(cliente => console.log(cliente.nomApellRz));
       }));
-  }
+  } */
 
   create(cliente: Cliente): Observable<Cliente> {
     return this.http.post(`${environment.apiUrl}/clientes`, cliente

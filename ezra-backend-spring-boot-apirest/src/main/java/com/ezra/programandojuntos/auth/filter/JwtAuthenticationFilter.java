@@ -70,7 +70,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		
 		//Usuario usuario = usuarioService.findByUsername(username);
 		
-	    boolean isAdmin = roles.stream().anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
+	   // boolean isAdmin = roles.stream().anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
 	     Claims claims = Jwts
 	             .claims()
 	             .add("authorities", new ObjectMapper().writeValueAsString(roles))
@@ -78,7 +78,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 //	             .add("id", usuario.getId())
 //	             .add("nombre", usuario.getNombre())
 //	             .add("apellido", usuario.getApellido())
-	             .add("isAdmin", isAdmin)
+	     //        .add("isAdmin", isAdmin)
 
 	             .build();
 

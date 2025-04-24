@@ -15,6 +15,7 @@ import { ZonaHorariaDefectoService } from './services/zona-horaria-defecto.servi
 import  localeEsPE  from '@angular/common/locales/es-PE';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 
+
 registerLocaleData(localeEsPE);
 
 @NgModule({

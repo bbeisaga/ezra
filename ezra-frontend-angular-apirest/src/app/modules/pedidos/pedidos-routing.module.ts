@@ -1,17 +1,39 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { PedidosComponent } from './paginas/pedidos.component';
+import { Routes, RouterModule, CanActivate } from '@angular/router';
+import { ListadoVentasComponent } from './pages/listado-ventas.component';
+import { ListadoComprasComponent } from './pages/listado-compras.component';
 import { FormPedidoComponent } from './components/form-pedido.component';
 import { DetallePedidoComponent } from './components/detalle-pedido.component';
 import { RptePedidoComponent } from './reportes/rpte-pedido/rpte-pedido.component';
+import { RoleGuard } from '../../guards/role.guard';
+import { AuthGuard } from '../../guards/auth.guard';
 
 const routes: Routes = [
  // { path: '', redirectTo: ':clienteId', pathMatch: 'full' },
 
-  { path: '', component: PedidosComponent , pathMatch: 'full'},
-  { path: 'rpte-pedidos/:tipoPedidoId', component: RptePedidoComponent },
-  { path: 'form/:clienteId', component: FormPedidoComponent },
-  { path: 'detalle/:pedidoId', component: DetallePedidoComponent },
+  { path: 'listado-ventas',
+    component: ListadoVentasComponent,
+    canActivate:[AuthGuard, RoleGuard],
+    data: { role: 'ROLE_LIST_VENTAS' }
+  },
+  { path: 'listado-compras',
+    component: ListadoComprasComponent,
+    canActivate:[AuthGuard, RoleGuard],
+    data: { role: 'ROLE_LIST_COMPRAS' }
+  },
+  { path: 'rpte-pedidos/:tipoPedidoId',
+    component: RptePedidoComponent
+  },
+  { path: 'form/:clienteId',
+    component: FormPedidoComponent,
+    canActivate:[AuthGuard, RoleGuard],
+    data: { role: 'ROLE_CREATE_PEDIDO' }
+  },
+  { path: 'detalle/:pedidoId',
+    component: DetallePedidoComponent,
+    canActivate:[AuthGuard, RoleGuard],
+    data: { role: 'ROLE_VIEW_DETAILS_PEDIDO' }
+  },
 
 ];
 

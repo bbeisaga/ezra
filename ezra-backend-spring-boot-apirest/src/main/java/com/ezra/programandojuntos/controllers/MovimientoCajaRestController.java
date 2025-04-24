@@ -34,14 +34,14 @@ public class MovimientoCajaRestController {
 	private IMovimientoCajaService movimientoCajaService;
 
 	
-	@GetMapping("movimientosCaja/tipoMovimientosCaja")
+	@GetMapping("movimientos/tipoMovimientosCaja")
 	@ResponseStatus(HttpStatus.OK)
 	public List<TipoMovimientoCaja> getAllTipoMovimientosCaja() {
 		return movimientoCajaService.lstAllTipoMovimientosCaja();
 	}
 	
 	//@Secured("ROLE_ADMIN")
-	@PostMapping("movimientosCaja")
+	@PostMapping("movimientos/caja")
 	public ResponseEntity<?> createMovimientoCaja(@Valid @RequestBody MovimientoCaja movimientoCaja, BindingResult result) {
 		
 		MovimientoCaja movimientoNew = null;
@@ -69,40 +69,4 @@ public class MovimientoCajaRestController {
 		response.put("movimientoCaja", movimientoNew);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
-	
-	
-//	
-//	@Secured({"ROLE_ADMIN"})
-//	@PostMapping("/pedidos")
-//	@ResponseStatus(HttpStatus.CREATED)
-//	public Pedido crear(@RequestBody Pedido pedido) {
-//		return pedidoService.savePedido(pedido);
-//	}
-//	
-//	@Secured("ROLE_ADMIN")
-//	@PutMapping("/pedidos/{id}")
-//	public ResponseEntity<?> update(@Valid @RequestBody Pedido pedido, BindingResult result, @PathVariable Long id) {
-//		Pedido pedidoActualizado = null;
-//		Map<String, Object> response = new HashMap<>();
-//		if(result.hasErrors()) {
-//			List<String> errors = result.getFieldErrors()
-//					.stream()
-//					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
-//					.collect(Collectors.toList());
-//			response.put("errors", errors);
-//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-//		}
-//		try {
-//			pedidoActualizado = pedidoService.savePedido(pedido);
-//
-//		} catch (DataAccessException e) {
-//			response.put("mensaje", "Error al actualizar el pedido en la base de datos");
-//			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//		response.put("mensaje", "El pedido ha sido actualizado con éxito!");
-//		response.put("pedido", pedidoActualizado);
-//		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
-//	}
-
 }

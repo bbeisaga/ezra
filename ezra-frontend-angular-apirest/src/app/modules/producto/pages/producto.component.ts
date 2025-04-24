@@ -34,11 +34,8 @@ export class ProductoComponent implements OnInit , AfterViewInit{
 
   displayedColumns: string[] = ['id', 'nombre','medidas','peso','color','material','categoria','uso','cantidadStock', 'precioNeto','acciones'];
   genericosDeProducto:GenericosDeProducto[]=[];
-  //dataSource!: MatTableDataSource<Cliente>;
   dataSource : Producto[]=[];
   productos:Producto[]=[];
- //clientes: Cliente[]=[];
-  //clienteSeleccionado!: Cliente;
   pageable: PageableResponse = new PageableResponse();
   querySearch!: string;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -61,19 +58,6 @@ export class ProductoComponent implements OnInit , AfterViewInit{
 
     this.genericosDeProductoService.getGenericos().subscribe(result =>this.genericosDeProducto = result)
     console.log("ngOnInit", this.genericosDeProducto);
-
-
-    //this.loadtemporal()
-    //});
-/*
-    this.modalService.notificarUpload.subscribe(cliente => {
-      this.clientes = this.clientes.map(clienteOriginal => {
-        if (cliente.id == clienteOriginal.id) {
-          clienteOriginal.foto = cliente.foto;
-        }
-        return clienteOriginal;
-      })
-    }) */
   }
 
   ngAfterViewInit(): void {
@@ -102,10 +86,6 @@ export class ProductoComponent implements OnInit , AfterViewInit{
         pageSize: this.paginator.pageSize,
         query: !!this.querySearch ? this.querySearch:''
       };
-/*       console.log(!!this.querySearch);
-      if(!!this.querySearch ){
-        params.query = this.querySearch
-      } */
 
       this.productoService.getAllProductosPageable(params).subscribe(response => {
         this.productos = response.content as Producto[]
@@ -125,13 +105,6 @@ export class ProductoComponent implements OnInit , AfterViewInit{
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.orberBy; */
       });
-/*       this.isLoading = false;
-    } catch (error) {
-      console.log("error")
-
-      this.isLoading = true;
-    } */
-
   }
 
   findObjectInGenericos( id:number ){

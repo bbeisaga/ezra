@@ -17,6 +17,7 @@ import { Categoria } from '../../../models/categoria';
 import { AlertService } from '../../../services/alert.service';
 import { find } from 'lodash';
 import { Uso } from '../../../models/uso';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-form-producto',
@@ -39,9 +40,9 @@ export class FormProductoComponent implements OnInit, AfterViewInit {
   errores: string[]=[];
 
   constructor(private productoService: ProductoService,
-    private genericosDeProductoService: GenericosDeProductoService,
     private router: Router,
     private alertService: AlertService,
+    public authService: AuthService,
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {

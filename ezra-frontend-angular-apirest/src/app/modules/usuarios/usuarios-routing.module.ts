@@ -7,10 +7,14 @@ import { AsignarRolUsuarioComponent } from './components/asignar-rol-usuario/asi
 
 const routes: Routes = [
     { path: '',
-      component: UsuariosComponent
+      component: UsuariosComponent,
+      canActivate:[AuthGuard, RoleGuard],
+      data: { role: 'ROLE_LIST_USUARIOS' }
     },
     { path: 'asignar-rol-usuario',
-      component: AsignarRolUsuarioComponent
+      component: AsignarRolUsuarioComponent,
+      canActivate:[AuthGuard, RoleGuard],
+      data: { role: 'ROLE_ASIGNAR_ROL_USUARIO' }
     },
 
 ];

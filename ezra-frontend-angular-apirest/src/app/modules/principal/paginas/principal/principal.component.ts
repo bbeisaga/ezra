@@ -11,7 +11,7 @@ export class PrincipalComponent implements OnInit {
   sidenavOpened = true;
 
 
-  constructor() { }
+  constructor(public authService: AuthService) { }
 
   ngOnInit() {
   }

@@ -76,11 +76,11 @@ public class PedidoServiceImpl implements IPedidoService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Page<Pedido> findAllPedidoPageable(String query, Pageable pageable) {
+	public Page<Pedido> findAllPedidoPageable(String query, Long tipoPedidoId, Pageable pageable) {
 		
 		log.info("findAllPedidoPageable pageable= {}",pageable);
 	
-		return pedidoDao.findAllPedidoPageable(query, pageable);
+		return pedidoDao.findAllPedidoPageable(query,tipoPedidoId, pageable);
 	}
 	
 

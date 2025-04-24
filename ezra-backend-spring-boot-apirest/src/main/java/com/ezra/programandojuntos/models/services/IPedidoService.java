@@ -23,7 +23,7 @@ public interface IPedidoService {
 	
 	public List<Pedido> findPedidoAll();
 	
-	public Page<Pedido> findAllPedidoPageable(String query, Pageable pagebale);
+	public Page<Pedido> findAllPedidoPageable(String query, Long tipoPedidoId, Pageable pagebale);
 	
 	//public Page<Cliente> findAll(Pageable pageable);
 	

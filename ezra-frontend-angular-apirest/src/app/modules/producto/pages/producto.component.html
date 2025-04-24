@@ -1,32 +1,16 @@
-<!-- <detalle-cliente *ngIf="clienteSeleccionado" [cliente] ="clienteSeleccionado"></detalle-cliente>
- -->
-
-<mat-card class="example-card">
-  <mat-card-header class="d-flex justify-content-start">
+<mat-card class="card">
+  <mat-card-header class="card-header">
       <mat-card-title>Listado de Productos</mat-card-title>
       <div class="ms-auto">
-          <button *ngIf="authService.hasRole('ROLE_ADMIN')" color="primary" mat-raised-button [routerLink]="['form-producto']">
+          <button *ngIf="authService.hasRole('ROLE_REGISTER_PRODUCTO')" color="primary" mat-raised-button [routerLink]="['form-producto']">
             Crear producto
           </button>
       </div>
   </mat-card-header>
-
-<!--    <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
- -->
    <mat-card-content>
-
-<!--
-    <div *ngIf="clientes?.length == 0" class="alert alert-info">
-      No hay registros en la base de datos!
-    </div> -->
-
-<!--     <mat-form-field>
-      <mat-label>Filtrar</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ejem. juan" #input>
-    </mat-form-field> -->
-
-    <search-box-table (searchEvent)="searchEvent($event)"></search-box-table>
-
+    <ng-container *ngIf="authService.hasRole('ROLE_SEARCH_PRODUCTO')">
+      <search-box-table (searchEvent)="searchEvent($event)"></search-box-table>
+    </ng-container>
 
     <div class="mat-elevation-z8">
 
@@ -64,41 +48,22 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Uso </th>
         <td mat-cell *matCellDef="let element"> {{element.uso.nombre}} </td>
       </ng-container>
-<!--       <ng-container matColumnDef="marca">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Marca </th>
-        <td mat-cell *matCellDef="let element"> {{element.marca}} </td>
-      </ng-container> -->
-
-<!--       <ng-container matColumnDef="createAt">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha creacion </th>
-        <td mat-cell *matCellDef="let element"> {{element.createAt | date: 'dd/MM/YYYY HH:mm:ss' }} </td>
-      </ng-container> -->
-
-<!--       <ng-container matColumnDef="modelo">
-        <th mat-header-cell *matHeaderCellDef> Modelo </th>
-        <td mat-cell *matCellDef="let element"> {{element.modelo}} </td>
-      </ng-container> -->
       <ng-container matColumnDef="cantidadStock">
         <th mat-header-cell *matHeaderCellDef> Stock </th>
         <td mat-cell *matCellDef="let element"> {{element.cantidadStock}} </td>
       </ng-container>
-
       <ng-container matColumnDef="precioNeto">
         <th mat-header-cell *matHeaderCellDef> Precio </th>
         <td mat-cell *matCellDef="let element"> {{element.precioNeto | currency: 'PEN'}} </td>
       </ng-container>
-
        <ng-container matColumnDef="acciones">
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let element">
           <div class="d-flex flex-row">
-<!--             <button mat-icon-button color="primary" *ngIf="authService.hasRole('ROLE_ADMIN')" [routerLink]="['/pr/pedidos/form', element.id]" matTooltip="Crear pedido">
-              <mat-icon>note_add</mat-icon>
-            </button> -->
-            <button mat-icon-button color="primary" *ngIf="authService.hasRole('ROLE_ADMIN')" [routerLink]="['form-producto', element.id]" matTooltip="Editar">
+            <button *ngIf="authService.hasRole('ROLE_UPDATE_PRODUCTO')" mat-icon-button color="primary" [routerLink]="['form-producto', element.id]" matTooltip="Actualizar producto">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button  color="warn" aria-label="Eliminar" (click)='delete(element)' matTooltip="Elimnar">
+            <button *ngIf="authService.hasRole('ROLE_DELETE_PRODUCTO')" mat-icon-button  color="warn" aria-label="Eliminar" (click)='delete(element)' matTooltip="Elimnar producto">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
@@ -107,28 +72,12 @@
 
        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-    <!--       <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-          </tr> -->
     </table>
-<!--       <mat-paginator [length]="pageable.totalElements" class="table-paginator" [ngClass]="{'hidden': !dataSource.length}"
-        [pageSizeOptions]="[10, 20, 50]" [pageSize]="10" (page)="loadItems()"></mat-paginator> -->
-
         <mat-paginator [length]="pageable.totalElements" class="table-paginator" [ngClass]="{'d-none': !dataSource.length}"
         [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons [pageSize]="10" (page)="loadItems()"></mat-paginator>
-
-<!--    <mat-paginator [pageSizeOptions]="[10, 20, 40]" showFirstLastButtons aria-label="Select page of periodic elements"></mat-paginator>
- -->
   </div>
 
   </mat-card-content>
-<!--   <mat-card-actions>
-    <div class="my-2 text-left">
-        <button *ngIf="authService.hasRole('ROLE_ADMIN')" class="btn btn-rounded btn-primary" type="button" [routerLink]="['/clientes/form']">
-          Crear Cliente
-        </button>
-    </div>
-    </mat-card-actions> -->
+
   </mat-card>
 

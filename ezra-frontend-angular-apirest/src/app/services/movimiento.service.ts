@@ -46,7 +46,7 @@ export class MovimientoService {
   }
 
   getAllTipoMovimientosCaja(): Observable<TipoMovimientoCaja[]> {
-    return this.http.get<TipoMovimientoCaja[]>(`${environment.apiUrl}/movimientosCaja/tipoMovimientosCaja`
+    return this.http.get<TipoMovimientoCaja[]>(`${environment.apiUrl}/movimientos/tipoMovimientosCaja`
       /*  , {headers: this.agregarAuthorizationHeader()} */
     );
   }
@@ -69,7 +69,7 @@ export class MovimientoService {
   }
 
   createMovimientoCaja(movimientoCaja: MovimientoCaja): Observable<MovimientoCaja> {
-    return this.http.post(`${environment.apiUrl}/movimientosCaja`, movimientoCaja
+    return this.http.post(`${environment.apiUrl}/movimientos/caja`, movimientoCaja
       /*, {headers: this.agregarAuthorizationHeader()}*/
     )
       .pipe(

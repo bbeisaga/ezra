@@ -60,7 +60,7 @@ public class ProductoRestController {
 //	
 
 	
-	@GetMapping("/productos/pageable")
+	@GetMapping("/producto/pageable")
 	public Page<Producto> index(@RequestParam int pageNumber, @RequestParam int pageSize, 
 								@RequestParam SortActiveProducto active,
 								@RequestParam SortDirection direction,

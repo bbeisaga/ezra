@@ -38,7 +38,7 @@ export class MovimientoComponent implements OnInit {
   constructor(private cajasService: CajaService,
               private movimientoService: MovimientoService,
               private pedidoService : PedidoService,
-              private authService: AuthService,
+              public authService: AuthService,
               private alertService:AlertService,
               private router: Router
   ){
@@ -53,21 +53,18 @@ export class MovimientoComponent implements OnInit {
     }
     //trae pedidos
     this.pedido = {...this.pedidoService.pedido};
-    console.log("pedido", this.pedido);
     this.cajasService.getCajaUsuarioByUserName(this.username).subscribe(
       res => {
-        console.log("getCajaUsuarioByUserName...", res)
+        //console.log("getCajaUsuarioByUserName...", res)
         if(res !== null && res.activa){
           this.cajaUsuario = res
           this.cajaUsuario.fechaApertura = moment(this.cajaUsuario.fechaApertura).format('DD/MM/YYYY HH:mm:ss');
           this.cajaUsuario.fechaActualizacion = moment(this.cajaUsuario.fechaActualizacion).format('DD/MM/YYYY HH:mm:ss');
           this.cajaUsuario.color = COLOR_CAJA_USUARIO[('' + res.activa) as keyof typeof COLOR_CAJA_USUARIO ];
-
-
         } else {
           this.alertService.info(`Debe aperturar caja`,"Caja")
           //swal.fire('', `Debe aperturar caja`, 'info');
-          this.router.navigate(['/']);
+          this.router.navigate(['/cajas']);
         }
       }
     )

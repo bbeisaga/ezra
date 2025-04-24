@@ -27,18 +27,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   background-color:rgb(91, 197, 0);
 }
 
-
-
-/* .celda-estado {
-  padding: 0.2rem 0.5rem ;
-  border-radius: 0.8rem ;
-  color: #fff;
-  text-align: center;
-  display: block;
-  max-width: 120px;
-  margin: 0 auto;
-} */
-
 .pendiente{
   background-color:#1086b1;
 }

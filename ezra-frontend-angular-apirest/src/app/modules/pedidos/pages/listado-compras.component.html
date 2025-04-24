@@ -1,7 +1,7 @@
 
-<mat-card>
-  <mat-card-header class="d-flex justify-content-start">
-      <mat-card-title>{{title}}</mat-card-title>
+<mat-card class="card">
+  <mat-card-header class="card-header">
+      <mat-card-title>Listado de compras</mat-card-title>
   </mat-card-header>
 
    <mat-card-content>
@@ -9,15 +9,17 @@
     <div *ngIf="pedidos?.length == 0" class="alert alert-info">
       No hay registros en la base de datos!
     </div>
+    <ng-container *ngIf="authService.hasRole('ROLE_SEARCH_COMPRA')">
+      <search-box-table *ngIf="pedidos?.length !== 0" (searchEvent)="searchEvent($event)"></search-box-table>
+    </ng-container>
 
-    <search-box-table *ngIf="pedidos?.length !== 0" (searchEvent)="searchEvent($event)"></search-box-table>
 
     <div class="mat-elevation-z8">
      <table [ngClass]="{'d-none': !dataSource.length}" mat-table [dataSource]="dataSource" matSort
         matSortActive="entregadoEn" matSortDisableClear matSortDirection="desc">
 
       <ng-container matColumnDef="nomApellRz">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Cliente o proveedor </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Proveedor </th>
         <td mat-cell *matCellDef="let element"> {{element.cliente.nomApellRz}} </td>
       </ng-container>
 
@@ -26,19 +28,9 @@
         <td mat-cell *matCellDef="let element"> {{element.createAt}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="entregadoEn">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Entrega </th>
-        <td mat-cell *matCellDef="let element"> {{element.entregadoEn}} </td>
-      </ng-container>
-
       <ng-container matColumnDef="adquiridoEn">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha compra </th>
         <td mat-cell *matCellDef="let element"> {{element.adquiridoEn}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="tipoPedido">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo Pedido</th>
-        <td mat-cell *matCellDef="let element"> {{element.tipoPedido.nombre}} </td>
       </ng-container>
 
       <ng-container matColumnDef="costoNetoTotal">
@@ -46,9 +38,14 @@
         <td mat-cell *matCellDef="let element"> {{element.costoNetoTotal | currency: 'PEN'}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="precioNetoTotal">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio Total S/.</th>
-        <td mat-cell *matCellDef="let element"> {{element.precioNetoTotal | currency: 'PEN'}} </td>
+      <ng-container matColumnDef="pagoTotal">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Pago Total S/.</th>
+        <td mat-cell *matCellDef="let element"> {{element.pagoTotal | currency: 'PEN'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="vueltoTotal">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Vuelto Total S/.</th>
+        <td mat-cell *matCellDef="let element"> {{element.vueltoTotal | currency: 'PEN'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="saldoPedido">
@@ -67,10 +64,10 @@
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let element">
           <div class="d-flex flex-row">
-            <button mat-icon-button color="warn" (click)="setPedido(element)" matTooltip="Pagar">
+            <button *ngIf="authService.hasRole('ROLE_REGISTER_PAGO_PEDIDO')" mat-icon-button color="warn" (click)="setPedido(element)" matTooltip="Pagar">
               <mat-icon>price_change</mat-icon>
             </button>
-            <button mat-icon-button color="primary" *ngIf="authService.hasRole('ROLE_ADMIN')" [routerLink]="['/pedidos/detalle', element.id]" matTooltip="Ver Detalle">
+            <button *ngIf="authService.hasRole('ROLE_VIEW_DETAILS_PEDIDO')" mat-icon-button color="primary" [routerLink]="['/pedidos/detalle', element.id]" matTooltip="Ver Detalle">
               <mat-icon>visibility</mat-icon>
             </button>
           </div>
@@ -91,3 +88,4 @@
   </div>
   </mat-card-content>
   </mat-card>
+

@@ -57,7 +57,7 @@ export class ProductoService {
   }
 
   getAllProductosPageable(params: any): Observable<PageableResponse> {
-    return this.http.get<any>(`${environment.apiUrl}/productos/pageable`,{
+    return this.http.get<any>(`${environment.apiUrl}/producto/pageable`,{
       params : params,
     });
   }

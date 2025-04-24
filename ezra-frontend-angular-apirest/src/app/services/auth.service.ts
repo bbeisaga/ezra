@@ -86,17 +86,12 @@ export class AuthService {
   }
 
   hasRole(role: string): boolean {
-
-
     this.usuario.roles.toString()
 
      if (this.usuario.roles.toString().includes(role)) {
       return true;
     }
     return false;
-/*      debugger;
-    const index = findIndex(this.usuario.roles, (r) => r.nombre == role);
-    return index != -1; */
   }
 
   logout(): void {

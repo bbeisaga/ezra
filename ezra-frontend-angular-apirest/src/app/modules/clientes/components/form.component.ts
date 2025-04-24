@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 import { TipoDocumento } from '../../../models/tipo-documento';
 import { AlertService } from '../../../services/alert.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-form',
@@ -23,6 +24,7 @@ export class FormComponent implements OnInit {
   constructor(private clienteService: ClienteService,
     private router: Router,
     private alertServie: AlertService,
+    public authService: AuthService,
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
@@ -30,19 +32,14 @@ export class FormComponent implements OnInit {
       let id = +params.get('id')!;
       if (id) {
         this.clienteService.getCliente(id).subscribe((cliente) => {this.cliente = cliente});
-        console.log("clienteeeeeeeeeee=>", this.cliente);
+        //console.log("clienteeeeeeeeeee=>", this.cliente);
       }
     });
 
-   // console.log("this.cliente", this.cliente);
-
-    /*     this.clienteService.getRegiones().subscribe(regiones => this.regiones = regiones);
-     */
 
     this.clienteService.getTipoDocumento().subscribe(doc => {
       this.tipoDocumentos = doc
-      console.log("documentos=>", this.tipoDocumentos);
-
+      //console.log("documentos=>", this.tipoDocumentos);
       this.tipoDocumentoSelected = this.tipoDocumentos[0]
     });
   }

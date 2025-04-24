@@ -93,13 +93,13 @@ public class PedidoRestController {
 	
 
 	//@Secured({"ROLE_ADMIN", "ROLE_USER"})
-	@GetMapping("/pedidos/pageable")
+	@GetMapping("/pedidos/{tipoPedidoId}/pageable")
 	public Page<Pedido> listarPedidoAllPageable(
 								@RequestParam int pageNumber, 
 								@RequestParam int pageSize, 
 								@RequestParam SortActivePedido active,
 								@RequestParam SortDirection direction,
-								@RequestParam String query) {
+								@RequestParam String query, @PathVariable Long tipoPedidoId) {
 		
         log.debug("PedidoRestController.listarPedidoAllPageable...(pageSize: {}, pageNumber: {}, query{}) ", pageSize, pageNumber, query );
        
@@ -113,7 +113,7 @@ public class PedidoRestController {
         	pageable = PageRequest.of(pageNumber, pageSize,
 					Sort.by(active.getValue()).ascending());
         }
-		return pedidoService.findAllPedidoPageable(query, pageable);
+		return pedidoService.findAllPedidoPageable(query,tipoPedidoId, pageable);
 	}
 	
 	

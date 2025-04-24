@@ -7,6 +7,7 @@ import { Usuario } from '../../../../models/usuario';
 import { find, findIndex } from 'lodash';
 import { AlertService } from '../../../../services/alert.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-asignar-rol-usuario',
@@ -22,6 +23,7 @@ export class AsignarRolUsuarioComponent implements OnInit {
 
   constructor(private rolService: RolService,
     private usuarioService: UsuarioService,
+    public authService: AuthService,
     private alertService:AlertService,
   private router:Router) { }
 

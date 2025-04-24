@@ -9,13 +9,18 @@ import { RpteCajaPorUsuarioComponent } from './reportes/rpte-caja-por-usuario/rp
 const routes: Routes = [
     { path: '',
       component: AperturaCierreCajaComponent,
-     // canActivate: [AuthGuard, RoleGuard],
-     // data: { role: 'ROLE_ADMIN' },
+      canActivate: [AuthGuard],
       pathMatch: 'full' },
     { path: 'rpte-caja',
-      component: RpteCajaComponent },
+      component: RpteCajaComponent,
+      canActivate:[AuthGuard, RoleGuard],
+      data: { role: 'ROLE_REPORT_CJU' }
+    },
     { path: 'rpte-caja-por-usuario',
-      component: RpteCajaPorUsuarioComponent },
+      component: RpteCajaPorUsuarioComponent,
+      canActivate:[AuthGuard, RoleGuard],
+      data: { role: 'ROLE_REPORT_USUARIO_CJU' }
+    },
 
 
 ];

@@ -61,7 +61,7 @@ export class MovimientoCajaComponent implements OnInit, AfterViewInit {
           //        console.log("getCajaUsuarioByUserName...", res)
         } else {
           this.alertService.info(`Debe aperturar caja`, 'Caja usuario')
-          this.router.navigate(['/pr']);
+          this.router.navigate(['/cajas']);
         }
       }
     )

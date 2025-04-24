@@ -26,17 +26,14 @@ export class AperturaCierreCajaComponent implements OnInit ,AfterViewInit {
   formCaja! : FormGroup;
   cajaUsuario = new CajaUsuario();
   username!:string;
-  //user!: Usuario;
-  //caja: Caja = new Caja();
   cajas: Caja[]=[];
   caja!:Caja;
-  //usuario!: Usuario;
   isAutenticado!: boolean;
   cajaActiva:boolean=false;
   fechaActual!: string;
 
   constructor(private fb:FormBuilder,
-              private authService: AuthService,
+              public authService: AuthService,
               private cajaService: CajaService,
               private usuarioService: UsuarioService,
               private alertService: AlertService,
@@ -48,18 +45,13 @@ export class AperturaCierreCajaComponent implements OnInit ,AfterViewInit {
     this.createForm();
     if(this.authService.isAuthenticated()){
       this.username = this.authService.usuario.username;
-      //debugger;
-      //console.log(this.authService.usuario.username);
       this.usuarioService.getUsuarioByUsername(this.username).subscribe(resp => this.cajaUsuario.usuario = resp)
     }
   }
 
   ngAfterViewInit(): void {
     this.fechaActual = moment().format('DD-MM-YYYY hh:mm:ss');
-    //this.datePipe.transform(new Date(), 'dd-MM-yyyy')!;
     this.obtenerTodoCajas();
-        //this.setValuesControls(null);
-    //    debugger;
     console.log(this.username);
     this.cajaService.getCajaUsuarioByUserName(this.username).subscribe(
           result => {

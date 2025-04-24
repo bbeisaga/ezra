@@ -49,20 +49,7 @@ export class ClientesComponent implements OnInit , AfterViewInit{
     }
 
 
-  ngOnInit() {
-
-    //this.loadtemporal()
-    //});
-/*
-    this.modalService.notificarUpload.subscribe(cliente => {
-      this.clientes = this.clientes.map(clienteOriginal => {
-        if (cliente.id == clienteOriginal.id) {
-          clienteOriginal.foto = cliente.foto;
-        }
-        return clienteOriginal;
-      })
-    }) */
-  }
+  ngOnInit() {}
 
   ngAfterViewInit(): void {
     this.sort.sortChange.subscribe(() => {
@@ -87,35 +74,14 @@ export class ClientesComponent implements OnInit , AfterViewInit{
         pageSize: this.paginator.pageSize,
         query: !!this.querySearch ? this.querySearch:''
       };
-/*       console.log(!!this.querySearch);
-      if(!!this.querySearch ){
-        params.query = this.querySearch
-      } */
 
       this.clienteService.getAllClientesPageable(params).subscribe(response => {
         this.dataSource = response.content as Cliente[];
-        //this.clientes = this.dataSource;
         this.pageable = response;
-
-       /* this.dataSource = new MatTableDataSource(this.clientes);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.orberBy; */
-
       });
-/*       this.isLoading = false;
-    } catch (error) {
-      console.log("error")
-
-      this.isLoading = true;
-    } */
 
   }
 
-
-/*   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  } */
 
   searchEvent(query: string): void {
     this.querySearch = query;
@@ -142,36 +108,6 @@ export class ClientesComponent implements OnInit , AfterViewInit{
         }
       });
 
-
-/*
-
-
-     swal.fire({
-      title: 'Está seguro?',
-      text: `¿Seguro que desea eliminar al cliente ${cliente.nombres} ${cliente.apellidos}?`,
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar!',
-      cancelButtonText: 'No, cancelar!',
-      buttonsStyling: false,
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-
-        this.clienteService.delete(cliente.id).subscribe(
-          () => {
-            this.dataSource = this.clientes.filter(cli => cli !== cliente)
-            swal.fire(
-              'Cliente Eliminado!',
-              `Cliente ${cliente.nombres} eliminado con éxito.`,
-              'success'
-            )
-          }
-        )
-
-      }
-    });  */
   }
 
   abrirModal(cliente: Cliente) {

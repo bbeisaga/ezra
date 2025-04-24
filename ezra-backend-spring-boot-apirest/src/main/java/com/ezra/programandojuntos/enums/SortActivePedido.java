@@ -1,8 +1,7 @@
 package com.ezra.programandojuntos.enums;
 
 public enum SortActivePedido {
-	NOMBRES("cliente.nombres"), 
-	APELLIDOS("cliente.apellidos"),
+	NOMBRES("cliente.nomApellRz"), 
 	CREATEAT("createAt"),
 	ENTREGADOEN("entregadoEn"),
 	SALDOPEDIDO("saldoPedido"),

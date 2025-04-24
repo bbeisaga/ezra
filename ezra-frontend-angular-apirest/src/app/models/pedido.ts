@@ -17,8 +17,8 @@ export class Pedido {
   costoNetoTotal:number=0;
   precioBrutoTotal!:number;
   precioNetoTotal:number=0;
-  pagoTotal!:number;
-  vueltoTotal!:number;
+  pagoTotal:number=0;
+  vueltoTotal:number=0;
   saldoPedido!:number;
   flujoEfectivoTotal!:number;
 

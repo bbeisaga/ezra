@@ -18,6 +18,7 @@ import { TipoPedido } from '../../../models/tipo-pedido';
 import { AlertService } from '../../../services/alert.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DetalleItemPedidoComponent } from './detalle-item-pedido/detalle-item-pedido.component';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-form-pedido',
@@ -40,7 +41,8 @@ export class FormPedidoComponent implements OnInit {
       private pedidoService: PedidoService,
       private productoService: ProductoService,
       private alertService: AlertService,
-      private genericosDeProductoService: GenericosDeProductoService,
+      //private genericosDeProductoService: GenericosDeProductoService,
+      public authService:AuthService,
       public matDialog: MatDialog,
       private router: Router,
       private activatedRoute: ActivatedRoute) { }

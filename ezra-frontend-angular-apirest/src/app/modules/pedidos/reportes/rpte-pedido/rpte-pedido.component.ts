@@ -73,13 +73,6 @@ export class RptePedidoComponent implements OnInit {
     })
   }
 
-/*   private getFilename(headers: HttpHeaders): string {
-    const disposition = headers.get('Content-Disposition');
-    if (!disposition || disposition.indexOf('filename=') < 0) {
-      return '';
-    }
-    return disposition.substring(disposition.indexOf('filename=')+9, disposition.length);
-  } */
 
   cargarPagado() {
     this.pagadoLst = [/*{ id: -1, pagado: '--Seleccione' },*/

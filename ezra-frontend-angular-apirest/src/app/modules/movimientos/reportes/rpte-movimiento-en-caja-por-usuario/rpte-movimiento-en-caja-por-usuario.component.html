@@ -1,9 +1,17 @@
-<p>rpte-movimiento-en-caja-por-usuario works!</p>
-<div>
-  <p>{{titulo}}</p>
-</div>
+<mat-card class="card">
+ <form [formGroup]="formMov">
 
-<form [formGroup]="formMov">
+  <mat-card-header class="card-header">
+    <mat-card-title>{{titulo}}</mat-card-title>
+    <div class="ms-auto">
+      <button type="submit" mat-fab extended color="primary" (click)="generarReporte()">
+        Descargar reporte
+        <mat-icon>download</mat-icon>
+      </button>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+
   <mat-form-field>
     <mat-label for="fchTimeDesde">Desde</mat-label>
     <input matInput type="datetime-local" #fchTimeDesde name="fchTimeDesde" formControlName="fchTimeDesde">
@@ -30,10 +38,8 @@
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
-  <div class="button-group d-flex justify-content-end">
-    <button type="submit" mat-fab extended color="primary" (click)="generarReporte()">
-      Descargar reporte
-      <mat-icon>download</mat-icon>
-    </button>
-  </div>
-</form>
+
+  </mat-card-content>
+  </form>
+
+</mat-card>
