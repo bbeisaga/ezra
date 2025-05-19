@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ezra.programandojuntos.errors.CajaUsuarioMapErrors;
+import com.ezra.programandojuntos.exceptions.CajaUsuarioExceptions;
 import com.ezra.programandojuntos.models.dao.IMovimientoCajaDao;
 import com.ezra.programandojuntos.models.entity.CajaUsuario;
 import com.ezra.programandojuntos.models.entity.MovimientoCaja;
@@ -22,8 +24,8 @@ public class MovimientoCajaServiceImpl implements IMovimientoCajaService {
 	Logger log = LoggerFactory.getLogger(MovimientoCajaServiceImpl.class);
 	
 	@Autowired
-	IMovimientoCajaDao movimientoCajaDao;
 	
+	IMovimientoCajaDao movimientoCajaDao;
 	
 	@Autowired
 	ICajaUsuarioService cajaUsuarioService;
@@ -37,7 +39,7 @@ public class MovimientoCajaServiceImpl implements IMovimientoCajaService {
 	
 	@Override
 	@Transactional
-	public MovimientoCaja saveMovimiento (MovimientoCaja movimiento){
+	public MovimientoCaja saveMovimiento (MovimientoCaja movimiento) throws CajaUsuarioExceptions{
 		log.info("MovimientoServiceImpl.saveMovimiento... movimiento={}", movimiento);
 
 		MovimientoCaja newMovimiento = null;
@@ -50,20 +52,19 @@ public class MovimientoCajaServiceImpl implements IMovimientoCajaService {
 		
 		BigDecimal newSaldoCaja = BigDecimal.valueOf(0);
 		if(movimiento.getTipoMovimientoCaja().getTipo().equalsIgnoreCase("I")) {
-			newSaldoCaja = cajaUsuario.getSaldoCaja().add(movimiento.getIngresoDinero());
+			newSaldoCaja = cajaUsuario.getSaldoCaja().add(movimiento.getIngresoDinero().abs());
 			if (newSaldoCaja.intValue() > 0) {
 				movimiento.setEgresoDinero(BigDecimal.valueOf(0));
 			}		
 		}
 		
 		if(movimiento.getTipoMovimientoCaja().getTipo().equalsIgnoreCase("E")) {
-			newSaldoCaja = cajaUsuario.getSaldoCaja().subtract(movimiento.getEgresoDinero());
+			newSaldoCaja = cajaUsuario.getSaldoCaja().subtract(movimiento.getEgresoDinero().abs());
 			if (newSaldoCaja.intValue() > 0) {
 				movimiento.setIngresoDinero(BigDecimal.valueOf(0));
-				movimiento.setEgresoDinero(movimiento.getEgresoDinero());		
+				movimiento.setEgresoDinero(movimiento.getEgresoDinero().abs());		
 			} else {
-				return null;
-				//el saldo en caja no es suficiente para la transaccion
+				throw new CajaUsuarioExceptions(CajaUsuarioMapErrors.getErrorString(CajaUsuarioMapErrors.CODE_SALDO_INSUFICIENTE));
 			}
 		}
 //		cajaUsuario.setSaldoCaja(newSaldoCaja);

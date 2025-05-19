@@ -58,6 +58,8 @@ public class Cliente implements Serializable {
 	private String nomApellRz;
 	
 	//@NotEmpty(message = "no puede estar vacio")
+	@Size(min = 2, message = "el tamaño muy pequeño")
+	@Column(name = "direccion")
 	private String direccion;
 
 

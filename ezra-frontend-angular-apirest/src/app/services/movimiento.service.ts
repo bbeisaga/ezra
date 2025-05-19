@@ -81,6 +81,7 @@ export class MovimientoService {
           if (e.error.mensaje) {
             this.alertService.error(e.error.mensaje, e.error.err);
           }
+
           return throwError(e);
         }));
   }

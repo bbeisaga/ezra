@@ -174,10 +174,14 @@ public class MovimientoServiceImpl implements IMovimientoService {
 		}
 		if (movimiento.getPedido().getTipoPedido().getId() == IPedidoService.TIPO_PEDIDO_COMPRA) {
 			if (movimiento.getTipoMovimientoPedido().getTipo().equals("E")) {
+				if (movimiento.getPedido().getSaldoPedido().intValue() < 1) {
+					throw new MovimientoExceptions(
+							MovimientoMapError.getErrorString(MovimientoMapError.CODE_COMPRA_SIN_SALDO));
+				}
 				if (movimiento.getEgresoDinero().intValue() < 0) {
 					throw new MovimientoExceptions(
 							MovimientoMapError.getErrorString(MovimientoMapError.CODE_COMPRA_AL_PROVEEDOR));
-				}
+				}	
 			}
 			if (movimiento.getTipoMovimientoPedido().getTipo().equals("I")) {
 				if (movimiento.getPedido().getFlujoEfectivoTotal().intValue() < 1) {

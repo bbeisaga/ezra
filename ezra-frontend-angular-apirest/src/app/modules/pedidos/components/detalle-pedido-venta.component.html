@@ -45,34 +45,50 @@
             <td>{{item.producto.nombre}}</td>
             <td>{{item.descripcion}}</td>
             <td>{{item.cantidad}}</td>
-            <td>{{item.producto.precioNeto}}</td>
-            <td>{{item.importe}} </td>
+            <td>{{item.producto.precioNeto | currency: 'PEN'}}</td>
+            <td>{{item.importe| currency: 'PEN'}} </td>
           </tr>
         </tbody>
       </table>
       <div class="d-flex flex-row justify-content-end">
         <div class="card border-info" style="margin-right: 5px;">
           <div class="card card-header">
-            GRANT TOTAL
+            PRECIO TOTAL
           </div>
           <div class="card card-body" >
-            <p style="font-size: 30px; font-weight: bolder;">{{pedido.precioNetoTotal| number:'2.2-2'}}</p>
+            <p style="font-size: 30px; font-weight: bolder;">{{pedido.precioNetoTotal| currency: 'PEN'}}</p>
           </div>
         </div>
         <div class="card border-info" style="margin-right: 5px;">
           <div class="card card-header">
-            PAGADO
+            PAGO TOTAL
           </div>
           <div class="card card-body" >
-            <p style="font-size: 30px; font-weight: bolder;">{{pedido.pagoTotal | number:'2.2-2'}}</p>
+            <p style="font-size: 30px; font-weight: bolder; color: blue;">{{pedido.pagoTotal | currency: 'PEN'}}</p>
           </div>
         </div>
         <div class="card border-info">
           <div class="card card-header">
-            PENDIENTE DE PAGO
+            VUELTO TOTAL
           </div>
           <div class="card card-body" >
-            <p style="font-size: 30px; font-weight: bolder; color: red;">{{pedido.saldoPedido| number:'2.2-2'}}</p>
+            <p style="font-size: 30px; font-weight: bolder; color: red;">{{pedido.vueltoTotal| currency: 'PEN'}}</p>
+          </div>
+        </div>
+        <div class="card border-info">
+          <div class="card card-header">
+            FLUJO EFECTIVO
+          </div>
+          <div class="card card-body" >
+            <p style="font-size: 30px; font-weight: bolder;">{{pedido.flujoEfectivoTotal| currency: 'PEN'}}</p>
+          </div>
+        </div>
+        <div class="card border-info">
+          <div class="card card-header">
+            SALDO
+          </div>
+          <div class="card card-body" >
+            <p style="font-size: 30px; font-weight: bolder;">{{pedido.saldoPedido| currency: 'PEN'}}</p>
           </div>
         </div>
       </div>

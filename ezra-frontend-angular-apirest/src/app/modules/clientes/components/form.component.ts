@@ -7,6 +7,7 @@ import swal from 'sweetalert2';
 import { TipoDocumento } from '../../../models/tipo-documento';
 import { AlertService } from '../../../services/alert.service';
 import { AuthService } from '../../../services/auth.service';
+import { findIndex } from 'lodash';
 
 @Component({
   selector: 'app-form',
@@ -28,20 +29,29 @@ export class FormComponent implements OnInit {
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this.clienteService.getTipoDocumento().subscribe(doc => {
+      this.tipoDocumentos = doc
+    });
+
     this.activatedRoute.paramMap.subscribe(params => {
       let id = +params.get('id')!;
       if (id) {
-        this.clienteService.getCliente(id).subscribe((cliente) => {this.cliente = cliente});
-        //console.log("clienteeeeeeeeeee=>", this.cliente);
+        this.titulo = "Editar cleinte o proveedor"
+
+        this.clienteService.getCliente(id).subscribe((cliente) => {
+          this.cliente = cliente
+          const index = this.findIndexDocument(this.cliente.tipoDocumento.id);
+          this.tipoDocumentoSelected = this.tipoDocumentos[index];
+        });
       }
     });
 
 
-    this.clienteService.getTipoDocumento().subscribe(doc => {
-      this.tipoDocumentos = doc
-      //console.log("documentos=>", this.tipoDocumentos);
-      this.tipoDocumentoSelected = this.tipoDocumentos[0]
-    });
+
+  }
+
+  findIndexDocument(tipoDocumentoId: number): number {
+   return findIndex(this.tipoDocumentos,(td) => td.id ==tipoDocumentoId )
   }
 
   create(): void {

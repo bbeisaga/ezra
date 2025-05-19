@@ -8,7 +8,7 @@
     </mat-checkbox>
   </span>
   <span class="example-list-section">
-    <ul>
+    <ul  [ngStyle]="{'list-style':'none'}">
       <li *ngFor="let roles of checkboxModul.checkboxRoles">
         <mat-checkbox [(ngModel)]="roles.activated"
                       (ngModelChange)="updateAllComplete()">

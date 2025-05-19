@@ -1,9 +1,9 @@
 <mat-card class="card">
-  <form (ngSubmit)="onSubmitForm()">
+  <form #myForm="ngForm" (ngSubmit)="onSubmitForm()">
     <mat-card-header class="card-header">
       <mat-card-title>{{titulo}}</mat-card-title>
       <div class="ms-auto">
-        <button *ngIf="authService.hasRole('ROLE_REGISTER_PAGO_PEDIDO')" type="submit" color="primary" mat-raised-button cdkFocusInitial>
+        <button *ngIf="authService.hasRole('ROLE_REGISTER_PAGO_PEDIDO')"  type="submit" color="primary" mat-raised-button cdkFocusInitial [disabled] = "!myForm.form.valid">
           Registrar pago</button>
         <button  color="primary" mat-raised-button [routerLink]="['/pedidos']">
           Cancelar
@@ -41,7 +41,7 @@
       </mat-form-field>
       <ng-container *ngIf="pedido.tipoPedido.nombre=='VENTA AL CLIENTE'">
         <mat-form-field *ngIf="iMovimiento=='I'">
-          <mat-label>SALDO NETO PENDIENTE</mat-label>
+          <mat-label>SALDO NETO</mat-label>
           <input matInput type="text" name="saldoPedido" #saldoPedido="ngModel" [(ngModel)]="pedido.saldoPedido" disabled>
         </mat-form-field>
         <mat-form-field *ngIf="iMovimiento=='E'">
@@ -51,7 +51,7 @@
       </ng-container>
       <ng-container *ngIf="pedido.tipoPedido.nombre=='COMPRA O ADQUISICION'">
         <mat-form-field *ngIf="iMovimiento=='E'">
-          <mat-label>SALDO NETO PENDIENTE</mat-label>
+          <mat-label>SALDO NETO</mat-label>
           <input matInput type="text" name="saldoPedido" #saldoPedido="ngModel" [(ngModel)]="pedido.saldoPedido" disabled>
         </mat-form-field>
         <mat-form-field *ngIf="iMovimiento=='I'">
@@ -59,10 +59,11 @@
           <input matInput type="text" name="flujoEfectivoTotal" #flujoEfectivoTotal="ngModel" [(ngModel)]="pedido.flujoEfectivoTotal" disabled>
         </mat-form-field>
       </ng-container>
+
       <ng-container *ngIf="pedido.cliente">
           <mat-form-field *ngIf="iMovimiento=='I'">
             <mat-label>INGRESO DINERO</mat-label>
-            <input matInput type="number" name="ingresoDinero" #ingresoDinero="ngModel" [(ngModel)]="movimiento.ingresoDinero" (keyup)="setMovimientoDinero(iMovimiento)"  required>
+            <input matInput type="number" name="ingresoDinero" #ingresoDinero="ngModel" [(ngModel)]="movimiento.ingresoDinero" (keyup)="setMovimientoDinero(iMovimiento)" min="0" required>
             <div *ngIf="ingresoDinero.invalid && (ingresoDinero.dirty || ingresoDinero.touched)">
               <mat-error *ngIf="ingresoDinero?.errors?.['required']">
                 Pago es requerido
@@ -71,7 +72,7 @@
           </mat-form-field>
           <mat-form-field *ngIf="iMovimiento=='E'">
             <mat-label>EGRESO DINERO</mat-label>
-            <input matInput type="number" name="egresoDinero" #egresoDinero="ngModel" [(ngModel)]="movimiento.egresoDinero" (keyup)="setMovimientoDinero(iMovimiento)" required>
+            <input matInput type="number" name="egresoDinero" #egresoDinero="ngModel" [(ngModel)]="movimiento.egresoDinero" (keyup)="setMovimientoDinero(iMovimiento)" min="0" required>
             <div *ngIf="egresoDinero.invalid && (egresoDinero.dirty || egresoDinero.touched)">
               <mat-error *ngIf="egresoDinero?.errors?.['required']">
                 Pago es requerido
@@ -83,43 +84,54 @@
         <mat-label>Tipo pago</mat-label>
         <mat-select
           name="tipoPago"
-          [(ngModel)]="movimiento.tipoPago">
+          [(ngModel)]="movimiento.tipoPago" required>
           <mat-option *ngFor="let tipoPago of tipoPagos" [value]="tipoPago">
             {{tipoPago.nombre}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-<!--       <ng-container>
-          <mat-checkbox name="aceptado" #aceptado="ngModel" [(ngModel)]="pedido.aceptado">
-            El cliente ACEPTA y recibio su pedido (No tiene ningun error)
-          </mat-checkbox>
-      </ng-container> -->
     </mat-card-content>
   </form>
 
     <div class="d-flex flex-row justify-content-center">
-        <div class="card border-info" style="margin-right: 5px;">
-          <div class="card card-header">
-            SALDO NETO TOTAL
-          </div>
+      <ng-container *ngIf="pedido.tipoPedido.nombre=='VENTA AL CLIENTE' ">
+        <div *ngIf="iMovimiento=='I'" class="card border-info" style="margin-right: 5px;">
+          <div class="card card-header">SALDO NETO</div>
           <div class="card card-body" >
-            <p style="font-size: 30px; font-weight: bolder;">{{pedido.saldoPedido| number:'2.2-2'}}</p>
+            <p class="black">{{pedido.saldoPedido| currency: 'PEN'}}</p>
           </div>
         </div>
-        <div class="card border-info" style="margin-right: 5px;">
-          <div class="card card-header">
-            PAGO
-          </div>
+        <div *ngIf="iMovimiento=='E'" class="card border-info" style="margin-right: 5px;">
+          <div class="card card-header">FLUJO EFECTIVO</div>
           <div class="card card-body" >
-            <p style="font-size: 30px; font-weight: bolder;">{{movimiento.ingresoDinero| number:'2.2-2'}}</p>
+            <p class="black">{{pedido.flujoEfectivoTotal| currency: 'PEN'}}</p>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="pedido.tipoPedido.nombre=='COMPRA O ADQUISICION'">
+        <div *ngIf="iMovimiento=='E'" class="card border-info" style="margin-right: 5px;">
+          <div class="card card-header">SALDO NETO</div>
+          <div class="card card-body" >
+            <p class="black">{{pedido.saldoPedido| currency: 'PEN'}}</p>
+          </div>
+        </div>
+        <div *ngIf="iMovimiento=='I'" class="card border-info" style="margin-right: 5px;">
+          <div class="card card-header">FLUJO EFECTIVO</div>
+          <div class="card card-body" >
+            <p class="black">{{pedido.flujoEfectivoTotal| currency: 'PEN'}}</p>
+          </div>
+        </div>
+      </ng-container>
+         <div class="card border-info" style="margin-right: 5px;">
+          <div class="card card-header">INGRESO</div>
+          <div class="card card-body" >
+            <p class="blue">{{movimiento.ingresoDinero| currency: 'PEN'}}</p>
           </div>
         </div>
         <div class="card border-info">
-          <div class="card card-header">
-            VUELTO
-          </div>
+          <div class="card card-header">EGRESO</div>
           <div class="card card-body" >
-            <p style="font-size: 30px; font-weight: bolder; color: red;">{{movimiento.egresoDinero| number:'2.2-2'}}</p>
+            <p class="red">{{movimiento.egresoDinero| currency: 'PEN'}}</p>
           </div>
         </div>
     </div>

@@ -25,7 +25,7 @@ public class CajaUsuarioRepositoryImpl extends GenericRepository implements Caja
 
 	@Override
 	public List<CajaUsuarioReporte> listarCajaUsuarioConFiltros(ReportArray reporte){
-		String sql = "SELECT cj.nombre AS nombreCaja, us.apellido AS apellidoUsuario, us.nombre AS nombreUsuario, "
+		String sql = "SELECT cj.nombre AS nombreCaja, us.apellidos AS apellidoUsuario, us.nombres AS nombreUsuario, "
 				+ "cu.fecha_apertura, cu.fecha_actualizacion, cu.fecha_cierre, cu.ingreso_esperado, cu.egreso_esperado, "
 				+ "cu.saldo_caja,cu.saldo_por_conteo "
 				+ "FROM caja_usuarios cu "

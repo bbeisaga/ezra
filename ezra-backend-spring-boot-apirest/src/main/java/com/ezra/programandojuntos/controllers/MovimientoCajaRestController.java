@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ezra.programandojuntos.exceptions.CajaUsuarioExceptions;
 import com.ezra.programandojuntos.models.entity.MovimientoCaja;
 import com.ezra.programandojuntos.models.entity.TipoMovimientoCaja;
 import com.ezra.programandojuntos.models.services.IMovimientoCajaService;
@@ -59,9 +60,15 @@ public class MovimientoCajaRestController {
 		
 		try {
 			movimientoNew = movimientoCajaService.saveMovimiento(movimientoCaja);
-		} catch(DataAccessException e) {
+		} catch(CajaUsuarioExceptions e) {
+			response.put("mensaje", e.getMessage());
+			response.put("err", "Error");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		 
+		catch(DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert movimientos en la base de datos");
-			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			response.put("err", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		

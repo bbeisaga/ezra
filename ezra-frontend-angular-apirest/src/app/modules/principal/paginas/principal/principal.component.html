@@ -61,11 +61,11 @@
       </ng-container>
       <ng-container *ngIf="authService.hasRole('ROLE_REPORT_MOVCAJA')">
         <a mat-list-item [routerLink]="['/movimientos/rpte-mov-en-caja']" [routerLinkActive]="['active']">Reporte
-        movimiento</a>
+        movimientos</a>
       </ng-container>
       <ng-container *ngIf="authService.hasRole('ROLE_REPORT_MOVCAJA_USUARIO')">
         <a mat-list-item [routerLink]="['/movimientos/rpte-mov-en-caja-por-usuario']"
-        [routerLinkActive]="['active']">Reporte movimiento por usuario</a>
+        [routerLinkActive]="['active']">Reporte movimientos por cajero</a>
       </ng-container>
       <!----------------------4-------------------->
       <div mat-subheader *ngIf="authService.hasRole('ROLE_OPEN_CJU') || authService.hasRole('ROLE_CLOSE_CJU') || authService.hasRole('ROLE_REPORT_USUARIO_CJU') || authService.hasRole('ROLE_REPORT_CJU')">
@@ -76,7 +76,7 @@
       </ng-container>
       <ng-container *ngIf="authService.hasRole('ROLE_REPORT_USUARIO_CJU')">
         <a mat-list-item [routerLink]="['/cajas/rpte-caja-por-usuario']" [routerLinkActive]="['active']">Reporte caja por
-          usuario</a>
+          cajero</a>
       </ng-container>
       <ng-container *ngIf="authService.hasRole('ROLE_REPORT_CJU')">
         <a mat-list-item [routerLink]="['/cajas/rpte-caja']" [routerLinkActive]="['active']">Reporte caja</a>

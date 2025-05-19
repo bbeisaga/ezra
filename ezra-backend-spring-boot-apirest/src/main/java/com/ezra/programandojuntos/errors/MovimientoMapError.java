@@ -33,6 +33,9 @@ public class MovimientoMapError {
 	public static final String CODE_SALDO_INSUFICIENTE_CJU = "M008";
 	public static final String MSJ_SALDO_INSUFICIENTE_CJU = "SALDO INSUFICIENTE en caja";
 	
+	public static final String CODE_COMPRA_SIN_SALDO = "M009";
+	public static final String MSJ_COMPRA_SIN_SALDO = "COMPRA DE MATERIAL O INSUMOS AL PROVEEDOR no puede realizarse si no hay saldo";
+	
 	//bloque estaitco se jecuta una sola vez
 	static {
 		errors = new TreeMap<>();

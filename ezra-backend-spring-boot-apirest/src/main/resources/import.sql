@@ -52,13 +52,13 @@ INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (2,1, 'ROLE
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (2,1, 'ROLE_REGISTER_PAGO_PEDIDO','Registrar pago por pedido');
 
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (3,1, 'ROLE_REGISTER_MOVCAJA','Registro ingreso/egreso en caja chica');
-INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (3,1, 'ROLE_REPORT_MOVCAJA','Reporte de movimientos');
-INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (3,1, 'ROLE_REPORT_MOVCAJA_USUARIO','Reporte de movimientos por usuario');
+INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (3,1, 'ROLE_REPORT_MOVCAJA','Reporte de movimientos (Todo los movimientos y cajeros)');
+INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (3,1, 'ROLE_REPORT_MOVCAJA_USUARIO','Reporte de movimientos por cajero');
 
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (4,1, 'ROLE_OPEN_CJU','Apertura caja');
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (4,1, 'ROLE_CLOSE_CJU','Cierre caja');
-INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (4,1, 'ROLE_REPORT_CJU','Reporte de caja');
-INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (4,1, 'ROLE_REPORT_USUARIO_CJU','Reporte de caja por usuario');
+INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (4,1, 'ROLE_REPORT_CJU','Reporte de caja (Todos los cajas y cajeros)');
+INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (4,1, 'ROLE_REPORT_USUARIO_CJU','Reporte de caja por cajero');
 
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE_LIST_PRODUCTOS','Listar productos');
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE_SEARCH_PRODUCTO','Buscar producto');

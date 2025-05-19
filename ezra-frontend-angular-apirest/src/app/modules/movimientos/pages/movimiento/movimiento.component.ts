@@ -76,14 +76,9 @@ export class MovimientoComponent implements OnInit {
     //trae tipo de movimientos
     this.movimientoService.getAllTipoMovimientosPedido().subscribe(
       response => {
-        //this.tipoMovimientosPedidoLst = response
-        //this.movimiento.tipoMovimientoPedido = this.findTipoMovimientoPedido(1);
         this.tipoMovPedidoIngresos = response.filter(f => f.tipo == "I")
         this.tipoMovPedidoEgresos = response.filter(f => f.tipo == "E")
       })
-    //console.log()
-
-    //console.log("movimiento", this.movimiento);
   }
 
   ngAfterViewInit(): void {
@@ -119,6 +114,7 @@ export class MovimientoComponent implements OnInit {
         this.movimiento.tipoMovimientoPedido = this.findTipoMovimientoPedido(3);
       }
     }
+    this.movimiento.tipoPago = this.tipoPagos[-1]
   }
 
   findTipoMovimientoPedido(id: number): TipoMovimientoPedido {

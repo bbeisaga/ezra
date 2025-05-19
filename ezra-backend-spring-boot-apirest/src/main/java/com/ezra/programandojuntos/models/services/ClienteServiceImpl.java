@@ -123,6 +123,7 @@ public class ClienteServiceImpl implements IClienteService {
 		clienteActual.setCelular(cliente.getCelular());
 		clienteActual.setTipoDocumento(cliente.getTipoDocumento());
 		clienteActual.setNumeroDocumento(cliente.getNumeroDocumento());
+		clienteActual.setDireccion(cliente.getDireccion());
 		
 		return clienteDao.save(clienteActual);
 	}

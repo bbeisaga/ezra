@@ -66,7 +66,6 @@ export class MovimientoCajaComponent implements OnInit, AfterViewInit {
       }
     )
 
-    // trae tipo de pagos
     this.movimientoService.getAllTipoPagos().subscribe(
       response => this.tipoPagos = response
     )
@@ -84,6 +83,7 @@ export class MovimientoCajaComponent implements OnInit, AfterViewInit {
   }
 
   changeTipoMovimiento(tipo: string) {
+    //this.movimientoCaja.tipoMovimientoCaja
     this.tipoMovimientosCajaLst = []
     if (tipo == "I") {
       this.tipoMovimientosCajaLst = this.tipoMovCajaIngresos
@@ -93,6 +93,9 @@ export class MovimientoCajaComponent implements OnInit, AfterViewInit {
       this.tipoMovimientosCajaLst = this.tipoMovCajaEgresos
       this.movimientoCaja.ingresoDinero = 0;
     }
+    this.movimientoCaja.tipoMovimientoCaja = this.tipoMovimientosCajaLst[-1]
+    this.movimientoCaja.tipoPago = this.tipoPagos[-1];
+
   }
 
   findTipoMovimientoCaja(id: number): TipoMovimientoCaja {

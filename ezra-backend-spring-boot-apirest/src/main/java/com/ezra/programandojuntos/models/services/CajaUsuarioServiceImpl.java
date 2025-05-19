@@ -64,7 +64,7 @@ public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
 					movPorCju.get("egreso").add(
 					movCajaPorCju.get("egreso")));
 			cjActual.setSaldoCaja(
-					movPorCju.get("flujoEfectivo").subtract(			
+					movPorCju.get("flujoEfectivo").add(			
 					movCajaPorCju.get("flujoEfectivo")));
 			cjActual.setSaldoPorConteo(cajaUsuario.getSaldoPorConteo());
 			cjActual.setActiva(cajaUsuario.isActiva());
@@ -93,7 +93,7 @@ public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
         Map<String, BigDecimal> mapa = new HashMap<String, BigDecimal>();
         mapa.put("ingreso", ingresoCju);
         mapa.put("egreso", egresoCju);
-        mapa.put("flujoEfectivo", ingresoCju.subtract(egresoCju).abs());
+        mapa.put("flujoEfectivo", ingresoCju.subtract(egresoCju));
 		return mapa;
 	}
 	
@@ -114,7 +114,7 @@ public class CajaUsuarioServiceImpl implements ICajaUsuarioService {
         Map<String, BigDecimal> mapa = new HashMap<String, BigDecimal>();
         mapa.put("ingreso", ingresoCajaCju);
         mapa.put("egreso", egresoCajaCju);
-        mapa.put("flujoEfectivo", ingresoCajaCju.subtract(egresoCajaCju).abs());
+        mapa.put("flujoEfectivo", ingresoCajaCju.subtract(egresoCajaCju));
 		return mapa;
 	}
 	

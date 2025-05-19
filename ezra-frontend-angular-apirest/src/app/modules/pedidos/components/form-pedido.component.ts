@@ -181,9 +181,11 @@ export class FormPedidoComponent implements OnInit {
         this.pedido.tipoPedido = this.tipoPedidoVentaClientes
         console.log(JSON.stringify(this.pedido));
 
-        this.pedidoService.create(this.pedido).subscribe(json => {
-          this.alertService.success(`Pedido para ${json.pedido.cliente?.apellidos}, ${json.pedido.cliente?.nombres} creado con éxito!`,'success')
-          this.router.navigate(['/pedidos']);
+        this.pedidoService.create(this.pedido).subscribe(p => {
+          //this.alertService.success(`Pedido registrado, ahora REGISTRAR MOVIMIENTO!`,'success')
+          //this.alertService.success(`Pedido para ${p.cliente?.nomApellRz}, creado con éxito!`,'success')
+          this.pedidoService.setPedido(p);
+          this.router.navigate(['/movimientos']);
         });
       }
     }

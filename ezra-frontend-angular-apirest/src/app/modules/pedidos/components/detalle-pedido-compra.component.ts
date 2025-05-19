@@ -4,13 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Pedido } from '../../../models/pedido';
 
 @Component({
-  selector: 'app-detalle-pedido',
-  templateUrl: './detalle-pedido.component.html'
+  selector: 'app-detalle-pedido-compra',
+  templateUrl: './detalle-pedido-compra.component.html'
 })
-export class DetallePedidoComponent implements OnInit {
+export class DetallePedidoCompraComponent implements OnInit {
 
   pedido!: Pedido;
-  titulo: string = 'Pedido';
+  titulo: string = 'Pedido de compra';
   //razonSocialActivate:boolean=false;
 
   constructor(private pedidoService: PedidoService,

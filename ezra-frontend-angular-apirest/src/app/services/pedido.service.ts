@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { Pedido } from '../models/pedido';
 import { Producto } from '../models/producto';
 import { AuthService } from './auth.service';
@@ -99,6 +99,7 @@ export class PedidoService {
   create(pedido: Pedido): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/pedidos`, pedido
     ).pipe(
+      map ((response: any) => response.pedido as Pedido),
       catchError(e => {
 /*          if (e.status == 400) {
           return throwError(e);
