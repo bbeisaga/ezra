@@ -184,14 +184,14 @@ INSERT INTO materiales (id, nombre) VALUES(7,'Peltre');
 INSERT INTO materiales (id, nombre) VALUES(8,'Otro material');
 
 /*Parametros generales CATEGORIA*/
-INSERT INTO categorias (id, nombre) VALUES(0,'Seleccione la categoria');
-INSERT INTO categorias (id, nombre) VALUES(1,'Pizza');
-INSERT INTO categorias (id, nombre) VALUES(2,'Tortas');
-INSERT INTO categorias (id, nombre) VALUES(3,'Pasteles');
-INSERT INTO categorias (id, nombre) VALUES(4,'Comida');
-INSERT INTO categorias (id, nombre) VALUES(5,'Joyeria');
-INSERT INTO categorias (id, nombre) VALUES(6,'Opticas');
-INSERT INTO categorias (id, nombre) VALUES(7,'Merchandaising');
+INSERT INTO categorias (id, nombre,orden,activa,descripcion) VALUES(0,'Otros',8,1,'Todos los dmas');
+INSERT INTO categorias (id, nombre,orden,activa,descripcion) VALUES(1,'Pizza',7,1,'Tosdsdsdsds dmas');
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(2,'Tortas',6,1);
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(3,'Pasteles',5,1);
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(4,'Comida',3,1);
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(5,'Joyeria',2,1);
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(6,'Opticas',4,1);
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(7,'Merchandaising',1,1);
 
 /*Parametros generales USO*/
 INSERT INTO usos (id, nombre) VALUES(0,'Seleccione el uso Interno');

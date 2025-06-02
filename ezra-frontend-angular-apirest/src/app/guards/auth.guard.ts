@@ -17,12 +17,12 @@ export class AuthGuard implements CanActivate {
     if (this.authService.isAuthenticated()) {
       if (this.isTokenExpirado()) {
         this.authService.logout();
-        this.router.navigate(['/login']);
+        this.router.navigate(['/tienda']);
         return false;
       }
       return true;
     }
-    this.router.navigate(['/login']);
+    this.router.navigate(['/tienda']);
     return false;
   }
 

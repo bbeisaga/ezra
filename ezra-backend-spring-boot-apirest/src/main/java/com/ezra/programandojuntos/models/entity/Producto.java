@@ -8,30 +8,52 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 
 
 @Entity
 @Table(name = "productos")
+@Getter
+@Setter
 public class Producto implements Serializable {
 	
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String nombre;
+	private String nombre; //enlace permanente
+	
+	private String descripcion;
 	
 	private String medidas;
 	
 	private String peso;
 	
+	private String imagen;
+	
 //	private String marca;
 //	
 //	private String modelo;
 	
-	@Column(name = "cantidad_stock")
-	private Long cantidadStock; /*cuenta cuesta hacer el producto*/
+	@Column(name = "umbral_poca_cantidad")//muestra la cantidad restante del inventario cuando se ha baja Ejem. Solo quedan 2 exitencias
+	private Long unbralPocaCantidad; 
+	
+	@Column(name = "umbral_agotada_cantidad") //Oculta del catalogo los articulos agotados
+	private Long unbralAgotadaCantidad; 
+	
+	@Column(name = "cantidad_stock") //muestra la cantidad restante del inventario Ejem. 12 exitencias
+	private Long cantidadStock; 
+	
+	@Column(name = "min_cantidad_pedido")
+	private Long minCantidadPedido; 
+	
+	@Column(name = "max_cantidad_pedido")
+	private Long maxCantidadPedido; 
+	
+	@Column(name = "grupos_de")
+	private Long gruposDe; 
 	
 	@Column(name = "costo_unitario")
 	private BigDecimal costoUnitario; /*cuenta cuesta hacer el producto*/
@@ -39,17 +61,35 @@ public class Producto implements Serializable {
 	@Column(name = "costo_unitario_empaque")
 	private BigDecimal costoUnitarioEmpaque; /*cuenta cuesta hacer el producto*/
 	
-	
 	@Column(name = "precio_bruto")
 	private BigDecimal precioBruto; /*cubriri costo mas beneficio*/
+	
+	@Column(name = "precio_bruto_rebajado")
+	private BigDecimal precioBrutoRebajado; /*cubriri costo mas beneficio*/
 	
 	@Column(name = "precio_neto")
 	private BigDecimal precioNeto; /*Es el total mas impuestos*/
 	
-	//private Double precio; /*esto deberá borrarse*/
+	@Column(name = "precio_neto_reabajado")
+	private BigDecimal precioNetoRabajado; /*Es el total mas impuestos*/
+	
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
+	
+	@Column(name = "fch_precio_rebajado_desde")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaPrecioRebajadoDesde;
+	
+	@Column(name = "fch_precio_rebajado_hasta")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaPrecioRebajadoHasta;
+	
+	@Column(name = "productos_relacionados")
+	private String productosRelacionados; //ventas dirigidas(prod sustituto por la calidad, mas caros)
+	
+	@Column(name = "productos_promocion")
+	private String productosPromocion; //ventas cruzadas(prod adicionales al actual que podrian tener promocion)
 	
 	//@NotNull(message = "Tipo documento no puede ser vacio")
 	@JoinColumn(name = "color_id")
@@ -77,120 +117,6 @@ public class Producto implements Serializable {
 		this.createAt = new Date();
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	
-
-	public BigDecimal getCostoUnitario() {
-		return costoUnitario;
-	}
-
-	public void setCostoUnitario(BigDecimal costoUnitario) {
-		this.costoUnitario = costoUnitario;
-	}
-
-	public BigDecimal getPrecioBruto() {
-		return precioBruto;
-	}
-
-	public void setPrecioBruto(BigDecimal precioBruto) {
-		this.precioBruto = precioBruto;
-	}
-
-	public BigDecimal getPrecioNeto() {
-		return precioNeto;
-	}
-
-	public void setPrecioNeto(BigDecimal precioNeto) {
-		this.precioNeto = precioNeto;
-	}
-
-	public Date getCreateAt() {
-		return createAt;
-	}
-
-	public void setCreateAt(Date createAt) {
-		this.createAt = createAt;
-	}
-
-	public Long getCantidadStock() {
-		return cantidadStock;
-	}
-
-	public void setCantidadStock(Long cantidadStock) {
-		this.cantidadStock = cantidadStock;
-	}
-
-
-
-	public String getPeso() {
-		return peso;
-	}
-
-	public void setPeso(String peso) {
-		this.peso = peso;
-	}
-
-	public BigDecimal getCostoUnitarioEmpaque() {
-		return costoUnitarioEmpaque;
-	}
-
-	public void setCostoUnitarioEmpaque(BigDecimal costoUnitarioEmpaque) {
-		this.costoUnitarioEmpaque = costoUnitarioEmpaque;
-	}
-
-	public String getMedidas() {
-		return medidas;
-	}
-
-	public void setMedidas(String medidas) {
-		this.medidas = medidas;
-	}
-
-	public Color getColor() {
-		return color;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
-	}
-
-	public Material getMaterial() {
-		return material;
-	}
-
-	public void setMaterial(Material material) {
-		this.material = material;
-	}
-
-	public Categoria getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
-
-	public Uso getUso() {
-		return uso;
-	}
-
-	public void setUso(Uso uso) {
-		this.uso = uso;
-	}
 
 	private static final long serialVersionUID = 1L;
 }

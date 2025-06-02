@@ -18,17 +18,20 @@ import { Material } from '../models/material';
 import { Origen } from '../models/origen';
 import { Producto } from '../models/producto';
 import { Uso } from '../models/uso';
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductoService {
 
-  constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
+  constructor(private http: HttpClient,
+    private router: Router,
+    private authService: AuthService,
+    private alertService: AlertService) { }
 
   getCategoriasProducto(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>(environment.apiUrl + '/producto/categorias'
-    );
+    return this.http.get<Categoria[]>(environment.apiUrl + '/producto/categorias');
   }
 
   getColoresProducto(): Observable<Color[]> {
@@ -36,20 +39,20 @@ export class ProductoService {
     );
   }
 
-/*   getEmpaquesProducto(): Observable<Empaque[]> {
-    return this.http.get<Empaque[]>(`${environment.apiUrl}/producto/empaques`
-    );
-  } */
+  /*   getEmpaquesProducto(): Observable<Empaque[]> {
+      return this.http.get<Empaque[]>(`${environment.apiUrl}/producto/empaques`
+      );
+    } */
 
   getMaterialesProducto(): Observable<Material[]> {
     return this.http.get<Material[]>(`${environment.apiUrl}/producto/materiales`
     );
   }
 
-/*   getOrigenesProducto(): Observable<Origen[]> {
-    return this.http.get<Origen[]>(`${environment.apiUrl}/producto/origenes`
-    );
-  } */
+  /*   getOrigenesProducto(): Observable<Origen[]> {
+      return this.http.get<Origen[]>(`${environment.apiUrl}/producto/origenes`
+      );
+    } */
 
   getUsosInternoProducto(): Observable<Uso[]> {
     return this.http.get<Uso[]>(`${environment.apiUrl}/producto/usos`
@@ -57,9 +60,13 @@ export class ProductoService {
   }
 
   getAllProductosPageable(params: any): Observable<PageableResponse> {
-    return this.http.get<any>(`${environment.apiUrl}/producto/pageable`,{
-      params : params,
+    return this.http.get<any>(`${environment.apiUrl}/producto/pageable`, {
+      params: params,
     });
+  }
+
+  getAllProducto(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${environment.apiUrl}/productos`);
   }
 
   filtrarProductos(term: string): Observable<Producto[]> {
@@ -67,27 +74,45 @@ export class ProductoService {
     );
   }
 
-/*   getClientes(page: number): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/clientes` + '/page/' + page).pipe(
-      tap((response: any) => {
-        console.log('ClienteService: tap 1');
-        (response.content as Cliente[]).forEach(cliente => console.log(cliente.nombres));
-      }),
-      map((response: any) => {
-        (response.content as Cliente[]).map(cliente => {
-          cliente.nombres = cliente.nombres.toUpperCase();
-          return cliente;
-        });
-        return response;
-      }),
-      tap(response => {
-        console.log('ClienteService: tap 2');
-        (response.content as Cliente[]).forEach(cliente => console.log(cliente.nombres));
-      }));
-  } */
+  /*   getClientes(page: number): Observable<any> {
+      return this.http.get(`${environment.apiUrl}/clientes` + '/page/' + page).pipe(
+        tap((response: any) => {
+          console.log('ClienteService: tap 1');
+          (response.content as Cliente[]).forEach(cliente => console.log(cliente.nombres));
+        }),
+        map((response: any) => {
+          (response.content as Cliente[]).map(cliente => {
+            cliente.nombres = cliente.nombres.toUpperCase();
+            return cliente;
+          });
+          return response;
+        }),
+        tap(response => {
+          console.log('ClienteService: tap 2');
+          (response.content as Cliente[]).forEach(cliente => console.log(cliente.nombres));
+        }));
+    } */
 
   createProducto(producto: Producto): Observable<Producto> {
     return this.http.post(`${environment.apiUrl}/producto`, producto
+      /*,{headers: this.agregarAuthorizationHeader()}*/
+    )
+      .pipe(
+        map((response: any) => response.prodcuto as Producto),
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+  }
+
+  createProductoImagen(formData: FormData): Observable<Producto> {
+
+    return this.http.post(`${environment.apiUrl}/producto-image`, formData
       /*,{headers: this.agregarAuthorizationHeader()}*/
     )
       .pipe(
@@ -144,15 +169,23 @@ export class ProductoService {
       }));
   }
 
-/*   subirFoto(archivo: File, id: any): Observable<HttpEvent<{}>> {
+  subirImagen(archivo: File, productoId: any): Observable<Producto> {
     let formData = new FormData();
     formData.append("archivo", archivo);
-    formData.append("id", id);
+    formData.append("productoId", productoId);
 
-    const req = new HttpRequest('POST', `${environment.apiUrl}/clientes/upload`, formData, {
-      reportProgress: true
-    });
+    /*     const req = new HttpRequest('POST', `${environment.apiUrl}/clientes/upload`, formData, {
+          reportProgress: true
+        }); */
 
-    return this.http.request(req);
-  } */
+    return this.http.post<any>(`${environment.apiUrl}/upload-imagen/`, formData).pipe(
+      map(response => response.producto as Producto),
+      catchError(e => {
+        if (e.error.mensaje) {
+          this.alertService.error(e.error.mensaje, e.error.err);
+        }
+        return throwError(e);
+      })
+    )
+  }
 }

@@ -14,6 +14,11 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ZonaHorariaDefectoService } from './services/zona-horaria-defecto.service';
 import  localeEsPE  from '@angular/common/locales/es-PE';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { PaginaTiendaComponent } from './modules/tienda/pages/pagina-tienda.component';
+import { IdentidadComponent } from './modules/tienda/components/identidad/identidad.component';
+import { CabeceraComponent } from './modules/tienda/components/cabecera/cabecera.component';
+import { MenuHorizontalComponent } from './modules/tienda/components/menu-horizontal/menu-horizontal.component';
+import { ProductosPorCategoriaComponent } from './modules/tienda/pages/productos-por-categoria.component';
 
 
 registerLocaleData(localeEsPE);
@@ -22,6 +27,11 @@ registerLocaleData(localeEsPE);
   declarations: [
     AppComponent,
     LoginComponent,
+    PaginaTiendaComponent,
+    IdentidadComponent,
+    CabeceraComponent,
+    MenuHorizontalComponent,
+    ProductosPorCategoriaComponent,
   ],
   imports: [
     CommonModule,

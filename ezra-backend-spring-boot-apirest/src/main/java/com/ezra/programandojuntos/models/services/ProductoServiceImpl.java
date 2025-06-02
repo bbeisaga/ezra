@@ -1,23 +1,22 @@
 package com.ezra.programandojuntos.models.services;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ezra.programandojuntos.models.dao.IProductoDao;
 import com.ezra.programandojuntos.models.entity.Categoria;
-import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.Color;
 import com.ezra.programandojuntos.models.entity.Material;
 import com.ezra.programandojuntos.models.entity.Producto;
-import com.ezra.programandojuntos.models.entity.TipoDocumento;
 import com.ezra.programandojuntos.models.entity.Uso;
 
 @Service
@@ -25,11 +24,20 @@ public class ProductoServiceImpl implements ProductoService {
 	
 	@Autowired
 	private IProductoDao productoDao;
+	
+	@Autowired
+	private IUploadFileService uploadFileService;
 
 	@Override
 	@Transactional(readOnly = true)
 	public List<Producto> findProductoByNombre(String term) {
 		return productoDao.findByNombreContainingIgnoreCase(term);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Producto> findAllProductos() {
+		return (List<Producto>) productoDao.findAll();
 	}
 	
 	@Override
@@ -75,6 +83,28 @@ public class ProductoServiceImpl implements ProductoService {
 		return productoDao.save(producto);
 	}
 	
+	
+	@Override
+	public Producto crearConImagen(Producto producto, MultipartFile archivo) throws IOException {
+		String nombreArchivo = null;
+//		if(archivo == null) {
+//			nombreArchivo = "sin-imagen";
+//		} else {
+			nombreArchivo = uploadFileService.copyFileToPath(archivo);
+			String nombreImagenAnterior = producto.getImagen();
+			if(nombreImagenAnterior != null && nombreImagenAnterior.length() > 0 ) {
+				Path rutaImagenAnterior = uploadFileService.getPath(nombreImagenAnterior); 
+				File archivoImagenAnterior = rutaImagenAnterior.toFile();
+				if(archivoImagenAnterior.exists() && archivoImagenAnterior.canRead()) {
+					archivoImagenAnterior.delete();
+				}
+			}
+		//}
+		producto.setImagen(nombreArchivo);
+		return productoDao.save(producto);
+
+	}
+
 	@Override
 	@Transactional
 	public Producto actualizar(Producto producto, Long id) {
@@ -93,6 +123,12 @@ public class ProductoServiceImpl implements ProductoService {
 		productoActual.setMaterial(producto.getMaterial());
 		productoActual.setCategoria(producto.getCategoria());
 		productoActual.setUso(producto.getUso());		
+		return productoDao.save(producto);
+	}
+	
+	@Override
+	@Transactional
+	public Producto guardar(Producto producto) {	
 		return productoDao.save(producto);
 	}
 

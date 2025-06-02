@@ -31,7 +31,7 @@ public class UploadFileServiceImpl implements IUploadFileService{
 		Resource recurso = new UrlResource(rutaArchivo.toUri());
 		
 		if(!recurso.exists() && !recurso.isReadable()) {
-			rutaArchivo = Paths.get("src/main/resources/static/images").resolve("no-usuario.png").toAbsolutePath();
+			rutaArchivo = Paths.get("src/main/resources/static/images").resolve("no-imagen.png").toAbsolutePath();
 			
 			recurso = new UrlResource(rutaArchivo.toUri());
 			
@@ -42,13 +42,11 @@ public class UploadFileServiceImpl implements IUploadFileService{
 	}
 
 	@Override
-	public String copiar(MultipartFile archivo) throws IOException {
+	public String copyFileToPath(MultipartFile archivo) throws IOException {
 		
-		String nombreArchivo = UUID.randomUUID().toString() + "_" +  archivo.getOriginalFilename().replace(" ", "");
-		
+		String nombreArchivo = UUID.randomUUID().toString() + "_" +  archivo.getOriginalFilename().replace(" ", "-");
 		Path rutaArchivo = getPath(nombreArchivo);
 		log.info(rutaArchivo.toString());
-		
 		Files.copy(archivo.getInputStream(), rutaArchivo);
 		
 		return nombreArchivo;
@@ -70,8 +68,8 @@ public class UploadFileServiceImpl implements IUploadFileService{
 	}
 
 	@Override
-	public Path getPath(String nombreFoto) {
-		return Paths.get(DIRECTORIO_UPLOAD).resolve(nombreFoto).toAbsolutePath();
+	public Path getPath(String nombreImagen) {
+		return Paths.get(DIRECTORIO_UPLOAD).resolve(nombreImagen).toAbsolutePath();
 	}
 
 }

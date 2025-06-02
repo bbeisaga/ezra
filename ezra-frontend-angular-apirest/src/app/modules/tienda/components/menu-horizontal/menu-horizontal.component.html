@@ -1,0 +1,35 @@
+<!-- <div class="container">
+ -->
+  <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mx-auto">
+          <a class="nav-link" href="#" (click)="setLinkActive($event)">HOME</a>
+          @for (categoria of lstCategoria; track $index) {
+          <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle"
+              [id]="$index"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              (click)="activateCategory(categoria)">
+              {{categoria.nombre | uppercase}}</a>
+            <div class="dropdown-menu" [attr.aria-labelledby]="$index">
+              @for (producto of categoria.productos; track $index) {
+              <a class="dropdown-item" href="#">{{producto.nombre}}</a>
+              }
+            </div>
+
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </nav>
+
+<!-- </div>
+ -->

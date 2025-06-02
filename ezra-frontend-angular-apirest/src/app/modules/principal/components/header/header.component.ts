@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
     this.alertService.success(`Hola ${username}, has cerrado sesión con éxito!`,'Cerrar sesión');
     //swal.fire('Logout', `Hola ${username}, has cerrado sesión con éxito!`, 'success');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/tienda']);
   }
 
   sideNavToggle(): void {

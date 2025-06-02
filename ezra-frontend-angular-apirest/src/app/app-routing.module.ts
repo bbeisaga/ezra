@@ -7,9 +7,16 @@ import { PrincipalModule } from './modules/principal/principal.module';
 import { LoginComponent } from './modules/auth/login.component';
 import { DashboardComponent } from './modules/home/pages/dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
+import { PaginaTiendaComponent } from './modules/tienda/pages/pagina-tienda.component';
+import { ProductosPorCategoriaComponent } from './modules/tienda/pages/productos-por-categoria.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+/*   { path: 'login', component: LoginComponent },
+ */
+  { path: 'tienda', component: PaginaTiendaComponent,
+    children:[
+      {path: 'productos-categoria/:catId', component: ProductosPorCategoriaComponent}
+  ] },
   { path: '', component: PrincipalComponent ,
     children:[
       { path: '',
@@ -36,9 +43,6 @@ const routes: Routes = [
       }
 
     ]
-
-
-
   },
   //{ path: 'pr',  loadChildren: () =>import("./modules/principal/principal.module").then((m) => m.PrincipalModule),},
   //{ path: 'reset-password', component: AyudaComponent },

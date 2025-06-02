@@ -38,6 +38,7 @@ export class FormProductoComponent implements OnInit, AfterViewInit {
   //genericosDeProducto = new GenericosDeProducto();
   genericosDeProducto:GenericosDeProducto[]=[];
   errores: string[]=[];
+  private imagenSeleccionada!:File;
 
   constructor(private productoService: ProductoService,
     private router: Router,
@@ -152,5 +153,39 @@ export class FormProductoComponent implements OnInit, AfterViewInit {
     }
     return value === null || option === null || value === undefined || option === undefined ? false : value.id === option.id;
   }
+
+    seleccionarImagen(event: any) {
+      this.imagenSeleccionada = event.target.files[0];
+      //this.progreso = 0;
+      //console.log(this.fotoSeleccionada);
+      if (this.imagenSeleccionada!.type.indexOf('image') < 0) {
+        this.alertService.error('El archivo debe ser del tipo imagen', 'Imagen');
+     //   this.fotoSeleccionada = null;
+      }
+    }
+
+
+    subirFoto() {
+      if (!this.imagenSeleccionada) {
+          this.alertService.error('Debe seleccionar una imagen', 'Imagen');
+
+      } else {
+        this.productoService.subirImagen(this.imagenSeleccionada, this.producto.id)
+          .subscribe(producto => {
+            this.producto = producto;
+            this.alertService.info('La foto se ha subido completamente!', 'Imagen');
+
+/*             if (event.type === HttpEventType.UploadProgress) {
+              this.progreso = Math.round((event.loaded / event.total!) * 100);
+            } else if (event.type === HttpEventType.Response) {
+              let response: any = event.body;
+              this.cliente = response.cliente as Cliente;
+
+              this.modalService.notificarUpload.emit(this.cliente);
+              swal.fire('La foto se ha subido completamente!', response.mensaje, 'success');
+            } */
+          });
+      }
+    }
 
 }
