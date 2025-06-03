@@ -5,11 +5,10 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ezra.programandojuntos.dto.ProductoDto;
 import com.ezra.programandojuntos.models.entity.Categoria;
-import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.Color;
 import com.ezra.programandojuntos.models.entity.Material;
 import com.ezra.programandojuntos.models.entity.Producto;

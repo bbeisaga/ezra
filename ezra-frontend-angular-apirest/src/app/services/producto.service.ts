@@ -25,10 +25,21 @@ import { AlertService } from './alert.service';
 })
 export class ProductoService {
 
+  //private httpHeaders = new HttpHeaders()
+
+
   constructor(private http: HttpClient,
     private router: Router,
     private authService: AuthService,
     private alertService: AlertService) { }
+
+  /*   private agregarAuthorizationHeader(){
+        let token = this.authService.token;
+        if(token != null){
+          return this.httpHeaders.append('Authorization', 'Bearer ' + token)
+        }
+        return this.httpHeaders
+      } */
 
   getCategoriasProducto(): Observable<Categoria[]> {
     return this.http.get<Categoria[]>(environment.apiUrl + '/producto/categorias');
@@ -111,9 +122,14 @@ export class ProductoService {
   }
 
   createProductoImagen(formData: FormData): Observable<Producto> {
+    let httpHeaders = new HttpHeaders()
+    let token = this.authService.token;
+    if (token != null) {
+      httpHeaders.append('Authorization', 'Bearer ' + token)
+    }
 
-    return this.http.post(`${environment.apiUrl}/producto-image`, formData
-      /*,{headers: this.agregarAuthorizationHeader()}*/
+    return this.http.post(`${environment.apiUrl}/producto/imagen`, formData
+      , { headers: httpHeaders }
     )
       .pipe(
         map((response: any) => response.prodcuto as Producto),

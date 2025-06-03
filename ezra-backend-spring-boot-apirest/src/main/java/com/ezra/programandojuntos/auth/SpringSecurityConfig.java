@@ -116,10 +116,11 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/producto/colores").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/producto/materiales").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/producto/categorias").permitAll()
-			   .requestMatchers(HttpMethod.GET,"api/producto/usos").permitAll()
+			   .requestMatchers(HttpMethod.GET,"api/producto/usos").permitAll()	
 			   .requestMatchers(HttpMethod.GET,"api/producto/filtrar-productos/{term}").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/producto/pageable").hasRole("LIST_PRODUCTOS")
-			   .requestMatchers(HttpMethod.POST,"api/producto").hasRole("REGISTER_PRODUCTO") 
+			   .requestMatchers(HttpMethod.POST,"api/producto").hasRole("REGISTER_PRODUCTO") //este se va ir
+			   .requestMatchers(HttpMethod.POST,"api/producto/imagen").hasRole("REGISTER_PRODUCTO") 
 			   .requestMatchers(HttpMethod.PUT,"api/producto/{id}").hasRole("UPDATE_PRODUCTO")
 			   .requestMatchers(HttpMethod.DELETE,"api/producto/{id}").hasRole("DELETE_PRODUCTO")
 

@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ezra.programandojuntos.dto.ProductoDto;
 import com.ezra.programandojuntos.enums.SortActiveProducto;
 import com.ezra.programandojuntos.enums.SortDirection;
 import com.ezra.programandojuntos.models.entity.Categoria;
@@ -43,6 +44,8 @@ import com.ezra.programandojuntos.models.entity.Producto;
 import com.ezra.programandojuntos.models.entity.Uso;
 import com.ezra.programandojuntos.models.services.IUploadFileService;
 import com.ezra.programandojuntos.models.services.ProductoService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.validation.Valid;
 
@@ -135,23 +138,33 @@ public class ProductoRestController {
 	}
 	
 	@PostMapping("/producto/imagen")
-	public ResponseEntity<?> createWithImage(@Valid @RequestParam Producto producto, 
-													@RequestParam("archivo") MultipartFile archivo,  
-													BindingResult result) {
+	public ResponseEntity<?> createWithImage(@RequestParam ("archivo") MultipartFile archivo
+											, @RequestParam ("producto") String producto) {
 		Producto productoNew = null;
 		Map<String, Object> response = new HashMap<>();
-		if(result.hasErrors()) {
-			List<String> errors = result.getFieldErrors()
-					.stream()
-					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
-					.collect(Collectors.toList());
-			
-			response.put("errors", errors);
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+//		if(result.hasErrors()) {
+//		List<String> errors = result.getFieldErrors()
+//				.stream()
+//				.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
+//				.collect(Collectors.toList());
+//		
+//		response.put("errors", errors);
+//		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+//	}
+		
+		
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+			Producto productoDto = objectMapper.readValue(producto, Producto.class);
+			productoNew = productoService.crearConImagen(productoDto, archivo);
+
+		} catch (JsonProcessingException e) {
+			response.put("mensaje", "Error al convertir el JSON a DTO");
+			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+
 		}
-		try {
-			productoNew = productoService.crearConImagen(producto, archivo);
-		} catch(IOException e) {
+		catch(IOException e) {
 			response.put("mensaje", "Error en la carga de la imagen");
 			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);

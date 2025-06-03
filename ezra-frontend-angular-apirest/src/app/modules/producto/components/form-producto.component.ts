@@ -110,8 +110,8 @@ export class FormProductoComponent implements OnInit, AfterViewInit {
 
   create(): void {
     console.log(this.producto);
-    this.producto.peso = this.producto.peso?.toUpperCase();
-    this.producto.medidas = this.producto.medidas?.toUpperCase();
+/*     this.producto.peso = this.producto.peso?.toUpperCase();
+    this.producto.medidas = this.producto.medidas?.toUpperCase(); */
     this.productoService.createProducto(this.producto).subscribe(
         producto => {
          // swal.fire('Nuevo cliente', `El cliente ${cliente.nombres} ha sido creado con éxito`, 'success');
@@ -130,11 +130,10 @@ export class FormProductoComponent implements OnInit, AfterViewInit {
   update(): void {
     //this.cliente.pedidos = [];
     console.log(this.producto);
-    this.producto.peso = this.producto.peso?.toUpperCase();
-    this.producto.medidas = this.producto.medidas?.toUpperCase();
+/*     this.producto.peso = this.producto.peso?.toUpperCase();
+    this.producto.medidas = this.producto.medidas?.toUpperCase(); */
     this.productoService.updateProducto(this.producto).subscribe(
         json => {
-          //swal.fire('Cliente Actualizado', `${json.mensaje}: ${json.producto.nombre}`, 'success');
           this.alertService.success(`${json.mensaje}: ${json.producto.nombre}`, 'Producto actualizado');
           this.router.navigate(['/pr/productos']);
 
@@ -165,7 +164,7 @@ export class FormProductoComponent implements OnInit, AfterViewInit {
     }
 
 
-    subirFoto() {
+/*     subirFoto() {
       if (!this.imagenSeleccionada) {
           this.alertService.error('Debe seleccionar una imagen', 'Imagen');
 
@@ -175,17 +174,8 @@ export class FormProductoComponent implements OnInit, AfterViewInit {
             this.producto = producto;
             this.alertService.info('La foto se ha subido completamente!', 'Imagen');
 
-/*             if (event.type === HttpEventType.UploadProgress) {
-              this.progreso = Math.round((event.loaded / event.total!) * 100);
-            } else if (event.type === HttpEventType.Response) {
-              let response: any = event.body;
-              this.cliente = response.cliente as Cliente;
-
-              this.modalService.notificarUpload.emit(this.cliente);
-              swal.fire('La foto se ha subido completamente!', response.mensaje, 'success');
-            } */
           });
       }
-    }
+    } */
 
 }

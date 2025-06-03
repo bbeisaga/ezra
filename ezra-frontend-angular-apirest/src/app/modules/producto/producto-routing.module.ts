@@ -4,6 +4,7 @@ import { ProductoComponent } from './pages/producto.component';
 import { FormProductoComponent } from './components/form-producto.component';
 import { AuthGuard } from '../../guards/auth.guard';
 import { RoleGuard } from '../../guards/role.guard';
+import { MantenimientoProductoComponent } from './pages/mantenimiento-producto.component';
 
 const routes: Routes = [
   { path: '',
@@ -12,10 +13,16 @@ const routes: Routes = [
     data: { role: 'ROLE_LIST_PRODUCTOS' },
     pathMatch: 'full'
   },
-  { path: 'form-producto', component: FormProductoComponent,
+/*   { path: 'form-producto', component: FormProductoComponent,
     canActivate:[AuthGuard,RoleGuard],
     data: { role: 'ROLE_REGISTER_PRODUCTO' }
-   },
+   }, */
+
+  { path: 'mantenimiento-producto', component: MantenimientoProductoComponent,
+    canActivate:[AuthGuard,RoleGuard],
+    data: { role: 'ROLE_REGISTER_PRODUCTO' }
+  },
+
   { path: 'form-producto/:productoId', component: FormProductoComponent,
     canActivate:[AuthGuard,RoleGuard],
     data: { role: 'ROLE_UPDATE_PRODUCTO' }

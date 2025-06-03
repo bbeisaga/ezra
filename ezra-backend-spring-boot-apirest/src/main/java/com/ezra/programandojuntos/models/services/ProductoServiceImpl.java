@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ezra.programandojuntos.dto.ProductoDto;
+import com.ezra.programandojuntos.mappers.ProductoMapper;
 import com.ezra.programandojuntos.models.dao.IProductoDao;
 import com.ezra.programandojuntos.models.entity.Categoria;
 import com.ezra.programandojuntos.models.entity.Color;
@@ -27,6 +29,9 @@ public class ProductoServiceImpl implements ProductoService {
 	
 	@Autowired
 	private IUploadFileService uploadFileService;
+	
+//	@Autowired
+//	private ProductoMapper productoMapper;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -100,8 +105,10 @@ public class ProductoServiceImpl implements ProductoService {
 				}
 			}
 		//}
-		producto.setImagen(nombreArchivo);
+			producto.setImagen(nombreArchivo);
+	//	return productoDao.save(productoMapper.asProducto(producto));
 		return productoDao.save(producto);
+
 
 	}
 

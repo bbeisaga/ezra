@@ -7,34 +7,136 @@
 <div class="card bg-dark text-white">
   <div class="card-body">
     <div class="container">
-      <div class="row">
-        <div class="col-sm">
-          <img src="http://localhost:8080/api/producto/imagen/{{producto.imagen}}" alt="{{producto.descripcion}}" class="img-thumbnail rounded">
-        </div>
-        <div class="col-sm">
-          <form [formGroup]="formProducto" (ngSubmit)="crearProducto()">
-            <div class="form-group row">
-              <label for="nombre" class="col-form-label col-sm-2">Nombre</label>
-              <div class="col-sm-6">
-                <input formControlName="nombre" type="text" class="form-control" name="nombre">
+      <form [formGroup]="formProducto" (ngSubmit)="crearProducto()">
+
+        <div class="row">
+
+          <div class="col-sm">
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <input formControlName="nombre" type="text" class="form-control" name="nombre" placeholder="Nombre">
                 <!-- required minlength="4" -->
               </div>
             </div>
 
-            <div class="form-group row">
-              <label for="descripcion" class="col-form-label col-sm-2">Descripcion</label>
-              <div class="col-sm-6">
-                <input formControlName="descripcion" type="text" class="form-control" name="descripcion">
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <input formControlName="descripcion" type="text" class="form-control" name="descripcion"
+                  placeholder="Descripción">
                 <!-- required -->
               </div>
             </div>
 
-            <div class="form-group row">
-              <label for="formFile" class="form-label">Seleccionar imagen</label>
-              <input (change)="seleccionarImagen($event)" class="form-control" name="seleccionarImagen" type="file"
-                id="formFile">
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <input type="number" formControlName="unbralPocaCantidad" name="unbralPocaCantidad" class="form-control"
+                  placeholder="Umbral de poca cantidad" min="1">
+                <span class="input-group-text">Número</span>
+
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <input type="number" formControlName="unbralAgotadaCantidad" name="unbralAgotadaCantidad"
+                  class="form-control" placeholder="Umbral de cantidad agotada" min="1">
+                <span class="input-group-text">Número</span>
+
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <input type="number" formControlName="cantidadStock" name="cantidadStock" class="form-control"
+                  placeholder="Cantidad en stock" min="0">
+                <span class="input-group-text">Número</span>
+
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <input type="number" formControlName="minCantidadPedido" name="minCantidadPedido" class="form-control"
+                  placeholder="Mínima cantidad en pedido" min="1">
+                <span class="input-group-text">Número</span>
+
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <input type="number" formControlName="maxCantidadPedido" name="maxCantidadPedido" class="form-control"
+                  placeholder="Máxima cantidad en pedido" min="1">
+                <span class="input-group-text">Número</span>
+
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <input type="number" formControlName="gruposDe" name="gruposDe" class="form-control"
+                  placeholder="Grupos De" min="1">
+                <span class="input-group-text">Número</span>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <input type="number" formControlName="costoUnitario" name="costoUnitario" class="form-control"
+                  placeholder="Costo unitario" min="1">
+                <span class="input-group-text">S/</span>
+                <span class="input-group-text">0.00</span>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <input type="number" formControlName="costoUnitarioEmpaque" name="costoUnitarioEmpaque"
+                  class="form-control" placeholder="Costo unitario de Empaque" min="1">
+                <span class="input-group-text">S/</span>
+                <span class="input-group-text">0.00</span>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <input type="number" formControlName="precioBruto" name="precioBruto" class="form-control"
+                  placeholder="Precio bruto (sin IGV)" min="1">
+                <span class="input-group-text">S/</span>
+                <span class="input-group-text">0.00</span>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <input type="number" formControlName="precioNeto" name="precioNeto" class="form-control"
+                  placeholder="Precio neto (con IGV)" min="1">
+                <span class="input-group-text">S/</span>
+                <span class="input-group-text">0.00</span>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <input type="number" formControlName="precioBrutoRebajado" name="precioBrutoRebajado"
+                  class="form-control" placeholder="Precio bruto rebajado (sin IGV)" min="1">
+                <span class="input-group-text">S/</span>
+                <span class="input-group-text">0.00</span>
+              </div>
             </div>
 
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <input type="number" formControlName="precioNetoRabajado" name="precioNetoRabajado" class="form-control"
+                  placeholder="Precio neto rebajado (con IGV)" min="1">
+                <span class="input-group-text">S/</span>
+                <span class="input-group-text">0.00</span>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <label for="fechaPrecioRebajadoDesde" class="col-form-label">Fecha precio rebajado desde:</label>
+                <input type="datetime-local" formControlName="fechaPrecioRebajadoDesde" name="fechaPrecioRebajadoDesde"
+                  class="form-control" placeholder="Fecha precio rebajado desde: ">
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <label for="fechaPrecioRebajadoHasta" class="col-form-label">Fecha precio rebajado desde:</label>
+                <input type="datetime-local" formControlName="fechaPrecioRebajadoHasta" name="fechaPrecioRebajadoHasta"
+                  class="form-control" placeholder="Fecha precio rebajado hasta: ">
+              </div>
+            </div>
 
 
             <div class="form-group row">
@@ -47,9 +149,31 @@
                   </ng-template> -->
               </div>
             </div>
-          </form>
+          </div>
+          <div class="col-sm">
+
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <label for="categoria" class="form-label">Categoria del producto</label>
+
+                <select formControlName="categoria" name="categoria" class="form-control">
+                  <option *ngFor="let categoria of categorias" [ngValue]="categoria">{{categoria.nombre}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mb-2">
+              <div class="input-group col-sm">
+                <label for="formFile" class="form-label">Imagen del producto</label>
+                <input (change)="seleccionarImagen($event)" name="imagen" class="form-control" type="file"
+                  id="formFile">
+              </div>
+            </div>
+
+            <!--             <img *ngIf="producto.imagen" src="http://localhost:8080/api/producto/imagen/{{producto.imagen}}"
+              alt="{{producto.descripcion}}" class="img-thumbnail rounded"> -->
+          </div>
         </div>
-      </div>
+      </form>
 
     </div>
   </div>
