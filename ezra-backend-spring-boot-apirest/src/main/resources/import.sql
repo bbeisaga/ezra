@@ -199,19 +199,19 @@ INSERT INTO usos (id, nombre) VALUES(1,'Insumo');
 INSERT INTO usos (id, nombre) VALUES(2,'Producto reventa');
 
 /* Populate tabla productos */
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(0,0,0,0,230,'Letrero luminoso', 10, NOW());
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(1,1,0,1,240,'Letrero en strucutura', 15, NOW());
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(0,2,0,1,200,'Letrero en parante', 20, NOW());
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(0,3,0,1,200,'Letrero en Roll Screen', 10, NOW());
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(3,4,0,1,210,'Sellos', 12, NOW());
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(0,0,0,1,260,'Fotocheck', 5, NOW());
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(0,0,0,1,200,'Tarjeta matrimonio', 2, NOW());
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(2,0,0,2,200,'Tarjeta bautizo', 1, NOW());
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(3,0,0,2,200,'Tarjeta personales', 5, NOW());
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(4,0,0,2,230,'Tarjeta varios', 8, NOW());
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(1,5,2,2,200,'Taza', 8, NOW());
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(2,5,3,2,20,'Taza', 8, NOW());
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at) VALUES(3,5,3,2,90,'Taza', 8, NOW());
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(0,0,0,0,230,'Letrero luminoso', 10, NOW(),1,0);
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(1,1,0,1,240,'Letrero en strucutura', 15, NOW(),1,0);
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(0,2,0,1,200,'Letrero en parante', 20, NOW(),1,0);
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(0,3,0,1,200,'Letrero en Roll Screen', 10, NOW(),1,0);
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(3,4,0,1,210,'Sellos', 12, NOW(),1,0);
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(0,0,0,1,260,'Fotocheck', 5, NOW(),1,0);
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(0,0,0,1,200,'Tarjeta matrimonio', 2, NOW(),1,0);
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(2,0,0,2,200,'Tarjeta bautizo', 1, NOW(),1,0);
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(3,0,0,2,200,'Tarjeta personales', 5, NOW(),1,0);
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(4,0,0,2,230,'Tarjeta varios', 8, NOW(),0,0);
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(1,5,2,2,200,'Taza', 8, NOW(),1,0);
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(2,5,3,2,20,'Taza', 8, NOW(),1,0);
+INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(3,5,3,2,90,'Taza', 8, NOW(),1,0);
 
 
 /* Creamos estado de pedidos */

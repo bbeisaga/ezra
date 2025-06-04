@@ -85,11 +85,18 @@ public class Producto implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaPrecioRebajadoHasta;
 	
-	@Column(name = "productos_relacionados")
-	private String productosRelacionados; //ventas dirigidas(prod sustituto por la calidad, mas caros)
+	//@Column(name = "productos_relacionados")
+	//private String productosRelacionados; //ventas dirigidas(prod sustituto por la calidad, mas caros)
 	
-	@Column(name = "productos_promocion")
-	private String productosPromocion; //ventas cruzadas(prod adicionales al actual que podrian tener promocion)
+	//@Column(name = "productos_promocion")
+	//private String productosPromocion; //ventas cruzadas(prod adicionales al actual que podrian tener promocion)
+	
+	
+	@Column(name = "visible_en_tienda")
+	private boolean visibleEnTienda;
+	
+	@Column(name = "activo")
+	private boolean activo;
 	
 	//@NotNull(message = "Tipo documento no puede ser vacio")
 	@JoinColumn(name = "color_id")

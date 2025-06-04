@@ -25,6 +25,8 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
   materiales: Material[] = [];
   categorias: Categoria[] = [];
   usos: Uso[] = [];
+  titulo: string = "Crear Producto";
+
 
 
   private imagenSeleccionada!: File;
@@ -100,10 +102,16 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
       precioBrutoRebajado: [this.producto?.precioBrutoRebajado],
       precioNeto: [this.producto?.precioNeto],
       precioNetoRabajado: [this.producto?.precioNetoRabajado],
-      fechaPrecioRebajadoDesde:[this.producto?.fechaPrecioRebajadoDesde],
-      fechaPrecioRebajadoHasta:[this.producto?.fechaPrecioRebajadoHasta],
+      fechaPrecioRebajadoDesde: [this.producto?.fechaPrecioRebajadoDesde],
+      fechaPrecioRebajadoHasta: [this.producto?.fechaPrecioRebajadoHasta],
+      activo: [this.producto?.activo],
+      visibleEnTienda: [this.producto?.visibleEnTienda],
 
-      categoria:[this.producto?.categoria],
+      categoriaId: [this.producto?.categoria?.id],
+      materialId: [this.producto?.material?.id],
+      colorId: [this.producto?.color?.id],
+      usoId: [this.producto?.uso?.id],
+
 
       /*
             saldoCaja: [this.cajaUsuario?.saldoCaja, {
@@ -145,6 +153,25 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
 
       })
     }
+  }
+
+    update(): void {
+    //this.cliente.pedidos = [];
+    console.log(this.producto);
+/*     this.producto.peso = this.producto.peso?.toUpperCase();
+    this.producto.medidas = this.producto.medidas?.toUpperCase(); */
+    this.productoService.updateProducto(this.producto).subscribe(
+        json => {
+          this.alertService.success(`${json.mensaje}: ${json.producto.nombre}`, 'Producto actualizado');
+          this.router.navigate(['/pr/productos']);
+
+        },
+        err => {
+         // this.errores = err.error.errors as string[];
+          console.error('Código del error desde el backend: ' + err.status);
+          console.error(err.error.errors);
+        }
+      )
   }
 
   seleccionarImagen(event: any) {

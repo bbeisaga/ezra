@@ -11,8 +11,8 @@ export class Producto {
   id!: number;
   nombre!: string;
   descripcion!: string;
-  /*  medidas?:string
-   peso?:string */
+  medidas?:string
+  peso?:string
   imagen!: string;
   // galeriaProducto: GaleriaProducto[]=[]
   unbralPocaCantidad!: number;
@@ -32,6 +32,8 @@ export class Producto {
   fechaPrecioRebajadoHasta!:string;
   //productosRelacionados!:string; //ventas dirigidas(prod sustituto por la calidad, mas caros)
   //productosPromocion!:string;
+	visibleEnTienda!: boolean;
+	activo!: boolean;
   color?:Color;
   material?: Material;
   categoria!:Categoria;
