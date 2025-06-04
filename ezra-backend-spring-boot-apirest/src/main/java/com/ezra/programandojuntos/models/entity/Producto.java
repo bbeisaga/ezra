@@ -22,6 +22,8 @@ public class Producto implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	private String codigo; 
 
 	private String nombre; //enlace permanente
 	
