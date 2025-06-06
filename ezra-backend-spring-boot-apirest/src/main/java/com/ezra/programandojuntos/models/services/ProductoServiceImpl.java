@@ -82,55 +82,82 @@ public class ProductoServiceImpl implements ProductoService {
 		return productoDao.findAllUsos();
 	}
 	
-	@Override
-	@Transactional
-	public Producto crear(Producto producto) {
-		return productoDao.save(producto);
-	}
+//	@Override
+//	@Transactional
+//	public Producto crear(Producto producto) {
+//		return productoDao.save(producto);
+//	}
 	
 	
 	@Override
 	public Producto crearConImagen(Producto producto, MultipartFile archivo) throws IOException {
-		String nombreArchivo = null;
-//		if(archivo == null) {
-//			nombreArchivo = "sin-imagen";
-//		} else {
-			nombreArchivo = uploadFileService.copyFileToPath(archivo);
-			String nombreImagenAnterior = producto.getImagen();
-			if(nombreImagenAnterior != null && nombreImagenAnterior.length() > 0 ) {
-				Path rutaImagenAnterior = uploadFileService.getPath(nombreImagenAnterior); 
-				File archivoImagenAnterior = rutaImagenAnterior.toFile();
-				if(archivoImagenAnterior.exists() && archivoImagenAnterior.canRead()) {
-					archivoImagenAnterior.delete();
-				}
-			}
-		//}
+		//producto.setImagen(null);
+		if(archivo != null) {
+			String nombreArchivo = uploadFileService.copyFileToPath(archivo);
 			producto.setImagen(nombreArchivo);
-	//	return productoDao.save(productoMapper.asProducto(producto));
+		} 
 		return productoDao.save(producto);
-
-
 	}
 
+//	@Override
+//	@Transactional
+//	public Producto actualizar(Producto producto, Long id) {
+//		Producto productoActual = this.findProductoById(id);
+//
+//		if (productoActual == null) {
+//			return null;
+//		}
+//		
+//		productoActual.setPeso(producto.getPeso());
+//		productoActual.setMedidas(producto.getMedidas());
+//		productoActual.setColor(producto.getColor());
+//		productoActual.setMaterial(producto.getMaterial());
+//		productoActual.setCategoria(producto.getCategoria());
+//		productoActual.setUso(producto.getUso());		
+//		return productoDao.save(producto);
+//	}
+	
 	@Override
 	@Transactional
-	public Producto actualizar(Producto producto, Long id) {
+	public Producto actualizarConImagen(Producto producto, MultipartFile archivo, Long id) throws IOException {
 		Producto productoActual = this.findProductoById(id);
 
 		if (productoActual == null) {
 			return null;
-//			response.put("mensaje", "Error: no se pudo editar, el producto ID: "
-//					.concat(id.toString().concat(" no existe en la base de datos!")));
-//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
-		
-		productoActual.setPeso(producto.getPeso());
+		productoActual.setNombre(producto.getNombre());
+		productoActual.setDescripcion(producto.getDescripcion());
 		productoActual.setMedidas(producto.getMedidas());
+		productoActual.setPeso(producto.getPeso());
+		productoActual.setUmbralPocaCantidad(producto.getUmbralPocaCantidad());
+		productoActual.setUmbralCantidadAgotada(producto.getUmbralCantidadAgotada());
+		productoActual.setMinCantidadPedido(producto.getMinCantidadPedido());
+		productoActual.setMaxCantidadPedido(producto.getMaxCantidadPedido());
+		productoActual.setGruposDe(producto.getGruposDe());
+		productoActual.setPrecioBruto(producto.getPrecioBruto());
+		productoActual.setPrecioNeto(producto.getPrecioNeto());
+		productoActual.setPrecioBrutoRebajado(producto.getPrecioBrutoRebajado());
+		productoActual.setPrecioNetoRabajado(producto.getPrecioNetoRabajado());
+		productoActual.setFechaPrecioRebajadoDesde(producto.getFechaPrecioRebajadoDesde());
+		productoActual.setFechaPrecioRebajadoHasta(producto.getFechaPrecioRebajadoHasta());
+		productoActual.setVisibleEnTienda(producto.isVisibleEnTienda());
+		productoActual.setActivo(producto.isActivo());
 		productoActual.setColor(producto.getColor());
 		productoActual.setMaterial(producto.getMaterial());
 		productoActual.setCategoria(producto.getCategoria());
-		productoActual.setUso(producto.getUso());		
-		return productoDao.save(producto);
+		productoActual.setUso(producto.getUso());	
+		//productoActual.setImagen(producto.getImagen());
+		
+		if (archivo != null) {
+			String nombreArchivo = uploadFileService.copyFileToPath(archivo);
+			if(!productoActual.getImagen().equalsIgnoreCase("no-imagen.jpg"))  {
+				uploadFileService.eliminar(productoActual.getImagen());
+			} 
+			productoActual.setImagen(nombreArchivo);
+		} else {
+			productoActual.setImagen(producto.getImagen());
+		}
+		return productoDao.save(productoActual);
 	}
 	
 	@Override

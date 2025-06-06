@@ -10,12 +10,14 @@
     <mat-card-header class="card-header">
       <mat-card-title>{{ titulo }}</mat-card-title>
       <div class="ms-auto">
-        <button *ngIf="!producto.id && authService.hasRole('ROLE_REGISTER_PRODUCTO') else elseBlock" color="primary"
-          mat-raised-button (click)='crearProducto()' [disabled]="!formProducto.valid">Crear producto</button>
-        <ng-template #elseBlock>
-          <button *ngIf="authService.hasRole('ROLE_UPDATE_PRODUCTO') " color="primary" mat-raised-button
-            (click)='update()' [disabled]="!formProducto.valid">Actualizar producto</button>
-        </ng-template>
+        @if (!producto.id && authService.hasRole('ROLE_REGISTER_PRODUCTO')) {
+        <button color="primary" mat-raised-button (click)='guardarProducto()' [disabled]="!formProducto.valid">Crear
+          producto</button>
+        }
+        @if (producto.id && authService.hasRole('ROLE_UPDATE_PRODUCTO')) {
+        <button color="primary" mat-raised-button (click)='guardarProducto()'
+          [disabled]="!formProducto.valid">Actualizar producto</button>
+        }
         <button color="primary" mat-raised-button [routerLink]="'/productos'">Cancelar</button>
       </div>
     </mat-card-header>
@@ -24,7 +26,7 @@
         <div class="row">
           <div class="col-sm">
             <div class="row mb-2">
-              <label for="nombre" class="col-form-label col-sm-4">Nombre:</label>
+              <label for="nombre" class="col-form-label col-sm-4"><b>Nombre:</b><br>Visible submenú de tienda</label>
               <div class="input-group col-sm">
                 <input formControlName="nombre" type="text" class="form-control" name="nombre" placeholder="Nombre">
               </div>
@@ -63,18 +65,18 @@
             </div>
 
             <div class="row mb-2">
-              <label for="unbralPocaCantidad" class="col-form-label col-sm-4">Umbral de poca cantidad:</label>
+              <label for="umbralPocaCantidad" class="col-form-label col-sm-4">Umbral de poca cantidad:</label>
               <div class="input-group col-sm">
-                <input type="number" formControlName="unbralPocaCantidad" name="unbralPocaCantidad" class="form-control"
+                <input type="number" formControlName="umbralPocaCantidad" name="umbralPocaCantidad" class="form-control"
                   placeholder="Umbral de poca cantidad" min="1">
                 <span class="input-group-text">Número</span>
               </div>
             </div>
 
             <div class="row mb-2">
-              <label for="unbralAgotadaCantidad" class="col-form-label col-sm-4">Umbral de cantidad agotada:</label>
+              <label for="umbralCantidadAgotada" class="col-form-label col-sm-4">Umbral de cantidad agotada:</label>
               <div class="input-group col-sm">
-                <input type="number" formControlName="unbralAgotadaCantidad" name="unbralAgotadaCantidad"
+                <input type="number" formControlName="umbralCantidadAgotada" name="umbralCantidadAgotada"
                   class="form-control" placeholder="Umbral de cantidad agotada" min="0">
                 <span class="input-group-text">Número</span>
               </div>
@@ -123,7 +125,7 @@
                 <span class="input-group-text">0.00</span>
               </div>
             </div>
-            <div class="row mb-2">
+            <!--             <div class="row mb-2">
               <label for="costoUnitarioEmpaque" class="col-form-label col-sm-4">Costo unitario de Empaque:</label>
               <div class="input-group col-sm">
                 <input type="number" formControlName="costoUnitarioEmpaque" name="costoUnitarioEmpaque"
@@ -131,7 +133,7 @@
                 <span class="input-group-text">S/</span>
                 <span class="input-group-text">0.00</span>
               </div>
-            </div>
+            </div> -->
             <div class="row mb-2">
               <label for="precioBruto" class="col-form-label col-sm-4">Precio bruto (-IGV):</label>
               <div class="input-group col-sm">
@@ -188,7 +190,8 @@
 
           <div class="col-sm">
             <div class="row mb-2">
-              <label for="categoriaId" class="form-label col-sm-4">Categoria del producto:</label>
+              <label for="categoriaId" class="form-label col-sm-4"><b>Categoria del producto:</b> <br>Visible en menú de
+                la tienda</label>
               <div class="input-group col-sm">
                 <select formControlName="categoriaId" name="categoriaId" class="form-control">
                   <option *ngFor="let categoria of categorias" [value]="categoria.id">{{categoria.nombre}}</option>
@@ -220,25 +223,39 @@
               </div>
             </div>
             <div class="row mb-2">
-              <label for="formFile" class="form-label col-sm-4">Imágen del producto:</label>
+              <label for="formFile" class="form-label col-sm-4"><b>Imágen del producto:</b><br>Visible en tienda</label>
               <div class="input-group col-sm">
-                <input (change)="seleccionarImagen($event)" name="imagen" formControlName="imagen" class="form-control"
-                  type="file" id="formFile">
+                <div class="input-group col-sm">
+                  <input (change)="seleccionarImagen($event)" type="file" name="imagen" formControlName="imagen"
+                    class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
+                    aria-label="Cargar">
+                  <button (click)="subirImagen()" class="btn btn-outline-primary" type="button" [disabled]="!(imagenSeleccionada && producto.nombre && producto.codigo)"
+                    id="inputGroupFileAddon04">Cargar</button>
+
+                </div>
               </div>
             </div>
             <div class="row mb-2">
-              <label for="activo" class="form-label col-sm-4">Producto activo</label>
+              <label for="activo" class="form-label col-sm-4"><b>Producto activo</b></label>
               <div class="form-check form-switch col-sm-2">
-                <input class="form-check-input" type="checkbox" formControlName="activo" name="activo">
+                <input class="form-check-input" type="checkbox" formControlName="activo" name="activo"
+                  [checked]="producto.activo">
               </div>
-              <label for="visibleEnTienda" class="form-label col-sm-4">Visible en tienda</label>
+              <label for="visibleEnTienda" class="form-label col-sm-4"><b>Producto visible en tienda</b></label>
               <div class="form-check form-switch col-sm-2">
-                <input class="form-check-input" type="checkbox" formControlName="visibleEnTienda"
-                  name="visibleEnTienda">
+                <input class="form-check-input" type="checkbox" formControlName="visibleEnTienda" name="visibleEnTienda"
+                  [checked]="producto.visibleEnTienda">
               </div>
             </div>
 
             <div class="row mb-2">
+              <div class="col-sm">
+                <img *ngIf="producto?.imagen" src="http://localhost:8080/api/producto/imagen/{{producto.imagen}}"
+                  alt="{{producto.imagen}}" class="img-fluid img-thumbnail rounded mx-auto d-block">
+
+              </div>
+            </div>
+            <!--             <div class="row mb-2">
               <div class="ol-sm-6">
                 <span>Valid:</span>
                 <pre>{{formProducto.valid | json}}</pre>
@@ -251,23 +268,8 @@
                 <span>errores</span>
                 <pre>{{formProducto.errors| json}}</pre>
 
-                <!--                 <span>Valid</span>
-                <pre>{{formProducto.valid | json}}</pre>
-                <span>Valid</span>
-                <pre>{{formProducto.valid | json}}</pre>
-                <span>Valid</span>
-                <pre>{{formProducto.valid | json}}</pre>
-                <span>Valid</span>
-                <pre>{{formProducto.valid | json}}</pre> -->
-
               </div>
-            </div>
-
-
-
-            <!--             <img *ngIf="producto.imagen" src="http://localhost:8080/api/producto/imagen/{{producto.imagen}}"
-              alt="{{producto.descripcion}}" class="img-thumbnail rounded"> -->
-
+            </div> -->
           </div>
         </div>
       </div>

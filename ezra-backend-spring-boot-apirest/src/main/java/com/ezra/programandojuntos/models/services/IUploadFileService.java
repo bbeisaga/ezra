@@ -12,5 +12,5 @@ public interface IUploadFileService {
 	public Resource cargar(String nombreFoto) throws MalformedURLException;
 	public String copyFileToPath(MultipartFile archivo) throws IOException;
 	public boolean eliminar(String nombreFoto);
-	public Path getPath(String nombreFoto);
+	public Path getPath(String ruta, String nombreFoto);
 }

@@ -40,10 +40,10 @@ public class Producto implements Serializable {
 //	private String modelo;
 	
 	@Column(name = "umbral_poca_cantidad")//muestra la cantidad restante del inventario cuando se ha baja Ejem. Solo quedan 2 exitencias
-	private Long unbralPocaCantidad; 
+	private Long umbralPocaCantidad; 
 	
-	@Column(name = "umbral_agotada_cantidad") //Oculta del catalogo los articulos agotados
-	private Long unbralAgotadaCantidad; 
+	@Column(name = "umbral_cantidad_agotada") //Oculta del catalogo los articulos agotados
+	private Long umbralCantidadAgotada; 
 	
 	@Column(name = "cantidad_stock") //muestra la cantidad restante del inventario Ejem. 12 exitencias
 	private Long cantidadStock; 
@@ -60,8 +60,8 @@ public class Producto implements Serializable {
 	@Column(name = "costo_unitario")
 	private BigDecimal costoUnitario; /*cuenta cuesta hacer el producto*/
 	
-	@Column(name = "costo_unitario_empaque")
-	private BigDecimal costoUnitarioEmpaque; /*cuenta cuesta hacer el producto*/
+//	@Column(name = "costo_unitario_empaque")
+//	private BigDecimal costoUnitarioEmpaque; 
 	
 	@Column(name = "precio_bruto")
 	private BigDecimal precioBruto; /*cubriri costo mas beneficio*/
@@ -78,6 +78,10 @@ public class Producto implements Serializable {
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
+	
+	@Column(name = "update_at")
+	@Temporal(TemporalType.DATE)
+	private Date updateAt;
 	
 	@Column(name = "fch_precio_rebajado_desde")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -125,7 +129,11 @@ public class Producto implements Serializable {
 	public void prePersist() {
 		this.createAt = new Date();
 	}
-
+	
+	@PreUpdate
+	public void preUpdate() {
+		this.updateAt = new Date();
+	}
 
 	private static final long serialVersionUID = 1L;
 }

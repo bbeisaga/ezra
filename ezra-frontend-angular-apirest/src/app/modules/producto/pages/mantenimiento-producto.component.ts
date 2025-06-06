@@ -27,15 +27,12 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
   categorias: Categoria[] = [];
   usos: Uso[] = [];
 
-/*   categoriaId!: number;
-  materialId!: number;
-  colorId!: number;
-  usoId!: number; */
+  /*   categoriaId!: number;
+    materialId!: number;
+    colorId!: number;
+    usoId!: number; */
   titulo: string = "Crear Producto";
-
-
-
-  private imagenSeleccionada!: File;
+  imagenSeleccionada!: File;
 
   constructor(private productoService: ProductoService,
     private router: Router,
@@ -47,6 +44,7 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
+
     this.createForm();
     this.cargarDatosAuxiliares();
 
@@ -56,6 +54,7 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
       if (id) {
         this.productoService.getProducto(id).subscribe(resp => {
           this.producto = resp
+          //this.producto.imagen = resp.imagen?resp.imagen:'no-imagen.jpg';
           this.createForm();
 
           console.log("aaaaaaa", this.producto);
@@ -93,8 +92,6 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
   }
 
   createForm(): void {
-    console.log("productos1", this.producto);
-
     this.formProducto = this.formBuilder.group({
       //usuario: [this.cajaUsuario?.usuario?.username],
       //usuario:   [this.cajaUsuario?.usuario?.apellido +'-'+ this.cajaUsuario?.usuario?.nombre],
@@ -110,8 +107,8 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
       peso: [this.producto?.peso,
       { validators: [Validators.minLength(4), Validators.pattern('^[0-9]{1,3}([(\\.)][0-9]{2})?\\s(kg|KG)$')] }
       ],
-      unbralPocaCantidad: [this.producto?.unbralPocaCantidad, Validators.min(1)],
-      unbralAgotadaCantidad: [this.producto?.unbralAgotadaCantidad, Validators.min(0)],
+      umbralPocaCantidad: [this.producto?.umbralPocaCantidad, Validators.min(1)],
+      umbralCantidadAgotada: [this.producto?.umbralCantidadAgotada, Validators.min(0)],
       cantidadStock: [
         { value: this.producto?.cantidadStock, disabled: true },
         { validators: [Validators.required, Validators.min(0)] }
@@ -123,7 +120,7 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
         { value: this.producto?.costoUnitario, disabled: true },
         { validators: [Validators.required, Validators.min(1)] }
       ],
-      costoUnitarioEmpaque: [this.producto?.costoUnitarioEmpaque, Validators.min(0)],
+      //costoUnitarioEmpaque: [this.producto?.costoUnitarioEmpaque, Validators.min(0)],
       precioBruto: [this.producto?.precioBruto, Validators.min(3)],
       precioNeto: [this.producto?.precioNeto, Validators.min(4)],
       precioBrutoRebajado: [this.producto?.precioBrutoRebajado, Validators.min(2)],
@@ -143,73 +140,100 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
     })
   }
 
-  crearProducto() {
-    /*     debugger;
-        console.log("CC1",this.formProducto.get('colorId')?.value);
-        console.log("CC2",this.formProducto.get('materialId')?.value);
-        console.log("productos1", this.producto); */
+  recuperarValForm() {
     this.producto.nombre = this.formProducto.get('nombre')?.value;
     this.producto.codigo = this.formProducto.get('codigo')?.value;
     this.producto.descripcion = this.formProducto.get('descripcion')?.value;
     this.producto.medidas = this.formProducto.get('medidas')?.value;
     this.producto.peso = this.formProducto.get('peso')?.value;
-    this.producto.imagen = this.formProducto.get('imagen')?.value;
+    this.producto.umbralPocaCantidad = this.formProducto.get('umbralPocaCantidad')?.value;
+    this.producto.umbralCantidadAgotada = this.formProducto.get('umbralCantidadAgotada')?.value;
+    this.producto.minCantidadPedido = this.formProducto.get('minCantidadPedido')?.value;
+    this.producto.maxCantidadPedido = this.formProducto.get('maxCantidadPedido')?.value;
+    this.producto.gruposDe = this.formProducto.get('gruposDe')?.value;
+    this.producto.precioBruto = this.formProducto.get('precioBruto')?.value;
+    this.producto.precioNeto = this.formProducto.get('precioNeto')?.value;
+    this.producto.precioBrutoRebajado = this.formProducto.get('precioBrutoRebajado')?.value;
+    this.producto.precioNetoRabajado = this.formProducto.get('precioNetoRabajado')?.value;
+    this.producto.fechaPrecioRebajadoDesde = this.formProducto.get('fechaPrecioRebajadoDesde')?.value;
+    this.producto.fechaPrecioRebajadoHasta = this.formProducto.get('fechaPrecioRebajadoHasta')?.value;
     this.producto.color = find(this.colores, { 'id': +this.formProducto.get('colorId')?.value });
     this.producto.material = find(this.materiales, { 'id': +this.formProducto.get('materialId')?.value });
     this.producto.uso = find(this.usos, { 'id': +this.formProducto.get('usoId')?.value });
     this.producto.categoria = find(this.categorias, { 'id': +this.formProducto.get('categoriaId')?.value });
+    this.producto.imagen = this.formProducto.get('imagen')?.value;
+    this.producto.activo = this.formProducto.get('activo')?.value;
+    this.producto.visibleEnTienda = this.formProducto.get('visibleEnTienda')?.value;
+    console.log("bbbbbbbbbb", this.producto);
+  }
 
-    // console.log("productos2", this.producto);
-
-    if (this.imagenSeleccionada) {
-      let formData = new FormData();
-      formData.append("archivo", this.imagenSeleccionada);
-      formData.append("producto", JSON.stringify(this.producto));
-      this.productoService.createProductoImagen(formData).subscribe(
-        resp => {
-          this.alertService.success('Porducto con imagen principal ha sido creado exitosamente', 'Producto');
+  guardarProducto() {
+    this.recuperarValForm();
+    if (this.producto.id) {
+      this.productoService.updateProducto(this.producto).subscribe(
+        json => {
+          this.alertService.success(`${json.mensaje}: ${json.producto.nombre}`, 'Producto actualizado');
           this.router.navigate(['/productos']);
-        },
-        err => {
-          err.error.err as string[];
-          console.error('Código del error desde el backend: ' + err.status);
-          console.error(err.error.errors);
-        })
+        }
+      )
     } else {
       this.productoService.createProducto(this.producto).subscribe(resp => {
         this.alertService.success('Porducto ha sido creado exitosamente', 'Producto');
         this.router.navigate(['/productos']);
-
       })
     }
   }
 
-  update(): void {
-    //this.cliente.pedidos = [];
-    console.log(this.producto);
-    /*     this.producto.peso = this.producto.peso?.toUpperCase();
-        this.producto.medidas = this.producto.medidas?.toUpperCase(); */
-    this.productoService.updateProducto(this.producto).subscribe(
-      json => {
-        this.alertService.success(`${json.mensaje}: ${json.producto.nombre}`, 'Producto actualizado');
-        this.router.navigate(['/pr/productos']);
+  /*   crearProducto() {
+      this.productoService.createProducto(this.producto).subscribe(resp => {
+        this.alertService.success('Porducto ha sido creado exitosamente', 'Producto');
+        this.router.navigate(['/productos']);
+      })
+    }
 
-      },
-      err => {
-        // this.errores = err.error.errors as string[];
-        console.error('Código del error desde el backend: ' + err.status);
-        console.error(err.error.errors);
-      }
-    )
-  }
+    update(): void {
+      this.productoService.updateProducto(this.producto).subscribe(
+        json => {
+          this.alertService.success(`${json.mensaje}: ${json.producto.nombre}`, 'Producto actualizado');
+          this.router.navigate(['/productos']);
+
+        }
+      )
+    } */
 
   seleccionarImagen(event: any) {
     this.imagenSeleccionada = event.target.files[0];
-    //this.progreso = 0;
-    //console.log(this.fotoSeleccionada);
     if (this.imagenSeleccionada!.type.indexOf('image') < 0) {
       this.alertService.error('El archivo debe ser del tipo imagen', 'Imagen');
-      //   this.fotoSeleccionada = null;
+      return
+    }
+    this.recuperarValForm();
+  }
+
+  subirImagen() {
+    if (this.imagenSeleccionada) {
+      //this.formProducto.get('imagen')?.setValue(this.imagenSeleccionada.name);
+      //this.producto.imagen = this.formProducto.get('imagen')?.value;
+      //this.producto.imagen = this.imagenSeleccionada.name;
+      let formData = new FormData();
+      formData.append("archivo", this.imagenSeleccionada);
+      formData.append("producto", JSON.stringify(this.producto));
+      if (this.producto.id) {
+        this.productoService.updateProductoImagen(formData, this.producto.id).subscribe(
+          resp => {
+            this.producto = resp;
+          })
+      } else {
+        this.productoService.createProductoImagen(formData).subscribe(
+          resp => {
+            this.producto = resp;
+          })
+      }
+      this.formProducto.get('imagen')?.setValue(this.imagenSeleccionada.name);
+
+    } else {
+      this.alertService.error('Debe colocar un codigo y nombre al producto', 'Imagen');
+
     }
   }
 

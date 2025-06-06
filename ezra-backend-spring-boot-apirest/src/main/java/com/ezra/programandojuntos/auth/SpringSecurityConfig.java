@@ -118,6 +118,7 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/producto/categorias").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/producto/usos").permitAll()	
 			   .requestMatchers(HttpMethod.GET,"api/producto/filtrar-productos/{term}").permitAll()
+			   .requestMatchers(HttpMethod.GET,"api/producto/imagen/{nombreImagen:.+}").permitAll()			   
 			   .requestMatchers(HttpMethod.GET,"api/producto/pageable").hasRole("LIST_PRODUCTOS")
 			   .requestMatchers(HttpMethod.POST,"api/producto").hasRole("REGISTER_PRODUCTO") //este se va ir
 			   .requestMatchers(HttpMethod.POST,"api/producto/imagen").hasRole("REGISTER_PRODUCTO") 

@@ -13,10 +13,10 @@ const routes: Routes = [
     data: { role: 'ROLE_LIST_PRODUCTOS' },
     pathMatch: 'full'
   },
-  { path: 'form-producto', component: FormProductoComponent,
+/*   { path: 'form-producto', component: FormProductoComponent,
     canActivate:[AuthGuard,RoleGuard],
     data: { role: 'ROLE_REGISTER_PRODUCTO' }
-   },
+   }, */
 
   { path: 'mantenimiento-producto', component: MantenimientoProductoComponent,
     canActivate:[AuthGuard,RoleGuard],
@@ -28,10 +28,10 @@ const routes: Routes = [
     data: { role: 'ROLE_UPDATE_PRODUCTO' }
   },
 
-  { path: 'form-producto/:productoId', component: FormProductoComponent,
+/*   { path: 'form-producto/:productoId', component: FormProductoComponent,
     canActivate:[AuthGuard,RoleGuard],
     data: { role: 'ROLE_UPDATE_PRODUCTO' }
-  },
+  }, */
 
 ];
 

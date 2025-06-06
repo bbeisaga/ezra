@@ -32,11 +32,13 @@ public interface ProductoService {
 	
 	public List<Uso> findAllUsos();
 	
-	public Producto crear(Producto producto);
+	//public Producto crear(Producto producto);
 	
 	public Producto crearConImagen(Producto producto, MultipartFile archivo) throws IOException ;
 	
-	public Producto actualizar(Producto producto, Long id);
+	//public Producto actualizar(Producto producto, Long id);
+	
+	public Producto actualizarConImagen(Producto producto, MultipartFile archivo, Long id) throws IOException;
 	
 	public Producto guardar(Producto producto);
 

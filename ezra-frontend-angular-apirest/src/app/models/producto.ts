@@ -15,14 +15,14 @@ export class Producto {
   medidas?:string
   peso?:string
   // galeriaProducto: GaleriaProducto[]=[]
-  unbralPocaCantidad: number = 1;
-  unbralAgotadaCantidad: number= 0;
+  umbralPocaCantidad: number = 1;
+  umbralCantidadAgotada: number= 0;
   cantidadStock: number = 0; // esto se actualiza al comprar
   minCantidadPedido: number = 1;
   maxCantidadPedido: number = 100000;
   gruposDe: number=1;
-  costoUnitario: number=1;
-  costoUnitarioEmpaque: number=0;
+  costoUnitario: number=1;// esto se actualiza al comprar
+  //costoUnitarioEmpaque: number=0;
   precioBruto: number = 3;
   precioNeto: number=4;
   precioBrutoRebajado: number=2;
@@ -32,7 +32,7 @@ export class Producto {
   fechaPrecioRebajadoHasta!:string;
   //productosRelacionados!:string; //ventas dirigidas(prod sustituto por la calidad, mas caros)
   //productosPromocion!:string;
-  imagen!: string;
+  imagen: string = 'no-imagen.jpg';
 	visibleEnTienda: boolean=false;
 	activo: boolean = true;
   color?:Color;

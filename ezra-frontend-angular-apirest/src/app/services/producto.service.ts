@@ -132,7 +132,28 @@ export class ProductoService {
       , { headers: httpHeaders }
     )
       .pipe(
-        map((response: any) => response.prodcuto as Producto),
+        map((response: any) => response.producto as Producto),
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+  }
+
+    updateProductoImagen(formData: FormData, productoId: number): Observable<Producto> {
+    let httpHeaders = new HttpHeaders()
+    let token = this.authService.token;
+    if (token != null) {
+      httpHeaders.append('Authorization', 'Bearer ' + token)
+    }
+
+    return this.http.put<Producto>(`${environment.apiUrl}/producto/imagen/${productoId}`, formData, { headers: httpHeaders })
+      .pipe(
+        map((response: any) => response.producto as Producto),
         catchError(e => {
           if (e.status == 400) {
             return throwError(e);

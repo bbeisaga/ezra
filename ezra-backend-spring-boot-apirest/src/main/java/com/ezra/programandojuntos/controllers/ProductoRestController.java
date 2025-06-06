@@ -126,7 +126,12 @@ public class ProductoRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
 		try {
-			productoNew = productoService.crear(producto);
+			productoNew = productoService.crearConImagen(producto, null);
+
+		} catch(IOException e) {
+			response.put("mensaje", "Error en la carga de la imagen");
+			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch(DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -141,18 +146,7 @@ public class ProductoRestController {
 	public ResponseEntity<?> createWithImage(@RequestParam ("archivo") MultipartFile archivo
 											, @RequestParam ("producto") String producto) {
 		Producto productoNew = null;
-		Map<String, Object> response = new HashMap<>();
-//		if(result.hasErrors()) {
-//		List<String> errors = result.getFieldErrors()
-//				.stream()
-//				.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
-//				.collect(Collectors.toList());
-//		
-//		response.put("errors", errors);
-//		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
-//	}
-		
-		
+		Map<String, Object> response = new HashMap<>();	
         ObjectMapper objectMapper = new ObjectMapper();
         try {
 			Producto productoDto = objectMapper.readValue(producto, Producto.class);
@@ -183,45 +177,16 @@ public class ProductoRestController {
 	public ResponseEntity<Resource> verFoto(@PathVariable String nombreImagen){
 
 		Resource recurso = null;
-		
 		try {
 			recurso = uploadFileService.cargar(nombreImagen);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
-		
 		HttpHeaders cabecera = new HttpHeaders();
 		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
-		
 		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
 	}
 	
-//	@PostMapping("/producto/upload-imagen")
-//	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("productoId") Long productoId){
-//		Map<String, Object> response = new HashMap<>();
-//		
-//		Producto producto = productoService.findProductoById(productoId);
-//		
-//		if(!archivo.isEmpty()) {
-//
-//			String nombreArchivo = null;
-//			try {
-//				nombreArchivo = uploadFileService.copiar(archivo);
-//			} catch (IOException e) {
-//				response.put("mensaje", "Error al subir la imagen del cliente");
-//				response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
-//				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-//			}
-//			producto.setImagen(nombreArchivo);
-//			productoService.guardar(producto);
-//			
-//			response.put("producto", producto);
-//			response.put("mensaje", "Has subido correctamente la imagen: " + nombreArchivo);
-//			
-//		}
-//		
-//		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
-//	}
 	
 	@PutMapping("/producto/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody Producto producto, BindingResult result, @PathVariable Long id) {
@@ -236,8 +201,45 @@ public class ProductoRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
 		try {
-			productoUpdated = productoService.actualizar(producto, id);
-		} catch (DataAccessException e) {
+			//productoUpdated = productoService.actualizar(producto, id);
+			productoUpdated = productoService.actualizarConImagen(producto, null, id);
+
+		} catch(IOException e) {
+			response.put("mensaje", "Error en la carga de la imagen");
+			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}catch (DataAccessException e) {
+			response.put("mensaje", "Error al actualizar el cliente en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put("mensaje", "El producto ha sido actualizado con éxito!");
+		response.put("producto", productoUpdated);
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+	}
+	
+	@PutMapping("/producto/imagen/{id}")
+	public ResponseEntity<?> updateWithImage(@RequestParam ("archivo") MultipartFile archivo,
+											 @RequestParam ("producto") String producto, 
+											 @PathVariable Long id) {
+		Producto productoUpdated = null;
+		Map<String, Object> response = new HashMap<>();
+        ObjectMapper objectMapper = new ObjectMapper();
+
+		try {
+			Producto productoDto = objectMapper.readValue(producto, Producto.class);
+			productoUpdated = productoService.actualizarConImagen(productoDto, archivo, id);
+		} catch (JsonProcessingException e) {
+			response.put("mensaje", "Error al convertir el JSON a DTO");
+			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		catch(IOException e) {
+			response.put("mensaje", "Error en la carga de la imagen");
+			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		catch (DataAccessException e) {
 			response.put("mensaje", "Error al actualizar el cliente en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
