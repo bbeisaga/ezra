@@ -185,13 +185,12 @@ INSERT INTO materiales (id, nombre) VALUES(8,'Otro material');
 
 /*Parametros generales CATEGORIA*/
 INSERT INTO categorias (id, nombre,orden,activa,descripcion) VALUES(0,'Otros',8,1,'Todos los dmas');
-INSERT INTO categorias (id, nombre,orden,activa,descripcion) VALUES(1,'Cajas de Pizza',7,1,'Tosdsdsdsds dmas');
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(2,'Cajas de Tortas',6,1);
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(3,'Cajas de Pasteles',5,1);
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(4,'Cajas de Comida',3,1);
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(5,'Joyeria',2,1);
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(6,'Opticas',4,1);
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(7,'Merchandaising',1,1);
+INSERT INTO categorias (id, nombre,orden,activa,descripcion) VALUES(1,'Envase de Pizza',7,1,'Tosdsdsdsds dmas');
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(2,'Envase de Tortas',6,1);
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(3,'Envase de Pasteles',5,1);
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(4,'Envase de Comida',3,1);
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(5,'Empaque de bolsas',2,1);
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(6,'Empaque de joyas',4,1);
 
 /*Parametros generales USO*/
 INSERT INTO usos (id, nombre) VALUES(0,'Seleccione el uso Interno');
@@ -199,19 +198,13 @@ INSERT INTO usos (id, nombre) VALUES(1,'Insumo');
 INSERT INTO usos (id, nombre) VALUES(2,'Producto reventa');
 
 /* Populate tabla productos */
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(0,0,0,0,230,'Letrero luminoso', 10, NOW(),1,0);
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(1,1,0,1,240,'Letrero en strucutura', 15, NOW(),1,0);
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(0,2,0,1,200,'Letrero en parante', 20, NOW(),1,0);
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(0,3,0,1,200,'Letrero en Roll Screen', 10, NOW(),1,0);
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(3,4,0,1,210,'Sellos', 12, NOW(),1,0);
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(0,0,0,1,260,'Fotocheck', 5, NOW(),1,0);
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(0,0,0,1,200,'Tarjeta matrimonio', 2, NOW(),1,0);
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(2,0,0,2,200,'Tarjeta bautizo', 1, NOW(),1,0);
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(3,0,0,2,200,'Tarjeta personales', 5, NOW(),1,0);
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(4,0,0,2,230,'Tarjeta varios', 8, NOW(),0,0);
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(1,5,2,2,200,'Taza', 8, NOW(),1,0);
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(2,5,3,2,20,'Taza', 8, NOW(),1,0);
-INSERT INTO productos (color_id,material_id,categoria_id,uso_id,cantidad_stock,nombre, precio_neto, create_at,activo,visible_en_tienda) VALUES(3,5,3,2,90,'Taza', 8, NOW(),1,0);
+INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_bruto,	precio_bruto_rebajado,	precio_neto,	precio_neto_reabajado,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id) VALUES('A1','Caja de carton para pizza','Caja de carton para pizza','10x15x20','0.25 kg','envase-de-carton-pizza.png',5,0,0,100,1000,10,0,40,30,47.2,50,now(),1,0,1,2,1,2);
+INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_bruto,	precio_bruto_rebajado,	precio_neto,	precio_neto_reabajado,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id) VALUES('B1','Caja de cartón para tortas','Caja de cartón para tortas','10x15x20','1 kg','caja-para-torta.png',5,0,0,100,1000,30,0,40,30,47.2,50,now(),1,1,1,2,2,2);
+INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_bruto,	precio_bruto_rebajado,	precio_neto,	precio_neto_reabajado,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id) VALUES('B2','Envase de plastico para torta','Envase de plastico para torta','30x15x20','1 kg','envase-torta-redondo.png',5,0,0,100,1000,10,0,40,30,47.2,50,now(),1,0,3,2,2,2);
+INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_bruto,	precio_bruto_rebajado,	precio_neto,	precio_neto_reabajado,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id) VALUES('C1','Envase de comida blanco','Envase de comida blanco','10x15x20','1 kg','envase-comida-blanco.png',5,0,0,100,1000,1,0,20,10,23.6,35,now(),1,1,1,3,4,2);
+INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_bruto,	precio_bruto_rebajado,	precio_neto,	precio_neto_reabajado,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id) VALUES('C2','Envase de comida café','Envase de comida café','30x15x20','1 kg','envase-comida-cafe.png',4,0,15,40,2000,1,0,20,10,23.6,35,now(),0,1,2,3,4,2);
+INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_bruto,	precio_bruto_rebajado,	precio_neto,	precio_neto_reabajado,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id) VALUES('E1','Bolsa de plastico blanca','Bolsa de plastico blanca','10x15x20','1 kg','bolsa-de-plastico-blanca.png',4,0,2,40,2000,2,0,20,10,23.6,35,now(),0,1,2,3,5,2);
+INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_bruto,	precio_bruto_rebajado,	precio_neto,	precio_neto_reabajado,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id) VALUES('F1','Bolsa de plastico negra','Bolsa de plastico negra','10x15x20','1 kg','bolsa-de-plastico-negra.png',4,0,3,40,2000,2,0,20,10,23.6,35,now(),1,1,3,3,5,2);
 
 
 /* Creamos estado de pedidos */
