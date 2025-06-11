@@ -26,13 +26,13 @@ import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+@Data
 @Entity
 @Table(name = "clientes")
-@Getter
-@Setter
 public class Cliente implements Serializable {
 
 	@Id
@@ -52,7 +52,7 @@ public class Cliente implements Serializable {
 //	@Size(min = 2, message = "el tamaño muy pequeño")
 //	private String razonSocial;
 	
-	@NotEmpty(message = "no puede estar vacio")
+	@NotEmpty(message = "No puede estar vacio")
 	@Size(min = 2, message = "el tamaño muy pequeño")
 	@Column(name = "nom_apell_rz")
 	private String nomApellRz;

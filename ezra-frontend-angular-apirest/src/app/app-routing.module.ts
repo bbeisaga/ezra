@@ -1,3 +1,4 @@
+import { ProductoTiendaComponent } from './modules/tienda/pages/producto-tienda.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PrincipalComponent } from './modules/principal/paginas/principal/principal.component';
@@ -9,37 +10,50 @@ import { DashboardComponent } from './modules/home/pages/dashboard/dashboard.com
 import { AuthGuard } from './guards/auth.guard';
 import { PaginaTiendaComponent } from './modules/tienda/pages/pagina-tienda.component';
 import { ProductosPorCategoriaComponent } from './modules/tienda/pages/productos-por-categoria.component';
+import { CrearCuentaTiendaComponent } from './modules/tienda/pages/crear-cuenta-tienda/crear-cuenta-tienda.component';
 
 const routes: Routes = [
-/*   { path: 'login', component: LoginComponent },
- */
-  { path: 'tienda', component: PaginaTiendaComponent,
-    children:[
-      {path: 'productos-categoria/:catId', component: ProductosPorCategoriaComponent}
-  ] },
-  { path: '', component: PrincipalComponent ,
-    children:[
-      { path: '',
-        loadChildren: () =>import("./modules/home/home.module").then((m) => m.HomeModule),
+  { path: 'login', component: LoginComponent },
+  { path: 'crear-cuenta', component: CrearCuentaTiendaComponent },
+  {
+    path: 'tienda', component: PaginaTiendaComponent,
+    children: [
+      { path: 'productos-categoria/:catId', component: ProductosPorCategoriaComponent },
+      { path: 'producto/:productoId', component: ProductoTiendaComponent }
+
+    ]
+  },
+  {
+    path: '', component: PrincipalComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: () => import("./modules/home/home.module").then((m) => m.HomeModule),
         canActivate: [AuthGuard],
       },
-      { path: 'clientes',
-        loadChildren: () =>import("./modules/clientes/clientes.module").then((m) => m.ClientesModule),
+      {
+        path: 'clientes',
+        loadChildren: () => import("./modules/clientes/clientes.module").then((m) => m.ClientesModule),
       },
-      { path: 'pedidos',
-        loadChildren: () =>import("./modules/pedidos/pedidos.module").then((m) => m.PedidosModule),
+      {
+        path: 'pedidos',
+        loadChildren: () => import("./modules/pedidos/pedidos.module").then((m) => m.PedidosModule),
       },
-      { path: 'cajas',
-        loadChildren: () =>import("./modules/caja/caja.module").then((m) => m.CajaModule),
+      {
+        path: 'cajas',
+        loadChildren: () => import("./modules/caja/caja.module").then((m) => m.CajaModule),
       },
-      { path: 'movimientos',
-        loadChildren: () =>import("./modules/movimientos/movimientos.module").then((m) => m.MovimientosModule),
+      {
+        path: 'movimientos',
+        loadChildren: () => import("./modules/movimientos/movimientos.module").then((m) => m.MovimientosModule),
       },
-      { path: 'productos',
-        loadChildren: () =>import("./modules/producto/producto.module").then((m) => m.ProductoModule),
+      {
+        path: 'productos',
+        loadChildren: () => import("./modules/producto/producto.module").then((m) => m.ProductoModule),
       },
-      { path: 'usuarios',
-        loadChildren: () =>import("./modules/usuarios/usuarios.module").then((m) => m.UsuariosModule),
+      {
+        path: 'usuarios',
+        loadChildren: () => import("./modules/usuarios/usuarios.module").then((m) => m.UsuariosModule),
       }
 
     ]

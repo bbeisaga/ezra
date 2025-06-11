@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ProductoService } from '../../../services/producto.service';
+import { Producto } from '../../../models/producto';
 
 @Component({
   selector: 'app-productos-por-categoria',
@@ -8,12 +10,18 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ProductosPorCategoriaComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute){
-  }
+  private activatedRoute = inject(ActivatedRoute);
+  private productoService = inject(ProductoService);
+  lstProductos: Producto[]=[];
+
+  constructor(){}
+
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params=> {
-      let categoriaId = params.get('catId');
-      console.log("ProductosPorCategoriaComponent.ngOnInit categoriaId=", categoriaId );
+      let categoriaId = + params.get('catId')!;
+      this.productoService.productosPorCategoria(categoriaId).subscribe(resp => {
+          this.lstProductos = resp;
+      })
     })
   }
 

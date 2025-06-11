@@ -8,8 +8,9 @@
 /ezra-backend-spring-boot-apirest/*.rar
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+#hs_err_pid*
 
+/ezra-backend-spring-boot-apirest/.classpath/
 /ezra-backend-spring-boot-apirest/.classpath
 /ezra-backend-spring-boot-apirest/.project
 /ezra-backend-spring-boot-apirest/.settings/

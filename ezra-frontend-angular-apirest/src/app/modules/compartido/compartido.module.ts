@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 // aplicaicon modulos
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+
 //angular material modulos
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -20,15 +22,17 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 import { SearchBoxTableComponent } from './search-box-table/search-box-table.component';
 import { ModalDialogAlertComponent } from './modal-dialog/modal-dialog-alert.component';
 import { AutocompleteClienteComponent } from './autocomplete-box/autocomplete-cliente.component';
+import { MenuPrincipalTiendaComponent } from './menus-nav/menu-principal-tienda.component';
+import { MenuSecundarioTiendaComponent } from './menus-nav/menu-secundario-tienda.component';
 
 
 
@@ -36,11 +40,14 @@ import { AutocompleteClienteComponent } from './autocomplete-box/autocomplete-cl
   declarations: [
     SearchBoxTableComponent,
     ModalDialogAlertComponent,
-    AutocompleteClienteComponent
+    MenuPrincipalTiendaComponent,
+    AutocompleteClienteComponent,
+    MenuSecundarioTiendaComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     ReactiveFormsModule,
     MatSidenavModule,
     MatFormFieldModule,
@@ -89,7 +96,9 @@ import { AutocompleteClienteComponent } from './autocomplete-box/autocomplete-cl
     MatRadioModule,
     MatExpansionModule,
     SearchBoxTableComponent,
-    AutocompleteClienteComponent
+    AutocompleteClienteComponent,
+    MenuPrincipalTiendaComponent,
+    MenuSecundarioTiendaComponent
   ]
 })
 export class CompartidoModule { }

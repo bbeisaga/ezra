@@ -17,8 +17,9 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { PaginaTiendaComponent } from './modules/tienda/pages/pagina-tienda.component';
 import { IdentidadComponent } from './modules/tienda/components/identidad/identidad.component';
 import { CabeceraComponent } from './modules/tienda/components/cabecera/cabecera.component';
-import { MenuHorizontalComponent } from './modules/tienda/components/menu-horizontal/menu-horizontal.component';
 import { ProductosPorCategoriaComponent } from './modules/tienda/pages/productos-por-categoria.component';
+import { ProductoTiendaComponent } from './modules/tienda/pages/producto-tienda.component';
+import { CrearCuentaTiendaComponent } from './modules/tienda/pages/crear-cuenta-tienda/crear-cuenta-tienda.component';
 
 
 registerLocaleData(localeEsPE);
@@ -30,8 +31,9 @@ registerLocaleData(localeEsPE);
     PaginaTiendaComponent,
     IdentidadComponent,
     CabeceraComponent,
-    MenuHorizontalComponent,
     ProductosPorCategoriaComponent,
+    ProductoTiendaComponent,
+    CrearCuentaTiendaComponent
   ],
   imports: [
     CommonModule,

@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.ezra.programandojuntos.models.entity.GenericosApp;
 
-public interface GenericosAppDao extends CrudRepository<GenericosApp, Long> {
+public interface GenericosAppDao extends CrudRepository<GenericosApp, String> {
 
 }

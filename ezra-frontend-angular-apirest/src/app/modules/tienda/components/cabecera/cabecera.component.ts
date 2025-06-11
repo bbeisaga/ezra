@@ -3,7 +3,7 @@ import { Categoria } from '../../../../models/categoria';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-cabecera',
+  selector: 'cabecera',
   templateUrl: './cabecera.component.html',
   styleUrl: './cabecera.component.css'
 })
@@ -15,8 +15,8 @@ export class CabeceraComponent {
 
 
 
-  showProductsCategory(catagoria: Categoria){
+/*   showProductsCategory(catagoria: Categoria){
     this.router.navigate(["/tienda/productos-categoria",catagoria.id])
-  }
+  } */
 
 }

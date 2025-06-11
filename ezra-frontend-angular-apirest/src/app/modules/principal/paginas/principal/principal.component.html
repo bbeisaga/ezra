@@ -90,7 +90,7 @@
         Listado de productos</a>
       </ng-container>
       <ng-container *ngIf="authService.hasRole('ROLE_REGISTER_PRODUCTO')">
-        <a mat-list-item [routerLink]="['/productos/form-producto']" [routerLinkActive]="['active']"
+        <a mat-list-item [routerLink]="['/productos/mantenimiento-producto']" [routerLinkActive]="['active']"
         [routerLinkActiveOptions]="{exact: true}">
         Registro de productos</a>
       </ng-container>

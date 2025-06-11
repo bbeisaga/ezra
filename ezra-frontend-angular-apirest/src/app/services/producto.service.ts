@@ -144,7 +144,7 @@ export class ProductoService {
         }));
   }
 
-    updateProductoImagen(formData: FormData, productoId: number): Observable<Producto> {
+  updateProductoImagen(formData: FormData, productoId: number): Observable<Producto> {
     let httpHeaders = new HttpHeaders()
     let token = this.authService.token;
     if (token != null) {
@@ -171,7 +171,7 @@ export class ProductoService {
     ).pipe(
       catchError(e => {
         if (e.status != 401 && e.error.mensaje) {
-          this.router.navigate(['/productos']);
+         // this.router.navigate(['/productos']);
           console.error(e.error.mensaje);
         }
 
@@ -225,4 +225,15 @@ export class ProductoService {
       })
     )
   }
+
+  productosPorCategoria(id: number): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${environment.apiUrl}/productos/categoria/${id}`).pipe(
+      catchError(e => {
+        if (e.error.mensaje) {
+          this.alertService.error(e.error.mensaje, e.error.err);
+        }
+        return throwError(e);
+      })
+    )
+}
 }

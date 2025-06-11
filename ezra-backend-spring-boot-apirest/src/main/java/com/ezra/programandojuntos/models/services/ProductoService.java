@@ -41,5 +41,8 @@ public interface ProductoService {
 	public Producto actualizarConImagen(Producto producto, MultipartFile archivo, Long id) throws IOException;
 	
 	public Producto guardar(Producto producto);
+	
+	public List<Producto> findProductByCategory(Long categoriaId);
+
 
 }

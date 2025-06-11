@@ -1,16 +1,30 @@
-<div class="card" style="width: 18rem;">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">An item</li>
-    <li class="list-group-item">A second item</li>
-    <li class="list-group-item">A third item</li>
-  </ul>
-  <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
+<div class="container">
+  <div class="row">
+    @for (producto of lstProductos; track $index) {
+    <div class="col-12 col-sm-6 col-lg-3">
+      <div class="card">
+        <a [routerLink]="['/tienda/producto',producto.id]">
+        <img *ngIf="producto?.imagen" src="http://localhost:8080/api/producto/imagen/{{producto.imagen}}"
+          alt="{{producto.imagen}}" class="card-img-top"></a>
+        <div class="card-body">
+          <h3 class="card-title"> {{producto.descripcion}}</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><b>{{producto.precioNeto | currency: 'PEN'}}</b>, <i>En stock:</i> {{producto.cantidadStock}} unidades</li>
+          <li class="list-group-item"><i>Orden mín:</i> {{producto.minCantidadPedido}}, <i>Grupos de:</i> {{producto.gruposDe}}</li>
+          <li class="list-group-item">{{producto.cantidadStock}} vendidos</li>
+        </ul>
+        <div class="card-body">
+          <div class="d-flex justify-content-evenly">
+            <a href="#" class="btn btn-primary">Contactar</a>
+            <a href="#" class="btn btn-success">Chatear</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+
+
+
   </div>
 </div>

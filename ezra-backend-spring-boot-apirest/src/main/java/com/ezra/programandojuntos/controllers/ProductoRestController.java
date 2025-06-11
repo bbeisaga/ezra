@@ -112,6 +112,21 @@ public class ProductoRestController {
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
 	}
 	
+	
+	@GetMapping("/productos/categoria/{id}")
+	public ResponseEntity<?> showProductosCataegoria(@PathVariable Long id) {
+		List<Producto> producto = null;
+		Map<String, Object> response = new HashMap<>();
+		try {
+			producto = productoService.findProductByCategory(id);
+		} catch(DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<List<Producto>>(producto, HttpStatus.OK);
+	}
+	
 	@PostMapping("/producto")
 	public ResponseEntity<?> create(@Valid @RequestBody Producto producto, BindingResult result) {
 		Producto productoNew = null;

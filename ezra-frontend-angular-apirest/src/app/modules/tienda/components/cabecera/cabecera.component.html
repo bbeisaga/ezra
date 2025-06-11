@@ -1,11 +1,13 @@
-<header>
-  <div class="row">
-    <div><p>Aqui va ir l identidad</p></div>
-    <div>Aqui va ir buscador</div>
-    <div>Iniciar Sesión</div>
+<header class="row">
+  <div class="col">
+    <div class="d-flex justify-content-evenly">
+      <div>
+        <p>Aqui va ir l identidad</p>
+      </div>
+      <div>Aqui va ir buscador</div>
+      <div>
+        <menu-secundario-tienda />
+      </div>
+    </div>
   </div>
-  <app-login></app-login>
-
-  <app-menu-horizontal (categoriaClickEventEmit) ="showProductsCategory($event)"></app-menu-horizontal>
-
 </header>

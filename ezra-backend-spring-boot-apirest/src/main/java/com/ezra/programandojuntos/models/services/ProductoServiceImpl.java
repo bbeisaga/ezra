@@ -165,5 +165,16 @@ public class ProductoServiceImpl implements ProductoService {
 	public Producto guardar(Producto producto) {	
 		return productoDao.save(producto);
 	}
+	
+	public List<Producto> findProductByCategory(Long categoriaId){
+		List<Producto> lstProd = null;
+		if(categoriaId > 0) {
+			lstProd = productoDao.findProductByCategoriaActiveStore(categoriaId);
+		} else {
+			lstProd = productoDao.findAllProductsActiveStore();
+		}
+		return lstProd;
+	}
+
 
 }

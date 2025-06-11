@@ -113,6 +113,10 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/cajas").permitAll() 
 			   
 				 //Permisos par alas URLs de PRODUCTOS
+			   .requestMatchers(HttpMethod.GET,"api/productos").permitAll() //esto es consulta libre
+			   .requestMatchers(HttpMethod.GET,"api/productos/categoria/{id}").permitAll() //esto es consulta libre
+			   .requestMatchers(HttpMethod.GET,"api/producto/{id}").permitAll()//esto es consulta lbre
+
 			   .requestMatchers(HttpMethod.GET,"api/producto/colores").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/producto/materiales").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/producto/categorias").permitAll()
