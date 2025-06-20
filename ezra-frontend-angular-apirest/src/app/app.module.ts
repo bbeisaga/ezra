@@ -12,14 +12,16 @@ import { CommonModule, DatePipe, registerLocaleData } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ZonaHorariaDefectoService } from './services/zona-horaria-defecto.service';
-import  localeEsPE  from '@angular/common/locales/es-PE';
+import localeEsPE from '@angular/common/locales/es-PE';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { PaginaTiendaComponent } from './modules/tienda/pages/pagina-tienda.component';
-import { IdentidadComponent } from './modules/tienda/components/identidad/identidad.component';
-import { CabeceraComponent } from './modules/tienda/components/cabecera/cabecera.component';
-import { ProductosPorCategoriaComponent } from './modules/tienda/pages/productos-por-categoria.component';
-import { ProductoTiendaComponent } from './modules/tienda/pages/producto-tienda.component';
 import { CrearCuentaTiendaComponent } from './modules/tienda/pages/crear-cuenta-tienda/crear-cuenta-tienda.component';
+import { LayoutModule, MediaMatcher } from '@angular/cdk/layout';
+import { ItemProductoTiendaComponent } from './modules/tienda/pages/item-producto/item-producto-tienda.component';
+import { CarritoComprasComponent } from './modules/tienda/components/carrito-compras.component';
+import { PedidoTiendaComponent } from './modules/tienda/pages/pedido-tienda/pedido-tienda.component';
+import { ProductosPorCategoriaComponent } from './modules/tienda/pages/productos-por-categoria/productos-por-categoria.component';
+import { PasarelaPagoComponent } from './modules/tienda/components/pasarela-pago.component';
 
 
 registerLocaleData(localeEsPE);
@@ -29,11 +31,14 @@ registerLocaleData(localeEsPE);
     AppComponent,
     LoginComponent,
     PaginaTiendaComponent,
-    IdentidadComponent,
-    CabeceraComponent,
     ProductosPorCategoriaComponent,
-    ProductoTiendaComponent,
-    CrearCuentaTiendaComponent
+    CrearCuentaTiendaComponent,
+    ItemProductoTiendaComponent,
+    CarritoComprasComponent,
+    PedidoTiendaComponent,
+    PasarelaPagoComponent
+    
+    
   ],
   imports: [
     CommonModule,
@@ -43,13 +48,15 @@ registerLocaleData(localeEsPE);
     CompartidoModule,
     HttpClientModule,
     PrincipalModule,
+    LayoutModule
   ],
   providers: [ZonaHorariaDefectoService,
-    {provide: LOCALE_ID, useValue: 'es-PE'},
+    { provide: LOCALE_ID, useValue: 'es-PE' },
     provideAnimationsAsync(),
     DatePipe,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    MediaMatcher
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,3 @@
-import { ProductoTiendaComponent } from './modules/tienda/pages/producto-tienda.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PrincipalComponent } from './modules/principal/paginas/principal/principal.component';
@@ -9,22 +8,27 @@ import { LoginComponent } from './modules/auth/login.component';
 import { DashboardComponent } from './modules/home/pages/dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PaginaTiendaComponent } from './modules/tienda/pages/pagina-tienda.component';
-import { ProductosPorCategoriaComponent } from './modules/tienda/pages/productos-por-categoria.component';
 import { CrearCuentaTiendaComponent } from './modules/tienda/pages/crear-cuenta-tienda/crear-cuenta-tienda.component';
+import { ItemProductoTiendaComponent } from './modules/tienda/pages/item-producto/item-producto-tienda.component';
+import { ProductosPorCategoriaComponent } from './modules/tienda/pages/productos-por-categoria/productos-por-categoria.component';
+import { PedidoTiendaComponent } from './modules/tienda/pages/pedido-tienda/pedido-tienda.component';
+import { PasarelaPagoComponent } from './modules/tienda/components/pasarela-pago.component';
 
 const routes: Routes = [
+  { path: '', redirectTo: 'tienda', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'crear-cuenta', component: CrearCuentaTiendaComponent },
   {
     path: 'tienda', component: PaginaTiendaComponent,
     children: [
       { path: 'productos-categoria/:catId', component: ProductosPorCategoriaComponent },
-      { path: 'producto/:productoId', component: ProductoTiendaComponent }
-
+      { path: 'item-producto/:productoId', component: ItemProductoTiendaComponent },
+      { path: 'pedido', component: PedidoTiendaComponent },
+      { path: 'pasarela-pago', component: PasarelaPagoComponent }
     ]
   },
   {
-    path: '', component: PrincipalComponent,
+    path: 'principal', component: PrincipalComponent,
     children: [
       {
         path: '',

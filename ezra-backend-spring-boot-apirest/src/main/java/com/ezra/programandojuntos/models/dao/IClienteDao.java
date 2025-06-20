@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.Producto;
 import com.ezra.programandojuntos.models.entity.TipoDocumento;
+import com.ezra.programandojuntos.models.entity.Usuario;
 
 public interface IClienteDao extends JpaRepository<Cliente, Long>{
  
@@ -29,4 +30,8 @@ public interface IClienteDao extends JpaRepository<Cliente, Long>{
 	
 	@Query("SELECT c FROM Cliente c WHERE (c.nomApellRz like %:query% OR c.tipoDocumento.acronimo like %:query% OR c.numeroDocumento like %:query% OR c.celular like %:query%)")
 	Page<Cliente> findAllClientePageable(@Param("query") String query, Pageable pageRequest);
+	
+	
+	@Query("FROM Usuario u WHERE u.username =:username")
+	Usuario findUsuarioByUsername(String username);
 }

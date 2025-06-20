@@ -7,21 +7,21 @@ import { RouterModule } from '@angular/router';
 import { PrincipalComponent } from './paginas/principal/principal.component';
 import { AyudaComponent } from './paginas/ayuda/ayuda.component';
 import { ErrorComponent } from './paginas/error/error.component';
-import { HeaderComponent } from './components/header/header.component';
 
-
+/*    import { LayoutModule, MediaMatcher } from '@angular/cdk/layout';
+ */
 
 @NgModule({
   declarations: [
     PrincipalComponent,
     AyudaComponent,
-    HeaderComponent,
-    ErrorComponent,
+    ErrorComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-    CompartidoModule
+    CompartidoModule,
+    
 
   ],
   exports: [

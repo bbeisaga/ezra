@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import com.ezra.programandojuntos.dto.ParametrosPageable;
 import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.TipoDocumento;
+import com.ezra.programandojuntos.models.entity.Usuario;
 
 public interface IClienteService {
 
@@ -18,6 +19,8 @@ public interface IClienteService {
 //	public Page<Cliente> findAll(Pageable pageable);
 	
 	public Cliente findById(Long id);
+	
+	public Usuario findUsuarioByUsername(String username);
 	
 	public Cliente insertar(Cliente cliente);
 	

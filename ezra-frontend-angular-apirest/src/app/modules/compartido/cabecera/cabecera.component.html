@@ -1,0 +1,9 @@
+<mat-toolbar>
+  <img src="http://localhost:8080/api/medios/imagen/marca_creativa-gris.png" width="200" alt="Logo Marca creativa"
+    class="img-fluid mx-auto d-block" />
+  @if (authService.isAuthenticated() && modoTienda) {
+  <button mat-icon-button (click)="sideNavToggle()"><mat-icon>menu</mat-icon></button>
+  }
+  <span class="example-spacer"></span>
+  <menu-app />
+</mat-toolbar>

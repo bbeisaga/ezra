@@ -35,12 +35,14 @@ public class Usuario implements Serializable {
 	private Boolean activo;
 
 	private Boolean bloqueado;
+	
+	private int reintentos;
 
 	private String nombres;
 	private String apellidos;
 
-	@Column(unique = true)
-	private String email;
+//	@Column(unique = true)
+//	private String email;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "role_id"), uniqueConstraints = {

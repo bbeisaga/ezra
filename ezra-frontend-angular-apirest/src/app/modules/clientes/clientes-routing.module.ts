@@ -15,8 +15,12 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { role: 'ROLE_LIST_CLIENTES' }
   },
-  { path: 'form/:id', component: FormComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_UPDATE_CLIENTE' }  },
-  { path: 'form', component: FormComponent, canActivate: [AuthGuard, RoleGuard], data: { role: 'ROLE_REGISTER_CLIENTE' } },
+  { path: 'form/:id', component: FormComponent, 
+    canActivate: [AuthGuard, RoleGuard], 
+    data: { role: 'ROLE_UPDATE_CLIENTE' }  },
+  { path: 'form', component: FormComponent, 
+    canActivate: [AuthGuard, RoleGuard], 
+    data: { role: 'ROLE_REGISTER_CLIENTE' } },
 ];
 
 

@@ -3,8 +3,8 @@
     @for (producto of lstProductos; track $index) {
     <div class="col-12 col-sm-6 col-lg-3">
       <div class="card">
-        <a [routerLink]="['/tienda/producto',producto.id]">
-        <img *ngIf="producto?.imagen" src="http://localhost:8080/api/producto/imagen/{{producto.imagen}}"
+        <a [routerLink]="['/tienda/item-producto',producto.id]">
+        <img *ngIf="producto?.imagen" src="http://localhost:8080/api/medios/imagen/{{producto.imagen}}"
           alt="{{producto.imagen}}" class="card-img-top"></a>
         <div class="card-body">
           <h3 class="card-title"> {{producto.descripcion}}</h3>

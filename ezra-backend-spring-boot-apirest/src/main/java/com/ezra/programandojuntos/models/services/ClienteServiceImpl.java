@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,9 +22,11 @@ import com.ezra.programandojuntos.errors.ClienteMapErrors;
 import com.ezra.programandojuntos.exceptions.ClienteExceptions;
 import com.ezra.programandojuntos.exceptions.PedidoExceptions;
 import com.ezra.programandojuntos.models.dao.IClienteDao;
+import com.ezra.programandojuntos.models.dao.IUsuarioDao;
 import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.Producto;
 import com.ezra.programandojuntos.models.entity.TipoDocumento;
+import com.ezra.programandojuntos.models.entity.Usuario;
 
 @Service
 public class ClienteServiceImpl implements IClienteService {
@@ -32,6 +35,12 @@ public class ClienteServiceImpl implements IClienteService {
 
 	@Autowired
 	private IClienteDao clienteDao;
+	
+	@Autowired
+	private IUsuarioDao usuarioDao;
+	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -85,6 +94,12 @@ public class ClienteServiceImpl implements IClienteService {
 	public Cliente findById(Long id) {
 		return clienteDao.findById(id).orElse(null);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Usuario findUsuarioByUsername(String username) {
+		return clienteDao.findUsuarioByUsername(username);
+	}
 
 	@Override
 	@Transactional
@@ -97,13 +112,31 @@ public class ClienteServiceImpl implements IClienteService {
 					ClienteMapErrors.getErrorString(ClienteMapErrors.CODE_CEL_DUPLICADO, clienteActual.getCelular())
 			);
 		}
-		
 		clienteActual = clienteDao.findByNumeroDocumento(cliente.getNumeroDocumento()).orElse(null);
 
 		if (clienteActual != null) {
 			throw new ClienteExceptions(
 					ClienteMapErrors.getErrorString(ClienteMapErrors.CODE_NUM_DOC_DUPLICADO, clienteActual.getNumeroDocumento())
 			);
+		}
+		cliente.setUsuarioId(null);
+		Usuario newUsuario =null;
+		if(cliente.getClave() != null) {
+			var usuarioActual = clienteDao.findUsuarioByUsername(cliente.getCelular());
+			if (usuarioActual != null) {
+				throw new ClienteExceptions(
+						ClienteMapErrors.getErrorString(ClienteMapErrors.CODE_USERNAME_DUPLICADO, usuarioActual.getUsername())
+				);
+			}
+			Usuario usuario = new Usuario();
+			usuario.setPassword(passwordEncoder.encode(cliente.getClave()));
+			usuario.setActivo(true);
+			usuario.setBloqueado(false);
+			usuario.setReintentos(0);
+			usuario.setUsername(cliente.getCelular());
+			newUsuario = usuarioDao.save(usuario);
+			cliente.setUsuarioId(newUsuario.getId());
+			cliente.setClave(null);
 		}
 		return clienteDao.save(cliente);
 	}

@@ -2,10 +2,11 @@ import { Producto } from './producto';
 
 export class ItemPedido {
   producto!: Producto;
-  cantidad: number=1;
+  cantidad: number=0;
  // costo!: number;
-  importe!: number;
+  importe: number=0;
   descripcion!: string;
+  imagen:string = 'no-imagen.jpg';
 
   /*
   public calcularImporteVentaCliente(): number {

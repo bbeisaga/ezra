@@ -32,7 +32,8 @@ import { SearchBoxTableComponent } from './search-box-table/search-box-table.com
 import { ModalDialogAlertComponent } from './modal-dialog/modal-dialog-alert.component';
 import { AutocompleteClienteComponent } from './autocomplete-box/autocomplete-cliente.component';
 import { MenuPrincipalTiendaComponent } from './menus-nav/menu-principal-tienda.component';
-import { MenuSecundarioTiendaComponent } from './menus-nav/menu-secundario-tienda.component';
+import { CabeceraComponent } from './cabecera/cabecera.component';
+import { MenuAppComponent } from './menus-nav/menu-app.component';
 
 
 
@@ -40,9 +41,10 @@ import { MenuSecundarioTiendaComponent } from './menus-nav/menu-secundario-tiend
   declarations: [
     SearchBoxTableComponent,
     ModalDialogAlertComponent,
+    MenuAppComponent,
     MenuPrincipalTiendaComponent,
     AutocompleteClienteComponent,
-    MenuSecundarioTiendaComponent
+    CabeceraComponent
   ],
   imports: [
     CommonModule,
@@ -98,7 +100,7 @@ import { MenuSecundarioTiendaComponent } from './menus-nav/menu-secundario-tiend
     SearchBoxTableComponent,
     AutocompleteClienteComponent,
     MenuPrincipalTiendaComponent,
-    MenuSecundarioTiendaComponent
+    CabeceraComponent
   ]
 })
 export class CompartidoModule { }

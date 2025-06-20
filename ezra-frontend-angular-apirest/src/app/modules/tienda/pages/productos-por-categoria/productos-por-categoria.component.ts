@@ -1,7 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProductoService } from '../../../services/producto.service';
-import { Producto } from '../../../models/producto';
+import { Producto } from '../../../../models/producto';
+import { ProductoService } from '../../../../services/producto.service';
+
 
 @Component({
   selector: 'app-productos-por-categoria',

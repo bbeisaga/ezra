@@ -32,6 +32,7 @@ public class ItemPedido implements Serializable {
 	
 	private String descripcion;
 
+	private String imagen;
 //	public BigDecimal getImporte() {
 //	return BigDecimal.valueOf( cantidad ).multiply( producto.getPrecioNeto() );				
 //}

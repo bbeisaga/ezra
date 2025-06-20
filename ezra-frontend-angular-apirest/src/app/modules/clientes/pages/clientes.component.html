@@ -44,7 +44,7 @@
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let element">
           <div class="d-flex flex-row">
-            <button mat-icon-button color="primary" *ngIf="authService.hasRole('ROLE_CREATE_PEDIDO')" [routerLink]="['/pedidos/form', element.id]" matTooltip="Crear pedido">
+            <button mat-icon-button color="primary" *ngIf="authService.hasRole('ROLE_CREATE_PEDIDO')" [routerLink]="['/principal/pedidos/form', element.id]" matTooltip="Crear pedido">
               <mat-icon>shopping_cart</mat-icon>
             </button>
             <button *ngIf="authService.hasRole('ROLE_UPDATE_CLIENTE')" mat-icon-button color="primary" [routerLink]="['form', element.id]" matTooltip="Actualizar cliente">

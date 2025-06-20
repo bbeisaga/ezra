@@ -65,3 +65,6 @@
 # System files
 /ezra-frontend-angular-apirest/.DS_Store
 /ezra-frontend-angular-apirest/Thumbs.db
+
+# Images
+/ezra-medios/*

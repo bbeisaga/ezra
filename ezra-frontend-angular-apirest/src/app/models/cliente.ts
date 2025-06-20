@@ -9,7 +9,9 @@ export class Cliente {
   createAt!: string;
   tipoDocumento!: TipoDocumento;
   numeroDocumento!: string;
+  email:string|null = null;
+  clave!:string;
+  confirmaClave!:string;
   celular!: string;
-  usuario!: Usuario;
   pedidos: Array<Pedido> = [];
 }

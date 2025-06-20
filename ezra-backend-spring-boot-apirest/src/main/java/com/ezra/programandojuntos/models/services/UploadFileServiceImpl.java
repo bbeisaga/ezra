@@ -44,7 +44,7 @@ public class UploadFileServiceImpl implements IUploadFileService{
 	public String copyFileToPath(MultipartFile archivo) throws IOException {
 		//String nombreArchivo = "";
 		//if(archivo !=null) {
-			//nombreArchivo = UUID.randomUUID().toString() + "_" +  archivo.getOriginalFilename().replace(" ", "-");
+			//String nombreArchivo = UUID.randomUUID().toString() + "_" +  archivo.getOriginalFilename().replace(" ", "-");
 			String nombreArchivo =  archivo.getOriginalFilename().replace(" ", "-");
 			Path rutaArchivo = getPath(DIRECTORIO_UPLOAD,nombreArchivo);
 			log.info(rutaArchivo.toString());

@@ -19,6 +19,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -78,11 +79,25 @@ public class Cliente implements Serializable {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private TipoDocumento tipoDocumento;
 	
+	
 	@Column(name = "numero_documento", unique=true)
 	private String numeroDocumento;
 	
 	@Column(name = "celular", unique=true)
 	private String celular;
+	
+	@Column(unique = true)
+	private String email;
+	
+//	@OneToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "usuario_id")
+//	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+//	private Usuario usuario;
+	@Column(name  = "usuario_id")
+	private Long usuarioId;
+	
+	@Column(name  = "clave")
+	private String clave;
 
 	@JsonIgnoreProperties(value={"cliente", "hibernateLazyInitializer", "handler"}, allowSetters=true)
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.ALL)

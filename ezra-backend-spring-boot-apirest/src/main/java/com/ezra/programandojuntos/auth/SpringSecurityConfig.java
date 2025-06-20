@@ -66,13 +66,14 @@ public class SpringSecurityConfig {
 	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		   return http.authorizeHttpRequests(authz -> 
 			   authz
-			   //Permisos par alas URLs de clientes
+			  //Permisos par alas URLs de clientes
 			   .requestMatchers(HttpMethod.GET,"api/clientes").permitAll() // aqui dejar las URL que siempre deben estar abiertas para autenticarnos
 			   .requestMatchers(HttpMethod.GET,"api/clientes/documentos").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/clientes/{id}").permitAll()
-			  // .requestMatchers(HttpMethod.GET,"api/clientes/filtrar-cliente/{term}").permitAll()
+			   // .requestMatchers(HttpMethod.GET,"api/clientes/filtrar-cliente/{term}").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/clientes/pageable").hasRole("LIST_CLIENTES")
-			   .requestMatchers(HttpMethod.POST,"api/clientes").hasRole("REGISTER_CLIENTE") 
+			   // .requestMatchers(HttpMethod.POST,"api/clientes").hasRole("REGISTER_CLIENTE") 
+			   .requestMatchers(HttpMethod.POST,"api/clientes").permitAll()
 			   .requestMatchers(HttpMethod.PUT,"api/clientes/{id}").hasRole("UPDATE_CLIENTE")
 			   .requestMatchers(HttpMethod.DELETE,"api/clientes/{id}").hasRole("DELETE_CLIENTE")
 
@@ -122,7 +123,7 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/producto/categorias").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/producto/usos").permitAll()	
 			   .requestMatchers(HttpMethod.GET,"api/producto/filtrar-productos/{term}").permitAll()
-			   .requestMatchers(HttpMethod.GET,"api/producto/imagen/{nombreImagen:.+}").permitAll()			   
+			   //.requestMatchers(HttpMethod.GET,"api/producto/imagen/{nombreImagen:.+}").permitAll()			   
 			   .requestMatchers(HttpMethod.GET,"api/producto/pageable").hasRole("LIST_PRODUCTOS")
 			   .requestMatchers(HttpMethod.POST,"api/producto").hasRole("REGISTER_PRODUCTO") //este se va ir
 			   .requestMatchers(HttpMethod.POST,"api/producto/imagen").hasRole("REGISTER_PRODUCTO") 
@@ -135,6 +136,11 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/usuarios/pageable").hasRole("LIST_USUARIOS")
 			   .requestMatchers(HttpMethod.PUT,"api/usuarios-roles/update/{usuarioId}").hasRole("ASIGNAR_ROL_USUARIO")
 			   .requestMatchers(HttpMethod.PUT,"api/usuarios-roles/delete/{usuarioId}").hasRole("ASIGNAR_ROL_USUARIO")
+
+			   //Permisos para las URLs de MEDIOS (imagenes, videos)
+			   .requestMatchers(HttpMethod.GET,"api/medios/imagen/{nombreImagen:.+}").permitAll()	
+			   .requestMatchers(HttpMethod.POST,"api/medios/upload").permitAll()	
+
 
 			   ///////////////////////////////////////////////////////////////////////
 			   .anyRequest().authenticated())

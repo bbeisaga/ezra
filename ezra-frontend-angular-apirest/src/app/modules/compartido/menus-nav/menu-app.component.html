@@ -1,0 +1,25 @@
+<button type="button" class="btn btn-link"><i class="bi bi-people-fill"></i>
+    Nosotros</button>
+<button type="button" class="btn btn-link"><i class="bi bi-phone-vibrate-fill"></i>
+    Contactanos</button>
+@if (!isAutenticado) {
+<button type="button" [routerLink]="['/login']" class="btn btn-link"><i class="bi bi-person-fill"></i>
+    Iniciar sesión</button>
+<button type="button" [routerLink]="['/crear-cuenta']" class="btn btn-primary">Crear cuenta</button>
+} @else {
+<div class="btn-group" role="group">
+    <button id="btnGroupDrop1" type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        <i class="bi bi-person-circle"></i>
+    </button>
+    <ul class="dropdown-menu elemento-encima" aria-labelledby="btnGroupDrop1">
+        <li><i class="bi bi-person-circle"></i>Hola {{usuario.username}}</li>
+        <li><a class="dropdown-item" [routerLink]="['/tienda']" [queryParams]="{modoTienda:'1'}"><i class="bi bi-shop"></i>
+                Ir a Tienda</a></li>
+        <li><a class="dropdown-item" [routerLink]="['/principal']" [queryParams]="{modoTienda:'0'}"><i class="bi bi-menu-down"></i>
+                Ir a Escritorio</a></li>
+        <li><button (click)="logout()" class="dropdown-item btn btn-link"><i class="bi bi-box-arrow-left"></i>
+                Cerrar sesión</button></li>
+    </ul>
+</div>
+}

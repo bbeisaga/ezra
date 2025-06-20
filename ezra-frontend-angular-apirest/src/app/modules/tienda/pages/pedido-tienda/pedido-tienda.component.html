@@ -1,0 +1,153 @@
+<div class="container">
+    <form #pedidoTiendaForm="ngForm" (ngSubmit)="crearPedidoTienda(pedidoTiendaForm)">
+        <div class="row">
+                   <div class="col-6">
+                <h2>Detalles del pedido</h2>
+                <div class="row mb-2">
+                    <label for="nomApellRz" class="col-form-label col-sm-4">Nombres y apellidos:<br>o
+                        Razón Social</label>
+                    <div class="input-group col-sm">
+                        <input type="text" [(ngModel)]="cliente.nomApellRz"   class="form-control" name="nomApellRz">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label for="direccionPrincipal" class="col-form-label col-sm-4">Dirección:</label>
+                    <div class="input-group col-sm">
+                        <input type="text" [(ngModel)]="cliente.direccion" class="form-control"
+                            name="direccionPrincipal">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label for="documentoId" class="form-label col-sm-4">Tipo de documento:
+                    </label>
+                    <div class="input-group col-sm">
+                        <select name="documentoId" [(ngModel)]="cliente.tipoDocumento" class="form-control">
+                            <option *ngFor="let documento of tipoDocumentos" [value]="documento">
+                                {{documento.nombre}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label for="numeroDocumento" class="col-form-label col-sm-4">Número documento:</label>
+                    <div class="input-group col-sm">
+                        <input type="text" [(ngModel)]="cliente.numeroDocumento" class="form-control" name="numeroDocumento">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label for="celular" class="col-form-label col-sm-4">Celular:</label>
+                    <div class="input-group col-sm">
+                        <input type="text" [(ngModel)]="cliente.celular" class="form-control" name="celular">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label for="email" class="col-form-label col-sm-4">Correo electrónico:</label>
+                    <div class="input-group col-sm">
+                        <input type="text" [(ngModel)]="cliente.email" class="form-control" name="email"
+                            placeholder="xxx@xxx.xx">
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="col-6">
+                <h2>¿Enviar a otro sitio?</h2>
+                <div class="row mb-2">
+                    <label for="nomApellRzEnvio" class="col-form-label col-sm-4">Nombres y
+                            apellidos:<br>o
+                        Razón Social</label>
+                    <div class="input-group col-sm">
+                        <input type="text" [(ngModel)]="pedido.nomApellRzEnvio" class="form-control" name="nomApellRzEnvio">
+                    </div>
+                </div>
+                 <div class="row mb-2">
+                    <label for="direccionEnvio" class="col-form-label col-sm-4">Dirección envío:</label>
+                    <div class="input-group col-sm">
+                        <input type="text" [(ngModel)]="pedido.direccionEnvio" class="form-control" name="direccionEnvio">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label for="celularEnvio" class="col-form-label col-sm-4">Celular:</label>
+                    <div class="input-group col-sm">
+                        <input type="text" [(ngModel)]="pedido.celularEnvio" class="form-control" name="celularEnvio">
+                    </div>
+                </div> 
+            </div> 
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="tabla-desktop table table-striped table-hover table-sm" cellspacing="1" cellpadding="1">
+                    <thead>
+                        <tr>
+                            <th>Eliminar</th>
+                            <th>Imagen</th>
+                            <th>Producto</th>
+                            <th>Descripcion</th>
+                            <th>Cantidad</th>
+                            <th>S/.Precio</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of lstItemPedido">
+                            <td><button mat-icon-button color="warn" (click)="eliminarItemPedido(item.producto.id)"
+                                    matTooltip="Elimnar item"><mat-icon>delete</mat-icon></button></td>
+                            <td>
+
+                                <img src="http://localhost:8080/api/medios/imagen/{{item.imagen}}" width="86"
+                                    alt={{item.imagen}} />
+                            </td>
+                            <td><a [routerLink]="['/tienda/item-producto',item.producto.id]">
+                                    {{item.producto.nombre}}</a>
+                                <!--                           <div class="input-group col-sm">
+                                        <textarea name="detalle" class="form-control"
+                                            [ngStyle]="{'resize': 'none'}" 
+                                            maxlength="250" [value]="item.descripcion"
+                                            rows="5"></textarea>
+                                    </div> -->
+                            </td>
+                            <td> <textarea name="descripcion" class="form-control" [ngStyle]="{'resize': 'none'}"
+                                    maxlength="250" [value]="item.descripcion" rows="3"></textarea></td>
+                            <td>
+                                <input type="number" name="cantidad" aria-describedby="cantidad"
+                                    [step]="item.producto.gruposDe.toString()"
+                                    [min]="item.producto.minCantidadPedido.toString()"
+                                    [max]="item.producto.maxCantidadPedido.toString()" [value]="item.cantidad"
+                                    (input)="actualizarCantidad(item.producto.id, $event);calcularTotal() " />
+                            </td>
+                            <td>{{item.producto.precioNeto| currency:'PEN'}}</td>
+
+
+                            <td> {{item.importe | currency:'PEN'}}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" class="text-end fw-bold">TOTAL</td>
+                            <td colspan="2" class="text-center fw-bold">{{total | currency:'PEN'}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" class="text-end"><button type="button" class="btn btn-dark btn-lg">Finalizar pedido</button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+
+                <!--             <div class="row mb-2">
+                            <div class="ol-sm-6">
+                                <span>Valid:</span>
+                                <pre>{{formProducto.valid | json}}</pre>
+                                <span>pristine:</span>
+                                <pre>{{formProducto.pristine| json}}</pre>
+                                <span>touched:</span>
+                                <pre>{{formProducto.touched| json}}</pre>
+                                <span>value:</span>
+                                <pre>{{formProducto.value| json}}</pre>
+                                <span>errores</span>
+                                <pre>{{formProducto.errors| json}}</pre>
+
+                            </div>
+                            </div> -->
+            </div>
+        </div>
+    </form>
+</div>

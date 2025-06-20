@@ -59,8 +59,8 @@ public class ProductoRestController {
 	@Autowired
 	private ProductoService productoService;
 	
-	@Autowired
-	private IUploadFileService uploadFileService;
+//	@Autowired
+//	private IUploadFileService uploadFileService;
 	
 	@GetMapping("/producto/pageable")
 	public Page<Producto> index(@RequestParam int pageNumber, @RequestParam int pageSize, 
@@ -188,19 +188,19 @@ public class ProductoRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/producto/imagen/{nombreImagen:.+}")
-	public ResponseEntity<Resource> verFoto(@PathVariable String nombreImagen){
-
-		Resource recurso = null;
-		try {
-			recurso = uploadFileService.cargar(nombreImagen);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-		HttpHeaders cabecera = new HttpHeaders();
-		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
-		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
-	}
+//	@GetMapping("/producto/imagen/{nombreImagen:.+}")
+//	public ResponseEntity<Resource> verFoto(@PathVariable String nombreImagen){
+//
+//		Resource recurso = null;
+//		try {
+//			recurso = uploadFileService.cargar(nombreImagen);
+//		} catch (MalformedURLException e) {
+//			e.printStackTrace();
+//		}
+//		HttpHeaders cabecera = new HttpHeaders();
+//		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
+//		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
+//	}
 	
 	
 	@PutMapping("/producto/{id}")
