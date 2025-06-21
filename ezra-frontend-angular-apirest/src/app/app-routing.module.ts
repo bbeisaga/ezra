@@ -1,24 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PrincipalComponent } from './modules/principal/paginas/principal/principal.component';
-import { AyudaComponent } from './modules/principal/paginas/ayuda/ayuda.component';
-import { ErrorComponent } from './modules/principal/paginas/error/error.component';
-import { PrincipalModule } from './modules/principal/principal.module';
 import { LoginComponent } from './modules/auth/login.component';
-import { DashboardComponent } from './modules/home/pages/dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
-import { PaginaTiendaComponent } from './modules/tienda/pages/pagina-tienda.component';
-import { CrearCuentaTiendaComponent } from './modules/tienda/pages/crear-cuenta-tienda/crear-cuenta-tienda.component';
-import { ItemProductoTiendaComponent } from './modules/tienda/pages/item-producto/item-producto-tienda.component';
-import { ProductosPorCategoriaComponent } from './modules/tienda/pages/productos-por-categoria/productos-por-categoria.component';
-import { PedidoTiendaComponent } from './modules/tienda/pages/pedido-tienda/pedido-tienda.component';
-import { PasarelaPagoComponent } from './modules/tienda/components/pasarela-pago.component';
+
+import { PrincipalComponent } from './modules/compartido/principal.component';
+import { CrearCuentaTiendaComponent } from './modules/auth/crear-cuenta-tienda.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'tienda', pathMatch: 'full' },
+
+/*    { path: '', redirectTo: 'a', pathMatch: 'full' },
+ */   
   { path: 'login', component: LoginComponent },
   { path: 'crear-cuenta', component: CrearCuentaTiendaComponent },
-  {
+/*   {
     path: 'tienda', component: PaginaTiendaComponent,
     children: [
       { path: 'productos-categoria/:catId', component: ProductosPorCategoriaComponent },
@@ -26,15 +20,19 @@ const routes: Routes = [
       { path: 'pedido', component: PedidoTiendaComponent },
       { path: 'pasarela-pago', component: PasarelaPagoComponent }
     ]
-  },
+  }, */
   {
-    path: 'principal', component: PrincipalComponent,
+    path: '', component: PrincipalComponent,
     children: [
       {
+        path: 'tienda',
+        loadChildren: () => import("./modules/tienda/tienda.module").then((m) => m.TiendaModule),
+      },
+/*       {
         path: '',
         loadChildren: () => import("./modules/home/home.module").then((m) => m.HomeModule),
         canActivate: [AuthGuard],
-      },
+      }, */
       {
         path: 'clientes',
         loadChildren: () => import("./modules/clientes/clientes.module").then((m) => m.ClientesModule),
@@ -64,8 +62,8 @@ const routes: Routes = [
   },
   //{ path: 'pr',  loadChildren: () =>import("./modules/principal/principal.module").then((m) => m.PrincipalModule),},
   //{ path: 'reset-password', component: AyudaComponent },
-  { path: 'ayuda', component: AyudaComponent },
-  { path: '***', component: LoginComponent },
+/*   { path: 'ayuda', component: AyudaComponent },
+ */  { path: '***', component: LoginComponent },
 ];
 
 @NgModule({

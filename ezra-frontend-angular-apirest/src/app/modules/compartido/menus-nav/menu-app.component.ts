@@ -11,13 +11,15 @@ import { Usuario } from '../../../models/usuario';
 })
 export class MenuAppComponent {
 
-    title: string = 'Sistema de pedido EZRA'
-    isAutenticado: boolean = false;
-    usuario!: Usuario;
-    @Output()
-    clickMenuEvent = new EventEmitter();
+  title: string = 'Sistema de pedido EZRA'
+  isAutenticado: boolean = false;
+  usuario!: Usuario;
+  @Output()
+  clickMenuEvent = new EventEmitter();
 
-  constructor(private authService: AuthService,
+
+
+  constructor(public authService: AuthService,
     private router: Router,
     private alertService: AlertService) { }
 
@@ -31,9 +33,10 @@ export class MenuAppComponent {
   logout(): void {
     let username = this.authService.usuario.username;
     this.authService.logout();
-    this.alertService.success(`Hola ${username}, has cerrado sesión con éxito!`, 'Cerrar sesión');
-    //swal.fire('Logout', `Hola ${username}, has cerrado sesión con éxito!`, 'success');
-    this.router.navigate(['/tienda']);
+    this.clickMenuEvent.emit();
+
+    //this.alertService.success(`Hola ${username}, has cerrado sesión con éxito!`, 'Cerrar sesión');
+    //this.router.navigate(['']);
   }
 
 }

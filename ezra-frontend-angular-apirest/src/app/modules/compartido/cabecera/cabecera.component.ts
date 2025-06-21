@@ -23,13 +23,17 @@ export class CabeceraComponent implements OnInit {
     this.clickMenuEvent.emit();
   }
 
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
   ngOnInit(): void {
-    this.activateRoute.queryParams.subscribe(qp => {
-      console.log(qp['modoTienda']);
-      console.log(!qp['modoTienda']);
-      console.log(!!qp['modoTienda']);
-      this.modoTienda = !!qp['modoTienda']
-    });
+    /*     this.activateRoute.queryParams.subscribe(qp => {
+          console.log(qp['modoTienda']);
+          console.log(!qp['modoTienda']);
+          console.log(!!qp['modoTienda']);
+          this.modoTienda = !!qp['modoTienda']
+        }); */
   }
 
 }

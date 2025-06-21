@@ -5,8 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { CompartidoModule } from './modules/compartido/compartido.module';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-import { PrincipalModule } from './modules/principal/principal.module';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './modules/auth/login.component';
 import { CommonModule, DatePipe, registerLocaleData } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,14 +13,9 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ZonaHorariaDefectoService } from './services/zona-horaria-defecto.service';
 import localeEsPE from '@angular/common/locales/es-PE';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-import { PaginaTiendaComponent } from './modules/tienda/pages/pagina-tienda.component';
-import { CrearCuentaTiendaComponent } from './modules/tienda/pages/crear-cuenta-tienda/crear-cuenta-tienda.component';
+
 import { LayoutModule, MediaMatcher } from '@angular/cdk/layout';
-import { ItemProductoTiendaComponent } from './modules/tienda/pages/item-producto/item-producto-tienda.component';
-import { CarritoComprasComponent } from './modules/tienda/components/carrito-compras.component';
-import { PedidoTiendaComponent } from './modules/tienda/pages/pedido-tienda/pedido-tienda.component';
-import { ProductosPorCategoriaComponent } from './modules/tienda/pages/productos-por-categoria/productos-por-categoria.component';
-import { PasarelaPagoComponent } from './modules/tienda/components/pasarela-pago.component';
+import { CrearCuentaTiendaComponent } from './modules/auth/crear-cuenta-tienda.component';
 
 
 registerLocaleData(localeEsPE);
@@ -30,15 +24,9 @@ registerLocaleData(localeEsPE);
   declarations: [
     AppComponent,
     LoginComponent,
-    PaginaTiendaComponent,
-    ProductosPorCategoriaComponent,
-    CrearCuentaTiendaComponent,
-    ItemProductoTiendaComponent,
-    CarritoComprasComponent,
-    PedidoTiendaComponent,
-    PasarelaPagoComponent
-    
-    
+    CrearCuentaTiendaComponent
+
+
   ],
   imports: [
     CommonModule,
@@ -47,7 +35,7 @@ registerLocaleData(localeEsPE);
     AppRoutingModule,
     CompartidoModule,
     HttpClientModule,
-    PrincipalModule,
+    //PrincipalModule,
     LayoutModule
   ],
   providers: [ZonaHorariaDefectoService,

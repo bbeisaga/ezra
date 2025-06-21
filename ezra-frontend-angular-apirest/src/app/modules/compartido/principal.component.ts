@@ -1,7 +1,7 @@
-import { AuthService } from './../../../../services/auth.service';
 import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-principal',
@@ -10,14 +10,10 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class PrincipalComponent implements OnInit, OnDestroy {
 
+  private router = inject(Router);
   public authService = inject(AuthService);
-  
   mobileQuery: MediaQueryList;
-
   //fillerNav = Array.from({length: 50}, (_, i) => `Nav Item ${i + 1}`);
-
-
-
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
@@ -25,9 +21,12 @@ export class PrincipalComponent implements OnInit, OnDestroy {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
   }
+
   ngOnInit(): void {
-    
+    //navegara al boton INICIO o HOME
+    this.router.navigate(["/tienda/productos-categoria", 0])
   }
+
 
   ngOnDestroy(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);

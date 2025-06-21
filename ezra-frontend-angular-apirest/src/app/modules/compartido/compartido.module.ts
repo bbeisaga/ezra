@@ -31,9 +31,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { SearchBoxTableComponent } from './search-box-table/search-box-table.component';
 import { ModalDialogAlertComponent } from './modal-dialog/modal-dialog-alert.component';
 import { AutocompleteClienteComponent } from './autocomplete-box/autocomplete-cliente.component';
-import { MenuPrincipalTiendaComponent } from './menus-nav/menu-principal-tienda.component';
+import { MenuTiendaComponent } from './menus-nav/menu-tienda.component';
 import { CabeceraComponent } from './cabecera/cabecera.component';
 import { MenuAppComponent } from './menus-nav/menu-app.component';
+import { PrincipalComponent } from './principal.component';
+import { MenuCabeceraComponent } from './menus-nav/menu-cabecera.component';
 
 
 
@@ -42,9 +44,11 @@ import { MenuAppComponent } from './menus-nav/menu-app.component';
     SearchBoxTableComponent,
     ModalDialogAlertComponent,
     MenuAppComponent,
-    MenuPrincipalTiendaComponent,
+    MenuTiendaComponent,
+    PrincipalComponent,
     AutocompleteClienteComponent,
-    CabeceraComponent
+    CabeceraComponent,
+    MenuCabeceraComponent
   ],
   imports: [
     CommonModule,
@@ -99,8 +103,9 @@ import { MenuAppComponent } from './menus-nav/menu-app.component';
     MatExpansionModule,
     SearchBoxTableComponent,
     AutocompleteClienteComponent,
-    MenuPrincipalTiendaComponent,
-    CabeceraComponent
+    MenuTiendaComponent,
+    CabeceraComponent,
+    PrincipalComponent
   ]
 })
 export class CompartidoModule { }

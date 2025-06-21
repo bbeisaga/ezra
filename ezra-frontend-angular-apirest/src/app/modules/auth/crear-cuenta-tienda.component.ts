@@ -1,13 +1,12 @@
-import { AlertService } from './../../../../services/alert.service';
 import { Component, inject } from '@angular/core';
-import { TipoDocumento } from '../../../../models/tipo-documento';
-import { Cliente } from '../../../../models/cliente';
-import { ClienteService } from '../../../../services/cliente.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Usuario } from '../../../../models/usuario';
 import { find } from 'lodash';
-import { FormUtils } from '../../../../utils/form-utils';
+import { ClienteService } from '../../services/cliente.service';
+import { AlertService } from '../../services/alert.service';
+import { FormUtils } from '../../utils/form-utils';
+import { Cliente } from '../../models/cliente';
+import { TipoDocumento } from '../../models/tipo-documento';
 
 @Component({
   selector: 'app-crear-cuenta-tienda',
