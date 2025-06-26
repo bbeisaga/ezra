@@ -11,7 +11,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 export class MediosUtilsService {
 
-  public imagenSeleccionada: File | null = null;
+  //public imagenSeleccionada: File | null = null;
   public base64Image: string | null = null;
 
   //private imagenSeleccionada!: File;
@@ -21,15 +21,29 @@ export class MediosUtilsService {
     private httpClient: HttpClient
   ) { }
 
-  seleccionarImagen(event: any) {
-    //let imagenSeleccionada: File;
+/*   seleccionarImagen(event: any) {
+    let imagenSeleccionada: File;
     this.imagenSeleccionada = event.target.files[0];
     if (this.imagenSeleccionada!.type.indexOf('image') < 0) {
       this.alertService.error('El archivo debe ser del tipo imagen', 'Imagen');
       return;
     }
-  }
+  } */
 
+  isImage(fileInput: HTMLInputElement): boolean {
+    let result:boolean = false;
+    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+      let imagenSeleccionada: File;
+      //imagenSeleccionada = event.target.files[0];
+      imagenSeleccionada = fileInput.files[0];
+      if (imagenSeleccionada!.type.indexOf('image') < 0) {
+        this.alertService.error('El archivo debe ser del tipo imagen', 'Imagen');
+        return result= false;
+      }
+      return result = true;
+    }
+    return result;
+  }
 
   imageToBase64(file: File) {
     if (file) {
@@ -42,7 +56,6 @@ export class MediosUtilsService {
   }
 
   subirImagen(file: File): Observable<any> {
-    debugger;
     let formData = new FormData();
     formData.append("archivo", file);
     let httpHeaders = new HttpHeaders()

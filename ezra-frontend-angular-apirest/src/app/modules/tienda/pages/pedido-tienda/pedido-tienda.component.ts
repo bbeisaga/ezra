@@ -14,6 +14,9 @@ import { NgForm } from '@angular/forms';
 import { PedidoService } from '../../../../services/pedido.service';
 import { TipoPedido } from '../../../../models/tipo-pedido';
 import { Router } from '@angular/router';
+import { FormUtils } from '../../../../utils/form-utils';
+import moment from 'moment';
+import { ChatUtils } from '../../../../utils/chat-utils';
 
 @Component({
   selector: 'app-pedido-tienda',
@@ -23,11 +26,11 @@ import { Router } from '@angular/router';
 export class PedidoTiendaComponent implements OnInit {
 
 
-  private authService = inject(AuthService);
+  public authService = inject(AuthService);
   private usuarioService = inject(UsuarioService);
   private clienteService = inject(ClienteService);
   private pedidoService = inject(PedidoService);
-    private router = inject(Router);
+  private router = inject(Router);
 
 
   itemService = inject(ItemService)
@@ -42,6 +45,8 @@ export class PedidoTiendaComponent implements OnInit {
   //usuario!: Usuario;
 
   lstItemPedido: ItemPedido[] = [];
+  formUtils = FormUtils;
+  chatUtils = ChatUtils;
   //itemPedido!: ItemPedido;
   total: number = 0;
 
@@ -115,7 +120,8 @@ export class PedidoTiendaComponent implements OnInit {
     if (this.lstItemPedido.length > 0) {
       this.pedido.items = [...this.lstItemPedido];
       this.calcularTotal();
-      this.pedido.precioNetoTotal = this.total
+      this.pedido.entregadoEn = moment(new Date()).add(3, 'days').toISOString(),
+        this.pedido.precioNetoTotal = this.total
     } else {
       //this.autocompleteControl.setErrors({ 'invalid': true });
       return
@@ -126,13 +132,19 @@ export class PedidoTiendaComponent implements OnInit {
       this.pedido.tipoPedido = this.tipoPedidoVentaClientes
       console.log(JSON.stringify(this.pedido));
 
-      this.pedidoService.create(this.pedido).subscribe(p => {
+      this.pedidoService.createPedidoTienda(this.pedido).subscribe(p => {
         //this.alertService.success(`Pedido registrado, ahora REGISTRAR MOVIMIENTO!`,'success')
         //this.alertService.success(`Pedido para ${p.cliente?.nomApellRz}, creado con éxito!`,'success')
         this.pedidoService.setPedido(p);
-        this.router.navigate(['/pasarela-pago']);
+       // this.enviarPedidoChat(p);
+        this.itemService.removeLocalStorageItems();
+        this.router.navigate(['/tienda/contactanos']);
       });
     }
   }
+
+/*   enviarPedidoChat(pedido: Pedido) {
+    this.chatUtils.sendPedido(pedido)
+  } */
 }
 

@@ -85,6 +85,9 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/pedidos/{tipoPedidoId}/pageable").hasAnyRole("LIST_VENTAS", "LIST_COMPRAS")
 			   .requestMatchers(HttpMethod.POST,"api/pedidos").hasRole("CREATE_PEDIDO") 
 			   .requestMatchers(HttpMethod.POST,"api/pedidos/reporte/tipo-pedido").hasAnyRole("REPORT_VENTA", "REPORT_COMPRA") 
+			   
+			   .requestMatchers(HttpMethod.POST,"api/pedidos-tienda").hasRole("CREATE_PEDIDO_TIENDA") 
+
 			   //.requestMatchers(HttpMethod.PUT,"api/pedidos/{id}").hasAnyRole("USER","ADMIN")
 			   //.requestMatchers(HttpMethod.DELETE,"api/pedidos/{id}").hasRole("ADMIN")
 

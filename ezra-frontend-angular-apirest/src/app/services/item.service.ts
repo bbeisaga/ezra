@@ -118,4 +118,14 @@ export class ItemService {
     return items ? JSON.parse(items) : [];
   }
 
+  removeLocalStorageItems() {
+    localStorage.removeItem('items');
+    this.setItems([]);
+  }
+
+  removeSessionStorageItems() {
+    localStorage.removeItem('items');
+    this.setItems([]);
+
+  }
 }

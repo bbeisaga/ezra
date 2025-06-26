@@ -1,26 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './modules/auth/login.component';
-import { AuthGuard } from './guards/auth.guard';
 
 import { PrincipalComponent } from './modules/compartido/principal.component';
 import { CrearCuentaTiendaComponent } from './modules/auth/crear-cuenta-tienda.component';
 
 const routes: Routes = [
 
-/*    { path: '', redirectTo: 'a', pathMatch: 'full' },
- */   
+  /*    { path: '', redirectTo: 'a', pathMatch: 'full' },
+   */
   { path: 'login', component: LoginComponent },
   { path: 'crear-cuenta', component: CrearCuentaTiendaComponent },
-/*   {
-    path: 'tienda', component: PaginaTiendaComponent,
-    children: [
-      { path: 'productos-categoria/:catId', component: ProductosPorCategoriaComponent },
-      { path: 'item-producto/:productoId', component: ItemProductoTiendaComponent },
-      { path: 'pedido', component: PedidoTiendaComponent },
-      { path: 'pasarela-pago', component: PasarelaPagoComponent }
-    ]
-  }, */
+
+  /*   {
+      path: 'tienda', component: PaginaTiendaComponent,
+      children: [
+        { path: 'productos-categoria/:catId', component: ProductosPorCategoriaComponent },
+        { path: 'item-producto/:productoId', component: ItemProductoTiendaComponent },
+        { path: 'pedido', component: PedidoTiendaComponent },
+        { path: 'pasarela-pago', component: PasarelaPagoComponent }
+      ]
+    }, */
   {
     path: '', component: PrincipalComponent,
     children: [
@@ -28,11 +28,11 @@ const routes: Routes = [
         path: 'tienda',
         loadChildren: () => import("./modules/tienda/tienda.module").then((m) => m.TiendaModule),
       },
-/*       {
-        path: '',
-        loadChildren: () => import("./modules/home/home.module").then((m) => m.HomeModule),
-        canActivate: [AuthGuard],
-      }, */
+      /*       {
+              path: '',
+              loadChildren: () => import("./modules/home/home.module").then((m) => m.HomeModule),
+              canActivate: [AuthGuard],
+            }, */
       {
         path: 'clientes',
         loadChildren: () => import("./modules/clientes/clientes.module").then((m) => m.ClientesModule),

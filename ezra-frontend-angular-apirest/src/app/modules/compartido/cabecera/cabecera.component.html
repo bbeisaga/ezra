@@ -1,6 +1,10 @@
-<mat-toolbar>
-  <img src="http://localhost:8080/api/medios/imagen/marca_creativa-gris.png" width="200" alt="Logo Marca creativa"
-    class="img-fluid mx-auto d-block" />
-  <span class="example-spacer"></span>
-  <menu-cabecera (clickMenuEvent)="sideNavToggle()" />
-</mat-toolbar>
+<div class="container-fluid">
+  <div class="row mt-2">
+    <div class="d-flex col-12 justify-content-center col-sm-6 justify-content-sm-start">
+      <img src="marca-creativa-gris.png" width="200" alt="Logo Marca creativa" class="img-fluid" />
+    </div>
+    <div class="col-12 col-md-6">
+      <menu-cabecera (clickMenuEvent)="sideNavToggle()" />
+    </div>
+  </div>
+</div>

@@ -1,30 +1,40 @@
-<div class="container">
+
+<!--   @if (items.length > 0) {
+  <div class="row">
+    <div class="col-12 alert alert-success">
+      Hay {{items.length}} producto(s) en el carrito. Ir al <a [routerLink]="['/tienda/pedido']">PEDIDO.</a>
+    </div>
+  </div>
+  } -->
   <div class="row">
     @for (producto of lstProductos; track $index) {
     <div class="col-12 col-sm-6 col-lg-3">
       <div class="card">
         <a [routerLink]="['/tienda/item-producto',producto.id]">
-        <img *ngIf="producto?.imagen" src="http://localhost:8080/api/medios/imagen/{{producto.imagen}}"
-          alt="{{producto.imagen}}" class="card-img-top"></a>
+
+          <!--         <a [routerLink]="['/tienda/contactanos']">
+ -->
+          <img *ngIf="producto?.imagen" [src]="producto.imagen" alt="{{producto.imagen}}" class="card-img-top"></a>
         <div class="card-body">
           <h3 class="card-title"> {{producto.descripcion}}</h3>
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><b>{{producto.precioNeto | currency: 'PEN'}}</b>, <i>En stock:</i> {{producto.cantidadStock}} unidades</li>
-          <li class="list-group-item"><i>Orden mín:</i> {{producto.minCantidadPedido}}, <i>Grupos de:</i> {{producto.gruposDe}}</li>
+          <li class="list-group-item"><b>{{producto.precioNeto | currency: 'PEN'}}</b>, <i>En stock:</i>
+            {{producto.cantidadStock}} unidades</li>
+          <li class="list-group-item"><i>Orden mín:</i> {{producto.minCantidadPedido}}, <i>Grupos de:</i>
+            {{producto.gruposDe}}</li>
           <li class="list-group-item">{{producto.cantidadStock}} vendidos</li>
         </ul>
         <div class="card-body">
           <div class="d-flex justify-content-evenly">
-            <a href="#" class="btn btn-primary">Contactar</a>
-            <a href="#" class="btn btn-success">Chatear</a>
+<!--             <button type="button" class="btn btn-primary" (click)="sendOneProducto(producto)">Añadir a carrito</button>
+ -->          
+            <button type="button" class="btn btn-primary" [routerLink]="['/tienda/item-producto',producto.id]">Ver producto</button>
+          
+            <button type="button" class="btn btn-success" (click)="chatear(producto)">Chatear</button>
           </div>
         </div>
       </div>
     </div>
     }
-
-
-
   </div>
-</div>

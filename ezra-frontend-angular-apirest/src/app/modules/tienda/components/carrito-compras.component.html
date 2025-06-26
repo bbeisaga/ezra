@@ -1,52 +1,58 @@
-<div class="container-fluid">
-    <h2>Carrito de compras</h2>
-    <!--SECCION PARA MOBILE-->
-    @for (item of lstItemPedido; track $index) {
-    <div class="p-2" style="border-bottom: 1px solid #ccc;">
-        <div class="row mb-2">
-            <button class="col-2" mat-icon-button color="warn" (click)="eliminarItemPedido(item.producto.id)"
-                matTooltip="Elimnar"><mat-icon>close</mat-icon></button>
-            <span class="col-6 d-flex align-items-center">{{item.producto.nombre}}</span>
+<!--SECCION PARA MOBILE-->
+@for (item of lstItemPedido; track $index) {
+<div class="p-1" style="border-bottom: 1px solid #ccc;">
+    <div class="row">
+        <button class="col-2" mat-icon-button color="warn" (click)="eliminarItemPedido(item.producto.id)"
+            matTooltip="Elimnar"><mat-icon>close</mat-icon></button>
+        <span class="col-5 d-flex align-items-center">{{item.producto.nombre}}</span>
 
-    <!--         <button class="col-2" mat-icon-button color="primary" (click)="openDialog(item)"
+        <!--         <button class="col-2" mat-icon-button color="primary" (click)="openDialog(item)"
                 matTooltip="Detalle item"><mat-icon>note_add</mat-icon></button> -->
 
-            <img class="col-4" src="http://localhost:8080/api/medios/imagen/{{item.imagen}}"
-                alt={{item.imagen}} />
+        <img class="col-4" src="http://localhost:8080/api/medios/imagen/{{item.imagen}}" alt={{item.imagen}} />
+    </div>
+    <div class="row">
+        <div class="col-3 d-flex align-items-center">
+            {{item.producto.precioNeto| currency:'PEN'}}
+            <!--                 {{item.producto.costoUnitario|currency:'PEN'}}  -->
         </div>
-        <div class="row mb-2">
-            <div class="col-3 d-flex align-items-center">
-                {{item.producto.precioNeto| currency:'PEN'}}
-                <!--                 {{item.producto.costoUnitario|currency:'PEN'}}  -->
-            </div>
-            <div class="col-4 d-flex align-items-center">
-                <span id="cantidad">#</span>
-                <input type="number" name="cantidad" aria-describedby="cantidad"
-                    [step]="item.producto.gruposDe.toString()" [min]="item.producto.minCantidadPedido.toString()"
-                    [max]="item.producto.maxCantidadPedido.toString()" [value]="item.cantidad"
-                    (input)="actualizarCantidad(item.producto.id, $event);calcularTotal() " />
-            </div>
-            <div class="col-5 d-flex align-items-center">
-                <span id="importe">S/.</span>
-                <input type="number" name="importe" aria-describedby="importe" [value]="item.importe"
-                    (input)="calcularTotal() ">
-            </div>
+        <div class="col-4 d-flex align-items-center">
+            <span id="cantidad">#</span>
+            <input type="number" name="cantidad" aria-describedby="cantidad" [step]="item.producto.gruposDe.toString()"
+                [min]="item.producto.minCantidadPedido.toString()" [max]="item.producto.maxCantidadPedido.toString()"
+                [value]="item.cantidad" (input)="actualizarCantidad(item.producto.id, $event);calcularTotal() " />
+        </div>
+        <div class="col-5 d-flex align-items-center">
+            {{item.importe| currency:'PEN'}}
 
+            <!--                 <span id="importe">S/.</span>
+                        <input type="number" name="importe" aria-describedby="importe" [value]="item.importe"
+                            (input)="calcularTotal() "> -->
         </div>
+
     </div>
-    }
-    @if(lstItemPedido.length > 0){
-    <div class="row">
-        <div class="col-6">
-            <p class="text-end fw-bold">TOTAL</p>
-        </div>
-        <div class="col-6">
-            <p class="text-center fw-bold">{{total | currency:'PEN'}}</p>
-        </div>
+</div>
+}
+
+<!--     @if(lstItemPedido.length > 0){
+    -->
+<div class="row">
+    <div class="col-6">
+        <p class="text-end fw-bold">TOTAL</p>
     </div>
-    <div class="row">
-        <div class="col-12 d-flex justify-content-center">
-            <button (click)="irRealizarPedido()" class="btn btn-warning">Realizar Pedido</button>
-        </div>
+    <div class="col-6">
+        <p class="text-center fw-bold">{{total | currency:'PEN'}}</p>
     </div>
-    }
+</div>
+
+<div class="row">
+    <div class="col-12 d-flex justify-content-center">
+        @if(lstItemPedido.length > 0 && authService.hasRole('ROLE_CREATE_PEDIDO_TIENDA')){
+        <button (click)="irRealizarPedido()" class="btn btn-warning">Realizar el pedido</button>
+        } @else {
+        <button (click)="irRealizarPedido()" class="btn btn-warning" disabled>Realizar el pedido</button>
+        }
+    </div>
+</div>
+
+<!-- } -->

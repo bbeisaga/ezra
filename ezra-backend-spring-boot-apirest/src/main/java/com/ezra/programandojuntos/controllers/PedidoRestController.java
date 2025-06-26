@@ -158,6 +158,27 @@ public class PedidoRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
+	@PostMapping("/pedidos-tienda")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<?> crearPedidoTienda(@RequestBody Pedido pedido) {
+		Pedido pedidoNew = null;
+		Map<String, Object> response = new HashMap<>();
+		try {
+			pedidoNew = pedidoService.registrarPedido(pedido);
+			response.put("mensaje", "El pedido ha sido actualizado con éxito!");
+			response.put("pedido", pedidoNew);
+		} catch (DataAccessException de) {
+			response.put("mensaje", "Error al crear el pedido en la base de datos");
+			response.put("err", de.getMessage().concat(": ").concat(de.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch(PedidoExceptions pe) {
+			response.put("mensaje", pe.getMessage());
+			response.put("err", "Error");
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+	}
+	
 	//@Secured("ROLE_ADMIN")
 	@PutMapping("/pedidos/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody Pedido pedido, BindingResult result, @PathVariable Long id) {

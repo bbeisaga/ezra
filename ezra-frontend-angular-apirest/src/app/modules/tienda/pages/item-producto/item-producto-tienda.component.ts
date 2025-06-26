@@ -1,6 +1,7 @@
 import { ItemService } from '../../../../services/item.service';
 import { FormUtils } from '../../../../utils/form-utils';
 
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MediosUtilsService } from '../../../../services/medios-utils.service';
 import { Producto } from '../../../../models/producto';
@@ -11,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from '../../../../services/auth.service';
+import { ChatUtils } from '../../../../utils/chat-utils';
 
 
 
@@ -26,10 +28,11 @@ export class ItemProductoTiendaComponent implements OnInit, OnDestroy {
   private productoService = inject(ProductoService);
   private itemService = inject(ItemService);
   private activatedRoute = inject(ActivatedRoute);
-  private authService = inject(AuthService);
+  public authService = inject(AuthService);
 
   itemServiceSuscription$!: Subscription;
   formUtils = FormUtils;
+  chatUtils = ChatUtils;
   verImagenProducto!: string;
   verImagenItem!: string;
   producto!: Producto;
@@ -77,20 +80,27 @@ export class ItemProductoTiendaComponent implements OnInit, OnDestroy {
     return this.authService.isAuthenticated();
   }
 
-  seleccionarImagenToItem($event: any): void {
-    this.mediosUtilsService.seleccionarImagen($event);
+  /*   seleccionarImagenToItem($event: any): void {
+      this.mediosUtilsService.seleccionarImagen($event);
+    } */
+
+  isImage(fileInput: HTMLInputElement): boolean {
+    //console.log('isImage', fileInput.value); 
+    return this.mediosUtilsService.isImage(fileInput);
   }
 
-  subirImagen() {
-    if (this.mediosUtilsService.imagenSeleccionada) {
-      const imagen: File = this.mediosUtilsService.imagenSeleccionada
+  subirImagen(fileInput: HTMLInputElement) {
+    //if (this.mediosUtilsService.imagenSeleccionada) {
+    if (fileInput && fileInput.files && fileInput.files.length > 0) {
+      const imagen: File = fileInput.files[0];
       this.mediosUtilsService.subirImagen(imagen).subscribe(resp => {
         //this.mediosUtilsService.imageToBase64(imagen);
         this.verImagenItem = environment.API_URL_VER_IMAGEN + resp.imagen;
         this.item.imagen = resp.imagen;
-        this.mediosUtilsService.imagenSeleccionada = null; // Limpiar la imagen seleccionada
+        // this.mediosUtilsService.imagenSeleccionada = null;  Limpiar la imagen seleccionada
       })
     }
+    // }
   }
 
 
@@ -110,6 +120,10 @@ export class ItemProductoTiendaComponent implements OnInit, OnDestroy {
     this.itemService.setItems(this.items);
     this.itemService.saveLocalStorageItems(this.items);
     //this.oneItemProductoEmit.emit(this.item);
+  }
+
+  chatear(producto: Producto) {
+    this.chatUtils.infoProduct(producto);
   }
 
   ngOnDestroy(): void {

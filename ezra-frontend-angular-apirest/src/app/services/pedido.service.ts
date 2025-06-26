@@ -16,7 +16,7 @@ import * as fileSaver from 'file-saver';
 })
 export class PedidoService {
 
-  private _pedido!:Pedido
+  private _pedido!: Pedido
 
   //private urlEndPoint: string = 'http://localhost:8080/api/pedidos';
 
@@ -24,22 +24,22 @@ export class PedidoService {
 
   constructor(private http: HttpClient,
     private authService: AuthService,
-  private alertService: AlertService ) { }
+    private alertService: AlertService) { }
 
-/*   private agregarAuthorizationHeader(){
-    let token = this.authService.token;
-    if(token != null){
-      return this.httpHeaders.append('Authorization', 'Bearer ' + token)
-    }
-    return this.httpHeaders
-  } */
+  /*   private agregarAuthorizationHeader(){
+      let token = this.authService.token;
+      if(token != null){
+        return this.httpHeaders.append('Authorization', 'Bearer ' + token)
+      }
+      return this.httpHeaders
+    } */
 
-  setPedido (pedido: Pedido){
+  setPedido(pedido: Pedido) {
     this._pedido = pedido
   }
 
-  get pedido(){
-    return {...this._pedido}
+  get pedido() {
+    return { ...this._pedido }
   }
 
   public filenameFromHeader(headers: HttpHeaders): string {
@@ -47,34 +47,34 @@ export class PedidoService {
     if (!disposition || disposition.indexOf('filename=') < 0) {
       return '';
     }
-    return disposition.substring(disposition.indexOf('filename=')+9, disposition.length);
+    return disposition.substring(disposition.indexOf('filename=') + 9, disposition.length);
   }
 
   getAllPedidos(): Observable<Pedido[]> {
     return this.http.get<Pedido[]>(`${environment.apiUrl}/pedidos`
-     /* , {headers: this.agregarAuthorizationHeader()} */
+      /* , {headers: this.agregarAuthorizationHeader()} */
     );
   }
 
-  getAllPedidosPageable(params: any, tipoPedidoId:number): Observable<PageableResponse> {
+  getAllPedidosPageable(params: any, tipoPedidoId: number): Observable<PageableResponse> {
     return this.http.get<any>(`${environment.apiUrl}/pedidos/${tipoPedidoId}/pageable`, {
       /*headers: this.agregarAuthorizationHeader(),*/
-      params : params,
-      } );
+      params: params,
+    });
   }
 
-  getAllEstadoPedido(): Observable<EstadoPedido[]>{
+  getAllEstadoPedido(): Observable<EstadoPedido[]> {
     return this.http.get<EstadoPedido[]>(`${environment.apiUrl}/pedidos/estado-pedido`
       /*, {headers: this.agregarAuthorizationHeader()} */
     );
   }
 
-  getAllTipoPedido(): Observable<TipoPedido[]>{
+  getAllTipoPedido(): Observable<TipoPedido[]> {
     return this.http.get<TipoPedido[]>(`${environment.apiUrl}/pedidos/tipo-pedido`
     );
   }
 
-  getTipoPedido(tipoPedidoId: number): Observable<TipoPedido>{
+  getTipoPedido(tipoPedidoId: number): Observable<TipoPedido> {
     return this.http.get<TipoPedido>(`${environment.apiUrl}/pedidos/tipo-pedido/${tipoPedidoId}`
     );
   }
@@ -82,28 +82,28 @@ export class PedidoService {
   getPedido(id: number): Observable<Pedido> {
     return this.http.get<Pedido>(`${environment.apiUrl}/pedidos/${id}`
       /*, {headers: this.agregarAuthorizationHeader()} */
-  );
+    );
   }
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${environment.apiUrl}/pedidos/${id}`
       /*, {headers: this.agregarAuthorizationHeader()}*/
-  );
+    );
   }
 
-/*   filtrarProductos(term: string): Observable<Producto[]> {
-    return this.http.get<Producto[]>(`${environment.apiUrl}/pedidos/filtrar-productos/${term}`
-    );
-  } */
+  /*   filtrarProductos(term: string): Observable<Producto[]> {
+      return this.http.get<Producto[]>(`${environment.apiUrl}/pedidos/filtrar-productos/${term}`
+      );
+    } */
 
   create(pedido: Pedido): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/pedidos`, pedido
     ).pipe(
-      map ((response: any) => response.pedido as Pedido),
+      map((response: any) => response.pedido as Pedido),
       catchError(e => {
-/*          if (e.status == 400) {
-          return throwError(e);
-        } */
+        /*          if (e.status == 400) {
+                  return throwError(e);
+                } */
         if (e.error.mensaje) {
           this.alertService.error(e.error.mensaje, e.error.err);
           //console.error(e.error.mensaje);
@@ -112,22 +112,38 @@ export class PedidoService {
       }));
   }
 
-  ceateReportePorTipoPedido(filtros: any): Observable<HttpResponse<Blob>>{
-
-    return this.http.post<Blob>(`${environment.apiUrl}/pedidos/reporte/tipo-pedido`, filtros,
-       {observe: 'response', responseType:'blob' as 'json'})
+  createPedidoTienda(pedido: Pedido): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/pedidos-tienda`, pedido
+    ).pipe(
+      map((response: any) => response.pedido as Pedido),
+      catchError(e => {
+        /*          if (e.status == 400) {
+                  return throwError(e);
+                } */
+        if (e.error.mensaje) {
+          this.alertService.error(e.error.mensaje, e.error.err);
+          //console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));
   }
 
-/*   ceateReporteCompras(filtros: any): Observable<HttpResponse<Blob>>{
+  ceateReportePorTipoPedido(filtros: any): Observable<HttpResponse<Blob>> {
 
-    return this.http.post<Blob>(`${environment.apiUrl}/pedidos/reporte/compras`, filtros,
-       {observe: 'response', responseType:'blob' as 'json'})
-  } */
+    return this.http.post<Blob>(`${environment.apiUrl}/pedidos/reporte/tipo-pedido`, filtros,
+      { observe: 'response', responseType: 'blob' as 'json' })
+  }
+
+  /*   ceateReporteCompras(filtros: any): Observable<HttpResponse<Blob>>{
+  
+      return this.http.post<Blob>(`${environment.apiUrl}/pedidos/reporte/compras`, filtros,
+         {observe: 'response', responseType:'blob' as 'json'})
+    } */
 
   update(pedido: Pedido): Observable<any> {
     return this.http.put<any>(`${environment.apiUrl}/pedidos/${pedido.id}`, pedido
       /*, {headers: this.agregarAuthorizationHeader()}*/
-  ).pipe(
+    ).pipe(
       catchError(e => {
         if (e.status == 400) {
           return throwError(e);

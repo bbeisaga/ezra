@@ -1,115 +1,125 @@
 <div class="container">
-    <div class="card">
-        <div class="card-header">
-            Registrate para poder realizar pedidos y obtener promociones
-        </div>
+    <div class="row">
+        <h3 class="text-center fw-bold"> Registrate para poder realizar pedidos y obtener promociones </h3>
+    </div>
+    <form [formGroup]="formNewCuenta" (ngSubmit)="crearCuenta()">
+        <div class="row">
+            <div class="col-12 col-md-6">
 
-        <div class="card-body">
-            <form [formGroup]="formNewCuenta" (ngSubmit)="crearCuenta()">
                 <div class="row mb-2">
-                    <label for="documentoId" class="form-label col-12 col-md-4">Tipo documento:</label>
-                    <div class="input-group col-12 col-md">
+                    <label for="documentoId" class="form-label col-12">Tipo documento:</label>
+                    <div class="col-12">
                         <select formControlName="documentoId" name="documentoId" class="form-control">
                             <option *ngFor="let documento of tipoDocumentos" [value]="documento.id">
                                 {{documento.nombre}}</option>
                         </select>
                         @if(formUtils.isValidField(formNewCuenta,'documentoId')){
-                        <span class="form-text text-danger">{{formUtils.getFieldError(formNewCuenta,"documentoId")}}</span>
-                        }
+                        <div class="alert alert-danger">
+                            {{formUtils.getFieldError(formNewCuenta,"documentoId")}}
+                        </div>}
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <label for="numeroDocumento" class="form-label col-12 col-md-4"><b>Número
-                            Documento:</b></label>
-                    <div class="input-group col-12 col-md">
+                    <label for="numeroDocumento" class="form-label col-12">Número
+                        Documento:</label>
+                    <div class="col-12">
                         <input formControlName="numeroDocumento" type="text" class="form-control" name="numeroDocumento"
                             placeholder="Número Documento">
                         @if(formUtils.isValidField(formNewCuenta,'numeroDocumento')){
-                        <span class="form-text text-danger">{{formUtils.getFieldError(formNewCuenta,"numeroDocumento")}}</span>
-                        }
+                        <div class="alert alert-danger">
+                            {{formUtils.getFieldError(formNewCuenta,"numeroDocumento")}}
+                        </div>}
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <label for="nomApellRz" class="form-label col-12 col-md-4"><b>Razón social:</b>, (P.
-                        Jurídica)<br><b>Nombres y apellidos:</b>, (P. Natural)</label>
-                    <div class="input-group col-12 col-md">
-                        <input formControlName="nomApellRz" type="text" class="form-control" name="nomApellRz"
-                            placeholder="codigo">
+                    <label for="nomApellRz" class="form-label col-12">Razón social (P. Jurídica) Nombres y
+                        apellidos
+                        (P. Natural):</label>
+                    <div class="col-12">
+                        <input formControlName="nomApellRz" type="text" class="form-control" name="nomApellRz">
                         @if(formUtils.isValidField(formNewCuenta,'nomApellRz')){
-                        <span class="form-text text-danger">{{formUtils.getFieldError(formNewCuenta,'nomApellRz')}}</span>
-                        }
+                        <div class="alert alert-danger">
+                            {{formUtils.getFieldError(formNewCuenta,'nomApellRz')}}
+                        </div>}
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <label for="direccion" class="form-label col-12 col-md-4"><b>Dirección:</b></label>
-                    <div class="input-group col-12 col-md">
+                    <label for="direccion" class="form-label col-12">Dirección:</label>
+                    <div class="col-12">
                         <input formControlName="direccion" type="text" class="form-control" name="direccion">
                         @if(formUtils.isValidField(formNewCuenta,'direccion')){
-                        <span class="form-text text-danger">{{formUtils.getFieldError(formNewCuenta,'direccion')}}</span>
-                        }
+                        <div class="alert alert-danger">
+                            {{formUtils.getFieldError(formNewCuenta,'direccion')}}
+                        </div>}
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <label for="celular" class="form-label col-12 col-md-4"><b>Celular:</b><br>Inicio de
-                        sesión</label>
-                    <div class="input-group col-12 col-md">
+                    <label for="celular" class="form-label col-12"><b>Celular (Inicio de sesión para
+                            ingresar)</b></label>
+                    <div class="col-12">
                         <input formControlName="celular" type="text" class="form-control" name="celular"
                             placeholder="Celular">
                         @if(formUtils.isValidField(formNewCuenta,'celular')){
-                        <span class="form-text text-danger">{{formUtils.getFieldError(formNewCuenta,'celular')}}</span>
-                        }
+                        <div class="alert alert-danger">
+                            {{formUtils.getFieldError(formNewCuenta,'celular')}}
+                        </div>}
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <label for="clave" class="form-label col-12 col-md-4"><b>Clave:</b></label>
-                    <div class="input-group col-12 col-md">
+                    <label for="clave" class="form-label col-12"><b>Clave:</b></label>
+                    <div class="col-12">
                         <input formControlName="clave" type="password" class="form-control" name="clave"
                             placeholder="Clave">
                         @if(formUtils.isValidField(formNewCuenta,'clave')){
-                        <span class="form-text text-danger">{{formUtils.getFieldError(formNewCuenta,'clave')}}</span>
-                        }
+                        <div class="alert alert-danger">
+                            {{formUtils.getFieldError(formNewCuenta,'clave')}}
+                        </div>}
                     </div>
                 </div>
                 <div class="row mb-2">
-                    <label for="confirmaClave" class="form-label col-12 col-md-4"><b>Confirmar
+                    <label for="confirmaClave" class="form-label col-12"><b>Confirmar
                             clave:</b></label>
-                    <div class="input-group col-12 col-md">
+                    <div class="col-12">
                         <input formControlName="confirmaClave" type="password" class="form-control" name="confirmaClave"
                             placeholder="Confirmar clave">
                         @if(formUtils.isValidField(formNewCuenta,'confirmaClave')){
-                        <span class="form-text text-danger">{{formUtils.getFieldError(formNewCuenta,'confirmaClave')}}</span>
-                        }
+                        <div class="alert alert-danger">
+                            {{formUtils.getFieldError(formNewCuenta,'confirmaClave')}}
+                        </div>}
                     </div>
                 </div>
-<!--                     Al menos 8 caracteres de longitud.
-                    Contiene al menos una letra minúscula.
-                    Contiene al menos una letra mayúscula.
-                    Contiene al menos un dígito.
-                    Contiene al menos un carácter especial de un conjunto predefinido -->
-                <div class="row mb-2">
-                    <div class="col-form-label col-12 col-md-4"></div>
-                    <div class="col-12 col-md d-flex justify-content-center">
-                        <button type="button" class="btn btn-secondary me-2"
-                            [routerLink]="['/tienda/producto-categoria',0]">Cancelar registro</button>
-                        <button type="submit" class="btn btn-primary">Aceptación y registro</button>
-                    </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <mat-list>
+                    <div mat-subheader><b>Requerimientos para una clave segura:</b></div>
+                    <mat-list-item>
+                        <mat-icon matListItemIcon>east</mat-icon>
+                        <div matListItemTitle>Al menos 8 caracteres de longitud.</div>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <mat-icon matListItemIcon>east</mat-icon>
+                        <div matListItemTitle>Contiene al menos una letra minúscula.</div>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <mat-icon matListItemIcon>east</mat-icon>
+                        <div matListItemTitle>Contiene al menos una letra mayúscula.</div>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <mat-icon matListItemIcon>east</mat-icon>
+                        <div matListItemTitle>Contiene al menos un dígito.</div>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <mat-icon matListItemIcon>east</mat-icon>
+                        <div matListItemTitle>Contiene al menos un carácter especial de un conjunto predefinido
+                        </div>
+                    </mat-list-item>
+                </mat-list>
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary me-2" [routerLink]="['/']">Cancelar
+                        registro</button>
+                    <button type="submit" class="btn btn-primary">Aceptación y registro</button>
                 </div>
-                <div class="row mb-2">
-                    <div class="col-12">
-                        <span>Valid:</span>
-                        <pre>{{formNewCuenta.valid | json}}</pre>
-                        <span>pristine:</span>
-                        <pre>{{formNewCuenta.pristine| json}}</pre>
-                        <span>touched:</span>
-                        <pre>{{formNewCuenta.touched| json}}</pre>
-                        <span>value:</span>
-                        <pre>{{formNewCuenta.value| json}}</pre>
-                        <span>errores</span>
-                        <pre>{{formNewCuenta.errors| json}}</pre>
-
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
+    </form>
 </div>

@@ -2,6 +2,7 @@ package com.ezra.programandojuntos.models.services;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +23,11 @@ import com.ezra.programandojuntos.errors.ClienteMapErrors;
 import com.ezra.programandojuntos.exceptions.ClienteExceptions;
 import com.ezra.programandojuntos.exceptions.PedidoExceptions;
 import com.ezra.programandojuntos.models.dao.IClienteDao;
+import com.ezra.programandojuntos.models.dao.IRoleDao;
 import com.ezra.programandojuntos.models.dao.IUsuarioDao;
 import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.Producto;
+import com.ezra.programandojuntos.models.entity.Role;
 import com.ezra.programandojuntos.models.entity.TipoDocumento;
 import com.ezra.programandojuntos.models.entity.Usuario;
 
@@ -38,6 +41,9 @@ public class ClienteServiceImpl implements IClienteService {
 	
 	@Autowired
 	private IUsuarioDao usuarioDao;
+	
+	@Autowired
+	private IRoleDao roleDao;
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -122,18 +128,28 @@ public class ClienteServiceImpl implements IClienteService {
 		cliente.setUsuarioId(null);
 		Usuario newUsuario =null;
 		if(cliente.getClave() != null) {
-			var usuarioActual = clienteDao.findUsuarioByUsername(cliente.getCelular());
+			Usuario usuarioActual = clienteDao.findUsuarioByUsername(cliente.getCelular());
 			if (usuarioActual != null) {
 				throw new ClienteExceptions(
 						ClienteMapErrors.getErrorString(ClienteMapErrors.CODE_USERNAME_DUPLICADO, usuarioActual.getUsername())
 				);
 			}
+			
+			List<Role> rolesDefault = roleDao.findAll()
+						.stream()
+						.filter(a -> a.getNombre().equals("ROLE_LIST_VENTAS") || 
+								a.getNombre().equals("ROLE_REPORT_VENTA")||
+								a.getNombre().equals("ROLE_CREATE_PEDIDO_TIENDA")
+								)
+						.collect(Collectors.toList());
+			
 			Usuario usuario = new Usuario();
 			usuario.setPassword(passwordEncoder.encode(cliente.getClave()));
 			usuario.setActivo(true);
 			usuario.setBloqueado(false);
 			usuario.setReintentos(0);
 			usuario.setUsername(cliente.getCelular());
+			usuario.setRoles(rolesDefault);
 			newUsuario = usuarioDao.save(usuario);
 			cliente.setUsuarioId(newUsuario.getId());
 			cliente.setClave(null);

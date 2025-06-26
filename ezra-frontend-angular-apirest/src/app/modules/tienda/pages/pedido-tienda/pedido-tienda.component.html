@@ -1,138 +1,168 @@
-<div class="container">
-    <form #pedidoTiendaForm="ngForm" (ngSubmit)="crearPedidoTienda(pedidoTiendaForm)">
-        <div class="row">
-                   <div class="col-6">
-                <h2>Detalles del pedido</h2>
-                <div class="row mb-2">
-                    <label for="nomApellRz" class="col-form-label col-sm-4">Nombres y apellidos:<br>o
-                        Razón Social</label>
-                    <div class="input-group col-sm">
-                        <input type="text" [(ngModel)]="cliente.nomApellRz"   class="form-control" name="nomApellRz">
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label for="direccionPrincipal" class="col-form-label col-sm-4">Dirección:</label>
-                    <div class="input-group col-sm">
-                        <input type="text" [(ngModel)]="cliente.direccion" class="form-control"
-                            name="direccionPrincipal">
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label for="documentoId" class="form-label col-sm-4">Tipo de documento:
-                    </label>
-                    <div class="input-group col-sm">
-                        <select name="documentoId" [(ngModel)]="cliente.tipoDocumento" class="form-control">
-                            <option *ngFor="let documento of tipoDocumentos" [value]="documento">
-                                {{documento.nombre}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label for="numeroDocumento" class="col-form-label col-sm-4">Número documento:</label>
-                    <div class="input-group col-sm">
-                        <input type="text" [(ngModel)]="cliente.numeroDocumento" class="form-control" name="numeroDocumento">
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label for="celular" class="col-form-label col-sm-4">Celular:</label>
-                    <div class="input-group col-sm">
-                        <input type="text" [(ngModel)]="cliente.celular" class="form-control" name="celular">
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label for="email" class="col-form-label col-sm-4">Correo electrónico:</label>
-                    <div class="input-group col-sm">
-                        <input type="text" [(ngModel)]="cliente.email" class="form-control" name="email"
-                            placeholder="xxx@xxx.xx">
+<form #pedidoTiendaForm="ngForm" (ngSubmit)="crearPedidoTienda(pedidoTiendaForm)">
+    <div class="row mt-2">
+        <div class="col-12 col-md-6">
+            <h2>Detalles del pedido</h2>
+            <div class="row mb-2">
+                <label for="nomApellRz" class="col-form-label col-12 col-md-4">Nombres y apellidos o
+                    Razón Social</label>
+                <div class="col-12 col-md">
+                    <input type="text" [(ngModel)]="cliente.nomApellRz" class="form-control" name="nomApellRz"
+                        #nomApellRz="ngModel" required minlength="2">
+                    <div *ngIf="formUtils.isValidFieldFp(nomApellRz)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(nomApellRz)}}
                     </div>
                 </div>
             </div>
- 
-            <div class="col-6">
-                <h2>¿Enviar a otro sitio?</h2>
-                <div class="row mb-2">
-                    <label for="nomApellRzEnvio" class="col-form-label col-sm-4">Nombres y
-                            apellidos:<br>o
-                        Razón Social</label>
-                    <div class="input-group col-sm">
-                        <input type="text" [(ngModel)]="pedido.nomApellRzEnvio" class="form-control" name="nomApellRzEnvio">
+            <div class="row mb-2">
+                <label for="direccionPrincipal" class="col-form-label col-12 col-md-4">Dirección:</label>
+                <div class="col-12 col-md">
+                    <input type="text" [(ngModel)]="cliente.direccion" class="form-control" name="direccionPrincipal"
+                        #direccionPrincipal="ngModel" required minlength="2">
+                    <div *ngIf="formUtils.isValidFieldFp(direccionPrincipal)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(direccionPrincipal)}}
                     </div>
                 </div>
-                 <div class="row mb-2">
-                    <label for="direccionEnvio" class="col-form-label col-sm-4">Dirección envío:</label>
-                    <div class="input-group col-sm">
-                        <input type="text" [(ngModel)]="pedido.direccionEnvio" class="form-control" name="direccionEnvio">
+            </div>
+            <div class="row mb-2">
+                <label for="tipoDocumento" class="form-label col-12 col-md-4">Tipo de documento:</label>
+                <div class="col-12 col-md">
+                    <select name="tipoDocumento" [(ngModel)]="cliente.tipoDocumento" class="form-control"
+                        name="tipoDocumento" #tipoDocumento="ngModel" required>
+                        <option *ngFor="let documento of tipoDocumentos" [value]="documento">
+                            {{documento.nombre}}</option>
+                    </select>
+                    <div *ngIf="formUtils.isValidFieldFp(tipoDocumento)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(tipoDocumento)}}
                     </div>
                 </div>
-                <div class="row mb-2">
-                    <label for="celularEnvio" class="col-form-label col-sm-4">Celular:</label>
-                    <div class="input-group col-sm">
-                        <input type="text" [(ngModel)]="pedido.celularEnvio" class="form-control" name="celularEnvio">
+            </div>
+            <div class="row mb-2">
+                <label for="numeroDocumento" class="col-form-label col-12 col-md-4">Número documento:</label>
+                <div class="col-12 col-md">
+                    <input type="text" [(ngModel)]="cliente.numeroDocumento" class="form-control" name="numeroDocumento"
+                        #numeroDocumento="ngModel" required minlength="8" maxlength="11" pattern="^\d+$">
+                    <div *ngIf="formUtils.isValidFieldFp(numeroDocumento)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(numeroDocumento)}}
                     </div>
-                </div> 
-            </div> 
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label for="celular" class="col-form-label col-12 col-md-4">Celular:</label>
+                <div class="col-12 col-md">
+                    <input type="text" [(ngModel)]="cliente.celular" class="form-control" name="celular"
+                        #celular="ngModel" required minlength="6" maxlength="14" pattern="^\d+$">
+                    <div *ngIf="formUtils.isValidFieldFp(celular)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(celular)}}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label for="email" class="col-form-label col-12 col-md-4">Correo electrónico:</label>
+                <div class="col-12 col-md">
+                    <input type="email" [(ngModel)]="cliente.email" class="form-control" name="email"
+                        placeholder="xxx@xxx.xx" #email="ngModel" required minlength="6"
+                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+                    <div *ngIf="formUtils.isValidFieldFp(email)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(email)}}
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="row">
-            <div class="col-12">
-                <table class="tabla-desktop table table-striped table-hover table-sm" cellspacing="1" cellpadding="1">
-                    <thead>
-                        <tr>
-                            <th>Eliminar</th>
-                            <th>Imagen</th>
-                            <th>Producto</th>
-                            <th>Descripcion</th>
-                            <th>Cantidad</th>
-                            <th>S/.Precio</th>
-                            <th>Subtotal</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of lstItemPedido">
-                            <td><button mat-icon-button color="warn" (click)="eliminarItemPedido(item.producto.id)"
-                                    matTooltip="Elimnar item"><mat-icon>delete</mat-icon></button></td>
-                            <td>
 
-                                <img src="http://localhost:8080/api/medios/imagen/{{item.imagen}}" width="86"
-                                    alt={{item.imagen}} />
-                            </td>
-                            <td><a [routerLink]="['/tienda/item-producto',item.producto.id]">
-                                    {{item.producto.nombre}}</a>
-                                <!--                           <div class="input-group col-sm">
+        <div class="col-6">
+            <h2>¿Enviar a otro sitio?</h2>
+            <div class="row mb-2">
+                <label for="nomApellRzEnvio" class="col-form-label col-12 col-md-4">Nombres y
+                    apellidos:<br>o
+                    Razón Social</label>
+                <div class="col-12 col-md">
+                    <input type="text" [(ngModel)]="pedido.nomApellRzEnvio" class="form-control" name="nomApellRzEnvio"
+                        #nomApellRzEnvio="ngModel" minlength="2">
+                    <div *ngIf="formUtils.isValidFieldFp(nomApellRzEnvio)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(nomApellRzEnvio)}}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label for="direccionEnvio" class="col-form-label col-12 col-md-4">Dirección envío:</label>
+                <div class="col-12 col-md">
+                    <input type="text" [(ngModel)]="pedido.direccionEnvio" class="form-control" name="direccionEnvio"
+                        #direccionEnvio="ngModel" minlength="2">
+                    <div *ngIf="formUtils.isValidFieldFp(direccionEnvio)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(direccionEnvio)}}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label for="celularEnvio" class="col-form-label col-12 col-md-4">Celular:</label>
+                <div class="col-12 col-md">
+                    <input type="text" [(ngModel)]="pedido.celularEnvio" class="form-control" name="celularEnvio"
+                        #celularEnvio="ngModel" minlength="6" maxlength="14" pattern="^\d+$">
+                    <div *ngIf="formUtils.isValidFieldFp(celularEnvio)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(celularEnvio)}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="tabla-desktop table table-striped table-hover table-sm" cellspacing="1" cellpadding="1">
+                <thead>
+                    <tr>
+                        <th>Eliminar</th>
+                        <th>Imagen</th>
+                        <th>Producto</th>
+                        <th>Descripcion</th>
+                        <th>Cantidad</th>
+                        <th>S/.Precio</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of lstItemPedido">
+                        <td><button mat-icon-button color="warn" (click)="eliminarItemPedido(item.producto.id)"
+                                matTooltip="Elimnar item"><mat-icon>delete</mat-icon></button></td>
+                        <td>
+
+                            <img src="http://localhost:8080/api/medios/imagen/{{item.imagen}}" width="86"
+                                alt={{item.imagen}} />
+                        </td>
+                        <td><a [routerLink]="['/tienda/item-producto',item.producto.id]">
+                                {{item.producto.nombre}}</a>
+                            <!--                           <div class="input-group col-sm">
                                         <textarea name="detalle" class="form-control"
                                             [ngStyle]="{'resize': 'none'}" 
                                             maxlength="250" [value]="item.descripcion"
                                             rows="5"></textarea>
                                     </div> -->
-                            </td>
-                            <td> <textarea name="descripcion" class="form-control" [ngStyle]="{'resize': 'none'}"
-                                    maxlength="250" [value]="item.descripcion" rows="3"></textarea></td>
-                            <td>
-                                <input type="number" name="cantidad" aria-describedby="cantidad"
-                                    [step]="item.producto.gruposDe.toString()"
-                                    [min]="item.producto.minCantidadPedido.toString()"
-                                    [max]="item.producto.maxCantidadPedido.toString()" [value]="item.cantidad"
-                                    (input)="actualizarCantidad(item.producto.id, $event);calcularTotal() " />
-                            </td>
-                            <td>{{item.producto.precioNeto| currency:'PEN'}}</td>
+                        </td>
+                        <td> <textarea name="descripcion" class="form-control" [ngStyle]="{'resize': 'none'}"
+                                maxlength="250" [value]="item.descripcion" rows="3"></textarea></td>
+                        <td>
+                            <input type="number" name="cantidad" aria-describedby="cantidad"
+                                [step]="item.producto.gruposDe.toString()"
+                                [min]="item.producto.minCantidadPedido.toString()"
+                                [max]="item.producto.maxCantidadPedido.toString()" [value]="item.cantidad"
+                                (input)="actualizarCantidad(item.producto.id, $event);calcularTotal() " />
+                        </td>
+                        <td>{{item.producto.precioNeto| currency:'PEN'}}</td>
 
 
-                            <td> {{item.importe | currency:'PEN'}}</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="5" class="text-end fw-bold">TOTAL</td>
-                            <td colspan="2" class="text-center fw-bold">{{total | currency:'PEN'}}</td>
-                        </tr>
-                        <tr>
-                            <td colspan="7" class="text-end"><button type="button" class="btn btn-dark btn-lg">Finalizar pedido</button>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                        <td> {{item.importe | currency:'PEN'}}</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5" class="text-end fw-bold">TOTAL</td>
+                        <td colspan="2" class="text-center fw-bold">{{total | currency:'PEN'}}</td>
+                    </tr>
+
+                </tfoot>
+            </table>
 
 
-                <!--             <div class="row mb-2">
+            <!--             <div class="row mb-2">
                             <div class="ol-sm-6">
                                 <span>Valid:</span>
                                 <pre>{{formProducto.valid | json}}</pre>
@@ -147,7 +177,14 @@
 
                             </div>
                             </div> -->
-            </div>
         </div>
-    </form>
-</div>
+    </div>
+    <div class="row mb-2">
+        @if(lstItemPedido.length > 0 && authService.hasRole('ROLE_CREATE_PEDIDO_TIENDA')){
+        <button type="submit" class="btn btn-dark btn-lg" [disabled]="!pedidoTiendaForm.form.valid">Finalizar pedido</button>
+
+        } @else {
+        <button type="submit" class="btn btn-dark btn-lg" disabled>Finalizar pedido</button>
+        }
+    </div>
+</form>

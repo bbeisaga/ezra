@@ -5,6 +5,7 @@ import { ItemPedido } from '../../../models/item-pedido';
 import { MatDialog } from '@angular/material/dialog';
 import { DetalleItemPedidoComponent } from '../../pedidos/components/detalle-item-pedido/detalle-item-pedido.component';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'carrito-compras',
@@ -13,6 +14,7 @@ import { Subscription } from 'rxjs';
 })
 export class CarritoComprasComponent implements OnInit, OnDestroy {
   router = inject(Router);
+    public authService = inject(AuthService);
   itemService = inject(ItemService)
   itemServiceSuscription$!: Subscription;
   //@Input() lstItemPedido: ItemPedido[] = [];

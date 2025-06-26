@@ -52,7 +52,7 @@ export class CrearCuentaTiendaComponent {
       { validators: [Validators.required, Validators.minLength(5)] }
       ],
       celular: [this.cliente?.celular,
-      { validators: [Validators.required, Validators.minLength(6), Validators.maxLength(13), Validators.pattern('^\\d+$')] }
+      { validators: [Validators.required, Validators.minLength(6), Validators.maxLength(14), Validators.pattern('^\\d+$')] }
       ],
       /*       clave: [this.cliente?.usuario?.password,
             { validators: [Validators.required, Validators.minLength(4), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')] }

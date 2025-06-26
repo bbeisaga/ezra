@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProductosPorCategoriaComponent } from './pages/productos-por-categoria/productos-por-categoria.component';
 import { ItemProductoTiendaComponent } from './pages/item-producto/item-producto-tienda.component';
 import { PedidoTiendaComponent } from './pages/pedido-tienda/pedido-tienda.component';
-import { PasarelaPagoComponent } from './components/pasarela-pago.component';
+import { ContactanosComponent } from './pages/contactanos/contactanos.component';
 
 const routes: Routes = [
   {
@@ -23,8 +23,8 @@ const routes: Routes = [
     // data: { role: 'ROLE_REGISTER_CLIENTE' }
   },
 
-  {
-    path: 'pasarela-pago', component: PasarelaPagoComponent,
+    {
+    path: 'contactanos', component: ContactanosComponent,
     // canActivate: [AuthGuard, RoleGuard], 
     // data: { role: 'ROLE_REGISTER_CLIENTE' }
   },

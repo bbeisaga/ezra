@@ -1,14 +1,27 @@
-<!-- <button type="button" class="btn btn-link"><i class="bi bi-people-fill"></i>
-    Nosotros</button> -->
-<button type="button" class="btn btn-link"><i class="bi bi-phone-vibrate-fill"></i>
-    Contactanos</button>
-@if (!isAutenticado()) {
-<button type="button" [routerLink]="['/login']" class="btn btn-link"><i class="bi bi-person-fill"></i>
-    Iniciar sesión</button>
-<button type="button" [routerLink]="['/crear-cuenta']" class="btn btn-primary">Crear cuenta</button>
-} @else {
-<!--          <button (click)="sideNavToggle()"><mat-icon>menu</mat-icon></button>
- --> 
-<button mat-fab extended (click)="sideNavToggle()"><mat-icon>menu</mat-icon>MENU</button>
+<div class="row">
+    <!--     <div class="col-md d-md-flex flex-md-wrap justify-content-md-end">
+        <button type="button" class="btn btn-link"><i class="bi bi-phone-vibrate-fill"></i>
+            Contactanos</button>
+        @if (!isAutenticado()) {
+        <button type="button" [routerLink]="['/login']" class="btn btn-link"><i class="bi bi-person-fill"></i>
+            Iniciar sesión</button>
+        }
+    </div> -->
+    <div class="col d-flex flex-column flex-wrap justify-content-center col-sm flex-sm-row justify-content-sm-end">
+        <button type="button" [routerLink]="['/tienda/contactanos']" class="btn btn-link"><i class="bi bi-phone-vibrate-fill"></i>
+            Contactanos</button>
+        @if (!isAutenticado()) {
+        <button type="button" [routerLink]="['/login']" class="btn btn-link"><i class="bi bi-person-fill"></i>
+            Iniciar sesión</button>
+        }
+        @if (!isAutenticado()) {
+        <button type="button" [routerLink]="['/crear-cuenta']" class="btn btn-primary">Crear
+            cuenta</button>
+        }
+        @if (isAutenticado()) {
+        <button mat-fab extended (click)="sideNavToggle()"><mat-icon>menu</mat-icon>MENU</button>
+        }
+    </div>
 
-}
+
+</div>

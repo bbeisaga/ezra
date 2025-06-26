@@ -31,6 +31,7 @@ INSERT INTO `modulos` (nombre) VALUES ('MOVIMIENTOS CAJA');
 INSERT INTO `modulos` (nombre) VALUES ('CAJA USUARIO');
 INSERT INTO `modulos` (nombre) VALUES ('PRODUCTOS');
 INSERT INTO `modulos` (nombre) VALUES ('USUARIOS');
+INSERT INTO `modulos` (nombre) VALUES ('PEDIDOS EN TIENDA');
 
 
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (1,1, 'ROLE_LIST_CLIENTES','Listar clientes o proveedores');
@@ -62,13 +63,16 @@ INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (4,1, 'ROLE
 
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE_LIST_PRODUCTOS','Listar productos');
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE_SEARCH_PRODUCTO','Buscar producto');
-INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE_REGISTER_PRODUCTO','Rgistrar producto');
+INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE_IMAGE_PRODUCTO','Cargar imagen producto');
+INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE_REGISTER_PRODUCTO','Registrar producto');
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE_UPDATE_PRODUCTO','Actualizar producto');
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE_DELETE_PRODUCTO','Borrar producto');
 
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (6,1, 'ROLE_LIST_USUARIOS','Listar usuario');
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (6,1, 'ROLE_SEARCH_USUARIO','Buscar usuario');
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (6,1, 'ROLE_ASIGNAR_ROL_USUARIO','Asignar rol a usuario');
+
+INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (7,1, 'ROLE_CREATE_PEDIDO_TIENDA','Crear pedido en tienda');
 
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 1);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 2);
@@ -99,6 +103,8 @@ INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 26);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 27);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 28);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 29);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 30);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 31);
 
 
 
