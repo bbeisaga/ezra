@@ -23,12 +23,17 @@ public interface IClienteDao extends JpaRepository<Cliente, Long>{
 	public List<TipoDocumento> findAllDocumentos();
 	
 	Optional<Cliente> findByNumeroDocumento(String numeroDocumento);
+	
+	@Query("SELECT c FROM Cliente c WHERE c.celular=:celular")
 	Optional<Cliente> findByCelular(String celular);
+	
+	@Query("SELECT c FROM Cliente c WHERE c.usuarioId =:usuarioId")
+	Optional<Cliente> findByUsuarioId(Long usuarioId);
 	
 	public List<Cliente> findByNomApellRzContainingIgnoreCase(String term);
 
 	
-	@Query("SELECT c FROM Cliente c WHERE (c.nomApellRz like %:query% OR c.tipoDocumento.acronimo like %:query% OR c.numeroDocumento like %:query% OR c.celular like %:query%)")
+	@Query("SELECT c FROM Cliente c WHERE (c.nomApellRz like %:query% OR c.numeroDocumento like %:query% OR c.celular like %:query%)")
 	Page<Cliente> findAllClientePageable(@Param("query") String query, Pageable pageRequest);
 	
 	

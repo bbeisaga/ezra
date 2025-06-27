@@ -38,6 +38,24 @@ export class ClienteService {
     );
   }
 
+  getNumeroDocumento(numero: string): Observable<Cliente> {
+    return this.http.get<Cliente>(`${environment.apiUrl}/clientes/numero-documento/${numero}`
+      /*,{headers: this.agregarAuthorizationHeader()}*/
+    );
+  }
+
+  getCelular(celular: string): Observable<Cliente> {
+    return this.http.get<Cliente>(`${environment.apiUrl}/clientes/numero-celular/${celular}`
+      /*,{headers: this.agregarAuthorizationHeader()}*/
+    );
+  }
+
+  getClienteByUsuarioId(usuarioId: number):  Observable<Cliente> {
+    return this.http.get<Cliente>(`${environment.apiUrl}/clientes/usuario/${usuarioId}`
+      /*,{headers: this.agregarAuthorizationHeader()}*/
+    );
+  }
+
   getAllClientes(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${environment.apiUrl}/clientes`
     );
@@ -52,24 +70,24 @@ export class ClienteService {
 
   }
 
-/*   getClientes(page: number): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/clientes` + '/page/' + page).pipe(
-      tap((response: any) => {
-        console.log('ClienteService: tap 1');
-        (response.content as Cliente[]).forEach(cliente => console.log(cliente.nomApellRz));
-      }),
-      map((response: any) => {
-        (response.content as Cliente[]).map(cliente => {
-          cliente.nomApellRz = cliente.nomApellRz.toUpperCase();
-          return cliente;
-        });
-        return response;
-      }),
-      tap(response => {
-        console.log('ClienteService: tap 2');
-        (response.content as Cliente[]).forEach(cliente => console.log(cliente.nomApellRz));
-      }));
-  } */
+  /*   getClientes(page: number): Observable<any> {
+      return this.http.get(`${environment.apiUrl}/clientes` + '/page/' + page).pipe(
+        tap((response: any) => {
+          console.log('ClienteService: tap 1');
+          (response.content as Cliente[]).forEach(cliente => console.log(cliente.nomApellRz));
+        }),
+        map((response: any) => {
+          (response.content as Cliente[]).map(cliente => {
+            cliente.nomApellRz = cliente.nomApellRz.toUpperCase();
+            return cliente;
+          });
+          return response;
+        }),
+        tap(response => {
+          console.log('ClienteService: tap 2');
+          (response.content as Cliente[]).forEach(cliente => console.log(cliente.nomApellRz));
+        }));
+    } */
 
   create(cliente: Cliente): Observable<Cliente> {
     return this.http.post(`${environment.apiUrl}/clientes`, cliente

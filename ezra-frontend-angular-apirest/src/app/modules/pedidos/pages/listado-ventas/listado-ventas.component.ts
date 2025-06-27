@@ -1,26 +1,26 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { ClienteService } from '../../../services/cliente.service';
+import { ClienteService } from '../../../../services/cliente.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { PedidoService } from '../../../services/pedido.service';
+import { PedidoService } from '../../../../services/pedido.service';
 import swal from 'sweetalert2';
-import { Pedido } from '../../../models/pedido';
-import { Producto } from '../../../models/producto';
+import { Pedido } from '../../../../models/pedido';
+import { Producto } from '../../../../models/producto';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { ItemPedido } from '../../../models/item-pedido';
+import { ItemPedido } from '../../../../models/item-pedido';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../../../services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { findIndex } from 'lodash';
-import { MovimientoComponent } from '../../movimientos/pages/movimiento/movimiento.component';
+import { MovimientoComponent } from '../../../movimientos/pages/movimiento/movimiento.component';
 import moment from 'moment';
-import { COLOR_ESTADO_PEDIDO } from '../../../constants/pedido.constants';
-import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constants/constantes';
-import { PageableResponse } from '../../../models/pageable-response';
+import { COLOR_ESTADO_PEDIDO } from '../../../../constants/pedido.constants';
+import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../../constants/constantes';
+import { PageableResponse } from '../../../../models/pageable-response';
 
 @Component({
   selector: 'listado-ventas',

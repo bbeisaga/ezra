@@ -1,26 +1,33 @@
 import { Router } from '@angular/router';
-import { ItemService } from './../../../services/item.service';
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { ItemPedido } from '../../../models/item-pedido';
+import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DetalleItemPedidoComponent } from '../../pedidos/components/detalle-item-pedido/detalle-item-pedido.component';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../../../services/auth.service';
+import { ItemService } from '../../../../services/item.service';
+import { ClienteService } from '../../../../services/cliente.service';
+import { UsuarioService } from '../../../../services/usuario.service';
+import { ItemPedido } from '../../../../models/item-pedido';
+
 
 @Component({
-  selector: 'carrito-compras',
-  templateUrl: './carrito-compras.component.html',
-  styleUrl: './carrito-compras.component.css'
+  selector: 'carrito-item-producto',
+  templateUrl: './carrito-item-producto.component.html',
+  styleUrl: './carrito-item-producto.component.css'
 })
-export class CarritoComprasComponent implements OnInit, OnDestroy {
+export class CarritoItemProductoComponent implements OnInit, OnDestroy {
   router = inject(Router);
-    public authService = inject(AuthService);
+  public authService = inject(AuthService);
   itemService = inject(ItemService)
+  clienteService = inject(ClienteService);
+  usuarioService = inject(UsuarioService)
+
+
   itemServiceSuscription$!: Subscription;
   //@Input() lstItemPedido: ItemPedido[] = [];
   lstItemPedido: ItemPedido[] = [];
   @Input() tipoPedido!: string;
-
+  @Input() clienteId!: number;
+  //@Input() clienteOnline!: boolean;
   item!: ItemPedido;
   total: number = 0;
 
@@ -79,7 +86,18 @@ export class CarritoComprasComponent implements OnInit, OnDestroy {
     } */
 
   irRealizarPedido() {
-    this.router.navigate(['/tienda/pedido']) 
+    if (this.authService.isAuthenticated()) {
+      if (this.clienteId == 0) {
+        this.usuarioService.getUsuarioByUsername(this.authService.usuario.username)
+          .subscribe(usr => {
+            this.clienteService.getClienteByUsuarioId(usr.id).subscribe(cli => {
+              this.router.navigate(['/pedidos/pedido-finalizado', cli.id] , { queryParams: { clienteOnline: 'true' } })
+            })
+          });
+      } else {
+        this.router.navigate(['/pedidos/pedido-finalizado', this.clienteId], { queryParams: { clienteOnline: 'false' } })
+      }
+    }
   }
 
   ngOnDestroy(): void {

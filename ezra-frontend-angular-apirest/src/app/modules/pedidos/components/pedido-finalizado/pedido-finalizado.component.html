@@ -17,7 +17,7 @@
                 <label for="direccionPrincipal" class="col-form-label col-12 col-md-4">Dirección:</label>
                 <div class="col-12 col-md">
                     <input type="text" [(ngModel)]="cliente.direccion" class="form-control" name="direccionPrincipal"
-                        #direccionPrincipal="ngModel" required minlength="2">
+                        #direccionPrincipal="ngModel" required minlength="4">
                     <div *ngIf="formUtils.isValidFieldFp(direccionPrincipal)" class="alert alert-danger">
                         {{formUtils.getFieldErrorFp(direccionPrincipal)}}
                     </div>
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <label for="numeroDocumento" class="col-form-label col-12 col-md-4">Número documento:</label>
+                <label for="numeroDocumento" class="form-label col-12 col-md-4">Número documento:</label>
                 <div class="col-12 col-md">
                     <input type="text" [(ngModel)]="cliente.numeroDocumento" class="form-control" name="numeroDocumento"
                         #numeroDocumento="ngModel" required minlength="8" maxlength="11" pattern="^\d+$">
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <label for="celular" class="col-form-label col-12 col-md-4">Celular:</label>
+                <label for="celular" class="form-label col-12 col-md-4">Celular:</label>
                 <div class="col-12 col-md">
                     <input type="text" [(ngModel)]="cliente.celular" class="form-control" name="celular"
                         #celular="ngModel" required minlength="6" maxlength="14" pattern="^\d+$">
@@ -57,13 +57,23 @@
                 </div>
             </div>
             <div class="row mb-2">
-                <label for="email" class="col-form-label col-12 col-md-4">Correo electrónico:</label>
+                <label for="email" class="form-label col-12 col-md-4">Correo electrónico:</label>
                 <div class="col-12 col-md">
                     <input type="email" [(ngModel)]="cliente.email" class="form-control" name="email"
                         placeholder="xxx@xxx.xx" #email="ngModel" required minlength="6"
                         pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
                     <div *ngIf="formUtils.isValidFieldFp(email)" class="alert alert-danger">
                         {{formUtils.getFieldErrorFp(email)}}
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label for="entregadoEn" class="form-label col-12 col-md-4">Fecha entrega:</label>
+                <div class="col-12 col-md">
+                    <input type="datetime-local" [(ngModel)]="pedido.entregadoEn" class="form-control"
+                        #entregadoEn="ngModel" name="entregadoEn" required>
+                    <div *ngIf="formUtils.isValidFieldFp(entregadoEn)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(entregadoEn)}}
                     </div>
                 </div>
             </div>
@@ -103,6 +113,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
     <div class="row">
@@ -130,12 +141,6 @@
                         </td>
                         <td><a [routerLink]="['/tienda/item-producto',item.producto.id]">
                                 {{item.producto.nombre}}</a>
-                            <!--                           <div class="input-group col-sm">
-                                        <textarea name="detalle" class="form-control"
-                                            [ngStyle]="{'resize': 'none'}" 
-                                            maxlength="250" [value]="item.descripcion"
-                                            rows="5"></textarea>
-                                    </div> -->
                         </td>
                         <td> <textarea name="descripcion" class="form-control" [ngStyle]="{'resize': 'none'}"
                                 maxlength="250" [value]="item.descripcion" rows="3"></textarea></td>
@@ -154,34 +159,29 @@
                 </tbody>
                 <tfoot>
                     <tr>
+                        <td colspan="7">
+                        <div class="col-12 col-md">
+                            <textarea [(ngModel)]="pedido.observacion" class="form-control"
+                                name="observacion" #observacion="ngModel" minlength="2" maxlength="250" rows="2" placeholder="Coloca aquí datos adicionales al pedido..."></textarea>
+                            <div *ngIf="formUtils.isValidFieldFp(observacion)" class="alert alert-danger">
+                                {{formUtils.getFieldErrorFp(observacion)}}
+                            </div>
+                        </div>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="5" class="text-end fw-bold">TOTAL</td>
                         <td colspan="2" class="text-center fw-bold">{{total | currency:'PEN'}}</td>
                     </tr>
 
                 </tfoot>
             </table>
-
-
-            <!--             <div class="row mb-2">
-                            <div class="ol-sm-6">
-                                <span>Valid:</span>
-                                <pre>{{formProducto.valid | json}}</pre>
-                                <span>pristine:</span>
-                                <pre>{{formProducto.pristine| json}}</pre>
-                                <span>touched:</span>
-                                <pre>{{formProducto.touched| json}}</pre>
-                                <span>value:</span>
-                                <pre>{{formProducto.value| json}}</pre>
-                                <span>errores</span>
-                                <pre>{{formProducto.errors| json}}</pre>
-
-                            </div>
-                            </div> -->
         </div>
     </div>
     <div class="row mb-2">
         @if(lstItemPedido.length > 0 && authService.hasRole('ROLE_CREATE_PEDIDO_TIENDA')){
-        <button type="submit" class="btn btn-dark btn-lg" [disabled]="!pedidoTiendaForm.form.valid">Finalizar pedido</button>
+        <button type="submit" class="btn btn-dark btn-lg" [disabled]="!pedidoTiendaForm.form.valid">Finalizar
+            pedido</button>
 
         } @else {
         <button type="submit" class="btn btn-dark btn-lg" disabled>Finalizar pedido</button>

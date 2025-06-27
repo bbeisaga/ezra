@@ -73,7 +73,7 @@ public class Cliente implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date updateAt;
 
-	@NotNull(message = "Tipo documento no puede ser vacio")
+//	@NotNull(message = "Tipo documento no puede ser vacio")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "tipo_documentos_id")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })

@@ -1,11 +1,11 @@
-import { ChatUtils } from './../../../../utils/chat-utils';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Producto } from '../../../../models/producto';
-import { ProductoService } from '../../../../services/producto.service';
-import { environment } from '../../../../../environments/environment';
-import { ItemPedido } from '../../../../models/item-pedido';
-import { ItemService } from '../../../../services/item.service';
+import { ProductoService } from '../../../services/producto.service';
+import { ItemService } from '../../../services/item.service';
+import { Producto } from '../../../models/producto';
+import { ChatUtils } from '../../../utils/chat-utils';
+import { environment } from '../../../../environments/environment';
+
 
 
 

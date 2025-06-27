@@ -1,7 +1,9 @@
-import { Pedido } from '../../../../models/pedido';
-import { PedidoService } from '../../../../services/pedido.service';
+
 import { Component, inject } from '@angular/core';
-import { ChatUtils } from '../../../../utils/chat-utils';
+import { PedidoService } from '../../../services/pedido.service';
+import { Pedido } from '../../../models/pedido';
+import { ChatUtils } from '../../../utils/chat-utils';
+
 
 @Component({
   selector: 'contactanos',
@@ -14,13 +16,18 @@ export class ContactanosComponent {
   pedido = new Pedido();
   chatUtils = ChatUtils;
 
-  constructor() {
-        this.pedido = {...this.pedidoService.pedido};
-        console.log(this.pedido);
-  } 
 
- enviarPedidoChat() {
+  constructor() {
+    this.pedido = { ...this.pedidoService.pedido };
+    console.log(this.pedido);
+  }
+
+  enviarPedidoChat() {
     this.chatUtils.sendPedido(this.pedido);
-  } 
+  }
+
+  chatear() {
+    this.chatUtils.defaultMesage();
+  }
 
 }

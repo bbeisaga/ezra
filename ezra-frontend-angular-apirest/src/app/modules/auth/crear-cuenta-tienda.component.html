@@ -5,60 +5,12 @@
     <form [formGroup]="formNewCuenta" (ngSubmit)="crearCuenta()">
         <div class="row">
             <div class="col-12 col-md-6">
-
-                <div class="row mb-2">
-                    <label for="documentoId" class="form-label col-12">Tipo documento:</label>
-                    <div class="col-12">
-                        <select formControlName="documentoId" name="documentoId" class="form-control">
-                            <option *ngFor="let documento of tipoDocumentos" [value]="documento.id">
-                                {{documento.nombre}}</option>
-                        </select>
-                        @if(formUtils.isValidField(formNewCuenta,'documentoId')){
-                        <div class="alert alert-danger">
-                            {{formUtils.getFieldError(formNewCuenta,"documentoId")}}
-                        </div>}
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label for="numeroDocumento" class="form-label col-12">Número
-                        Documento:</label>
-                    <div class="col-12">
-                        <input formControlName="numeroDocumento" type="text" class="form-control" name="numeroDocumento"
-                            placeholder="Número Documento">
-                        @if(formUtils.isValidField(formNewCuenta,'numeroDocumento')){
-                        <div class="alert alert-danger">
-                            {{formUtils.getFieldError(formNewCuenta,"numeroDocumento")}}
-                        </div>}
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label for="nomApellRz" class="form-label col-12">Razón social (P. Jurídica) Nombres y
-                        apellidos
-                        (P. Natural):</label>
-                    <div class="col-12">
-                        <input formControlName="nomApellRz" type="text" class="form-control" name="nomApellRz">
-                        @if(formUtils.isValidField(formNewCuenta,'nomApellRz')){
-                        <div class="alert alert-danger">
-                            {{formUtils.getFieldError(formNewCuenta,'nomApellRz')}}
-                        </div>}
-                    </div>
-                </div>
-                <div class="row mb-2">
-                    <label for="direccion" class="form-label col-12">Dirección:</label>
-                    <div class="col-12">
-                        <input formControlName="direccion" type="text" class="form-control" name="direccion">
-                        @if(formUtils.isValidField(formNewCuenta,'direccion')){
-                        <div class="alert alert-danger">
-                            {{formUtils.getFieldError(formNewCuenta,'direccion')}}
-                        </div>}
-                    </div>
-                </div>
                 <div class="row mb-2">
                     <label for="celular" class="form-label col-12"><b>Celular (Inicio de sesión para
                             ingresar)</b></label>
                     <div class="col-12">
                         <input formControlName="celular" type="text" class="form-control" name="celular"
-                            placeholder="Celular">
+                            (change)="findByCelular($event)">
                         @if(formUtils.isValidField(formNewCuenta,'celular')){
                         <div class="alert alert-danger">
                             {{formUtils.getFieldError(formNewCuenta,'celular')}}
@@ -88,6 +40,54 @@
                         </div>}
                     </div>
                 </div>
+                <div class="row mb-2">
+                    <label for="tipoDocumentoId" class="form-label col-12">Tipo documento:</label>
+                    <div class="col-12">
+                        <select formControlName="tipoDocumentoId" name="tipoDocumentoId" class="form-control">
+                            <option *ngFor="let tipoDocumento of tipoDocumentos" [value]="tipoDocumento.id">
+                                {{tipoDocumento.nombre}}</option>
+                        </select>
+                        @if(formUtils.isValidField(formNewCuenta,'tipoDocumentoId')){
+                        <div class="alert alert-danger">
+                            {{formUtils.getFieldError(formNewCuenta,"tipoDocumentoId")}}
+                        </div>}
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label for="numeroDocumento" class="form-label col-12">Número
+                        Documento:</label>
+                    <div class="col-12">
+                        <input formControlName="numeroDocumento" type="text" class="form-control" name="numeroDocumento"
+                            (change)="findByNumDocumento($event)">
+                        @if(formUtils.isValidField(formNewCuenta,'numeroDocumento')){
+                        <div class="alert alert-danger">
+                            {{formUtils.getFieldError(formNewCuenta,"numeroDocumento")}}
+                        </div>}
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label for="nomApellRz" class="form-label col-12">Razón social (P. Jurídica) Nombres y
+                        apellidos
+                        (P. Natural):</label>
+                    <div class="col-12">
+                        <input formControlName="nomApellRz" type="text" class="form-control" name="nomApellRz">
+                        @if(formUtils.isValidField(formNewCuenta,'nomApellRz')){
+                        <div class="alert alert-danger">
+                            {{formUtils.getFieldError(formNewCuenta,'nomApellRz')}}
+                        </div>}
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label for="direccion" class="form-label col-12">Dirección:</label>
+                    <div class="col-12">
+                        <input formControlName="direccion" type="text" class="form-control" name="direccion">
+                        @if(formUtils.isValidField(formNewCuenta,'direccion')){
+                        <div class="alert alert-danger">
+                            {{formUtils.getFieldError(formNewCuenta,'direccion')}}
+                        </div>}
+                    </div>
+                </div>
+
             </div>
             <div class="col-12 col-md-6">
                 <mat-list>

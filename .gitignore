@@ -16,7 +16,7 @@
 /ezra-backend-spring-boot-apirest/.settings/
 /ezra-backend-spring-boot-apirest/.factorypath
 /ezra-backend-spring-boot-apirest/target
-/ezra-backend-spring-boot-apirest/uploads
+/ezra-backend-spring-boot-apirest/uploads/*
 .metadata/
 /ezra-backend-spring-boot-apirest/.metadata/
 /ezra-backend-spring-boot-apirest/.metadata

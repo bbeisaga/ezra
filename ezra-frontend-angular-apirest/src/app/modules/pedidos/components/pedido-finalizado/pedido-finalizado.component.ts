@@ -1,5 +1,5 @@
-import { AuthService } from './../../../../services/auth.service';
-import { ItemPedido } from './../../../../models/item-pedido';
+import { AuthService } from '../../../../services/auth.service';
+import { ItemPedido } from '../../../../models/item-pedido';
 import { Component, inject, OnInit } from '@angular/core';
 import { ClienteService } from '../../../../services/cliente.service';
 import { Cliente } from '../../../../models/cliente';
@@ -13,21 +13,21 @@ import { Pedido } from '../../../../models/pedido';
 import { NgForm } from '@angular/forms';
 import { PedidoService } from '../../../../services/pedido.service';
 import { TipoPedido } from '../../../../models/tipo-pedido';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormUtils } from '../../../../utils/form-utils';
 import moment from 'moment';
 import { ChatUtils } from '../../../../utils/chat-utils';
 
 @Component({
-  selector: 'app-pedido-tienda',
-  templateUrl: './pedido-tienda.component.html',
-  styleUrl: './pedido-tienda.component.css'
+  selector: 'pedido-finalizado',
+  templateUrl: './pedido-finalizado.component.html',
+  styleUrl: './pedido-finalizado.component.css'
 })
-export class PedidoTiendaComponent implements OnInit {
+export class PedidoFinalizadoComponent implements OnInit {
 
 
   public authService = inject(AuthService);
-  private usuarioService = inject(UsuarioService);
+  private activatedRoute = inject(ActivatedRoute);
   private clienteService = inject(ClienteService);
   private pedidoService = inject(PedidoService);
   private router = inject(Router);
@@ -37,18 +37,16 @@ export class PedidoTiendaComponent implements OnInit {
   itemServiceSuscription$!: Subscription;
   cliente!: Cliente;
   pedido = new Pedido();
-  //cliente: Cliente | null = null;
   tipoDocumentos: TipoDocumento[] = [];
   tipoDocumentoSelected!: TipoDocumento;
   tipoPedidoVentaClientes!: TipoPedido;
   tipoPedidos: TipoPedido[] = [];
-  //usuario!: Usuario;
 
   lstItemPedido: ItemPedido[] = [];
   formUtils = FormUtils;
   chatUtils = ChatUtils;
-  //itemPedido!: ItemPedido;
   total: number = 0;
+  clienteOnline!: boolean;
 
 
   constructor() {
@@ -69,16 +67,24 @@ export class PedidoTiendaComponent implements OnInit {
       this.tipoDocumentos = doc
     });
 
-    this.usuarioService.getUsuarioByUsername(this.authService.usuario.username).subscribe(usuario => {
-      this.clienteService.getCliente(usuario.id).subscribe(cli => {
+
+    this.activatedRoute.paramMap.subscribe(params => {
+      let clienteId = +params.get('clienteId')!;
+      this.clienteService.getCliente(clienteId).subscribe(cli => {
+        const now = new Date();
         this.cliente = cli;
         const index = this.findIndexDocument(this.cliente.tipoDocumento.id);
         this.tipoDocumentoSelected = this.tipoDocumentos[index];
-        //this.pedido.items = this.lstItemPedido;
         this.pedido.cliente = this.cliente;
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        this.pedido.entregadoEn = moment(now).add(2, 'days').toISOString().slice(0, 16);
       });
     });
 
+    this.activatedRoute.queryParams.subscribe(params => {
+      const value = params['clienteOnline'];
+      this.clienteOnline = value ? value.toLocaleLowerCase() === 'true' : false;
+    })
 
     if (this.lstItemPedido.length === 0) {
       this.lstItemPedido = this.itemService.getLocalStorageItems();
@@ -120,10 +126,9 @@ export class PedidoTiendaComponent implements OnInit {
     if (this.lstItemPedido.length > 0) {
       this.pedido.items = [...this.lstItemPedido];
       this.calcularTotal();
-      this.pedido.entregadoEn = moment(new Date()).add(3, 'days').toISOString(),
-        this.pedido.precioNetoTotal = this.total
+      //this.pedido.entregadoEn = moment(new Date()).add(3, 'days').toISOString(),
+      this.pedido.precioNetoTotal = this.total
     } else {
-      //this.autocompleteControl.setErrors({ 'invalid': true });
       return
     }
 
@@ -133,18 +138,17 @@ export class PedidoTiendaComponent implements OnInit {
       console.log(JSON.stringify(this.pedido));
 
       this.pedidoService.createPedidoTienda(this.pedido).subscribe(p => {
-        //this.alertService.success(`Pedido registrado, ahora REGISTRAR MOVIMIENTO!`,'success')
-        //this.alertService.success(`Pedido para ${p.cliente?.nomApellRz}, creado con éxito!`,'success')
         this.pedidoService.setPedido(p);
-       // this.enviarPedidoChat(p);
         this.itemService.removeLocalStorageItems();
-        this.router.navigate(['/tienda/contactanos']);
+        if (this.clienteOnline) {
+          this.router.navigate(['/pedidos/contactanos']);
+        } else {
+          this.router.navigate(['/movimientos']);
+        }
       });
     }
   }
 
-/*   enviarPedidoChat(pedido: Pedido) {
-    this.chatUtils.sendPedido(pedido)
-  } */
+
 }
 

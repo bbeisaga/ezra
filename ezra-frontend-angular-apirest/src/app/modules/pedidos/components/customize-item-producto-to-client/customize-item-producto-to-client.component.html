@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col-12 col-md-6">
+        <div class="row">
+            <div class="col">
+                <img [src]="verImagenProducto" [alt]="producto.imagen"
+                    class="img-fluid img-thumbnail rounded mx-auto d-block">
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6">
+        @if (producto) {
+        <h2>{{producto.codigo}} {{producto.nombre}}</h2>
+        <p>{{producto.precioNeto | currency:'PEN'}}</p>
+        <p>Cantidad en stock:{{producto.cantidadStock}}</p>
+
+        <ul>
+            <li><b>Medidas: </b>{{producto.medidas}}</li>
+            <li><b>Peso: </b>{{producto.peso}}</li>
+            <li><b>Color: </b>{{producto.color?.nombre}}</li>
+            <li><b>Material: </b>{{producto.material?.nombre}}</li>
+            <li><b>Mínima cantidad en pedido: </b>{{producto.minCantidadPedido}} unidades. </li>
+            <li><b>Máxima cantidad en pedido: </b>{{producto.maxCantidadPedido}} unidades. </li>
+            <li><b>En grupos de: </b>{{producto.gruposDe}} unidades.</li>
+            <li><b>Fecha de precio de rebaja desde:</b>
+                <br>{{producto.fechaPrecioRebajadoDesde}} hasta {{producto.fechaPrecioRebajadoHasta}}
+            </li>
+        </ul>
+        }
+
+
+        <h2>REALIZAR PEDIDO</h2>
+        <form [formGroup]="frm" (ngSubmit)="sendOneItemProducto()">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <label for="descripcion" class="col-form-label col-12"><b>Descripción:</b> </label>
+                    <div class="input-group col-12">
+                        <textarea formControlName="descripcion" name="descripcion" class="form-control"
+                            [ngStyle]="{'resize': 'none'}" aria-label="With textarea" placeholder="Descripción"
+                            maxlength="250" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <label for="formFile" class="form-label col-12"><b>Colocar imágen en pedido:</b></label>
+                    <div class="input-group col-12">
+                        <input #file (change)="this.isImage(file)" type="file" name="imagen" class="form-control"
+                            id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+                        <button (click)="subirImagen(file)" class="btn btn-outline-primary" type="button"
+                            [disabled]="!this.isImage(file)" id="inputGroupFileAddon04">Subir</button>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <img class="col-5 col-sm-4" [src]="verImagenItem">
+                    <div class="col-7 col-sm-8">
+                        <div class="row">
+                            <label for="cantidad" class="col-form-label col-"><b>Cantidad:</b></label>
+                            <div class="mb-2 col-">
+                                <input type="number" formControlName="cantidad" class="form-control" name="cantidad"
+                                    [step]="gruposDe.toString()" [min]="minCantidadPedido.toString()"
+                                    [max]="maxCantidadPedido.toString()" />
+                            </div>
+                            <div class="col- d-flex flex-wrap flex-column flex-sm-row justify-content-sm-evenly">
+                                <button type="submit" class="btn btn-primary mb-2">Añadir al
+                                    carrito</button>
+                                <button type="button" class="btn btn-success mb-2"
+                                    (click)="chatear(producto)">Chatear</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

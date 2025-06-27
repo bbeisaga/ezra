@@ -37,6 +37,7 @@ import { MenuAppComponent } from './menus-nav/menu-app.component';
 import { PrincipalComponent } from './principal.component';
 import { MenuCabeceraComponent } from './menus-nav/menu-cabecera.component';
 import { PieComponent } from './pie/pie.component';
+import { ContactanosComponent } from './contactanos/contactanos.component';
 
 
 
@@ -50,7 +51,9 @@ import { PieComponent } from './pie/pie.component';
     AutocompleteClienteComponent,
     CabeceraComponent,
     MenuCabeceraComponent,
-    PieComponent
+    PieComponent,
+    ContactanosComponent
+
   ],
   imports: [
     CommonModule,
@@ -108,7 +111,8 @@ import { PieComponent } from './pie/pie.component';
     MenuTiendaComponent,
     CabeceraComponent,
     PrincipalComponent,
-    PieComponent
+    PieComponent,
+    ContactanosComponent
   ]
 })
 export class CompartidoModule { }

@@ -47,7 +47,7 @@
 
 <div class="row">
     <div class="col-12 d-flex justify-content-center">
-        @if(lstItemPedido.length > 0 && authService.hasRole('ROLE_CREATE_PEDIDO_TIENDA')){
+        @if(lstItemPedido.length > 0 && authService.hasRole('ROLE_CREATE_PEDIDO_TIENDA') && authService.isAuthenticated()){
         <button (click)="irRealizarPedido()" class="btn btn-warning">Realizar el pedido</button>
         } @else {
         <button (click)="irRealizarPedido()" class="btn btn-warning" disabled>Realizar el pedido</button>

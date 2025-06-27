@@ -8,6 +8,7 @@ import { TipoDocumento } from '../../../models/tipo-documento';
 import { AlertService } from '../../../services/alert.service';
 import { AuthService } from '../../../services/auth.service';
 import { findIndex } from 'lodash';
+import { FormUtils } from '../../../utils/form-utils';
 
 @Component({
   selector: 'app-form',
@@ -16,11 +17,13 @@ import { findIndex } from 'lodash';
 export class FormComponent implements OnInit {
 
   cliente: Cliente = new Cliente();
-  tipoDocumentos: TipoDocumento[]=[];
+  tipoDocumentos: TipoDocumento[] = [];
   tipoDocumentoSelected!: TipoDocumento;
   titulo: string = "Crear cliente o proveedor";
+  formUtils = FormUtils;
 
-  errores: string[]=[];
+
+  errores: string[] = [];
 
   constructor(private clienteService: ClienteService,
     private router: Router,
@@ -51,7 +54,7 @@ export class FormComponent implements OnInit {
   }
 
   findIndexDocument(tipoDocumentoId: number): number {
-   return findIndex(this.tipoDocumentos,(td) => td.id ==tipoDocumentoId )
+    return findIndex(this.tipoDocumentos, (td) => td.id == tipoDocumentoId)
   }
 
   create(): void {
@@ -60,13 +63,13 @@ export class FormComponent implements OnInit {
       .subscribe(
         cliente => {
           this.router.navigate(['/clientes']);
-          this.alertServie.success(`El cliente ${cliente.nomApellRz} ha sido creado con éxito`,'Nuevo cliente' )
+          this.alertServie.success(`El cliente ${cliente.nomApellRz} ha sido creado con éxito`, 'Nuevo cliente')
         },
-/*         err => {
-          this.errores = err.error.errors as string[];
-          console.error('Código del error desde el backend: ' + err.status);
-          console.error(err.error.errors);
-        } */
+        /*         err => {
+                  this.errores = err.error.errors as string[];
+                  console.error('Código del error desde el backend: ' + err.status);
+                  console.error(err.error.errors);
+                } */
       );
   }
 
@@ -77,7 +80,7 @@ export class FormComponent implements OnInit {
       .subscribe(
         json => {
           this.router.navigate(['/clientes']);
-          this.alertServie.success(`${json.mensaje}`,'Cliente Actualizado' )
+          this.alertServie.success(`${json.mensaje}`, 'Cliente Actualizado')
         },
         err => {
           this.errores = err.error.errors as string[];

@@ -16,6 +16,7 @@ import { TipoDocumento } from '../../models/tipo-documento';
 export class CrearCuentaTiendaComponent {
 
 
+
   private clienteService = inject(ClienteService);
   private alertService = inject(AlertService);
   private formBuilder = inject(FormBuilder);
@@ -39,7 +40,7 @@ export class CrearCuentaTiendaComponent {
     this.formNewCuenta = this.formBuilder.group({
       //usuario: [this.cajaUsuario?.usuario?.username],
       //usuario:   [this.cajaUsuario?.usuario?.apellido +'-'+ this.cajaUsuario?.usuario?.nombre],
-      documentoId: [this.cliente?.tipoDocumento?.id, Validators.required],
+      tipoDocumentoId: [this.cliente?.tipoDocumento?.id, Validators.required],
 
       numeroDocumento: [this.cliente?.numeroDocumento,
       { validators: [Validators.required, Validators.minLength(8), Validators.maxLength(11), Validators.pattern('^\\d+$')] }
@@ -102,25 +103,62 @@ export class CrearCuentaTiendaComponent {
     }
   }
 
-  //HEMOS REMPLAZADO LA VALDIACION EN UNA CLASE REUTILIZABLE PARA TODOS UTILS
-/*   isValidField(fieldName: string): boolean | null {
-    return (this.formNewCuenta.controls[fieldName].errors && this.formNewCuenta.controls[fieldName].touched)
+  findByNumDocumento(event: any) {
+    const numero = event.target.value;
+    const tipoDocumentoId = this.formNewCuenta.get('tipoDocumentoId')?.value;
+    this.clienteService.getNumeroDocumento(numero).subscribe(resp => {
+      this.cliente = resp;
+      this.createForm();
+
+    }, err => {
+      console.log("Entro")
+    }, () => {
+      this.formNewCuenta.get('tipoDocumentoId')?.setValue(tipoDocumentoId);
+      this.formNewCuenta.get('numeroDocumento')?.setValue(numero);
+    })
+
   }
 
-  getFieldError(fieldName: string): string | null {
-    if (!this.formNewCuenta.controls[fieldName]) return null;
-    const errors = this.formNewCuenta.controls[fieldName].errors || {}
-    for (const key of Object.keys(errors)) {
-      switch (key) {
-        case 'required': return 'Campo requerido';
-        case 'minlength': return `Mínimo de ${errors['minlength'].requiredLength} caracteres`;
-        case 'maxlength': return `Máximo de ${errors['maxlength'].requiredLength} caracteres`;
-        case 'pattern': return `No cumple requerimientos de campo`;
-        case 'min': return `Valor mínimo de ${errors['min'].min}`;
-      }
+    findByCelular(event: any) {
+    const celular = event.target.value;
+    const tipoDocumentoId = this.formNewCuenta.get('tipoDocumentoId')?.value;
+    const numeroDocumento = this.formNewCuenta.get('numeroDocumento')?.value;
+    const nomApellRz = this.formNewCuenta.get('nomApellRz')?.value;
+    const direccion = this.formNewCuenta.get('direccion')?.value;
+
+    this.clienteService.getCelular(celular).subscribe(resp => {
+      this.cliente = resp;
+      this.createForm();
+
+    }, () => {
+      this.formNewCuenta.get('tipoDocumentoId')?.setValue(tipoDocumentoId);
+      this.formNewCuenta.get('numeroDocumento')?.setValue(numeroDocumento);
+      this.formNewCuenta.get('nomApellRz')?.setValue(nomApellRz);
+      this.formNewCuenta.get('direccion')?.setValue(direccion);
+      this.formNewCuenta.get('celular')?.setValue(celular);
+    })
+
+  }
+
+  //HEMOS REMPLAZADO LA VALDIACION EN UNA CLASE REUTILIZABLE PARA TODOS UTILS
+  /*   isValidField(fieldName: string): boolean | null {
+      return (this.formNewCuenta.controls[fieldName].errors && this.formNewCuenta.controls[fieldName].touched)
     }
-    return null;
-  } */
+  
+    getFieldError(fieldName: string): string | null {
+      if (!this.formNewCuenta.controls[fieldName]) return null;
+      const errors = this.formNewCuenta.controls[fieldName].errors || {}
+      for (const key of Object.keys(errors)) {
+        switch (key) {
+          case 'required': return 'Campo requerido';
+          case 'minlength': return `Mínimo de ${errors['minlength'].requiredLength} caracteres`;
+          case 'maxlength': return `Máximo de ${errors['maxlength'].requiredLength} caracteres`;
+          case 'pattern': return `No cumple requerimientos de campo`;
+          case 'min': return `Valor mínimo de ${errors['min'].min}`;
+        }
+      }
+      return null;
+    } */
 
   resetForm() {
     this.formNewCuenta.reset();

@@ -103,6 +103,26 @@ public class ClienteRestController {
 		return clienteService.findClienteByNomApellRz(term);
 	}
 	
+	
+	@GetMapping("/clientes/numero-documento/{numero}")
+	@ResponseStatus(HttpStatus.OK)
+	public Cliente filtrarClienteNumDoc(@PathVariable String numero){
+		return clienteService.findByNumeroDocumento(numero);
+	}
+	
+	@GetMapping("/clientes/numero-celular/{celular}")
+	@ResponseStatus(HttpStatus.OK)
+	public Cliente filtrarClienteNumCelular(@PathVariable String celular){
+		return clienteService.findByNumeroCelular(celular);
+	}
+	
+	@GetMapping("/clientes/usuario/{usuarioId}")
+	@ResponseStatus(HttpStatus.OK)
+	public Cliente getClienteUsuarioId(@PathVariable Long usuarioId){
+		return clienteService.findClienteByUsuarioId(usuarioId);
+	}
+	
+	
 //	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@GetMapping("/clientes/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
@@ -143,7 +163,7 @@ public class ClienteRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
 		try {
-			clienteNew = clienteService.insertar(cliente);
+			clienteNew = clienteService.guardarCliente(cliente);
 			response.put("mensaje", "El cliente ha sido creado con éxito!");
 			response.put("cliente", clienteNew);
 		} catch(DataAccessException e) {

@@ -20,7 +20,16 @@ public interface IClienteService {
 	
 	public Cliente findById(Long id);
 	
+	public Cliente findByNumeroDocumento(String numero);
+	
+	public Cliente findByNumeroCelular(String celular);
+	
+	public Cliente findClienteByUsuarioId(Long usuarioId);
+
+
 	public Usuario findUsuarioByUsername(String username);
+	
+	public Cliente guardarCliente(Cliente cliente);
 	
 	public Cliente insertar(Cliente cliente);
 	

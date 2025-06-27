@@ -1,34 +1,31 @@
-import { ItemService } from '../../../../services/item.service';
-import { FormUtils } from '../../../../utils/form-utils';
-
-
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { MediosUtilsService } from '../../../../services/medios-utils.service';
-import { Producto } from '../../../../models/producto';
-import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { ItemPedido } from '../../../../models/item-pedido';
+import { FormBuilder } from '@angular/forms';
 import { ProductoService } from '../../../../services/producto.service';
+import { ItemService } from '../../../../services/item.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../../services/auth.service';
+import { FormUtils } from '../../../../utils/form-utils';
+import { ChatUtils } from '../../../../utils/chat-utils';
+import { Producto } from '../../../../models/producto';
+import { ItemPedido } from '../../../../models/item-pedido';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
-import { AuthService } from '../../../../services/auth.service';
-import { ChatUtils } from '../../../../utils/chat-utils';
-
-
-
 
 @Component({
-  selector: 'item-producto-tienda',
-  templateUrl: './item-producto-tienda.component.html',
-  styleUrl: './item-producto-tienda.component.css'
+  selector: 'customize-item-producto-to-client',
+  templateUrl: './customize-item-producto-to-client.component.html',
+  styleUrl: './customize-item-producto-to-client.component.css'
 })
-export class ItemProductoTiendaComponent implements OnInit, OnDestroy {
+export class CustomizeItemProductoToClientComponent implements OnChanges {
   public mediosUtilsService = inject(MediosUtilsService);
   private formBuilder = inject(FormBuilder);
   private productoService = inject(ProductoService);
   private itemService = inject(ItemService);
   private activatedRoute = inject(ActivatedRoute);
   public authService = inject(AuthService);
+
+  @Input() productoId!: number;
 
   itemServiceSuscription$!: Subscription;
   formUtils = FormUtils;
@@ -46,51 +43,67 @@ export class ItemProductoTiendaComponent implements OnInit, OnDestroy {
     cantidad: [0],
   })
   constructor() {
-    this.itemService.getItems().subscribe({
+/*     this.itemService.getItems().subscribe({
       next: items => {
         this.items = items;
       },
       error: error => {
         console.error('Error al obtener el item:', error);
       }
-    })
+    }) */
   }
-
+/*
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe(params => {
-      const productoId = + params.get('productoId')!;
-      this.productoService.getProducto(productoId).subscribe(prd => {
+    console.log("CustomizeItemProductoToClientComponent.onInit")
+
+     this.productoService.getProducto(this.productoId).subscribe(prd => {
+      this.producto = prd;
+      this.gruposDe = this.producto.gruposDe
+      this.minCantidadPedido = this.producto.minCantidadPedido
+      this.maxCantidadPedido = this.producto.maxCantidadPedido
+      this.verImagenProducto = environment.API_URL_VER_IMAGEN + this.producto.imagen;
+      this.frm.get('cantidad')?.setValue(this.minCantidadPedido);
+    })
+
+
+    if (this.items.length === 0) {
+      this.items = this.itemService.getLocalStorageItems()
+    }
+
+    this.verImagenItem = environment.API_URL_VER_IMAGEN + this.item.imagen; 
+
+  }*/
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['productoId'].currentValue != changes['productoId'].previousValue) {
+      this.productoService.getProducto(this.productoId).subscribe(prd => {
         this.producto = prd;
         this.gruposDe = this.producto.gruposDe
         this.minCantidadPedido = this.producto.minCantidadPedido
         this.maxCantidadPedido = this.producto.maxCantidadPedido
         this.verImagenProducto = environment.API_URL_VER_IMAGEN + this.producto.imagen;
         this.frm.get('cantidad')?.setValue(this.minCantidadPedido);
-      })
-    })
+      });
 
-    if (this.items.length === 0) {
-      this.items = this.itemService.getLocalStorageItems()
+
+/*       if (this.items.length === 0) {
+        this.items = this.itemService.getLocalStorageItems()
+      } */
+
+      this.verImagenItem = environment.API_URL_VER_IMAGEN + this.item.imagen;
     }
-
-    this.verImagenItem = environment.API_URL_VER_IMAGEN + this.item.imagen;
-
   }
+
   isAuthenticated(): boolean {
     return this.authService.isAuthenticated();
   }
 
-  /*   seleccionarImagenToItem($event: any): void {
-      this.mediosUtilsService.seleccionarImagen($event);
-    } */
 
   isImage(fileInput: HTMLInputElement): boolean {
-    //console.log('isImage', fileInput.value); 
     return this.mediosUtilsService.isImage(fileInput);
   }
 
   subirImagen(fileInput: HTMLInputElement) {
-    //if (this.mediosUtilsService.imagenSeleccionada) {
     if (fileInput && fileInput.files && fileInput.files.length > 0) {
       const imagen: File = fileInput.files[0];
       this.mediosUtilsService.subirImagen(imagen).subscribe(resp => {
@@ -103,34 +116,30 @@ export class ItemProductoTiendaComponent implements OnInit, OnDestroy {
     // }
   }
 
-
   sendOneItemProducto() {
     this.item.cantidad = (this.frm.get('cantidad')?.value ? this.frm.get('cantidad')?.value : 0)!;
     this.item.importe = this.item.cantidad * this.producto.precioNeto;
     this.item.descripcion = (this.frm.get('descripcion')?.value ? this.frm.get('descripcion')?.value : '')!;
-    //this.item.imagen = (this.frm.get('imagen')?.value ? this.frm.get('imagen')?.value : 'no-imagen.jpg')!;
     this.item.producto = { ...this.producto };
     if (this.itemService.existItemInItems(this.items, this.item.producto.id)) {
       this.items = this.itemService.UpdateAmountItemFromExterno(this.items, this.item.producto.id, this.item.cantidad);
     }
     else {
-      //this.itemService.addAmountItemFromItems()
       this.items = [...this.items, { ...this.item }];
     }
     this.itemService.setItems(this.items);
     this.itemService.saveLocalStorageItems(this.items);
-    //this.oneItemProductoEmit.emit(this.item);
   }
 
   chatear(producto: Producto) {
     this.chatUtils.infoProduct(producto);
   }
 
-  ngOnDestroy(): void {
+/*   ngOnDestroy(): void {
     if (this.itemServiceSuscription$) {
       this.itemServiceSuscription$.unsubscribe();
     }
-  }
+  } */
 
 
 }

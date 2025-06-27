@@ -24,10 +24,10 @@ const routes: Routes = [
   {
     path: '', component: PrincipalComponent,
     children: [
-      {
+/*       {
         path: 'tienda',
         loadChildren: () => import("./modules/tienda/tienda.module").then((m) => m.TiendaModule),
-      },
+      }, */
       /*       {
               path: '',
               loadChildren: () => import("./modules/home/home.module").then((m) => m.HomeModule),

@@ -4,6 +4,12 @@ import { environment } from '../../environments/environment';
 import { Pedido } from '../models/pedido';
 export class ChatUtils {
 
+  static defaultMesage() {
+    const mensaje = `Hola!, estoy interesado en los productos de la página.`
+    const link = environment.API_URL_WHATSAPP + encodeURI(mensaje);
+    window.open(link, "_blank")
+  }
+
   static infoProduct(producto: Producto) {
     const mensaje = `Hola!, quiero saber mas de ${producto.codigo} - ${producto.nombre}`
     const link = environment.API_URL_WHATSAPP + encodeURI(mensaje);

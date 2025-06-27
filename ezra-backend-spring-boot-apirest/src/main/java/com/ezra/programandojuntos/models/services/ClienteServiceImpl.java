@@ -33,28 +33,27 @@ import com.ezra.programandojuntos.models.entity.Usuario;
 
 @Service
 public class ClienteServiceImpl implements IClienteService {
-	
+
 	Logger log = LoggerFactory.getLogger(ClienteServiceImpl.class);
 
 	@Autowired
 	private IClienteDao clienteDao;
-	
+
 	@Autowired
 	private IUsuarioDao usuarioDao;
-	
+
 	@Autowired
 	private IRoleDao roleDao;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<Cliente> findAll() {
 		return (List<Cliente>) clienteDao.findAll();
 	}
-	
-	
+
 //	
 //    @Override
 //    public PageableEntity<UserSecurityEntity> findByProfilePageable(
@@ -78,71 +77,88 @@ public class ClienteServiceImpl implements IClienteService {
 //    	
 //    	clienteDao.findAllClientePageable(null, null)
 //    }
-	
+
 	@Override
 	@Transactional(readOnly = true)
-	public List<Cliente> findClienteByNomApellRz (String term) {
+	public List<Cliente> findClienteByNomApellRz(String term) {
 		return clienteDao.findByNomApellRzContainingIgnoreCase(term);
 	}
-	
 
 	@Override
 	@Transactional(readOnly = true)
 	public Page<Cliente> findAllClientePageable(String query, Pageable pageRequest) {
-		
-		log.info("findAllClientePageable pageRequest= {}",pageRequest);
-	
+
+		log.info("findAllClientePageable pageRequest= {}", pageRequest);
+
 		return clienteDao.findAllClientePageable(query, pageRequest);
 	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public Cliente findById(Long id) {
 		return clienteDao.findById(id).orElse(null);
 	}
-	
+
+	@Override
+	@Transactional(readOnly = true)
+	public Cliente findByNumeroDocumento(String numero) {
+		return clienteDao.findByNumeroDocumento(numero).orElse(null);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Cliente findByNumeroCelular(String celular) {
+		return clienteDao.findByCelular(celular).orElse(null);
+	}
+
 	@Override
 	@Transactional(readOnly = true)
 	public Usuario findUsuarioByUsername(String username) {
 		return clienteDao.findUsuarioByUsername(username);
 	}
+	
+
+	@Override
+	public Cliente findClienteByUsuarioId(Long usuarioId) {
+		return clienteDao.findByUsuarioId(usuarioId).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public Cliente guardarCliente(Cliente cliente) {
+		
+		Cliente clienteSave = null;
+		 var clienteActual = clienteDao.findByCelular(cliente.getCelular())
+				.orElse(clienteDao.findByNumeroDocumento(cliente.getNumeroDocumento()).orElse(null));
+
+		if ((clienteActual != null && clienteActual.getUsuarioId() != null)
+				 ) {
+			//ya esta registrado en el sistema olvido su contraseña
+			throw new ClienteExceptions(
+					ClienteMapErrors.getErrorString(ClienteMapErrors.CODE_CLI_USR_DUPLICADO, clienteActual.getNomApellRz()));
+		}
+
+		if (clienteActual != null && clienteActual.getUsuarioId() == null) {
+			clienteSave = this.actualizar(cliente, clienteActual.getId());
+		}
+		
+		if (clienteActual == null ) {
+			clienteSave = this.insertar(cliente);
+		}
+		
+		return clienteSave;
+	}
 
 	@Override
 	@Transactional
 	public Cliente insertar(Cliente cliente) {
-		Cliente clienteActual = null;
-		clienteActual = clienteDao.findByCelular(cliente.getCelular()).orElse(null);
-			
-		if (clienteActual != null) {
-			throw new ClienteExceptions(
-					ClienteMapErrors.getErrorString(ClienteMapErrors.CODE_CEL_DUPLICADO, clienteActual.getCelular())
-			);
-		}
-		clienteActual = clienteDao.findByNumeroDocumento(cliente.getNumeroDocumento()).orElse(null);
-
-		if (clienteActual != null) {
-			throw new ClienteExceptions(
-					ClienteMapErrors.getErrorString(ClienteMapErrors.CODE_NUM_DOC_DUPLICADO, clienteActual.getNumeroDocumento())
-			);
-		}
 		cliente.setUsuarioId(null);
-		Usuario newUsuario =null;
-		if(cliente.getClave() != null) {
-			Usuario usuarioActual = clienteDao.findUsuarioByUsername(cliente.getCelular());
-			if (usuarioActual != null) {
-				throw new ClienteExceptions(
-						ClienteMapErrors.getErrorString(ClienteMapErrors.CODE_USERNAME_DUPLICADO, usuarioActual.getUsername())
-				);
-			}
-			
-			List<Role> rolesDefault = roleDao.findAll()
-						.stream()
-						.filter(a -> a.getNombre().equals("ROLE_LIST_VENTAS") || 
-								a.getNombre().equals("ROLE_REPORT_VENTA")||
-								a.getNombre().equals("ROLE_CREATE_PEDIDO_TIENDA")
-								)
-						.collect(Collectors.toList());
-			
+		Usuario newUsuario = null;
+		if (cliente.getClave() != null) {
+			List<Role> rolesDefault = roleDao.findAll().stream().filter(a -> a.getNombre().equals("ROLE_LIST_VENTAS")
+					|| a.getNombre().equals("ROLE_REPORT_VENTA") || a.getNombre().equals("ROLE_CREATE_PEDIDO_TIENDA"))
+					.collect(Collectors.toList());
+
 			Usuario usuario = new Usuario();
 			usuario.setPassword(passwordEncoder.encode(cliente.getClave()));
 			usuario.setActivo(true);
@@ -156,24 +172,37 @@ public class ClienteServiceImpl implements IClienteService {
 		}
 		return clienteDao.save(cliente);
 	}
-	
+
 	@Override
 	@Transactional
 	public Cliente actualizar(Cliente cliente, Long clienteId) {
-		
-		Cliente clienteActual = clienteDao.findById(clienteId)
-				.orElseThrow( ()-> new ClienteExceptions(
-						ClienteMapErrors.getErrorString(ClienteMapErrors.MSJ_NO_CLIENTE_ID, clienteId)
-				));
-		
-//		clienteActual.setApellidos(cliente.getApellidos());
-//		clienteActual.setNombres(cliente.getNombres());
+		Cliente clienteActual = clienteDao.findById(clienteId).orElseThrow(() -> new ClienteExceptions(
+				ClienteMapErrors.getErrorString(ClienteMapErrors.MSJ_NO_CLIENTE_ID, clienteId)));
+
+
 		clienteActual.setNomApellRz(cliente.getNomApellRz());
 		clienteActual.setCelular(cliente.getCelular());
 		clienteActual.setTipoDocumento(cliente.getTipoDocumento());
 		clienteActual.setNumeroDocumento(cliente.getNumeroDocumento());
 		clienteActual.setDireccion(cliente.getDireccion());
 		
+		if (cliente.getClave() != null && clienteActual.getUsuarioId()==null) {
+			List<Role> rolesDefault = roleDao.findAll().stream().filter(a -> a.getNombre().equals("ROLE_LIST_VENTAS")
+					|| a.getNombre().equals("ROLE_REPORT_VENTA") || a.getNombre().equals("ROLE_CREATE_PEDIDO_TIENDA"))
+					.collect(Collectors.toList());
+
+			Usuario usuario = new Usuario();
+			usuario.setPassword(passwordEncoder.encode(cliente.getClave()));
+			usuario.setActivo(true);
+			usuario.setBloqueado(false);
+			usuario.setReintentos(0);
+			usuario.setUsername(cliente.getCelular());
+			usuario.setRoles(rolesDefault);
+			var newUsuario = usuarioDao.save(usuario);
+			clienteActual.setUsuarioId(newUsuario.getId());
+			clienteActual.setClave(null);
+		}
+
 		return clienteDao.save(clienteActual);
 	}
 
@@ -188,7 +217,7 @@ public class ClienteServiceImpl implements IClienteService {
 //	public List<Region> findAllRegiones() {
 //		return clienteDao.findAllRegiones();
 //	}
-	
+
 	@Override
 	@Transactional(readOnly = true)
 	public List<TipoDocumento> findAllTipoDocumento() {

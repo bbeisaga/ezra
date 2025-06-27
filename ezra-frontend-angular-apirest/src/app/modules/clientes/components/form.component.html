@@ -1,55 +1,52 @@
-<!-- <ul class="alert alert-danger" *ngIf="errores.length > 0">
-  <li *ngFor="let err of errores">
-    {{ err }}
-  </li>
-</ul> -->
-
 <mat-card class="card">
   <form class="d-flex flex-column" #clienteForm="ngForm">
     <mat-card-header class="card-header">
       <mat-card-title>{{ titulo }}</mat-card-title>
       <div class="ms-auto">
-        <button *ngIf="!cliente.id && authService.hasRole('ROLE_REGISTER_CLIENTE') else elseBlock" color="primary" mat-raised-button (click)='create()' [disabled]="!clienteForm.form.valid">Crear cliente o proveedor</button>
+        <button *ngIf="!cliente.id && authService.hasRole('ROLE_REGISTER_CLIENTE') else elseBlock" color="primary"
+          mat-raised-button (click)='create()' [disabled]="!clienteForm.form.valid">Crear cliente o proveedor</button>
         <ng-template #elseBlock>
-          <button *ngIf="authService.hasRole('ROLE_UPDATE_CLIENTE')" color="primary" mat-raised-button (click)='update()' [disabled]="!clienteForm.form.valid">Actualizar cliente o proveedor</button>
+          <button *ngIf="authService.hasRole('ROLE_UPDATE_CLIENTE')" color="primary" mat-raised-button
+            (click)='update()' [disabled]="!clienteForm.form.valid">Actualizar cliente o proveedor</button>
         </ng-template>
 
         <button color="primary" mat-raised-button [routerLink]="'/clientes'">Cancelar</button>
       </div>
     </mat-card-header>
-      <!--   <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
     <mat-card-content class="d-flex flex-column">
+      <mat-form-field class="example-full-width">
+        <mat-label>Celular</mat-label>
+        <input matInput [(ngModel)]="cliente.celular" name="celular" #celular="ngModel" minlength="6" required>
+        <div *ngIf="formUtils.isValidFieldFp(celular)" class="text-danger">
+          {{formUtils.getFieldErrorFp(celular)}}
+        </div>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Nombres y apellidos o Razón Social</mat-label>
+        <input matInput type="text" class="form-control" [(ngModel)]="cliente.nomApellRz" name="nomApellRz"
+          #nomApellRz="ngModel" minlength="2">
+        <div *ngIf="formUtils.isValidFieldFp(nomApellRz)" class="text-danger">
+          {{formUtils.getFieldErrorFp(nomApellRz)}}
+        </div>
+      </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Tipo documento</mat-label>
-          <mat-select [compareWith]="compararDocumento" [(ngModel)]="tipoDocumentoSelected" name="tipoDocumento">
-            <mat-option [value]="undefined">--- selecionar documento ---</mat-option>
-            <mat-option *ngFor="let documento of tipoDocumentos" [value]="documento">{{documento.nombre}}</mat-option>
-          </mat-select>
+        <mat-select [compareWith]="compararDocumento" [(ngModel)]="tipoDocumentoSelected" name="tipoDocumento">
+          <mat-option [value]="undefined">--- selecionar documento ---</mat-option>
+          <mat-option *ngFor="let documento of tipoDocumentos" [value]="documento">{{documento.nombre}}</mat-option>
+        </mat-select>
       </mat-form-field>
       <mat-form-field class="fill">
         <mat-label>Número documento</mat-label>
-        <input type="text" matInput [(ngModel)]="cliente.numeroDocumento" name="numeroDocumento" #numeroDocumento="ngModel" minlength="8">
-        <!-- <mat-hint>Errors appear instantly!</mat-hint> -->
-        <div *ngIf="numeroDocumento.invalid && (numeroDocumento.dirty || numeroDocumento.touched)">
-          <mat-error *ngIf="numeroDocumento.errors?.['required']">
-            Documento es requerido
-          </mat-error>
-          <mat-error *ngIf="numeroDocumento.errors?.['minlength']">
-            Documento debe tener al menos 8 caracteres
-          </mat-error>
+        <input type="text" matInput [(ngModel)]="cliente.numeroDocumento" name="numeroDocumento"
+          #numeroDocumento="ngModel" minlength="8" maxlength="11" pattern="^\d+$">
+        <div *ngIf="formUtils.isValidFieldFp(numeroDocumento)" class="text-danger">
+          {{formUtils.getFieldErrorFp(numeroDocumento)}}
         </div>
-    </mat-form-field>
-        <mat-form-field class="example-full-width">
-          <mat-label>Nombres y apellidos o Razón Social</mat-label>
-          <input matInput  type="text" class="form-control" [(ngModel)]="cliente.nomApellRz" name="nomApellRz" #nomApellRz="ngModel">
-          <div *ngIf="nomApellRz.invalid && (nomApellRz.dirty || nomApellRz.touched)">
-            <mat-error *ngIf="nomApellRz.errors?.['required']">
-              Nombres y apellidos o Razón Social es requerido
-            </mat-error>
-          </div>
-        </mat-form-field>
+      </mat-form-field>
 
-        <!--       <div class="form-group row">
+
+      <!--       <div class="form-group row">
           <label for="email" class="col-form-label col-sm-2">Email</label>
           <div class="col-sm-6">
             <input type="email" class="form-control" [(ngModel)]="cliente.email" name="email" #email="ngModel">
@@ -65,32 +62,16 @@
           </div> -->
 
 
-          <mat-form-field class="example-full-width">
-            <mat-label>Direccion</mat-label>
-            <input matInput [(ngModel)]="cliente.direccion" name="direccion" #direccion="ngModel" minlength="4">
-            <div *ngIf="direccion.invalid && (direccion.dirty || direccion.touched)">
-<!--               <mat-error *ngIf="direccion.errors?.['required']">
-                Celular es requerido
-              </mat-error> -->
-              <mat-error *ngIf="direccion.errors?.['minlength']">
-                Direccion debe tener mas de 4 caracteres
-              </mat-error>
-            </div>
-          </mat-form-field>
-        <mat-form-field class="example-full-width">
-          <mat-label>Celular</mat-label>
-          <input matInput [(ngModel)]="cliente.celular" name="celular" #celular="ngModel" minlength="6">
-          <div *ngIf="celular.invalid && (celular.dirty || celular.touched)">
-<!--             <mat-error *ngIf="celular.errors?.['required']">
-              Celular es requerido
-            </mat-error> -->
-            <mat-error *ngIf="celular.errors?.['minlength']">
-              Celular tiene pocos digitos
-            </mat-error>
-          </div>
-        </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Direccion</mat-label>
+        <input matInput [(ngModel)]="cliente.direccion" name="direccion" #direccion="ngModel" minlength="4">
+        <div *ngIf="formUtils.isValidFieldFp(direccion)" class="text-danger">
+          {{formUtils.getFieldErrorFp(direccion)}}
+        </div>
+      </mat-form-field>
 
-          <!--       <div class="form-group row">
+
+      <!--       <div class="form-group row">
           <label for="createAt" class="col-form-label col-sm-2">Fecha</label>
           <div class="col-sm-6">
             <input [matDatepicker]="miDatepicker" class="form-control" [(ngModel)]="cliente.createAt" name="createAt" style="display:inline; width:300px;">
@@ -99,14 +80,14 @@
           </div>
           </div>
           -->
-<!--         <mat-form-field appearance="fill">
+      <!--         <mat-form-field appearance="fill">
           <mat-label>Fecha</mat-label>
           <input matInput [matDatepicker]="miDatepicker" [(ngModel)]="cliente.createAt" name="createAt">
             <mat-datepicker-toggle matIconSuffix [for]="miDatepicker"></mat-datepicker-toggle>
             <mat-datepicker #miDatepicker></mat-datepicker>
         </mat-form-field> -->
 
-          <!--       <div class="form-group row">
+      <!--       <div class="form-group row">
             <label for="region" class="col-form-label col-sm-2">Región</label>
             <div class="col-sm-6">
               <select [compareWith]="compararDocumento" class="form-control" [(ngModel)]="cliente.tipoDocumento" name="tipoDocumento" style="width:500px;">
@@ -118,7 +99,7 @@
 
 
     </mat-card-content>
-      <!--   <mat-card-actions>
+    <!--   <mat-card-actions>
         <button mat-button>LIKE</button>
         <button mat-button>SHARE</button>
       </mat-card-actions> -->
