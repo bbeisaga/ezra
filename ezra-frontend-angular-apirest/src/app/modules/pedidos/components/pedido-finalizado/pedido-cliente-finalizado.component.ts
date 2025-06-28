@@ -19,11 +19,11 @@ import moment from 'moment';
 import { ChatUtils } from '../../../../utils/chat-utils';
 
 @Component({
-  selector: 'pedido-finalizado',
-  templateUrl: './pedido-finalizado.component.html',
-  styleUrl: './pedido-finalizado.component.css'
+  selector: 'pedido-cliente-finalizado',
+  templateUrl: './pedido-cliente-finalizado.component.html',
+  styleUrl: './pedido-cliente-finalizado.component.css'
 })
-export class PedidoFinalizadoComponent implements OnInit {
+export class PedidoClienteFinalizadoComponent implements OnInit {
 
 
   public authService = inject(AuthService);
@@ -122,21 +122,21 @@ export class PedidoFinalizadoComponent implements OnInit {
     this.itemService.saveLocalStorageItems(this.lstItemPedido);
   }
 
+  actualizarImporte(productoId: number, event: any): void {
+    const precio: number = parseFloat(event.target.value);
+    this.lstItemPedido = this.itemService.UpdatePrecioItemFromItemsCliete(this.lstItemPedido, productoId, precio);
+    this.calcularTotal();
+
+    this.itemService.setItems(this.lstItemPedido);
+    this.itemService.saveLocalStorageItems(this.lstItemPedido);
+  }
+
   crearPedidoTienda(pedidoTiendaForm: NgForm) {
-    if (this.lstItemPedido.length > 0) {
-      this.pedido.items = [...this.lstItemPedido];
-      this.calcularTotal();
-      //this.pedido.entregadoEn = moment(new Date()).add(3, 'days').toISOString(),
-      this.pedido.precioNetoTotal = this.total
-    } else {
-      return
-    }
-
+    this.pedido.items = [...this.lstItemPedido];
     if (pedidoTiendaForm.form.valid && this.pedido.items.length > 0) {
-
+      this.calcularTotal();
+      this.pedido.precioNetoTotal = this.total
       this.pedido.tipoPedido = this.tipoPedidoVentaClientes
-      console.log(JSON.stringify(this.pedido));
-
       this.pedidoService.createPedidoTienda(this.pedido).subscribe(p => {
         this.pedidoService.setPedido(p);
         this.itemService.removeLocalStorageItems();

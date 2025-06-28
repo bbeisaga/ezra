@@ -17,7 +17,7 @@ import { environment } from '../../../../../environments/environment';
   templateUrl: './customize-item-producto-to-client.component.html',
   styleUrl: './customize-item-producto-to-client.component.css'
 })
-export class CustomizeItemProductoToClientComponent implements OnChanges {
+export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges {
   public mediosUtilsService = inject(MediosUtilsService);
   private formBuilder = inject(FormBuilder);
   private productoService = inject(ProductoService);
@@ -43,36 +43,21 @@ export class CustomizeItemProductoToClientComponent implements OnChanges {
     cantidad: [0],
   })
   constructor() {
-/*     this.itemService.getItems().subscribe({
+    this.itemService.getItems().subscribe({
       next: items => {
         this.items = items;
       },
       error: error => {
         console.error('Error al obtener el item:', error);
       }
-    }) */
-  }
-/*
-  ngOnInit(): void {
-    console.log("CustomizeItemProductoToClientComponent.onInit")
-
-     this.productoService.getProducto(this.productoId).subscribe(prd => {
-      this.producto = prd;
-      this.gruposDe = this.producto.gruposDe
-      this.minCantidadPedido = this.producto.minCantidadPedido
-      this.maxCantidadPedido = this.producto.maxCantidadPedido
-      this.verImagenProducto = environment.API_URL_VER_IMAGEN + this.producto.imagen;
-      this.frm.get('cantidad')?.setValue(this.minCantidadPedido);
     })
+  }
 
-
+  ngOnInit(): void {
     if (this.items.length === 0) {
       this.items = this.itemService.getLocalStorageItems()
     }
-
-    this.verImagenItem = environment.API_URL_VER_IMAGEN + this.item.imagen; 
-
-  }*/
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['productoId'].currentValue != changes['productoId'].previousValue) {
@@ -84,11 +69,6 @@ export class CustomizeItemProductoToClientComponent implements OnChanges {
         this.verImagenProducto = environment.API_URL_VER_IMAGEN + this.producto.imagen;
         this.frm.get('cantidad')?.setValue(this.minCantidadPedido);
       });
-
-
-/*       if (this.items.length === 0) {
-        this.items = this.itemService.getLocalStorageItems()
-      } */
 
       this.verImagenItem = environment.API_URL_VER_IMAGEN + this.item.imagen;
     }
@@ -121,6 +101,7 @@ export class CustomizeItemProductoToClientComponent implements OnChanges {
     this.item.importe = this.item.cantidad * this.producto.precioNeto;
     this.item.descripcion = (this.frm.get('descripcion')?.value ? this.frm.get('descripcion')?.value : '')!;
     this.item.producto = { ...this.producto };
+    this.item.imagenUri = environment.API_URL_VER_IMAGEN + this.item.imagen
     if (this.itemService.existItemInItems(this.items, this.item.producto.id)) {
       this.items = this.itemService.UpdateAmountItemFromExterno(this.items, this.item.producto.id, this.item.cantidad);
     }
@@ -135,11 +116,11 @@ export class CustomizeItemProductoToClientComponent implements OnChanges {
     this.chatUtils.infoProduct(producto);
   }
 
-/*   ngOnDestroy(): void {
+  ngOnDestroy(): void {
     if (this.itemServiceSuscription$) {
       this.itemServiceSuscription$.unsubscribe();
     }
-  } */
+  }
 
 
 }

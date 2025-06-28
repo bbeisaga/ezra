@@ -1,9 +1,3 @@
-<!-- <ul class="alert alert-danger" *ngIf="errores?.length > 0">
-  <li *ngFor="let err of errores">
-    {{ err }}
-  </li>
-</ul> -->
-
 <mat-card class="card">
   <form [formGroup]="formProducto">
 
@@ -29,12 +23,20 @@
               <label for="nombre" class="col-form-label col-sm-4"><b>Nombre:</b><br>Visible submenú de tienda</label>
               <div class="input-group col-sm">
                 <input formControlName="nombre" type="text" class="form-control" name="nombre" placeholder="Nombre">
+                @if(formUtils.isValidField(formProducto,'nombre')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'nombre')}}
+                </div>}
               </div>
             </div>
             <div class="row mb-2">
               <label for="codigo" class="col-form-label col-sm-4">Código:</label>
               <div class="input-group col-sm">
                 <input formControlName="codigo" type="text" class="form-control" name="codigo" placeholder="codigo">
+                @if(formUtils.isValidField(formProducto,'codigo')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'codigo')}}
+                </div>}
               </div>
             </div>
             <div class="row mb-2">
@@ -44,7 +46,10 @@
                 <textarea formControlName="descripcion" name="descripcion" class="form-control"
                   [ngStyle]="{'resize': 'none'}" aria-label="With textarea" placeholder="Descripción" maxlength="250"
                   rows="5"></textarea>
-
+                @if(formUtils.isValidField(formProducto,'descripcion')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'descripcion')}}
+                </div>}
               </div>
             </div>
             <div class="row mb-2">
@@ -53,14 +58,22 @@
                 ó MT</label>
               <div class="input-group col-sm">
                 <input formControlName="medidas" type="text" class="form-control" name="medidas"
-                  placeholder="Ej: 47x45x3 cm     /     32.50x20.5x3 cm">
+                  placeholder="Ej: 47x45x3 cm     /     32.50x20.5x3 cm" />
+                @if(formUtils.isValidField(formProducto,'medidas')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'medidas')}}
+                </div>}
               </div>
             </div>
             <div class="row mb-2">
               <label for="peso" class="col-form-label col-sm-4">Peso (kg:kilogramos):</label>
               <div class="input-group col-sm">
                 <input formControlName="peso" type="text" class="form-control" name="peso"
-                  placeholder="Ej: 0.24 kg   /   1 kg   /   1.50 kg" minlength="4">
+                  placeholder="Ej: 0.24 kg   /   1 kg   /   1.50 kg" minlength="4" />
+                @if(formUtils.isValidField(formProducto,'peso')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'peso')}}
+                </div>}
               </div>
             </div>
 
@@ -70,6 +83,10 @@
                 <input type="number" formControlName="umbralPocaCantidad" name="umbralPocaCantidad" class="form-control"
                   placeholder="Umbral de poca cantidad" min="1">
                 <span class="input-group-text">Número</span>
+                @if(formUtils.isValidField(formProducto,'umbralPocaCantidad')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'umbralPocaCantidad')}}
+                </div>}
               </div>
             </div>
 
@@ -79,6 +96,10 @@
                 <input type="number" formControlName="umbralCantidadAgotada" name="umbralCantidadAgotada"
                   class="form-control" placeholder="Umbral de cantidad agotada" min="0">
                 <span class="input-group-text">Número</span>
+                @if(formUtils.isValidField(formProducto,'umbralCantidadAgotada')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'umbralCantidadAgotada')}}
+                </div>}
               </div>
             </div>
 
@@ -88,6 +109,10 @@
                 <input type="number" formControlName="cantidadStock" name="cantidadStock" class="form-control"
                   placeholder="Cantidad en stock" min="0">
                 <span class="input-group-text">Número</span>
+                @if(formUtils.isValidField(formProducto,'cantidadStock')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'cantidadStock')}}
+                </div>}
               </div>
             </div>
             <div class="row mb-2">
@@ -96,6 +121,10 @@
                 <input type="number" formControlName="minCantidadPedido" name="minCantidadPedido" class="form-control"
                   placeholder="Mínima cantidad en pedido" min="1">
                 <span class="input-group-text">Número</span>
+                @if(formUtils.isValidField(formProducto,'minCantidadPedido')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'minCantidadPedido')}}
+                </div>}
               </div>
             </div>
 
@@ -105,6 +134,10 @@
                 <input type="number" formControlName="maxCantidadPedido" name="maxCantidadPedido" class="form-control"
                   placeholder="Máxima cantidad en pedido" min="1">
                 <span class="input-group-text">Número</span>
+                @if(formUtils.isValidField(formProducto,'maxCantidadPedido')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'maxCantidadPedido')}}
+                </div>}
               </div>
             </div>
             <div class="row mb-2">
@@ -113,6 +146,10 @@
                 <input type="number" formControlName="gruposDe" name="gruposDe" class="form-control"
                   placeholder="Grupos De" min="1">
                 <span class="input-group-text">Número</span>
+                @if(formUtils.isValidField(formProducto,'gruposDe')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'gruposDe')}}
+                </div>}
               </div>
             </div>
 
@@ -123,6 +160,10 @@
                   placeholder="Costo unitario" min="1">
                 <span class="input-group-text">S/</span>
                 <span class="input-group-text">0.00</span>
+                @if(formUtils.isValidField(formProducto,'costoUnitario')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'costoUnitario')}}
+                </div>}
               </div>
             </div>
             <!--             <div class="row mb-2">
@@ -141,6 +182,10 @@
                   placeholder="Precio bruto (sin IGV)" min="3">
                 <span class="input-group-text">S/</span>
                 <span class="input-group-text">0.00</span>
+                @if(formUtils.isValidField(formProducto,'precioBruto')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'precioBruto')}}
+                </div>}
               </div>
             </div>
             <div class="row mb-2">
@@ -150,6 +195,10 @@
                   placeholder="Precio neto (con IGV)" min="4">
                 <span class="input-group-text">S/</span>
                 <span class="input-group-text">0.00</span>
+                @if(formUtils.isValidField(formProducto,'precioNeto')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'precioNeto')}}
+                </div>}
               </div>
             </div>
             <div class="row mb-2">
@@ -159,6 +208,10 @@
                   class="form-control" placeholder="Precio bruto rebajado (sin IGV)" min="2">
                 <span class="input-group-text">S/</span>
                 <span class="input-group-text">0.00</span>
+                @if(formUtils.isValidField(formProducto,'precioBrutoRebajado')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'precioBrutoRebajado')}}
+                </div>}
               </div>
             </div>
             <div class="row mb-2">
@@ -168,6 +221,10 @@
                   placeholder="Precio neto rebajado (con IGV)" min="3">
                 <span class="input-group-text">S/</span>
                 <span class="input-group-text">0.00</span>
+                @if(formUtils.isValidField(formProducto,'precioNetoRabajado')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'precioNetoRabajado')}}
+                </div>}
               </div>
             </div>
 
@@ -176,6 +233,10 @@
               <div class="input-group col-sm">
                 <input type="datetime-local" formControlName="fechaPrecioRebajadoDesde" name="fechaPrecioRebajadoDesde"
                   class="form-control" placeholder="Fecha precio rebajado desde: ">
+                @if(formUtils.isValidField(formProducto,'fechaPrecioRebajadoDesde')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'fechaPrecioRebajadoDesde')}}
+                </div>}
               </div>
             </div>
             <div class="row mb-2">
@@ -183,6 +244,10 @@
               <div class="input-group col-sm">
                 <input type="datetime-local" formControlName="fechaPrecioRebajadoHasta" name="fechaPrecioRebajadoHasta"
                   class="form-control" placeholder="Fecha precio rebajado hasta: ">
+                @if(formUtils.isValidField(formProducto,'fechaPrecioRebajadoHasta')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'fechaPrecioRebajadoHasta')}}
+                </div>}
               </div>
             </div>
           </div>
@@ -196,6 +261,10 @@
                 <select formControlName="categoriaId" name="categoriaId" class="form-control">
                   <option *ngFor="let categoria of categorias" [value]="categoria.id">{{categoria.nombre}}</option>
                 </select>
+                @if(formUtils.isValidField(formProducto,'categoriaId')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'categoriaId')}}
+                </div>}
               </div>
             </div>
             <div class="row mb-2">
@@ -204,6 +273,10 @@
                 <select formControlName="materialId" name="materialId" class="form-control">
                   <option *ngFor="let material of materiales" [value]="material.id">{{material.nombre}}</option>
                 </select>
+                @if(formUtils.isValidField(formProducto,'materialId')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'materialId')}}
+                </div>}
               </div>
             </div>
             <div class="row mb-2">
@@ -212,6 +285,10 @@
                 <select formControlName="colorId" name="colorId" class="form-control">
                   <option *ngFor="let color of colores" [value]="color.id">{{color.nombre}}</option>
                 </select>
+                @if(formUtils.isValidField(formProducto,'colorId')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'colorId')}}
+                </div>}
               </div>
             </div>
             <div class="row mb-2">
@@ -220,38 +297,61 @@
                 <select formControlName="usoId" name="usoId" class="form-control">
                   <option *ngFor="let uso of usos" [value]="uso.id">{{uso.nombre}}</option>
                 </select>
+                @if(formUtils.isValidField(formProducto,'usoId')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'usoId')}}
+                </div>}
               </div>
             </div>
-            <div class="row mb-2">
+            <!--  -------- -->
+<!--             <div class="row mb-2">
               <label for="formFile" class="form-label col-sm-4"><b>Imágen del producto:</b><br>Visible en tienda</label>
-              <div class="input-group col-sm">
                 <div class="input-group col-sm">
                   <input (change)="seleccionarImagen($event)" type="file" name="imagen" formControlName="imagen"
                     class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
                     aria-label="Cargar">
-                  <button (click)="subirImagen()" class="btn btn-outline-primary" type="button" [disabled]="!(imagenSeleccionada && producto.nombre && producto.codigo)"
+                  <button (click)="subirImagen()" class="btn btn-outline-primary" type="button"
+                    [disabled]="!(imagenSeleccionada && producto.nombre && producto.codigo)"
                     id="inputGroupFileAddon04">Cargar</button>
-
                 </div>
+            </div> -->
+
+            <div class="row mb-2">
+              <label for="formFile" class="form-label col-sm-4"><b>Imágen del producto:</b><br>Visible en tienda</label>
+              <div class="input-group col-sm">
+                <input #file (change)="this.isImage(file)" type="file" name="imagen" class="form-control"
+                  id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+                <button (click)="subirImagen(file)" class="btn btn-outline-primary" type="button"
+                  [disabled]="!this.isImage(file)" id="inputGroupFileAddon04">Subir</button>
               </div>
             </div>
+            <!-- -------  -->
+
             <div class="row mb-2">
               <label for="activo" class="form-label col-sm-4"><b>Producto activo</b></label>
               <div class="form-check form-switch col-sm-2">
                 <input class="form-check-input" type="checkbox" formControlName="activo" name="activo"
                   [checked]="producto.activo">
+                @if(formUtils.isValidField(formProducto,'activo')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'activo')}}
+                </div>}
               </div>
               <label for="visibleEnTienda" class="form-label col-sm-4"><b>Producto visible en tienda</b></label>
               <div class="form-check form-switch col-sm-2">
                 <input class="form-check-input" type="checkbox" formControlName="visibleEnTienda" name="visibleEnTienda"
                   [checked]="producto.visibleEnTienda">
+                @if(formUtils.isValidField(formProducto,'visibleEnTienda')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'visibleEnTienda')}}
+                </div>}
               </div>
             </div>
 
             <div class="row mb-2">
               <div class="col-sm">
-                <img *ngIf="producto?.imagen" src="http://localhost:8080/api/medios/imagen/{{producto.imagen}}"
-                  alt="{{producto.imagen}}" class="img-fluid img-thumbnail rounded mx-auto d-block">
+                <img *ngIf="producto?.imagen" [ngSrc]="verImagenProducto" alt="{{producto.imagen}}"
+                  class="img-fluid img-thumbnail rounded mx-auto d-block">
 
               </div>
             </div>

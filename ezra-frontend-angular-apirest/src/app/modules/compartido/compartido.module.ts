@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 // aplicaicon modulos
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
@@ -81,6 +81,7 @@ import { ContactanosComponent } from './contactanos/contactanos.component';
     MatCheckboxModule,
     MatRadioModule,
     MatExpansionModule,
+    NgOptimizedImage
   ],
   exports: [
     FormsModule,
@@ -106,6 +107,7 @@ import { ContactanosComponent } from './contactanos/contactanos.component';
     MatCheckboxModule,
     MatRadioModule,
     MatExpansionModule,
+    NgOptimizedImage,
     SearchBoxTableComponent,
     AutocompleteClienteComponent,
     MenuTiendaComponent,

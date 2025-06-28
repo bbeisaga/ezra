@@ -11,10 +11,11 @@ import { DetalleItemPedidoComponent } from './components/detalle-item-pedido/det
 import { ListadoVentasComponent } from './pages/listado-ventas/listado-ventas.component';
 import { ListadoComprasComponent } from './pages/listado-compras.component';
 import { CustomizeItemProductoToClientComponent } from './components/customize-item-producto-to-client/customize-item-producto-to-client.component';
-import { PedidoFinalizadoComponent } from './components/pedido-finalizado/pedido-finalizado.component';
 import { ItemProductoClienteTiendaComponent } from './pages/item-producto-cliente-tienda/item-producto-cliente-tienda.component';
 import { ItemProductoClienteOnlineComponent } from './pages/item-producto-cliente-online/item-producto-cliente-online.component';
 import { CarritoItemProductoComponent } from './components/carrito-item-producto/carrito-item-producto.component';
+import { PedidoProveedorFinalizadoComponent } from './components/pedido-proveedor-finalizado/pedido-proveedor-finalizado.component';
+import { PedidoClienteFinalizadoComponent } from './components/pedido-finalizado/pedido-cliente-finalizado.component';
 
 @NgModule({
   declarations: [
@@ -28,8 +29,9 @@ import { CarritoItemProductoComponent } from './components/carrito-item-producto
     ItemProductoClienteTiendaComponent,
     ItemProductoClienteOnlineComponent,
     CustomizeItemProductoToClientComponent,
-    PedidoFinalizadoComponent,
-    CarritoItemProductoComponent
+    PedidoClienteFinalizadoComponent,
+    CarritoItemProductoComponent,
+    PedidoProveedorFinalizadoComponent
   ],
   imports: [
     CommonModule,

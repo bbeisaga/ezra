@@ -61,6 +61,43 @@ export class ItemService {
     return items
   }
 
+  UpdateAmountItemFromItemsProveedor(items: Array<ItemPedido>, productoId: number, cantidad: number): Array<ItemPedido> {
+    if (cantidad == 0) {
+      return this.deleteItemFromItems(items, productoId);
+    }
+    items = items.map((item: ItemPedido) => {
+      if (productoId === item.producto.id) {
+        item.cantidad = cantidad;
+        //item.importe = item.producto.costoUnitario;
+      }
+      return item;
+    });
+
+    return items
+  }
+
+  UpdateCostItemFromItemsProveedor(items: Array<ItemPedido>, productoId: number, costo: number): Array<ItemPedido> {
+    items = items.map((item: ItemPedido) => {
+      if (productoId === item.producto.id) {
+        item.importe = costo;
+      }
+      return item;
+    });
+
+    return items
+  }
+
+  UpdatePrecioItemFromItemsCliete(items: Array<ItemPedido>, productoId: number, precio: number): Array<ItemPedido> {
+    items = items.map((item: ItemPedido) => {
+      if (productoId === item.producto.id) {
+        item.importe = precio;
+      }
+      return item;
+    });
+
+    return items
+  }
+
   UpdateAmountItemFromExterno(items: Array<ItemPedido>, productoId: number, cantidad: number): Array<ItemPedido> {
     items = items.map((item: ItemPedido) => {
       if (productoId === item.producto.id) {

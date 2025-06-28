@@ -5,11 +5,7 @@
         <button class="col-2" mat-icon-button color="warn" (click)="eliminarItemPedido(item.producto.id)"
             matTooltip="Elimnar"><mat-icon>close</mat-icon></button>
         <span class="col-5 d-flex align-items-center">{{item.producto.nombre}}</span>
-
-        <!--         <button class="col-2" mat-icon-button color="primary" (click)="openDialog(item)"
-                matTooltip="Detalle item"><mat-icon>note_add</mat-icon></button> -->
-
-        <img class="col-4" src="http://localhost:8080/api/medios/imagen/{{item.imagen}}" alt={{item.imagen}} />
+         <img class="col-4" [src]="item.imagenUri" alt={{item.imagen}} />
     </div>
     <div class="row">
         <div class="col-3 d-flex align-items-center">
@@ -34,8 +30,6 @@
 </div>
 }
 
-<!--     @if(lstItemPedido.length > 0){
-    -->
 <div class="row">
     <div class="col-6">
         <p class="text-end fw-bold">TOTAL</p>
@@ -47,7 +41,8 @@
 
 <div class="row">
     <div class="col-12 d-flex justify-content-center">
-        @if(lstItemPedido.length > 0 && authService.hasRole('ROLE_CREATE_PEDIDO_TIENDA') && authService.isAuthenticated()){
+        @if(lstItemPedido.length > 0 && authService.hasRole('ROLE_CREATE_PEDIDO_TIENDA') &&
+        authService.isAuthenticated()){
         <button (click)="irRealizarPedido()" class="btn btn-warning">Realizar el pedido</button>
         } @else {
         <button (click)="irRealizarPedido()" class="btn btn-warning" disabled>Realizar el pedido</button>
@@ -55,4 +50,3 @@
     </div>
 </div>
 
-<!-- } -->

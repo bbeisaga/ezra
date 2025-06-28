@@ -1,67 +1,125 @@
-<mat-card class="card">
-    <!--     <form #pedidoForm="ngForm">
-        <mat-card-header class="card-header">
-            <mat-card-title>Crear pedido de {{tipoPedidoVentaClientes.nombre | uppercase}}</mat-card-title>
-            <div class="ms-auto">
-                <button *ngIf="authService.hasRole('ROLE_CREATE_PEDIDO')" type="submit" color="primary"
-                    mat-raised-button (click)="create(pedidoForm)">
-                    Crear pedido
-                </button>
-                <button color="primary" mat-raised-button [routerLink]="['/clientes']">
-                    Cancelar
-                </button>
-            </div>
-        </mat-card-header> -->
-    <mat-card-content class="d-flex flex-column">
-        <ng-container>
-            <mat-form-field>
+<div class="row mt-2">
+    <div class="col-12 col-sm-6 col-md-4 col-xl-2">
+        <mat-form-field>
+            <mat-label>Nombres y apellidos o Razón Social</mat-label>
+            <input matInput type="text" [(ngModel)]="cliente.nomApellRz" name="nomApellRz" #nomApellRz="ngModel"
+                required minlength="2" disabled>
+            <!--                     <div *ngIf="formUtils.isValidFieldFp(nomApellRz)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(nomApellRz)}}
+                    </div> -->
+        </mat-form-field>
+    </div>
+
+    <div class="col-12 col-sm-6 col-md-4 col-xl-2">
+        <mat-form-field>
+            <mat-label>Celular:</mat-label>
+            <input matInput type="text" [(ngModel)]="cliente.celular" name="celular" #celular="ngModel" required
+                minlength="6" maxlength="14" pattern="^\d+$" disabled>
+            <!--                     <div *ngIf="formUtils.isValidFieldFp(celular)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(celular)}}
+                    </div> -->
+        </mat-form-field>
+    </div>
+    <div class="col-12 col-sm-6 col-md-4 col-xl-2">
+        <mat-form-field>
+            <mat-label>Dirección:</mat-label>
+            <input matInput type="text" [(ngModel)]="cliente.direccion" name="direccionPrincipal"
+                #direccionPrincipal="ngModel" required minlength="4" disabled>
+            <!--                     <div *ngIf="formUtils.isValidFieldFp(direccionPrincipal)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(direccionPrincipal)}}
+                    </div> -->
+        </mat-form-field>
+
+    </div>
+    <div class="col-12 col-sm-6 col-md-4 col-xl-2">
+        <mat-form-field>
+            <mat-label>Tipo de documento:</mat-label>
+            <input matInput [(ngModel)]="cliente.tipoDocumento.acronimo" name="tipoDocumento" #tipoDocumento="ngModel"
+                disabled>
+            <!--                     <div *ngIf="formUtils.isValidFieldFp(tipoDocumento)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(tipoDocumento)}}
+                    </div> -->
+        </mat-form-field>
+    </div>
+    <div class="col-12 col-sm-6 col-md-4 col-xl-2">
+        <mat-form-field>
+            <mat-label>Número documento:</mat-label>
+            <input matInput type="text" [(ngModel)]="cliente.numeroDocumento" name="numeroDocumento"
+                #numeroDocumento="ngModel" required minlength="8" maxlength="11" pattern="^\d+$" disabled>
+            <!--                     <div *ngIf="formUtils.isValidFieldFp(numeroDocumento)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(numeroDocumento)}}
+                    </div> -->
+        </mat-form-field>
+    </div>
+    <div class="col-12 col-sm-6 col-md-4 col-xl-2">
+        <mat-form-field>
+            <mat-label>Correo electrónico:</mat-label>
+            <input matInput type="email" [(ngModel)]="cliente.email" name="email" #email="ngModel" minlength="6"
+                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" disabled>
+            <!--                     <div *ngIf="formUtils.isValidFieldFp(email)" class="alert alert-danger">
+                        {{formUtils.getFieldErrorFp(email)}}
+                    </div> -->
+        </mat-form-field>
+    </div>
+
+
+
+</div>
+<ng-container>
+    <!--             <mat-form-field>
                 <mat-label>Cliente</mat-label>
                 <input matInput type="text" value="{{cliente.nomApellRz}}" disabled>
-            </mat-form-field>
-            <section>
-                <label>Tipo pedido:</label>
-                <mat-radio-group name="tipoPedido" [(ngModel)]="tipoPedidoVentaClientes">
-                    <mat-radio-button *ngFor="let tipoPedido of tipoPedidos" [value]="tipoPedido">
-                        {{tipoPedido.nombre}}
-                    </mat-radio-button>
-                </mat-radio-group>
-            </section>
-        </ng-container>
+            </mat-form-field> -->
+    <section>
+        <label>Tipo pedido:</label>
+        <mat-radio-group name="tipoPedido" [(ngModel)]="tipoPedidoVentaClientes">
+            <mat-radio-button *ngFor="let tipoPedido of tipoPedidos" [value]="tipoPedido">
+                {{tipoPedido.nombre}}
+            </mat-radio-button>
+        </mat-radio-group>
+    </section>
+</ng-container>
 
-        <mat-form-field>
-            <input matInput placeholder="Añadir producto" [formControl]="autocompleteControl" [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarNombre"
-                (optionSelected)="seleccionarProducto($event)">
-                <mat-option *ngFor="let producto of productosFiltrados | async" [value]="producto">
-                    <span class="text-bold-italic">Producto:</span>{{producto.nombre}}
-                    <span class="text-bold-italic">Color:</span>{{producto.color?.nombre }}
-                    <span class="text-bold-italic">Material:</span>{{ producto.material?.nombre}}
-                    <span class="text-bold-italic">Peso:</span>{{ producto.peso}}
-                    <span class="text-bold-italic">Medidas:</span>{{ producto.medidas}}
-                    <span class="text-bold-italic">Cantidad:</span>{{ producto.cantidadStock}}
-                    <span class="text-bold-italic">Precio:</span>{{ producto.precioNeto | currency:'PEN'}}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-        <!--             <div class="alert alert-danger" *ngIf="autocompleteControl.invalid && pedidoForm.submitted">
+<mat-form-field>
+    <input matInput placeholder="Añadir producto" [formControl]="autocompleteControl" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="mostrarNombre"
+        (optionSelected)="seleccionarProducto($event)">
+        <mat-option *ngFor="let producto of productosFiltrados | async" [value]="producto">
+            <span class="text-bold-italic">Producto:</span>{{producto.nombre}}
+            <span class="text-bold-italic">Color:</span>{{producto.color?.nombre }}
+            <span class="text-bold-italic">Material:</span>{{ producto.material?.nombre}}
+            <span class="text-bold-italic">Peso:</span>{{ producto.peso}}
+            <span class="text-bold-italic">Medidas:</span>{{ producto.medidas}}
+            <span class="text-bold-italic">Cantidad:</span>{{ producto.cantidadStock}}
+            <span class="text-bold-italic">Precio:</span>{{ producto.precioNeto | currency:'PEN'}}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>
+<!--             <div class="alert alert-danger" *ngIf="autocompleteControl.invalid && pedidoForm.submitted">
                 El pedido no puede no tener líneas!.
             </div> -->
-        <!--             <div class="alert alert-info my-4" *ngIf="pedido.items.length == 0">
+<!--             <div class="alert alert-info my-4" *ngIf="pedido.items.length == 0">
                 No hay líneas asignadas para la pedido. Debe agregar al menos una!
             </div> -->
-        <div class="row">
-            @if (producto != undefined && producto.id) {
-            <div class="col-12 col-md-9">
-                <customize-item-producto-to-client [productoId]="producto.id" />
-            </div>
-            <div class="col-12 col-md-3">
-                <h2>Carrito</h2>
-                <carrito-item-producto [clienteId]="cliente.id"/>
-            </div>
-            }
-        </div>
 
-        <!--             <table cellspacing="0">
+
+<div *ngIf="producto != undefined && producto.id" class="row">
+    @if(!tipoPedidoVentaClientes.activo) {
+    <div class="col-12">
+        <pedido-proveedor-finalizado [clienteId]="cliente.id" [producto]="producto" />
+    </div>
+    } @else {
+    <div class="col-12 col-md-9">
+        <customize-item-producto-to-client [productoId]="producto.id" />
+    </div>
+    <div class="col-12 col-md-3">
+        <h2>Carrito</h2>
+        <carrito-item-producto [clienteId]="cliente.id" />
+    </div>
+    }
+</div>
+
+<!--             <table cellspacing="0">
                 <tr>
                     <td><mat-form-field style="width:100%">
                             <mat-label>GRANT TOTAL</mat-label>
@@ -91,7 +149,7 @@
                     </td>
                 </tr>
             </table> -->
-        <!--             <mat-form-field>
+<!--             <mat-form-field>
                 <mat-label>Observación</mat-label>
                 <textarea matInput #message name="observacion" maxlength="256"
                         ></textarea>
@@ -100,7 +158,6 @@
                 <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
             </mat-form-field> -->
 
-    </mat-card-content>
-    <!-- 
+<!-- 
     </form>
 </mat-card> -->

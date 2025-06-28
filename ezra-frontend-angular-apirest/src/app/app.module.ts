@@ -7,7 +7,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { CompartidoModule } from './modules/compartido/compartido.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './modules/auth/login.component';
-import { CommonModule, DatePipe, registerLocaleData } from '@angular/common';
+import { CommonModule, DatePipe, NgOptimizedImage, registerLocaleData } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { ZonaHorariaDefectoService } from './services/zona-horaria-defecto.service';
@@ -36,7 +36,8 @@ registerLocaleData(localeEsPE);
     CompartidoModule,
     HttpClientModule,
     //PrincipalModule,
-    LayoutModule
+    LayoutModule,
+    NgOptimizedImage
   ],
   providers: [ZonaHorariaDefectoService,
     { provide: LOCALE_ID, useValue: 'es-PE' },

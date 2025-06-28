@@ -8,10 +8,10 @@ import { DetallePedidoCompraComponent } from './components/detalle-pedido-compra
 import { RptePedidoComponent } from './reportes/rpte-pedido/rpte-pedido.component';
 import { RoleGuard } from '../../guards/role.guard';
 import { AuthGuard } from '../../guards/auth.guard';
-import { PedidoFinalizadoComponent } from './components/pedido-finalizado/pedido-finalizado.component';
 import { ItemProductoClienteTiendaComponent } from './pages/item-producto-cliente-tienda/item-producto-cliente-tienda.component';
 import { ItemProductoClienteOnlineComponent } from './pages/item-producto-cliente-online/item-producto-cliente-online.component';
 import { ContactanosComponent } from '../compartido/contactanos/contactanos.component';
+import { PedidoClienteFinalizadoComponent } from './components/pedido-finalizado/pedido-cliente-finalizado.component';
 
 const routes: Routes = [
   // { path: '', redirectTo: ':clienteId', pathMatch: 'full' },
@@ -52,8 +52,8 @@ const routes: Routes = [
   },
 
   {
-    path: 'pedido-finalizado/:clienteId',
-    component: PedidoFinalizadoComponent,
+    path: 'pedido-cliente-finalizado/:clienteId',
+    component: PedidoClienteFinalizadoComponent,
 /*     canActivate: [AuthGuard, RoleGuard],
     data: { role: 'ROLE_CREATE_PEDIDO' } */
   },

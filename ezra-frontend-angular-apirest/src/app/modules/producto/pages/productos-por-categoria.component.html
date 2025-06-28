@@ -11,9 +11,6 @@
     <div class="col-12 col-sm-6 col-lg-3">
       <div class="card">
         <a [routerLink]="['/pedidos/item-producto-cliente-online',producto.id]">
-
-          <!--         <a [routerLink]="['/tienda/contactanos']">
- -->
           <img *ngIf="producto?.imagen" [src]="producto.imagen" alt="{{producto.imagen}}" class="card-img-top"></a>
         <div class="card-body">
           <h3 class="card-title"> {{producto.descripcion}}</h3>
@@ -27,8 +24,6 @@
         </ul>
         <div class="card-body">
           <div class="d-flex justify-content-evenly">
-<!--             <button type="button" class="btn btn-primary" (click)="sendOneProducto(producto)">Añadir a carrito</button>
- -->          
             <button type="button" class="btn btn-primary" [routerLink]="['/pedidos/item-producto-cliente-online',producto.id]">Ver producto</button>
           
             <button type="button" class="btn btn-success" (click)="chatear(producto)">Chatear</button>

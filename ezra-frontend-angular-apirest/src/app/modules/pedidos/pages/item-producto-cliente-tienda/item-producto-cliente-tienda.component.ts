@@ -16,6 +16,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ItemPedido } from '../../../../models/item-pedido';
 import { DetalleItemPedidoComponent } from '../../components/detalle-item-pedido/detalle-item-pedido.component';
+import { FormUtils } from '../../../../utils/form-utils';
+import { TipoDocumento } from '../../../../models/tipo-documento';
 
 @Component({
   selector: 'item-producto-cliente-tienda',
@@ -32,6 +34,10 @@ export class ItemProductoClienteTiendaComponent implements OnInit {
   tipoPedidos: TipoPedido[] = [];
   productosFiltrados!: Observable<Producto[]>;
   producto!: Producto;
+  formUtils = FormUtils
+  tipoDocumentos: TipoDocumento[] = [];
+  items:ItemPedido[]=[];
+
   // razonSocialActivate:boolean=false;
 
 
@@ -65,6 +71,10 @@ export class ItemProductoClienteTiendaComponent implements OnInit {
         r.activo = r.id == 1 ? true : false
       )
       this.tipoPedidoVentaClientes = this.tipoPedidos[0];
+    });
+
+    this.clienteService.getTipoDocumento().subscribe(doc => {
+      this.tipoDocumentos = doc
     });
     console.log("this.producto", this.producto.id);
   }
@@ -101,6 +111,15 @@ export class ItemProductoClienteTiendaComponent implements OnInit {
     this.producto = event.option.value as Producto;
 
     console.log("this.producto2", this.producto);
+
+    if(!this.tipoPedidoVentaClientes){
+          let nuevoItem = new ItemPedido();
+          nuevoItem.producto = this.producto;
+          this.items.push(nuevoItem);
+
+         this.items = [...this.items, {...nuevoItem}]
+
+    }
 
     /*     if (this.existeItem(producto.id)) {
           this.incrementaCantidad(producto.id);

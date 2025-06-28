@@ -7,6 +7,7 @@ export class ItemPedido {
   importe: number=0;
   descripcion!: string;
   imagen:string = 'no-imagen.jpg';
+  imagenUri:string = 'no-imagen.jpg'; 
 
   /*
   public calcularImporteVentaCliente(): number {

@@ -20,13 +20,8 @@ export class ProductosPorCategoriaComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private productoService = inject(ProductoService);
   private itemService = inject(ItemService);
-
   lstProductos: Producto[] = [];
-
-
-
   chatUtils = ChatUtils;
-
   constructor() {
 
   }
@@ -49,19 +44,5 @@ export class ProductosPorCategoriaComponent implements OnInit {
   chatear(producto: Producto) {
     this.chatUtils.infoProduct(producto);
   }
-
-/*   sendOneProducto(producto: Producto) {
-    this.item.cantidad = producto.minCantidadPedido;
-    this.item.importe = producto.minCantidadPedido * producto.precioNeto;
-    this.item.producto = { ...producto };
-    if (this.itemService.existItemInItems(this.items, this.item.producto.id)) {
-      this.items = this.itemService.UpdateAmountItemFromExterno(this.items, this.item.producto.id, this.item.cantidad);
-    }
-    else {
-      this.items = [...this.items, { ...this.item }];
-    }
-    this.itemService.setItems(this.items);
-    this.itemService.saveSessionStorageItems(this.items);
-  } */
 
 }

@@ -7,6 +7,7 @@ import { ItemService } from '../../../../services/item.service';
 import { ClienteService } from '../../../../services/cliente.service';
 import { UsuarioService } from '../../../../services/usuario.service';
 import { ItemPedido } from '../../../../models/item-pedido';
+import { environment } from '../../../../../environments/environment';
 
 
 @Component({
@@ -51,6 +52,10 @@ export class CarritoItemProductoComponent implements OnInit, OnDestroy {
       this.lstItemPedido = this.itemService.getLocalStorageItems()
       this.calcularTotal();
     }
+/*     this.lstItemPedido.map(item => {
+      item.imagen = environment.API_URL_VER_IMAGEN + item.imagen ;
+      return item;
+    }) */
     /*    this.lstItemPedido = [...this.lstItemPedido, {...this.itemPedido} ] */
   }
 
@@ -91,11 +96,11 @@ export class CarritoItemProductoComponent implements OnInit, OnDestroy {
         this.usuarioService.getUsuarioByUsername(this.authService.usuario.username)
           .subscribe(usr => {
             this.clienteService.getClienteByUsuarioId(usr.id).subscribe(cli => {
-              this.router.navigate(['/pedidos/pedido-finalizado', cli.id] , { queryParams: { clienteOnline: 'true' } })
+              this.router.navigate(['/pedidos/pedido-cliente-finalizado', cli.id] , { queryParams: { clienteOnline: 'true' } })
             })
           });
       } else {
-        this.router.navigate(['/pedidos/pedido-finalizado', this.clienteId], { queryParams: { clienteOnline: 'false' } })
+        this.router.navigate(['/pedidos/pedido-cliente-finalizado', this.clienteId], { queryParams: { clienteOnline: 'false' } })
       }
     }
   }
