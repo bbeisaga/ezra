@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.ezra.programandojuntos.dto.CajaUsuarioReporte;
 import com.ezra.programandojuntos.dto.MovimientoEnCajaReporte;
 import com.ezra.programandojuntos.dto.report.ReportArray;
+import com.ezra.programandojuntos.enums.TipoPedidoEnum;
 import com.ezra.programandojuntos.errors.MovimientoMapError;
 import com.ezra.programandojuntos.exceptions.MovimientoExceptions;
 import com.ezra.programandojuntos.models.dao.IMovimientoDao;
@@ -34,6 +35,10 @@ import com.ezra.programandojuntos.models.entity.TipoMovimientoPedido;
 import com.ezra.programandojuntos.models.entity.TipoPago;
 import com.ezra.programandojuntos.models.repository.MovimientoRepository;
 import com.ezra.programandojuntos.util.ExcelUtil;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
 
 @Service
 public class MovimientoServiceImpl implements IMovimientoService {
@@ -78,26 +83,21 @@ public class MovimientoServiceImpl implements IMovimientoService {
 		if (cajaUsuario == null || !cajaUsuario.isActiva()) {
 			return null;
 		}
-		
-		if (movimiento.getTipoMovimientoPedido().getTipo().equals("E") &&
-				cajaUsuario.getSaldoCaja().subtract(movimiento.getEgresoDinero()).doubleValue()<0) {
+
+		if (movimiento.getTipoMovimientoPedido().getTipo().equals("E")
+				&& cajaUsuario.getSaldoCaja().subtract(movimiento.getEgresoDinero()).doubleValue() < 0) {
 			throw new MovimientoExceptions(
-			MovimientoMapError.getErrorString(MovimientoMapError.CODE_SALDO_INSUFICIENTE_CJU));
+					MovimientoMapError.getErrorString(MovimientoMapError.CODE_SALDO_INSUFICIENTE_CJU));
 		}
-			
-		
+
 		valdiarMovimientoPedido(movimiento);
 
 		Pedido pedido = pedidoService.findPedidoById(movimiento.getPedido().getId());
 		log.info("MovimientoServiceImpl.saveMovimiento... estadoPedido={}", pedido.getEstadoPedido().getEstado());
 
-		if (pedido == null) {
-			return null;
-		}
-
 		// BigDecimal newSaldoBruto = BigDecimal.valueOf(0);
 		BigDecimal newSaldo = BigDecimal.valueOf(0);
-		if (movimiento.getPedido().getTipoPedido().getNombre().equalsIgnoreCase("VENTA AL CLIENTE")) {
+		if (movimiento.getPedido().getTipoPedido().getId() == TipoPedidoEnum.VENTA.getValue()) {
 			if (movimiento.getTipoMovimientoPedido().getTipo().equals("I")) {
 				newSaldo = pedido.getSaldoPedido().subtract(movimiento.getIngresoDinero());
 				if (newSaldo.intValue() >= 0) {
@@ -118,7 +118,7 @@ public class MovimientoServiceImpl implements IMovimientoService {
 				pedido.setDevuelto(true);
 			}
 		}
-		if (movimiento.getPedido().getTipoPedido().getNombre().equalsIgnoreCase("COMPRA O ADQUISICION")) {
+		if (movimiento.getPedido().getTipoPedido().getId() == TipoPedidoEnum.COMPRA.getValue()) {
 			if (movimiento.getTipoMovimientoPedido().getTipo().equals("I")) {
 				newSaldo = pedido.getPagoTotal().subtract(movimiento.getIngresoDinero());
 				if (newSaldo.intValue() >= 0) {
@@ -181,7 +181,7 @@ public class MovimientoServiceImpl implements IMovimientoService {
 				if (movimiento.getEgresoDinero().intValue() < 0) {
 					throw new MovimientoExceptions(
 							MovimientoMapError.getErrorString(MovimientoMapError.CODE_COMPRA_AL_PROVEEDOR));
-				}	
+				}
 			}
 			if (movimiento.getTipoMovimientoPedido().getTipo().equals("I")) {
 				if (movimiento.getPedido().getFlujoEfectivoTotal().intValue() < 1) {
@@ -240,5 +240,7 @@ public class MovimientoServiceImpl implements IMovimientoService {
 		}
 		return new ByteArrayInputStream(out.toByteArray());
 	}
+
+
 
 }

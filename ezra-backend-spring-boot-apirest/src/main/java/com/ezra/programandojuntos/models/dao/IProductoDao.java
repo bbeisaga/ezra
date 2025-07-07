@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.ezra.programandojuntos.models.entity.Categoria;
 import com.ezra.programandojuntos.models.entity.Color;
+import com.ezra.programandojuntos.models.entity.EstadoProducto;
 import com.ezra.programandojuntos.models.entity.Material;
 import com.ezra.programandojuntos.models.entity.Producto;
 import com.ezra.programandojuntos.models.entity.TipoDocumento;
@@ -45,4 +46,7 @@ public interface IProductoDao extends CrudRepository<Producto, Long>{
 	
 	@Query("from Uso")
 	public List<Uso> findAllUsos();
+	
+	@Query("from EstadoProducto")
+	public List<EstadoProducto> findAllEstadoProducto();
 }

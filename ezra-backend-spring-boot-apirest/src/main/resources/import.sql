@@ -7,8 +7,8 @@ INSERT INTO tipo_documentos (acronimo, nombre) VALUES ('RUC', 'Registro único d
 
 
 INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular, usuario_id) VALUES(1, 'Beisaga Arenas Bhernard', '2018-01-01','41953483','054292',1);
-INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(1, 'John Doe', '2018-01-02','11953480','0544222');
-INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(1, 'Linus Torvalds', '2018-01-03','02953480','0543292');
+INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular, usuario_id) VALUES(1, 'Arenas Alvares Soni Yanet', '2018-01-02','11953480','0544222',2);
+INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular, usuario_id) VALUES(1, 'Cojoma Vanesa', '2018-01-03','02953480','0543292',3);
 INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(1, 'Rasmus Lerdorf',  '2018-01-04','71953480','9544292');
 INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(2, 'Erich Gamma',  '2018-02-01','41955680','8544292');
 INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(2, 'Richard Helm',  '2018-02-10','40053480','7544292');
@@ -21,7 +21,6 @@ INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_docume
 
 /* Creamos algunos usuarios con sus roles */
 INSERT INTO `usuarios` (username, password, activo, bloqueado,reintentos, nombres, apellidos) VALUES ('admin','$2a$10$RmdEsvEfhI7Rcm9f/uZXPebZVCcPC7ZXZwV51efAvMAp1rIaRAfPK',1,0,0, 'Bhernard Shomert', 'Beisaga Arenas');
-INSERT INTO `usuarios` (username, password, activo, bloqueado,reintentos, nombres, apellidos) VALUES ('steven','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1,0,0, 'Steven Albert', 'Beisaga Arenas');
 INSERT INTO `usuarios` (username, password, activo, bloqueado,reintentos, nombres, apellidos) VALUES ('sonia','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1,0,0, 'Sonia Yanet', 'Arenas Alvarez');
 INSERT INTO `usuarios` (username, password, activo, bloqueado,reintentos, nombres, apellidos) VALUES ('vane','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1,0,0, 'Vanesa', 'Cojoma');
 
@@ -41,7 +40,8 @@ INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (1,1, 'ROLE
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (1,1, 'ROLE_DELETE_CLIENTE','Borrar cliente o proveedor');
 
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (2,1, 'ROLE_CREATE_PEDIDO','Crear pedido');
-INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (2,1, 'ROLE_LIST_VENTAS','Listar venta');
+INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (2,1, 'ROLE_LIST_MY_ORDERS','Listar mis pedidos');
+INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (2,1, 'ROLE_LIST_VENTAS','Listar pedidos');
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (2,1, 'ROLE_SEARCH_VENTA','Buscar pedido venta');
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (2,1, 'ROLE_REPORT_VENTA','Reporte de venta');
 
@@ -54,7 +54,7 @@ INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (2,1, 'ROLE
 
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (3,1, 'ROLE_REGISTER_MOVCAJA','Registro ingreso/egreso en caja chica');
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (3,1, 'ROLE_REPORT_MOVCAJA','Reporte de movimientos (Todo los movimientos y cajeros)');
-INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (3,1, 'ROLE_REPORT_MOVCAJA_USUARIO','Reporte de movimientos por cajero');
+INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (3,1, 'ROLE_RPTE_MOVCAJA_USUARIO','Reporte de movimientos por cajero');
 
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (4,1, 'ROLE_OPEN_CJU','Apertura caja');
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (4,1, 'ROLE_CLOSE_CJU','Cierre caja');
@@ -71,8 +71,6 @@ INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (6,1, 'ROLE_LIST_USUARIOS','Listar usuario');
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (6,1, 'ROLE_SEARCH_USUARIO','Buscar usuario');
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (6,1, 'ROLE_ASIGNAR_ROL_USUARIO','Asignar rol a usuario');
-
-INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (7,1, 'ROLE_CREATE_PEDIDO_TIENDA','Crear pedido en tienda');
 
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 1);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 2);
@@ -107,12 +105,29 @@ INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 30);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 31);
 
 
+/* ROL DE CAJERA 1*/
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 8);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 9);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 14);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 15);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 16);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 18);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 19);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 20);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 22);
 
-INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 1);
-INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 2);
+/* ROL DE CAJERA 2*/
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 8);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 9);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 14);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 15);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 16);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 18);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 19);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 20);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 22);
 
-INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 2);
-INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (4, 2);
+
 
 
 /* creamos las cajas*/
@@ -203,14 +218,22 @@ INSERT INTO usos (id, nombre) VALUES(0,'Seleccione el uso Interno');
 INSERT INTO usos (id, nombre) VALUES(1,'Insumo');
 INSERT INTO usos (id, nombre) VALUES(2,'Producto reventa');
 
+/*Parametros generales USO*/
+INSERT INTO estados_producto (nombre) VALUES('Nuevo');
+INSERT INTO estados_producto (nombre) VALUES('En stock');
+INSERT INTO estados_producto (nombre) VALUES('Por agotarse');
+INSERT INTO estados_producto (nombre) VALUES('Agotado');
+INSERT INTO estados_producto (nombre) VALUES('Próximo');
+
+
 /* Populate tabla productos */
-INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_bruto,	precio_bruto_rebajado,	precio_neto,	precio_neto_reabajado,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id) VALUES('A1','Caja para pizza','Caja de carton corruugado para pizza con marca personalizada','10x15x20 cm','0.25 kg','envase-de-carton-pizza.png',5,0,0,100,1000,10,0,40,30,47.2,50,now(),1,0,1,2,2,2);
-INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_bruto,	precio_bruto_rebajado,	precio_neto,	precio_neto_reabajado,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id) VALUES('B1','Caja para tortas','Caja de cartón corrugado para tortas con marca personalizada','10x15x20 cm','1 kg','caja-para-torta.png',5,0,0,100,1000,30,0,40,30,47.2,50,now(),1,1,1,2,3,2);
-INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_bruto,	precio_bruto_rebajado,	precio_neto,	precio_neto_reabajado,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id) VALUES('B2','Envase de plastico para torta','Envase de plastico para torta con marca sticker personalizada','30x15x20 cm','1 kg','envase-torta-redondo.png',5,0,0,100,1000,10,0,40,30,47.2,50,now(),1,0,3,2,4,2);
-INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_bruto,	precio_bruto_rebajado,	precio_neto,	precio_neto_reabajado,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id) VALUES('C1','Envase de comida blanco','Envase de bagazo de azucar para comida blanco con marca en forma de sticker personalizado','10x15x20 cm','1 kg','envase-comida-blanco.png',5,0,0,100,1000,1,0,20,10,23.6,35,now(),1,1,1,3,5,2);
-INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_bruto,	precio_bruto_rebajado,	precio_neto,	precio_neto_reabajado,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id) VALUES('C2','Envase de comida café','Envase de bagazo de azucar para comida color café con marca en forma de sticker personalizado','30x15x20 cm','1 kg','envase-comida-cafe.png',4,0,15,40,2000,1,0,20,10,23.6,35,now(),0,1,2,3,6,2);
-INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_bruto,	precio_bruto_rebajado,	precio_neto,	precio_neto_reabajado,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id) VALUES('E1','Bolsa de plastico blanca','Bolsa de plastico blanca para llevar artículos con marca personalizada','10x15x20 cm','1 kg','bolsa-de-plastico-blanca.png',4,0,2,40,2000,2,0,20,10,23.6,35,now(),0,1,2,3,6,2);
-INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_bruto,	precio_bruto_rebajado,	precio_neto,	precio_neto_reabajado,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id) VALUES('F1','Bolsa de plastico negra','Bolsa de plastico negra para llevar artículos con marca personalizada','10x15x20 cm','1 kg','bolsa-de-plastico-negra.png',4,0,3,40,2000,2,0,20,10,23.6,35,now(),1,1,3,3,6,2);
+INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_neto,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, margen_ganancia, estado_producto_id) VALUES('A1','Caja para pizza','Caja de carton corruugado para pizza con marca personalizada','10x15x20 cm','0.25 kg','envase-de-carton-pizza.png',5,0,0,100,1000,10,30,47.2,now(),1,3,1,2,2,2,18,5,3);
+INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_neto,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, margen_ganancia, estado_producto_id) VALUES('B1','Caja para tortas','Caja de cartón corrugado para tortas con marca personalizada','10x15x20 cm','1 kg','caja-para-torta.png',5,0,0,100,1000,30,30,47.2,now(),1,1,1,2,3,2,18,5,1);
+INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_neto,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, margen_ganancia, estado_producto_id) VALUES('B2','Envase de plastico para torta','Envase de plastico para torta con marca sticker personalizada','30x15x20 cm','1 kg','envase-torta-redondo.png',5,0,0,100,1000,10,30,47.2,now(),1,0,3,2,4,2,18,5,3);
+INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_neto,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, margen_ganancia, estado_producto_id) VALUES('C1','Envase de comida blanco','Envase de bagazo de azucar para comida blanco con marca en forma de sticker personalizado','10x15x20 cm','1 kg','envase-comida-blanco.png',5,0,0,100,1000,1,10,23.6,now(),1,1,1,3,5,2,18,5,4);
+INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_neto,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, margen_ganancia, estado_producto_id) VALUES('C2','Envase de comida café','Envase de bagazo de azucar para comida color café con marca en forma de sticker personalizado','30x15x20 cm','1 kg','envase-comida-cafe.png',4,0,15,40,2000,20,10,23.6,now(),0,1,2,3,6,2,18,5,5);
+INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_neto,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, margen_ganancia, estado_producto_id ) VALUES('E1','Bolsa de plastico blanca','Bolsa de plastico blanca para llevar artículos con marca personalizada','10x15x20 cm','1 kg','bolsa-de-plastico-blanca.png',4,0,1200,1,2000,1,10,23.6,now(),0,1,2,3,6,2,18,5,1);
+INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	precio_neto,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, margen_ganancia, estado_producto_id ) VALUES('F1','Bolsa de plastico negra','Bolsa de plastico negra para llevar artículos con marca personalizada','10x15x20 cm','1 kg','bolsa-de-plastico-negra.png',1,0,1000,1,2000,1,10,23.6,now(),1,1,3,3,6,2,18,5,4);
 
 
 /* Creamos estado de pedidos */

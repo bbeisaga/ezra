@@ -114,6 +114,12 @@ export class PedidoClienteFinalizadoComponent implements OnInit {
     this.itemService.saveLocalStorageItems(this.lstItemPedido);
   }
 
+  actualizarDescripcion(productoId: number, event: any): void {
+    const descripcion: string = event.target.value;
+    this.lstItemPedido = this.itemService.UpdateDescripcionItemFromItemsCliete(this.lstItemPedido, productoId, descripcion);
+    this.itemService.setItems(this.lstItemPedido);
+    this.itemService.saveLocalStorageItems(this.lstItemPedido);
+  }
 
   actualizarCantidad(productoId: number, event: any): void {
     const cantidad: number = parseInt(event.target.value);

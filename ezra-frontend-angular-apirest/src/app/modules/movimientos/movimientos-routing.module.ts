@@ -26,7 +26,7 @@ const routes: Routes = [
     { path: 'rpte-mov-en-caja-por-usuario',
       component: RpteMovimientoEnCajaPorUsuarioComponent ,
       canActivate:[AuthGuard, RoleGuard],
-      data: { role: 'ROLE_REPORT_MOVCAJA_USUARIO'}
+      data: { role: 'ROLE_RPTE_MOVCAJA_USUARIO'}
     },
 
 

@@ -35,6 +35,10 @@ export class CajaService {
     );
   }
 
+  getCajasPorAsignar(): Observable<Caja[]>{
+        return this.http.get<Caja[]>(`${environment.apiUrl}/cajas-por-asignar`);
+  }
+
   getCajaUsuarioByUserName(username: string): Observable<CajaUsuario>{
     return this.http.get<CajaUsuario>(`${environment.apiUrl}/cajas/usuarios/${username}`
     )

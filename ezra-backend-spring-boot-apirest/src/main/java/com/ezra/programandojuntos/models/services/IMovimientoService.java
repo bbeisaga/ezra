@@ -16,6 +16,7 @@ public interface IMovimientoService {
 	public List<TipoMovimientoPedido> lstAllTipoMovimientosPedido();	
 	public Movimiento saveMovimiento(Movimiento movimiento);
 	public ByteArrayInputStream createReportMovimientoEnCaja(ReportArray reporte);
+
 	//public Map<String, BigDecimal> movimientoPorCajaUsuario(Long cajaUsuarioId);
 
 }

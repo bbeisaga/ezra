@@ -51,12 +51,12 @@ public class MediosRestController {
 
 	// @Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@PostMapping("/medios/upload")
-	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo) {
+	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("clienteOnline") boolean clienteOnline) {
 		Map<String, Object> response = new HashMap<>();
 		if (!archivo.isEmpty()) {
 			String nombreArchivo = null;
 			try {
-				nombreArchivo = uploadFileService.copyFileToPath(archivo);
+				nombreArchivo = uploadFileService.copyFileToPath(archivo, clienteOnline);
 			} catch (IOException e) {
 				response.put("mensaje", "Error al subir la imagen del cliente");
 				response.put("error", e.getMessage().concat(": ").concat(e.getCause().getMessage()));

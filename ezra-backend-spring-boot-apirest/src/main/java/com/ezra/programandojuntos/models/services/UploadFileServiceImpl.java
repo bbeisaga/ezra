@@ -16,56 +16,58 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class UploadFileServiceImpl implements IUploadFileService{
-	
+public class UploadFileServiceImpl implements IUploadFileService {
+
 	private final Logger log = LoggerFactory.getLogger(UploadFileServiceImpl.class);
-	
+
 	private final static String DIRECTORIO_UPLOAD = "uploads";
 
 	@Override
 	public Resource cargar(String nombreFoto) throws MalformedURLException {
-		
+
 		Path rutaArchivo = getPath(DIRECTORIO_UPLOAD, nombreFoto);
 		log.info(rutaArchivo.toString());
-		
+
 		Resource recurso = new UrlResource(rutaArchivo.toUri());
-		
-		if(!recurso.exists() && !recurso.isReadable()) {
-			//Path rutaArchivoDefault = Paths.get("src/main/resources/static/images").resolve("no-imagen.png").toAbsolutePath();
+
+		if (!recurso.exists() && !recurso.isReadable()) {
+			// Path rutaArchivoDefault =
+			// Paths.get("src/main/resources/static/images").resolve("no-imagen.png").toAbsolutePath();
 			Path rutaArchivoDefault = getPath("src/main/resources/static/images", "no-imagen.jpg");
 			Resource recursoDefault = new UrlResource(rutaArchivoDefault.toUri());
-			//log.error("Error no se pudo cargar la imagen: " + nombreFoto);
+			// log.error("Error no se pudo cargar la imagen: " + nombreFoto);
 			return recursoDefault;
 		}
 		return recurso;
 	}
 
 	@Override
-	public String copyFileToPath(MultipartFile archivo) throws IOException {
-		//String nombreArchivo = "";
-		//if(archivo !=null) {
-			String nombreArchivo = UUID.randomUUID().toString() + "_" +  archivo.getOriginalFilename().replace(" ", "-");
-			//String nombreArchivo =  archivo.getOriginalFilename().replace(" ", "-");
-			Path rutaArchivo = getPath(DIRECTORIO_UPLOAD,nombreArchivo);
-			log.info(rutaArchivo.toString());
-			Files.copy(archivo.getInputStream(), rutaArchivo);
-			return nombreArchivo;
-		//}	
-		//return nombreArchivo;
+	public String copyFileToPath(MultipartFile archivo, boolean clienteOnline) throws IOException {
+		String nombreArchivo = archivo.getOriginalFilename().replace(" ", "-");
+		if (clienteOnline) {
+			nombreArchivo = UUID.randomUUID().toString() + "_" + nombreArchivo;
+		}
+
+		Path rutaArchivo = getPath(DIRECTORIO_UPLOAD, nombreArchivo);
+		log.info(rutaArchivo.toString());
+		Files.copy(archivo.getInputStream(), rutaArchivo);
+		return nombreArchivo;
+		// }
+		// return nombreArchivo;
 	}
 
 	@Override
 	public boolean eliminar(String nombreImagen) {
-		
-		if(nombreImagen!=null && nombreImagen.length() >0) {
+
+		if (nombreImagen != null && nombreImagen.length() > 0) {
 			Path rutaFotoAnterior = Paths.get(DIRECTORIO_UPLOAD).resolve(nombreImagen).toAbsolutePath();
 			File archivoFotoAnterior = rutaFotoAnterior.toFile();
-			if(archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
+			if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
 				archivoFotoAnterior.delete();
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 

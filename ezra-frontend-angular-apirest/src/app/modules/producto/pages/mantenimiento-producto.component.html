@@ -115,6 +115,19 @@
                 </div>}
               </div>
             </div>
+
+            <div class="row mb-2">
+              <label for="cantidadVendidos" class="col-form-label col-sm-4">Cantidad Vendidos:</label>
+              <div class="input-group col-sm">
+                <input type="number" formControlName="cantidadVendidos" name="cantidadVendidos" class="form-control"
+                  placeholder="Cantidad Vendidos" min="0">
+                <span class="input-group-text">Número</span>
+                @if(formUtils.isValidField(formProducto,'cantidadVendidos')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'cantidadVendidos')}}
+                </div>}
+              </div>
+            </div>
             <div class="row mb-2">
               <label for="minCantidadPedido" class="col-form-label col-sm-4">Mínima cantidad en pedido:</label>
               <div class="input-group col-sm">
@@ -154,15 +167,29 @@
             </div>
 
             <div class="row mb-2">
-              <label for="costoUnitario" class="col-form-label col-sm-4">Costo unitario:</label>
+              <label for="costoUnitario" class="col-form-label col-sm-4"><b>Costo unitario:</b><br>
+                Recálculo automatico</label>
               <div class="input-group col-sm">
-                <input type="number" formControlName="costoUnitario" name="costoUnitario" class="form-control"
-                  placeholder="Costo unitario" min="1">
+                <input type="number" (input)="calcularPrecioNeto()" formControlName="costoUnitario" name="costoUnitario"
+                  class="form-control" placeholder="Costo unitario" required min="0">
                 <span class="input-group-text">S/</span>
                 <span class="input-group-text">0.00</span>
-                @if(formUtils.isValidField(formProducto,'costoUnitario')){
+                 @if(formUtils.isValidField(formProducto,'costoUnitario')){
                 <div class="alert alert-danger">
                   {{formUtils.getFieldError(formProducto,'costoUnitario')}}
+                </div>} 
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label for="costoPersonalizacion" class="col-form-label col-sm-4">Costo Personalizacion:</label>
+              <div class="input-group col-sm">
+                <input type="number" (input)="calcularPrecioNeto()" formControlName="costoPersonalizacion" name="costoPersonalizacion"
+                  class="form-control" placeholder="Costo de Pernolización" required min="0">
+                <span class="input-group-text">S/</span>
+                <span class="input-group-text">0.00</span>
+                @if(formUtils.isValidField(formProducto,'costoPersonalizacion')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'costoPersonalizacion')}}
                 </div>}
               </div>
             </div>
@@ -176,6 +203,30 @@
               </div>
             </div> -->
             <div class="row mb-2">
+              <label for="impuestoIgv" class="col-form-label col-sm-4">IGV (%)</label>
+              <div class="input-group col-sm">
+                <input type="number" (input)="calcularPrecioNeto()" formControlName="impuestoIgv" name="impuestoIgv" class="form-control"
+                  placeholder="Impuesto IGV" min="18" required>
+                <span class="input-group-text">%</span>
+                @if(formUtils.isValidField(formProducto,'impuestoIgv')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'impuestoIgv')}}
+                </div>}
+              </div>
+            </div>
+            <div class="row mb-2">
+              <label for="margenGanancia" (input)="calcularPrecioNeto()" class="col-form-label col-sm-4">Margen ganancia (%)</label>
+              <div class="input-group col-sm">
+                <input type="number" (input)="calcularPrecioNeto()" formControlName="margenGanancia" name="margenGanancia" class="form-control"
+                  placeholder="Margen ganancia" min="0" required>
+                <span class="input-group-text">%</span>
+                @if(formUtils.isValidField(formProducto,'margenGanancia')){
+                <div class="alert alert-danger">
+                  {{formUtils.getFieldError(formProducto,'margenGanancia')}}
+                </div>}
+              </div>
+            </div>
+            <!--             <div class="row mb-2">
               <label for="precioBruto" class="col-form-label col-sm-4">Precio bruto (-IGV):</label>
               <div class="input-group col-sm">
                 <input type="number" formControlName="precioBruto" name="precioBruto" class="form-control"
@@ -187,12 +238,12 @@
                   {{formUtils.getFieldError(formProducto,'precioBruto')}}
                 </div>}
               </div>
-            </div>
+            </div> -->
             <div class="row mb-2">
               <label for="precioNeto" class="col-form-label col-sm-4">Precio neto (+ IGV):</label>
               <div class="input-group col-sm">
                 <input type="number" formControlName="precioNeto" name="precioNeto" class="form-control"
-                  placeholder="Precio neto (con IGV)" min="4">
+                  placeholder="Precio neto (con IGV)" min="0" required>
                 <span class="input-group-text">S/</span>
                 <span class="input-group-text">0.00</span>
                 @if(formUtils.isValidField(formProducto,'precioNeto')){
@@ -201,7 +252,7 @@
                 </div>}
               </div>
             </div>
-            <div class="row mb-2">
+            <!--             <div class="row mb-2">
               <label for="precioBrutoRebajado" class="col-form-label col-sm-4">Precio bruto rebajado(-IGV):</label>
               <div class="input-group col-sm">
                 <input type="number" formControlName="precioBrutoRebajado" name="precioBrutoRebajado"
@@ -213,8 +264,8 @@
                   {{formUtils.getFieldError(formProducto,'precioBrutoRebajado')}}
                 </div>}
               </div>
-            </div>
-            <div class="row mb-2">
+            </div> -->
+<!--             <div class="row mb-2">
               <label for="precioNetoRabajado" class="col-form-label col-sm-4">Precio neto rebajado(+IGV):</label>
               <div class="input-group col-sm">
                 <input type="number" formControlName="precioNetoRabajado" name="precioNetoRabajado" class="form-control"
@@ -226,9 +277,9 @@
                   {{formUtils.getFieldError(formProducto,'precioNetoRabajado')}}
                 </div>}
               </div>
-            </div>
+            </div> -->
 
-            <div class="row mb-2">
+<!--             <div class="row mb-2">
               <label for="fechaPrecioRebajadoDesde" class="col-form-label col-sm-4">Fch precio rebajado desde:</label>
               <div class="input-group col-sm">
                 <input type="datetime-local" formControlName="fechaPrecioRebajadoDesde" name="fechaPrecioRebajadoDesde"
@@ -249,7 +300,7 @@
                   {{formUtils.getFieldError(formProducto,'fechaPrecioRebajadoHasta')}}
                 </div>}
               </div>
-            </div>
+            </div> -->
           </div>
 
 
@@ -304,7 +355,7 @@
               </div>
             </div>
             <!--  -------- -->
-<!--             <div class="row mb-2">
+            <!--             <div class="row mb-2">
               <label for="formFile" class="form-label col-sm-4"><b>Imágen del producto:</b><br>Visible en tienda</label>
                 <div class="input-group col-sm">
                   <input (change)="seleccionarImagen($event)" type="file" name="imagen" formControlName="imagen"
@@ -350,7 +401,7 @@
 
             <div class="row mb-2">
               <div class="col-sm">
-                <img *ngIf="producto?.imagen" [ngSrc]="verImagenProducto" alt="{{producto.imagen}}"
+                <img *ngIf="producto?.imagen" [src]="verImagenProducto" alt="{{producto.imagen}}"
                   class="img-fluid img-thumbnail rounded mx-auto d-block">
 
               </div>

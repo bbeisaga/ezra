@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ezra.programandojuntos.dto.CajaDto;
 import com.ezra.programandojuntos.models.entity.Caja;
 import com.ezra.programandojuntos.models.services.ICajaService;
 
@@ -27,6 +28,12 @@ public class CajaRestController {
 	@GetMapping("/cajas")
 	public List<Caja> index() {
 		return cajaService.findAll();
+	}
+	
+	
+	@GetMapping("/cajas-por-asignar")
+	public List<CajaDto> cajasPorAsignar() {
+		return cajaService.listCajasPorAsignar();
 	}
 	
 

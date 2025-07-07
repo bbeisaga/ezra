@@ -53,101 +53,96 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api")
 public class ProductoRestController {
-	
+
 	Logger log = LoggerFactory.getLogger(ProductoRestController.class);
 
 	@Autowired
 	private ProductoService productoService;
-	
+
 //	@Autowired
 //	private IUploadFileService uploadFileService;
-	
+
 	@GetMapping("/producto/pageable")
-	public Page<Producto> index(@RequestParam int pageNumber, @RequestParam int pageSize, 
-								@RequestParam SortActiveProducto active,
-								@RequestParam SortDirection direction,
-								@RequestParam String query) {
-		
-        log.debug("ProductoRestController.index(pageSize: {}, pageNumber: {}, query{}) ", pageSize, pageNumber, query );
-        Pageable pageRequest = null;
-        if(direction.getValue()=="desc") {
-        	pageRequest = PageRequest.of(pageNumber, pageSize,
-					Sort.by(active.getValue()).descending());
-        } else {
-         	pageRequest = PageRequest.of(pageNumber, pageSize,
-					Sort.by(active.getValue()).ascending());
-        }
-		return productoService.findAllProductoPageable(query, pageRequest );
+	public Page<Producto> index(@RequestParam int pageNumber, @RequestParam int pageSize,
+			@RequestParam SortActiveProducto active, @RequestParam SortDirection direction,
+			@RequestParam String query) {
+
+		log.debug("ProductoRestController.index(pageSize: {}, pageNumber: {}, query{}) ", pageSize, pageNumber, query);
+		Pageable pageRequest = null;
+		if (direction.getValue() == "desc") {
+			pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(active.getValue()).descending());
+		} else {
+			pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by(active.getValue()).ascending());
+		}
+		return productoService.findAllProductoPageable(query, pageRequest);
 	}
-	
+
 	@GetMapping("/productos")
 	public List<Producto> productos() {
 		return productoService.findAllProductos();
 	}
-	
-	//@Secured({"ROLE_ADMIN"})
+
+	// @Secured({"ROLE_ADMIN"})
 	@GetMapping("/producto/filtrar-productos/{term}")
 	@ResponseStatus(HttpStatus.OK)
-	public List<Producto> filtrarProductos(@PathVariable String term){
+	public List<Producto> filtrarProductos(@PathVariable String term) {
 		return productoService.findProductoByNombre(term);
 	}
-	
+
 	@GetMapping("/producto/{id}")
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		Producto producto = null;
 		Map<String, Object> response = new HashMap<>();
-		
+
 		try {
 			producto = productoService.findProductoById(id);
-		} catch(DataAccessException e) {
+		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar la consulta en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
-		if(producto == null) {
+
+		if (producto == null) {
 			response.put("mensaje", "El producto ID: ".concat(id.toString().concat(" no existe en la base de datos!")));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
 	}
-	
-	
+
 	@GetMapping("/productos/categoria/{id}")
 	public ResponseEntity<?> showProductosCataegoria(@PathVariable Long id) {
 		List<Producto> producto = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
 			producto = productoService.findProductByCategory(id);
-		} catch(DataAccessException e) {
+		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar la consulta en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<List<Producto>>(producto, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/producto")
 	public ResponseEntity<?> create(@Valid @RequestBody Producto producto, BindingResult result) {
 		Producto productoNew = null;
 		Map<String, Object> response = new HashMap<>();
-		if(result.hasErrors()) {
-			List<String> errors = result.getFieldErrors()
-					.stream()
-					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
+		if (result.hasErrors()) {
+			List<String> errors = result.getFieldErrors().stream()
+					.map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
 					.collect(Collectors.toList());
-			
+
 			response.put("errors", errors);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
 		try {
-			productoNew = productoService.crearConImagen(producto, null);
+			productoNew = productoService.crearConImagen(producto, null, false);
 
-		} catch(IOException e) {
+		} catch (IOException e) {
 			response.put("mensaje", "Error en la carga de la imagen");
 			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		} catch(DataAccessException e) {
+		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -156,29 +151,27 @@ public class ProductoRestController {
 		response.put("producto", productoNew);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
-	
+
 	@PostMapping("/producto/imagen")
-	public ResponseEntity<?> createWithImage(@RequestParam ("archivo") MultipartFile archivo
-											, @RequestParam ("producto") String producto) {
+	public ResponseEntity<?> createWithImage(@RequestParam("archivo") MultipartFile archivo,
+			@RequestParam("producto") String producto, @RequestParam("clienteOnline") boolean clienteOnline) {
 		Producto productoNew = null;
-		Map<String, Object> response = new HashMap<>();	
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
+		Map<String, Object> response = new HashMap<>();
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
 			Producto productoDto = objectMapper.readValue(producto, Producto.class);
-			productoNew = productoService.crearConImagen(productoDto, archivo);
+			productoNew = productoService.crearConImagen(productoDto, archivo, clienteOnline);
 
 		} catch (JsonProcessingException e) {
 			response.put("mensaje", "Error al convertir el JSON a DTO");
 			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 
-		}
-		catch(IOException e) {
+		} catch (IOException e) {
 			response.put("mensaje", "Error en la carga de la imagen");
 			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		} 
-		catch(DataAccessException e) {
+		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert en la base de datos");
 			response.put("err", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -187,7 +180,7 @@ public class ProductoRestController {
 		response.put("producto", productoNew);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
-	
+
 //	@GetMapping("/producto/imagen/{nombreImagen:.+}")
 //	public ResponseEntity<Resource> verFoto(@PathVariable String nombreImagen){
 //
@@ -201,29 +194,28 @@ public class ProductoRestController {
 //		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
 //		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
 //	}
-	
-	
+
 	@PutMapping("/producto/{id}")
-	public ResponseEntity<?> update(@Valid @RequestBody Producto producto, BindingResult result, @PathVariable Long id) {
+	public ResponseEntity<?> update(@Valid @RequestBody Producto producto, BindingResult result,
+			@PathVariable Long id) {
 		Producto productoUpdated = null;
 		Map<String, Object> response = new HashMap<>();
-		if(result.hasErrors()) {
-			List<String> errors = result.getFieldErrors()
-					.stream()
-					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
+		if (result.hasErrors()) {
+			List<String> errors = result.getFieldErrors().stream()
+					.map(err -> "El campo '" + err.getField() + "' " + err.getDefaultMessage())
 					.collect(Collectors.toList());
 			response.put("errors", errors);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
 		try {
-			//productoUpdated = productoService.actualizar(producto, id);
-			productoUpdated = productoService.actualizarConImagen(producto, null, id);
+			// productoUpdated = productoService.actualizar(producto, id);
+			productoUpdated = productoService.actualizarConImagen(producto, null, id, false);
 
-		} catch(IOException e) {
+		} catch (IOException e) {
 			response.put("mensaje", "Error en la carga de la imagen");
 			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}catch (DataAccessException e) {
+		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al actualizar el cliente en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -232,29 +224,27 @@ public class ProductoRestController {
 		response.put("producto", productoUpdated);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping("/producto/imagen/{id}")
-	public ResponseEntity<?> updateWithImage(@RequestParam ("archivo") MultipartFile archivo,
-											 @RequestParam ("producto") String producto, 
-											 @PathVariable Long id) {
+	public ResponseEntity<?> updateWithImage(@RequestParam("archivo") MultipartFile archivo,
+			@RequestParam("producto") String producto, @PathVariable Long id,
+			@RequestParam("clienteOnline") boolean clienteOnline) {
 		Producto productoUpdated = null;
 		Map<String, Object> response = new HashMap<>();
-        ObjectMapper objectMapper = new ObjectMapper();
+		ObjectMapper objectMapper = new ObjectMapper();
 
 		try {
 			Producto productoDto = objectMapper.readValue(producto, Producto.class);
-			productoUpdated = productoService.actualizarConImagen(productoDto, archivo, id);
+			productoUpdated = productoService.actualizarConImagen(productoDto, archivo, id, clienteOnline);
 		} catch (JsonProcessingException e) {
 			response.put("mensaje", "Error al convertir el JSON a DTO");
 			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		catch(IOException e) {
+		} catch (IOException e) {
 			response.put("mensaje", "Error en la carga de la imagen");
 			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		catch (DataAccessException e) {
+		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al actualizar el cliente en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -303,22 +293,22 @@ public class ProductoRestController {
 //	
 //
 	@GetMapping("/producto/colores")
-	public List<Color> listarColores(){
+	public List<Color> listarColores() {
 		return productoService.findAllColores();
 	}
 
 	@GetMapping("/producto/materiales")
-	public List<Material> listarMateriales(){
+	public List<Material> listarMateriales() {
 		return productoService.findAllMateriales();
 	}
-	
+
 	@GetMapping("/producto/categorias")
-	public List<Categoria> listarCategorias(){
+	public List<Categoria> listarCategorias() {
 		return productoService.findAllCategoriass();
 	}
-	
+
 	@GetMapping("/producto/usos")
-	public List<Uso> listarUsos(){
+	public List<Uso> listarUsos() {
 		return productoService.findAllUsos();
 	}
 

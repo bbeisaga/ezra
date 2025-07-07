@@ -102,9 +102,10 @@ export class AperturaCierreCajaComponent implements OnInit ,AfterViewInit {
   }
 
   obtenerTodoCajas(){
-    this.cajaService.getAllCaja().subscribe(
+    this.cajaService.getCajasPorAsignar().subscribe(result => this.cajas = result)
+/*     this.cajaService.getAllCaja().subscribe(
       result => this.cajas = result
-    )
+    ) */
   }
 
   abrirCaja(){

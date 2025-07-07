@@ -11,9 +11,9 @@ export class Pedido {
   items:Array<ItemPedido> = [];
   movimientos:Array<Movimiento> = [];
   cliente?:Cliente;
-  nomApellRzEnvio:string | null = null;
-  direccionEnvio:string | null = null;
-  celularEnvio:string | null = null;
+  nomApellRzEnvio:string = '';
+  direccionEnvio:string = '';
+  celularEnvio:string = '';
   estadoPedido!:EstadoPedido;
   tipoPedido!:TipoPedido;
   costoBrutoTotal:number=0;

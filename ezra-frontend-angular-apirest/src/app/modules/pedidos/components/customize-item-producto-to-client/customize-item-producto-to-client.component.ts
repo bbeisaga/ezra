@@ -11,6 +11,7 @@ import { Producto } from '../../../../models/producto';
 import { ItemPedido } from '../../../../models/item-pedido';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
+import { COLOR_ESTADO_PRODUCTO } from '../../../../constants/color-estado-producto';
 
 @Component({
   selector: 'customize-item-producto-to-client',
@@ -63,6 +64,7 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
     if (changes['productoId'].currentValue != changes['productoId'].previousValue) {
       this.productoService.getProducto(this.productoId).subscribe(prd => {
         this.producto = prd;
+        this.producto.estadoProducto.color = COLOR_ESTADO_PRODUCTO[('' + prd.estadoProducto.id) as keyof typeof COLOR_ESTADO_PRODUCTO];
         this.gruposDe = this.producto.gruposDe
         this.minCantidadPedido = this.producto.minCantidadPedido
         this.maxCantidadPedido = this.producto.maxCantidadPedido

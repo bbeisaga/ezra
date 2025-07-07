@@ -21,6 +21,7 @@ import { MediosUtilsService } from '../../../services/medios-utils.service';
   styleUrl: './mantenimiento-producto.component.css'
 })
 export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
+
   public mediosUtilsService = inject(MediosUtilsService);
   producto: Producto = new Producto();
   formProducto!: FormGroup;
@@ -57,13 +58,14 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
       let id = +params.get('productoId')!;
       if (id) {
         this.productoService.getProducto(id).subscribe(resp => {
-          this.producto = resp
-          this.verImagenProducto = environment.API_URL_VER_IMAGEN + this.producto.imagen;
-
+          this.producto = resp;
           this.createForm();
+
+          this.verImagenProducto = environment.API_URL_VER_IMAGEN + this.producto.imagen;
         });
       } else {
-        console.log("producto.sinnada", this.producto);
+        this.verImagenProducto = environment.API_URL_VER_IMAGEN + this.producto.imagen;
+        this.createForm();
       }
     });
 
@@ -107,20 +109,26 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
         { value: this.producto?.cantidadStock, disabled: true },
         { validators: [Validators.required, Validators.min(0)] }
       ],
+      cantidadVendidos: [
+        { value: this.producto?.cantidadVendidos, disabled: true },
+        { validators: [Validators.required, Validators.min(0)] }
+      ],
       minCantidadPedido: [this.producto?.minCantidadPedido, Validators.min(1)],
       maxCantidadPedido: [this.producto?.maxCantidadPedido, Validators.min(1)],
       gruposDe: [this.producto?.gruposDe, Validators.min(1)],
-      costoUnitario: [
-        { value: this.producto?.costoUnitario, disabled: true },
-        { validators: [Validators.required, Validators.min(1)] }
-      ],
+      costoUnitario: [this.producto?.costoUnitario, Validators.min(0)],
+
+      costoPersonalizacion: [this.producto?.costoPersonalizacion, Validators.min(0)],
       //costoUnitarioEmpaque: [this.producto?.costoUnitarioEmpaque, Validators.min(0)],
-      precioBruto: [this.producto?.precioBruto, Validators.min(3)],
-      precioNeto: [this.producto?.precioNeto, Validators.min(4)],
-      precioBrutoRebajado: [this.producto?.precioBrutoRebajado, Validators.min(2)],
-      precioNetoRabajado: [this.producto?.precioNetoRabajado, Validators.min(3)],
-      fechaPrecioRebajadoDesde: [this.producto?.fechaPrecioRebajadoDesde],
-      fechaPrecioRebajadoHasta: [this.producto?.fechaPrecioRebajadoHasta],
+      //precioBruto: [this.producto?.precioBruto, Validators.min(3)],
+      impuestoIgv: [this.producto?.impuestoIgv, Validators.min(18)],
+
+      margenGanancia: [this.producto?.margenGanancia, [Validators.required, Validators.min(0)]],
+      precioNeto: [this.producto?.precioNeto, [Validators.required, Validators.min(0)]],
+      //precioBrutoRebajado: [this.producto?.precioBrutoRebajado, Validators.min(2)],
+      //precioNetoRabajado: [this.producto?.precioNetoRabajado, Validators.min(3)],
+      //fechaPrecioRebajadoDesde: [this.producto?.fechaPrecioRebajadoDesde],
+      //fechaPrecioRebajadoHasta: [this.producto?.fechaPrecioRebajadoHasta],
       //imagen: [this.producto?.imagen],
 
       activo: [this.producto?.activo],
@@ -145,12 +153,15 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
     this.producto.minCantidadPedido = this.formProducto.get('minCantidadPedido')?.value;
     this.producto.maxCantidadPedido = this.formProducto.get('maxCantidadPedido')?.value;
     this.producto.gruposDe = this.formProducto.get('gruposDe')?.value;
-    this.producto.precioBruto = this.formProducto.get('precioBruto')?.value;
+    this.producto.costoUnitario = this.formProducto.get('costoUnitario')?.value;
+    this.producto.costoPersonalizacion = this.formProducto.get('costoPersonalizacion')?.value;
+    this.producto.impuestoIgv = this.formProducto.get('impuestoIgv')?.value;
+    this.producto.margenGanancia = this.formProducto.get('margenGanancia')?.value;
     this.producto.precioNeto = this.formProducto.get('precioNeto')?.value;
-    this.producto.precioBrutoRebajado = this.formProducto.get('precioBrutoRebajado')?.value;
-    this.producto.precioNetoRabajado = this.formProducto.get('precioNetoRabajado')?.value;
-    this.producto.fechaPrecioRebajadoDesde = this.formProducto.get('fechaPrecioRebajadoDesde')?.value;
-    this.producto.fechaPrecioRebajadoHasta = this.formProducto.get('fechaPrecioRebajadoHasta')?.value;
+    //this.producto.precioBrutoRebajado = this.formProducto.get('precioBrutoRebajado')?.value;
+    //this.producto.precioNetoRabajado = this.formProducto.get('precioNetoRabajado')?.value;
+    //this.producto.fechaPrecioRebajadoDesde = this.formProducto.get('fechaPrecioRebajadoDesde')?.value;
+    //this.producto.fechaPrecioRebajadoHasta = this.formProducto.get('fechaPrecioRebajadoHasta')?.value;
     this.producto.color = find(this.colores, { 'id': +this.formProducto.get('colorId')?.value });
     this.producto.material = find(this.materiales, { 'id': +this.formProducto.get('materialId')?.value });
     this.producto.uso = find(this.usos, { 'id': +this.formProducto.get('usoId')?.value });
@@ -158,6 +169,18 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
     //this.producto.imagen = this.formProducto.get('imagen')?.value;
     this.producto.activo = this.formProducto.get('activo')?.value;
     this.producto.visibleEnTienda = this.formProducto.get('visibleEnTienda')?.value;
+  }
+
+  calcularPrecioNeto() {
+
+    //debugger;
+    const costoUnitario: number = this.formProducto.get('costoUnitario')?.value;
+    const costoPersonalizaicon: number = this.formProducto.get('costoPersonalizacion')?.value;
+    const impuestoIgv: number = + this.formProducto.get('impuestoIgv')?.value;
+    const margenGanancia: number = + this.formProducto.get('margenGanancia')?.value;
+    const costos: number = (costoUnitario + costoPersonalizaicon);
+    const precioNetoUnitario: number = costos * (100 + (impuestoIgv + margenGanancia)) / 100;
+    this.formProducto.get('precioNeto')?.setValue(precioNetoUnitario.toString());
   }
 
   guardarProducto() {
@@ -171,7 +194,7 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
       )
     } else {
       this.productoService.createProducto(this.producto).subscribe(resp => {
-        this.alertService.success('Porducto ha sido creado exitosamente', 'Producto');
+        this.alertService.success('Producto ha sido creado exitosamente', 'Producto');
         this.router.navigate(['/productos']);
       })
     }
@@ -225,6 +248,8 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
       let formData = new FormData();
       formData.append("archivo", imagen);
       formData.append("producto", JSON.stringify(this.producto));
+      formData.append("clienteOnline", 'false');
+
       if (this.producto.id) {
         this.productoService.updateProductoImagen(formData, this.producto.id).subscribe(
           resp => {

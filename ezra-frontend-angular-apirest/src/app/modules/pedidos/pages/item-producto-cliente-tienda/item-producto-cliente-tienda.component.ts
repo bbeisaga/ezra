@@ -76,7 +76,7 @@ export class ItemProductoClienteTiendaComponent implements OnInit {
     this.clienteService.getTipoDocumento().subscribe(doc => {
       this.tipoDocumentos = doc
     });
-    console.log("this.producto", this.producto.id);
+    //console.log("this.producto", this.producto.id);
   }
 
   private _filter(value: string): Observable<Producto[]> {

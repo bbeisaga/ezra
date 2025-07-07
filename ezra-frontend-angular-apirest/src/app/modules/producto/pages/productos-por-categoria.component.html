@@ -10,7 +10,7 @@
     @for (producto of lstProductos; track $index) {
     <div class="col-12 col-sm-6 col-lg-3">
       <div class="card">
-        <a [routerLink]="['/pedidos/item-producto-cliente-online',producto.id]">
+        <a class="{{producto.estadoProducto.color}}" [routerLink]="['/pedidos/item-producto-cliente-online',producto.id]">
           <img *ngIf="producto?.imagen" [src]="producto.imagen" alt="{{producto.imagen}}" class="card-img-top"></a>
         <div class="card-body">
           <h3 class="card-title"> {{producto.descripcion}}</h3>
@@ -20,7 +20,7 @@
             {{producto.cantidadStock}} unidades</li>
           <li class="list-group-item"><i>Orden mín:</i> {{producto.minCantidadPedido}}, <i>Grupos de:</i>
             {{producto.gruposDe}}</li>
-          <li class="list-group-item">{{producto.cantidadStock}} vendidos</li>
+          <li class="list-group-item">{{producto.cantidadVendidos}} vendidos</li>
         </ul>
         <div class="card-body">
           <div class="d-flex justify-content-evenly">

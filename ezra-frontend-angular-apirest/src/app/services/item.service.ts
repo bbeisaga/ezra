@@ -98,6 +98,17 @@ export class ItemService {
     return items
   }
 
+  UpdateDescripcionItemFromItemsCliete(items: Array<ItemPedido>, productoId: number, descripcion: string): Array<ItemPedido> {
+    items = items.map((item: ItemPedido) => {
+      if (productoId === item.producto.id) {
+        item.descripcion = descripcion;
+      }
+      return item;
+    });
+
+    return items
+  }
+
   UpdateAmountItemFromExterno(items: Array<ItemPedido>, productoId: number, cantidad: number): Array<ItemPedido> {
     items = items.map((item: ItemPedido) => {
       if (productoId === item.producto.id) {

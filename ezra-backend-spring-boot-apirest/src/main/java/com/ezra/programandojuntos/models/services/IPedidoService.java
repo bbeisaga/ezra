@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.ezra.programandojuntos.dto.report.Report;
+import com.ezra.programandojuntos.dto.report.ReportArray;
 import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.EstadoPedido;
 import com.ezra.programandojuntos.models.entity.Pedido;
@@ -24,6 +25,9 @@ public interface IPedidoService {
 	public List<Pedido> findPedidoAll();
 	
 	public Page<Pedido> findAllPedidoPageable(String query, Long tipoPedidoId, Pageable pagebale);
+	
+	public Page<Pedido> findPedidoClientePageable(String query, Long clienteId, Pageable pagebale);
+
 	
 	//public Page<Cliente> findAll(Pageable pageable);
 	
@@ -50,6 +54,8 @@ public interface IPedidoService {
 	public void deletePedidoById(Long id);
 	
 	public ByteArrayInputStream createReportPedidos(Report reporte);
+	
+	public ByteArrayInputStream downloadOrderClienteToPdf(Pedido pedido);
 	
 	public Map<String, BigDecimal> movimientoPorPedido(Long pedidoId);
 

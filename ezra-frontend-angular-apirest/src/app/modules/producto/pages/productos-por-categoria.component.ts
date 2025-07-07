@@ -5,6 +5,7 @@ import { ItemService } from '../../../services/item.service';
 import { Producto } from '../../../models/producto';
 import { ChatUtils } from '../../../utils/chat-utils';
 import { environment } from '../../../../environments/environment';
+import { COLOR_ESTADO_PRODUCTO } from '../../../constants/color-estado-producto';
 
 
 
@@ -31,6 +32,7 @@ export class ProductosPorCategoriaComponent implements OnInit {
       let categoriaId = + params.get('catId')!;
       this.productoService.productosPorCategoria(categoriaId).subscribe(resp => {
         this.lstProductos = resp.map(prd => {
+          prd.estadoProducto.color = COLOR_ESTADO_PRODUCTO[('' + prd.estadoProducto.id) as keyof typeof COLOR_ESTADO_PRODUCTO];
           prd.imagen = environment.API_URL_VER_IMAGEN + prd.imagen;
           return prd;
         })

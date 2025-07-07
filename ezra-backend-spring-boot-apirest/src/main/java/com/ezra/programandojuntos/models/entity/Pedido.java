@@ -90,6 +90,15 @@ public class Pedido implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date adquiridoEn;
 	
+	@Column(name = "nom_apell_rz_envio")
+	private String nomApellRzEnvio;
+	
+	@Column(name = "direccion_envio")
+	private String direccionEnvio;
+	
+	@Column(name = "celular_envio")
+	private String celularEnvio;
+	
 	private String observacion;
 
 

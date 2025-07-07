@@ -19,8 +19,7 @@ const routes: Routes = [
   {
     path: 'listado-ventas',
     component: ListadoVentasComponent,
-    canActivate: [AuthGuard, RoleGuard],
-    data: { role: 'ROLE_LIST_VENTAS' }
+    canActivate: [AuthGuard],
   },
   {
     path: 'listado-compras',

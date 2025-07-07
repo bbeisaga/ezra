@@ -1,13 +1,18 @@
 package com.ezra.programandojuntos.models.entity;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 
 
 @Entity
 @Table(name = "cajas")
+@Data
 public class Caja  implements Serializable{
 
 	@Id
@@ -16,30 +21,9 @@ public class Caja  implements Serializable{
 	private String nombre;
 	private String ubicacion;
 	
-	
-	public Byte getId() {
-		return id;
-	}
-	
-	public void setId(Byte id) {
-		this.id = id;
-	}
-	
-	public String getNombre() {
-		return nombre;
-	}
-	
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	
-	public String getUbicacion() {
-		return ubicacion;
-	}
-	
-	public void setUbicacion(String ubicacion) {
-		this.ubicacion = ubicacion;
-	}
+	@JsonIgnoreProperties(value={"caja", "hibernateLazyInitializer", "handler"}, allowSetters=true)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "caja", cascade = CascadeType.ALL)
+	private List<CajaUsuario> cajaUsuarios;
 	
 
 	private static final long serialVersionUID = 1L;

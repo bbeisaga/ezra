@@ -185,6 +185,7 @@ public class ClienteServiceImpl implements IClienteService {
 		clienteActual.setTipoDocumento(cliente.getTipoDocumento());
 		clienteActual.setNumeroDocumento(cliente.getNumeroDocumento());
 		clienteActual.setDireccion(cliente.getDireccion());
+		clienteActual.setEmail(cliente.getEmail());
 		
 		if (cliente.getClave() != null && clienteActual.getUsuarioId()==null) {
 			List<Role> rolesDefault = roleDao.findAll().stream().filter(a -> a.getNombre().equals("ROLE_LIST_VENTAS")

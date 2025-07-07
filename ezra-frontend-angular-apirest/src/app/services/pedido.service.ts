@@ -63,6 +63,15 @@ export class PedidoService {
     });
   }
 
+    getPedidosClientePageable(params: any, clienteId: number): Observable<PageableResponse> {
+    return this.http.get<any>(`${environment.apiUrl}/pedidos/cliente/${clienteId}/pageable`, {
+      /*headers: this.agregarAuthorizationHeader(),*/
+      params: params,
+    });
+  }
+
+
+
   getAllEstadoPedido(): Observable<EstadoPedido[]> {
     return this.http.get<EstadoPedido[]>(`${environment.apiUrl}/pedidos/estado-pedido`
       /*, {headers: this.agregarAuthorizationHeader()} */
@@ -113,7 +122,7 @@ export class PedidoService {
   }
 
   createPedidoTienda(pedido: Pedido): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/pedidos-tienda`, pedido
+    return this.http.post<any>(`${environment.apiUrl}/pedidos`, pedido
     ).pipe(
       map((response: any) => response.pedido as Pedido),
       catchError(e => {
@@ -134,6 +143,11 @@ export class PedidoService {
       { observe: 'response', responseType: 'blob' as 'json' })
   }
 
+  downloadOrderToClienteInPDF(pedido: Pedido): Observable<HttpResponse<Blob>> {
+    return this.http.post<Blob>(`${environment.apiUrl}/pedidos/download-pdf`, pedido,
+      { observe: 'response', responseType: 'blob' as 'json' })
+  }
+ 
   /*   ceateReporteCompras(filtros: any): Observable<HttpResponse<Blob>>{
   
       return this.http.post<Blob>(`${environment.apiUrl}/pedidos/reporte/compras`, filtros,

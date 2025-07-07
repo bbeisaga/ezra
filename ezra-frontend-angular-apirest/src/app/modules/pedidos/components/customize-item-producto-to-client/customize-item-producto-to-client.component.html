@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col-12 col-md-6">
         <div class="row">
-            <div class="col">
+            <div class="col {{producto.estadoProducto.color}}">
                 <img [src]="verImagenProducto" [alt]="producto.imagen"
-                    class="img-fluid img-thumbnail rounded mx-auto d-block">
+                    class="img-fluid mx-auto d-block">
             </div>
         </div>
     </div>
@@ -21,9 +21,9 @@
             <li><b>Mínima cantidad en pedido: </b>{{producto.minCantidadPedido}} unidades. </li>
             <li><b>Máxima cantidad en pedido: </b>{{producto.maxCantidadPedido}} unidades. </li>
             <li><b>En grupos de: </b>{{producto.gruposDe}} unidades.</li>
-            <li><b>Fecha de precio de rebaja desde:</b>
+<!--             <li><b>Fecha de precio de rebaja desde:</b>
                 <br>{{producto.fechaPrecioRebajadoDesde}} hasta {{producto.fechaPrecioRebajadoHasta}}
-            </li>
+            </li> -->
         </ul>
         }
 

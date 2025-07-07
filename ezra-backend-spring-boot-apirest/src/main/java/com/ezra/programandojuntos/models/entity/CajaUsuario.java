@@ -43,9 +43,9 @@ public class CajaUsuario implements Serializable {
 
 	private boolean activa;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "caja_id")
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@JsonIgnoreProperties(value={"cajaUsuarios", "hibernateLazyInitializer", "handler"}, allowSetters=true)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Caja caja;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

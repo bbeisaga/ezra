@@ -1,5 +1,7 @@
 package com.ezra.programandojuntos.controllers;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +34,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ezra.programandojuntos.dto.report.FiltrosArrayReporte;
 import com.ezra.programandojuntos.dto.report.FiltrosReporte;
 import com.ezra.programandojuntos.dto.report.Report;
+import com.ezra.programandojuntos.dto.report.ReportArray;
 import com.ezra.programandojuntos.enums.SortActivePedido;
 import com.ezra.programandojuntos.enums.SortDirection;
 import com.ezra.programandojuntos.enums.TypeFile;
@@ -43,6 +47,10 @@ import com.ezra.programandojuntos.models.entity.Pedido;
 import com.ezra.programandojuntos.models.entity.TipoPedido;
 import com.ezra.programandojuntos.models.services.IPedidoService;
 import com.ezra.programandojuntos.util.StorageUtil;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfWriter;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -99,7 +107,8 @@ public class PedidoRestController {
 								@RequestParam int pageSize, 
 								@RequestParam SortActivePedido active,
 								@RequestParam SortDirection direction,
-								@RequestParam String query, @PathVariable Long tipoPedidoId) {
+								@RequestParam String query, 
+								@PathVariable Long tipoPedidoId) {
 		
         log.debug("PedidoRestController.listarPedidoAllPageable...(pageSize: {}, pageNumber: {}, query{}) ", pageSize, pageNumber, query );
        
@@ -114,6 +123,31 @@ public class PedidoRestController {
 					Sort.by(active.getValue()).ascending());
         }
 		return pedidoService.findAllPedidoPageable(query,tipoPedidoId, pageable);
+	}
+	
+	//@Secured({"ROLE_ADMIN", "ROLE_USER"})
+	@GetMapping("/pedidos/cliente/{clienteId}/pageable")
+	public Page<Pedido> listarPedidoClientePageable(
+								@RequestParam int pageNumber, 
+								@RequestParam int pageSize, 
+								@RequestParam SortActivePedido active,
+								@RequestParam SortDirection direction,
+								@RequestParam String query, 
+								@PathVariable Long clienteId) {
+		
+        log.debug("PedidoRestController.listarPedidoAllPageable...(pageSize: {}, pageNumber: {}, query{}) ", pageSize, pageNumber, query );
+       
+//      Pageable pageRequest = PageRequest.of(pageNumber, pageSize,
+//					Sort.by(direction.toString() ,active.getValue()));
+        Pageable pageable = null;
+        if(direction.getValue()=="desc") {
+        	pageable = PageRequest.of(pageNumber, pageSize,
+					Sort.by(active.getValue()).descending());
+        } else {
+        	pageable = PageRequest.of(pageNumber, pageSize,
+					Sort.by(active.getValue()).ascending());
+        }
+		return pedidoService.findPedidoClientePageable(query,clienteId, pageable);
 	}
 	
 	
@@ -158,26 +192,26 @@ public class PedidoRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	@PostMapping("/pedidos-tienda")
-	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<?> crearPedidoTienda(@RequestBody Pedido pedido) {
-		Pedido pedidoNew = null;
-		Map<String, Object> response = new HashMap<>();
-		try {
-			pedidoNew = pedidoService.registrarPedido(pedido);
-			response.put("mensaje", "El pedido ha sido actualizado con éxito!");
-			response.put("pedido", pedidoNew);
-		} catch (DataAccessException de) {
-			response.put("mensaje", "Error al crear el pedido en la base de datos");
-			response.put("err", de.getMessage().concat(": ").concat(de.getMostSpecificCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		} catch(PedidoExceptions pe) {
-			response.put("mensaje", pe.getMessage());
-			response.put("err", "Error");
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
-	}
+//	@PostMapping("/pedidos-tienda")
+//	@ResponseStatus(HttpStatus.CREATED)
+//	public ResponseEntity<?> crearPedidoTienda(@RequestBody Pedido pedido) {
+//		Pedido pedidoNew = null;
+//		Map<String, Object> response = new HashMap<>();
+//		try {
+//			pedidoNew = pedidoService.registrarPedido(pedido);
+//			response.put("mensaje", "El pedido ha sido actualizado con éxito!");
+//			response.put("pedido", pedidoNew);
+//		} catch (DataAccessException de) {
+//			response.put("mensaje", "Error al crear el pedido en la base de datos");
+//			response.put("err", de.getMessage().concat(": ").concat(de.getMostSpecificCause().getMessage()));
+//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//		} catch(PedidoExceptions pe) {
+//			response.put("mensaje", pe.getMessage());
+//			response.put("err", "Error");
+//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+//	}
 	
 	//@Secured("ROLE_ADMIN")
 	@PutMapping("/pedidos/{id}")
@@ -254,6 +288,35 @@ public class PedidoRestController {
         		.header( HttpHeaders.CONTENT_DISPOSITION, 
         				"attachment; filename=" + nombreArchivo)
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(file);
+    }
+	
+	@PostMapping("/pedidos/download-pdf")
+    public ResponseEntity<?> descargarPedidoClientePdf(@Valid  @RequestBody Pedido pedido, BindingResult result) {
+		
+		Map<String, Object> response = new HashMap<>();
+		if(result.hasErrors()) {
+			List<String> errors = result.getFieldErrors()
+					.stream()
+					.map(err -> "El campo '" + err.getField() +"' "+ err.getDefaultMessage())
+					.collect(Collectors.toList());
+			response.put("errors", errors);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+		}
+		
+//        ReportArray report = new ReportArray.Builder()
+//				.name(params.getNombre())
+//				.type(TypeFile.valueOf(params.getTipo()))
+//				.parameter(params.getFiltros())
+//				.build();
+        
+        
+        final String  nombreArchivo = pedido.getCliente().getNomApellRz().replace(" ", "").concat(".pdf");
+        InputStreamResource file = new InputStreamResource(pedidoService.downloadOrderClienteToPdf(pedido));
+        return ResponseEntity.ok()
+        		.header( HttpHeaders.CONTENT_DISPOSITION, 
+        				"attachment; filename=" + nombreArchivo)
+                .contentType(MediaType.parseMediaType("application/pdf"))
                 .body(file);
     }
 	

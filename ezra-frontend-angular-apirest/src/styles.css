@@ -2,17 +2,24 @@
 
 @import './app/styles/app.scss';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
 
-.mat-mdc-form-field  {
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-mdc-form-field {
   font-size: 14px;
   width: 100%;
 }
 
 .celda-estado {
-  padding: 0 0.5rem ;
-  border-radius: 0.8rem ;
+  padding: 0 0.5rem;
+  border-radius: 0.8rem;
   color: #fff;
   text-align: center;
   display: block;
@@ -20,29 +27,146 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 }
 
-.caja-cerrada{
-  background-color:rgb(233, 66, 109);
-}
-.caja-abierta{
-  background-color:rgb(91, 197, 0);
+.caja-cerrada {
+  background-color: rgb(233, 66, 109);
 }
 
-.pendiente{
-  background-color:#1086b1;
+.caja-abierta {
+  background-color: rgb(91, 197, 0);
 }
 
-.devuelto{
-  background-color:#EC624B;
+/* ESTADOS DE PEDIDO */
+.pendiente {
+  background-color: #1086b1;
 }
-.vencido{
-  background-color:rgb(233, 66, 109);
+
+.devuelto {
+  background-color: #EC624B;
 }
-.entregado{
-  background-color:rgb(91, 197, 0);
+
+.vencido {
+  background-color: rgb(233, 66, 109);
 }
-.cancelado{
-  background-color:rgb(120, 120, 120);
+
+.entregado {
+  background-color: rgb(91, 197, 0);
 }
-.adquirido{
-  background-color:rgb(91, 197, 0);
+
+.cancelado {
+  background-color: rgb(120, 120, 120);
+}
+
+.adquirido {
+  background-color: rgb(91, 197, 0);
+}
+
+/* ESTADO DE PRODUCTO*/
+.nuevo {
+  position: relative;
+
+  img {
+    border-radius: 0 10px 0px 0px;
+  }
+
+  &::before {
+    content: 'NUEVO';
+    display: block;
+    width: 30%;
+    background-color: rgb(91, 197, 0);
+    height: auto;
+    position: absolute;
+    font-weight: bolder;
+    font-style: italic;
+    color: white;
+    text-align: center;
+    padding: 3px 5px;
+  }
+}
+
+.por-agotarse {
+  position: relative;
+
+  img {
+    border-radius: 0 10px 0px 0px;
+  }
+
+  &::before {
+    content: 'POR AGOTARSE';
+    display: block;
+    width: 40%;
+    background-color: #EC624B;
+    height: auto;
+    position: absolute;
+    font-weight: bolder;
+    font-style: italic;
+    color: white;
+    text-align: center;
+    padding: 3px 5px;
+  }
+}
+
+.agotado {
+  position: relative;
+
+  img {
+    border-radius: 0 10px 0px 0px;
+  }
+
+  &::before {
+    content: 'AGOTADO';
+    display: block;
+    width: 30%;
+    background-color: red;
+    height: auto;
+    position: absolute;
+    font-weight: bolder;
+    font-style: italic;
+    color: white;
+    text-align: center;
+    padding: 3px 5px;
+  }
+}
+
+.proximo {
+  position: relative;
+
+  img {
+    border-radius: 0 10px 0px 0px;
+  }
+
+  &::before {
+    content: 'PRÓXIMO';
+    display: block;
+    width: 30%;
+    background-color: #1086b1;
+    height: auto;
+    position: absolute;
+    font-weight: bolder;
+    font-style: italic;
+    color: white;
+    text-align: center;
+    padding: 3px 5px;
+  }
+}
+
+.en-stock {
+/*   position: relative;
+ */
+  img {
+    border-radius: 0 10px 0px 0px;
+  }
+
+/*   &::before {
+    content: 'PRÓXIMO';
+    display: block;
+    width: 30%;
+    background-color: #1086b1;
+    height: auto;
+    position: absolute;
+    font-weight: bolder;
+    font-style: italic;
+    color: white;
+    text-align: center;
+    padding: 3px 5px;
+  } */
 }

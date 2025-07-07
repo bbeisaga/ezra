@@ -152,7 +152,7 @@
                             </ul>
                         </td>
                         <td> <textarea name="descripcion" class="form-control" [ngStyle]="{'resize': 'none'}"
-                                maxlength="250" [value]="item.descripcion" rows="3"></textarea></td>
+                                maxlength="250" [value]="item.descripcion" rows="3" (change)="actualizarDescripcion(item.producto.id, $event)"></textarea></td>
                         <td>
                             <input style="width:80px" type="number" name="cantidad" aria-describedby="cantidad"
                                 [step]="item.producto.gruposDe.toString()"
@@ -200,7 +200,7 @@
         </div>
     </div>
     <div class="row mb-2">
-        @if(lstItemPedido.length > 0 && authService.hasRole('ROLE_CREATE_PEDIDO_TIENDA')){
+        @if(lstItemPedido.length > 0 && authService.hasRole('ROLE_CREATE_PEDIDO')){
         <button type="submit" class="btn btn-dark btn-lg" [disabled]="!pedidoTiendaForm.form.valid">Finalizar
             pedido</button>
 

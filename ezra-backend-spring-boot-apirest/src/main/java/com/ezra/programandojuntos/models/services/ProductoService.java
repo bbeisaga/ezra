@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ezra.programandojuntos.dto.ProductoDto;
 import com.ezra.programandojuntos.models.entity.Categoria;
 import com.ezra.programandojuntos.models.entity.Color;
+import com.ezra.programandojuntos.models.entity.EstadoProducto;
+import com.ezra.programandojuntos.models.entity.ItemPedido;
 import com.ezra.programandojuntos.models.entity.Material;
 import com.ezra.programandojuntos.models.entity.Producto;
 import com.ezra.programandojuntos.models.entity.Uso;
@@ -32,13 +34,19 @@ public interface ProductoService {
 	
 	public List<Uso> findAllUsos();
 	
+	public List<EstadoProducto> findAllEstadoProducto();
+	
 	//public Producto crear(Producto producto);
 	
-	public Producto crearConImagen(Producto producto, MultipartFile archivo) throws IOException ;
+	public Producto crearConImagen(Producto producto, MultipartFile archivo, boolean clienteOnline) throws IOException ;
 	
 	//public Producto actualizar(Producto producto, Long id);
 	
-	public Producto actualizarConImagen(Producto producto, MultipartFile archivo, Long id) throws IOException;
+	public Producto actualizarConImagen(Producto producto, MultipartFile archivo, Long id, boolean clienteOnline) throws IOException;
+	
+	public Producto actualizarExistenciasEstado(Producto producto, ItemPedido item, Long tipoPedidoId);
+	
+	public Producto actualizarCostoPrecio(Producto producto, ItemPedido item) ;
 	
 	public Producto guardar(Producto producto);
 	
