@@ -163,14 +163,22 @@ export class MovimientoComponent implements OnInit {
 
     this.movimiento.cajaUsuario = { ...this.cajaUsuario }
     //console.log("onSubmitForm...", this.movimiento);
-    this.movimientoService.createMovimiento(this.movimiento).pipe(
-      concatMap(mov => this.pedidoService.downloadOrderToClienteInPDF(mov.pedido))
-    ).subscribe(response => {
-        this.alertService.success(`Movimiento realizado con éxito, se esta descargando su orden...!`, this.titulo)
+    if (this.pedido.tipoPedido.nombre == "VENTA AL CLIENTE") {
+      this.movimientoService.createMovimiento(this.movimiento).pipe(
+        concatMap(mov => this.pedidoService.downloadOrderToClienteInPDF(mov.pedido))
+      ).subscribe(response => {
+        this.alertService.success(`Venta pagada con éxito, se esta descargando su orden...!`, this.titulo)
         fileSaver.saveAs(response.body!,
           this.pedidoService.filenameFromHeader(response.headers)) //utilidad pra qeu descargue automaticamente
-                    this.router.navigate(['/pedidos']);
+        this.router.navigate(['/pedidos/listado-ventas']);
       })
+    }
+        if (this.pedido.tipoPedido.nombre == "COMPRA O ADQUISICION") {
+      this.movimientoService.createMovimiento(this.movimiento).subscribe(response => {
+        this.alertService.success(`Compra pagada realizada con éxito!`, this.titulo)
+        this.router.navigate(['/pedidos/listado-compras']);
+      })
+    }
   }
 }
 

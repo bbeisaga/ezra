@@ -88,7 +88,8 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/pedidos/tipo-pedido/{tipoPedidoId}").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/pedidos/{tipoPedidoId}/pageable").hasAnyRole("LIST_VENTAS", "LIST_COMPRAS")
 			   .requestMatchers(HttpMethod.GET,"api/pedidos/cliente/{clienteId}/pageable").hasRole("LIST_MY_ORDERS")
-			   .requestMatchers(HttpMethod.POST,"api/pedidos").hasRole("CREATE_PEDIDO") 
+			   
+			   .requestMatchers(HttpMethod.POST,"api/pedidos").hasAnyRole("CREATE_VENTA", "CREATE_COMPRA")
 			 //  .requestMatchers(HttpMethod.POST,"api/pedidos/download-pdf").hasAnyRole("DOWNLOAD_PEDIDO_PDF") 
 			   .requestMatchers(HttpMethod.POST,"api/pedidos/download-pdf").permitAll()
 
@@ -127,8 +128,9 @@ public class SpringSecurityConfig {
 				 //Permisos par alas URLs de PRODUCTOS
 			   .requestMatchers(HttpMethod.GET,"api/productos").permitAll() //esto es consulta libre
 			   .requestMatchers(HttpMethod.GET,"api/productos/categoria/{id}").permitAll() //esto es consulta libre
-			   .requestMatchers(HttpMethod.GET,"api/producto/{id}").permitAll()//esto es consulta lbre
-
+			   .requestMatchers(HttpMethod.GET,"api/producto/id/{id}").permitAll()//esto es consulta lbre
+			   .requestMatchers(HttpMethod.GET,"api/producto/codigo/{codigo}").permitAll()//esto es consulta lbre
+			   .requestMatchers(HttpMethod.GET,"api/productos/servicio/envio").permitAll()//esto es consulta lbre
 			   .requestMatchers(HttpMethod.GET,"api/producto/colores").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/producto/materiales").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/producto/categorias").permitAll()
@@ -140,6 +142,9 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.POST,"api/producto/imagen").hasRole("REGISTER_PRODUCTO") 
 			   .requestMatchers(HttpMethod.PUT,"api/producto/{id}").hasRole("UPDATE_PRODUCTO")
 			   .requestMatchers(HttpMethod.DELETE,"api/producto/{id}").hasRole("DELETE_PRODUCTO")
+
+			   //tabla margenes del producto
+			   .requestMatchers(HttpMethod.DELETE,"api/margen/{id}").hasRole("DELETE_MARGEN_PRODUCTO")
 
 			   //Permisos para las URLs de USUARIOS
 			   .requestMatchers(HttpMethod.GET,"api/usuarios").permitAll()

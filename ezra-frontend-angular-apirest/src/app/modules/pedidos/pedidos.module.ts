@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { PedidosRoutingModule } from './pedidos-routing.module';
 import { CompartidoModule } from '../compartido/compartido.module';
-import { DetallePedidoVentaComponent } from './components/detalle-pedido-venta.component';
-import { DetallePedidoCompraComponent } from './components/detalle-pedido-compra.component';
-import { FormPedidoComponent } from './components/form-pedido.component';
+import { DetallePedidoVentaComponent } from './components/detalle-pedido-venta/detalle-pedido-venta.component';
+import { DetallePedidoCompraComponent } from './components/detalle-pedido-compra/detalle-pedido-compra.component';
 import { RptePedidoComponent } from './reportes/rpte-pedido/rpte-pedido.component';
 import { DetalleItemPedidoComponent } from './components/detalle-item-pedido/detalle-item-pedido.component';
 import { ListadoVentasComponent } from './pages/listado-ventas/listado-ventas.component';
@@ -19,7 +18,6 @@ import { PedidoClienteFinalizadoComponent } from './components/pedido-finalizado
 
 @NgModule({
   declarations: [
-    FormPedidoComponent,
     ListadoVentasComponent,
     ListadoComprasComponent,
     DetallePedidoVentaComponent,

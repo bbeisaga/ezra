@@ -1,8 +1,16 @@
-import { FormControl, FormGroup, NgModel } from '@angular/forms';
+import { ControlContainer, FormArray, FormControl, FormGroup, NgModel, ValidationErrors } from '@angular/forms';
 export class FormUtils {
 
   static isValidField(form: FormGroup, fieldName: string): boolean | null {
     return (form.controls[fieldName].errors && form.controls[fieldName].touched)
+  }
+
+/*    static isValidFieldFormArray(form:FormArray<any>, index: number, fieldName: string): boolean | null {
+    return (form.controls[index].get(fieldName)?.errors)
+  }  */
+
+  static isValidFieldFp(formControl: NgModel): boolean | null {
+    return (formControl.invalid && (formControl.dirty || formControl.touched))
   }
 
   static getFieldError(form: FormGroup, fieldName: string): string | null {
@@ -20,9 +28,7 @@ export class FormUtils {
     return null;
   }
 
-  static isValidFieldFp(formControl: NgModel): boolean | null {
-    return (formControl.invalid && (formControl.dirty || formControl.touched))
-  }
+
 
   static getFieldErrorFp(formControl: NgModel): string | null {
     if (!formControl) return null;

@@ -2,9 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule, CanActivate } from '@angular/router';
 import { ListadoVentasComponent } from './pages/listado-ventas/listado-ventas.component';
 import { ListadoComprasComponent } from './pages/listado-compras.component';
-import { FormPedidoComponent } from './components/form-pedido.component';
-import { DetallePedidoVentaComponent } from './components/detalle-pedido-venta.component';
-import { DetallePedidoCompraComponent } from './components/detalle-pedido-compra.component';
+import { DetallePedidoVentaComponent } from './components/detalle-pedido-venta/detalle-pedido-venta.component';
+import { DetallePedidoCompraComponent } from './components/detalle-pedido-compra/detalle-pedido-compra.component';
 import { RptePedidoComponent } from './reportes/rpte-pedido/rpte-pedido.component';
 import { RoleGuard } from '../../guards/role.guard';
 import { AuthGuard } from '../../guards/auth.guard';
@@ -40,7 +39,7 @@ const routes: Routes = [
     path: 'item-producto-cliente-tienda/:clienteId',
     component: ItemProductoClienteTiendaComponent,
     canActivate: [AuthGuard, RoleGuard],
-    data: { role: 'ROLE_CREATE_PEDIDO' }
+    data: { role: 'ROLE_CREATE_VENTA' }
   },
 
     {

@@ -17,6 +17,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormUtils } from '../../../../utils/form-utils';
 import moment from 'moment';
 import { ChatUtils } from '../../../../utils/chat-utils';
+import { Producto } from '../../../../models/producto';
+import { ProductoService } from '../../../../services/producto.service';
+import { SERVICIO_ENTREGA_CIUDAD, SERVICIO_ENTREGA_LOCAL } from '../../../../constants/constantes';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'pedido-cliente-finalizado',
@@ -30,6 +34,8 @@ export class PedidoClienteFinalizadoComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private clienteService = inject(ClienteService);
   private pedidoService = inject(PedidoService);
+  private productoService = inject(ProductoService);
+
   private router = inject(Router);
 
 
@@ -42,18 +48,24 @@ export class PedidoClienteFinalizadoComponent implements OnInit {
   tipoPedidoVentaClientes!: TipoPedido;
   tipoPedidos: TipoPedido[] = [];
 
-  lstItemPedido: ItemPedido[] = [];
+  items: ItemPedido[] = [];
+  item = new ItemPedido();
+  serviciosEnvio: Producto[] = [];
   formUtils = FormUtils;
   chatUtils = ChatUtils;
   total: number = 0;
   clienteOnline!: boolean;
+  isEnvio: boolean = false;
+  formaEnvio!: string;
+  SERVICIO_ENTREGA_LOCAL = SERVICIO_ENTREGA_LOCAL;
+  SERVICIO_ENTREGA_CIUDAD = SERVICIO_ENTREGA_CIUDAD;
 
 
   constructor() {
     this.itemServiceSuscription$ = this.itemService.getItems().subscribe({
       next: items => {
-        this.lstItemPedido = items;
-        console.log("this.lstItemPedido", this.lstItemPedido)
+        //this.items = items;
+        this.items = this.itemService.importePorMargenCantidad(items);
         this.calcularTotal();
       },
       error: error => {
@@ -86,10 +98,15 @@ export class PedidoClienteFinalizadoComponent implements OnInit {
       this.clienteOnline = value ? value.toLocaleLowerCase() === 'true' : false;
     })
 
-    if (this.lstItemPedido.length === 0) {
-      this.lstItemPedido = this.itemService.getLocalStorageItems();
+    if (this.items.length === 0) {
+      this.items = this.itemService.importePorMargenCantidad(this.itemService.getLocalStorageItems());
       this.calcularTotal();
     }
+
+    this.productoService.getLstProductoServicioEnvio().subscribe(resp => {this.serviciosEnvio = resp
+    console.log("this.serviciosEnvio",this.serviciosEnvio);
+
+    });
 
     this.pedidoService.getAllTipoPedido().subscribe(result => {
       this.tipoPedidos = result
@@ -98,6 +115,8 @@ export class PedidoClienteFinalizadoComponent implements OnInit {
       )
       this.tipoPedidoVentaClientes = this.tipoPedidos[0];
     });
+
+    //this.productoService.getLstProductoServicio().subscribe(resp=> this.lstProductoServicio=resp);
   }
 
   findIndexDocument(tipoDocumentoId: number): number {
@@ -105,40 +124,41 @@ export class PedidoClienteFinalizadoComponent implements OnInit {
   }
 
   calcularTotal() {
-    this.total = this.itemService.calculateTotalFromItems(this.lstItemPedido)
+    this.total = this.itemService.calculateTotalFromItems(this.items)
   }
 
   eliminarItemPedido(id: number): void {
-    this.lstItemPedido = this.itemService.deleteItemFromItems(this.lstItemPedido, id);
-    this.itemService.setItems(this.lstItemPedido);
-    this.itemService.saveLocalStorageItems(this.lstItemPedido);
+    this.items = this.itemService.deleteItemFromItems(this.items, id);
+    this.itemService.setItems(this.items);
+    this.itemService.saveLocalStorageItems(this.items);
   }
 
   actualizarDescripcion(productoId: number, event: any): void {
     const descripcion: string = event.target.value;
-    this.lstItemPedido = this.itemService.UpdateDescripcionItemFromItemsCliete(this.lstItemPedido, productoId, descripcion);
-    this.itemService.setItems(this.lstItemPedido);
-    this.itemService.saveLocalStorageItems(this.lstItemPedido);
+    this.items = this.itemService.UpdateDescripcionItemFromItemsCliete(this.items, productoId, descripcion);
+    this.itemService.setItems(this.items);
+    this.itemService.saveLocalStorageItems(this.items);
   }
 
   actualizarCantidad(productoId: number, event: any): void {
+    debugger;
     const cantidad: number = parseInt(event.target.value);
-    this.lstItemPedido = this.itemService.UpdateAmountItemFromItems(this.lstItemPedido, productoId, cantidad);
-    this.itemService.setItems(this.lstItemPedido);
-    this.itemService.saveLocalStorageItems(this.lstItemPedido);
+    this.items = this.itemService.UpdateAmountItemFromItems(this.items, productoId, cantidad);
+    this.itemService.setItems(this.items);
+    this.itemService.saveLocalStorageItems(this.items);
   }
 
   actualizarImporte(productoId: number, event: any): void {
     const precio: number = parseFloat(event.target.value);
-    this.lstItemPedido = this.itemService.UpdatePrecioItemFromItemsCliete(this.lstItemPedido, productoId, precio);
+    this.items = this.itemService.UpdatePrecioItemFromItemsCliete(this.items, productoId, precio);
     this.calcularTotal();
 
-    this.itemService.setItems(this.lstItemPedido);
-    this.itemService.saveLocalStorageItems(this.lstItemPedido);
+    this.itemService.setItems(this.items);
+    this.itemService.saveLocalStorageItems(this.items);
   }
 
   crearPedidoTienda(pedidoTiendaForm: NgForm) {
-    this.pedido.items = [...this.lstItemPedido];
+    this.pedido.items = [...this.items];
     if (pedidoTiendaForm.form.valid && this.pedido.items.length > 0) {
       this.calcularTotal();
       this.pedido.precioNetoTotal = this.total
@@ -152,6 +172,56 @@ export class PedidoClienteFinalizadoComponent implements OnInit {
           this.router.navigate(['/movimientos']);
         }
       });
+    }
+  }
+
+  addItemsServicioEnvio(event: any, formaEnvio: string) {
+    //debugger;
+
+    this.isEnvio = event.target.checked;
+    //this.formaEnvio = SERVICIO_ENTREGA_LOCAL;
+    let servicioSelected = this.serviciosEnvio.filter(ser => ser.codigo == formaEnvio);
+    let servicioNoSelected = this.serviciosEnvio.filter(ser => ser.codigo != formaEnvio);
+    this.formaEnvio = formaEnvio;
+
+    //console.log(formaEnvio);
+    if (this.isEnvio) {
+      console.log(servicioSelected[0].minCantidadPedido);
+      this.item.cantidad = servicioSelected[0].minCantidadPedido;
+      this.item.descripcion = servicioSelected[0].descripcion;
+      this.item.producto = { ...servicioSelected[0] };
+      this.item.imagenUri = environment.API_URL_VER_IMAGEN + this.item.imagen
+
+      if (this.itemService.existItemInItems(this.items, servicioNoSelected[0].id)) {
+        this.items = this.itemService.deleteItemFromItems(this.items, this.item.producto.id);
+        this.itemService.setItems(this.items);
+        this.itemService.saveLocalStorageItems(this.items);
+      }
+
+      if (!this.itemService.existItemInItems(this.items, this.item.producto.id)
+        && this.item.cantidad <= this.item.producto.maxCantidadPedido) {
+        this.items = [...this.items, { ...this.item }];
+        this.itemService.setItems(this.items);
+        this.itemService.saveLocalStorageItems(this.items);
+      }
+
+    } else {
+      this.pedido.direccionEnvio="";
+      this.pedido.celularEnvio="";
+      this.pedido.nomApellRzEnvio="";
+      this.serviciosEnvio.forEach(servicio => {
+        if (this.itemService.existItemInItems(this.items, servicio.id)) {
+          this.items = this.itemService.deleteItemFromItems(this.items, this.item.producto.id);
+          this.itemService.setItems(this.items);
+          this.itemService.saveLocalStorageItems(this.items);
+        }
+      })
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.itemServiceSuscription$) {
+      this.itemServiceSuscription$.unsubscribe();
     }
   }
 

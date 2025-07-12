@@ -19,6 +19,7 @@ import { Origen } from '../models/origen';
 import { Producto } from '../models/producto';
 import { Uso } from '../models/uso';
 import { AlertService } from './alert.service';
+import { MargenProducto } from '../models/margen-producto';
 
 @Injectable({
   providedIn: 'root'
@@ -166,7 +167,35 @@ export class ProductoService {
   }
 
   getProducto(id: any): Observable<Producto> {
-    return this.http.get<Producto>(`${environment.apiUrl}/producto/${id}`
+    return this.http.get<Producto>(`${environment.apiUrl}/producto/id/${id}`
+      /*, {headers: this.agregarAuthorizationHeader()}*/
+    ).pipe(
+      catchError(e => {
+        if (e.status != 401 && e.error.mensaje) {
+         // this.router.navigate(['/productos']);
+          console.error(e.error.mensaje);
+        }
+
+        return throwError(e);
+      }));
+  }
+
+    getProductoByCod(codigo: string): Observable<Producto> {
+    return this.http.get<Producto>(`${environment.apiUrl}/producto/codigo/${codigo}`
+      /*, {headers: this.agregarAuthorizationHeader()}*/
+    ).pipe(
+      catchError(e => {
+        if (e.status != 401 && e.error.mensaje) {
+         // this.router.navigate(['/productos']);
+          console.error(e.error.mensaje);
+        }
+
+        return throwError(e);
+      }));
+  }
+
+    getLstProductoServicioEnvio(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${environment.apiUrl}/productos/servicio/envio`
       /*, {headers: this.agregarAuthorizationHeader()}*/
     ).pipe(
       catchError(e => {
@@ -196,6 +225,18 @@ export class ProductoService {
 
   deleteProducto(id: number): Observable<Producto> {
     return this.http.delete<Producto>(`${environment.apiUrl}/producto/${id}`
+      /*, {headers: this.agregarAuthorizationHeader()}*/
+    ).pipe(
+      catchError(e => {
+        if (e.error.mensaje) {
+          console.error(e.error.mensaje);
+        }
+        return throwError(e);
+      }));
+  }
+
+    deleteMargenProducto(id: number): Observable<MargenProducto> {
+    return this.http.delete<MargenProducto>(`${environment.apiUrl}/margenes/${id}`
       /*, {headers: this.agregarAuthorizationHeader()}*/
     ).pipe(
       catchError(e => {

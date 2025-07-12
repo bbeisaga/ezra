@@ -15,7 +15,7 @@
             Iniciar sesión</button>
         }
         @if (!isAutenticado()) {
-        <button type="button" [routerLink]="['/crear-cuenta']" class="btn btn-primary">Crear
+        <button type="button" [routerLink]="['/crear-cuenta']" class="btn btn-warning">Crear
             cuenta</button>
         }
         @if (isAutenticado()) {

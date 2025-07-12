@@ -84,7 +84,7 @@
         </div>
     </div>
     <div class="row mb-2">
-        @if(lstItemPedido.length > 0 && authService.hasRole('ROLE_CREATE_PEDIDO_TIENDA')){
+        @if(lstItemPedido.length > 0 && authService.hasRole('ROLE_CREATE_COMPRA')){
         <button type="submit" class="btn btn-dark btn-lg" [disabled]="!pedidoTiendaForm.form.valid">Finalizar
             pedido</button>
 

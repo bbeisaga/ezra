@@ -8,10 +8,9 @@
          <img class="col-4" [src]="item.imagenUri" alt={{item.imagen}} />
     </div>
     <div class="row">
-        <div class="col-3 d-flex align-items-center">
-            {{item.producto.precioNeto| currency:'PEN'}}
-            <!--                 {{item.producto.costoUnitario|currency:'PEN'}}  -->
-        </div>
+         <div class="col-3 d-flex align-items-center">
+            {{item.producto.precioNetoNumberShow | currency: 'PEN'}}
+        </div> 
         <div class="col-4 d-flex align-items-center">
             <span id="cantidad">#</span>
             <input type="number" name="cantidad" aria-describedby="cantidad" [step]="item.producto.gruposDe.toString()"
@@ -41,7 +40,7 @@
 
 <div class="row">
     <div class="col-12 d-flex justify-content-center">
-        @if(lstItemPedido.length > 0 && authService.hasRole('ROLE_CREATE_PEDIDO') &&
+        @if(lstItemPedido.length > 0 && authService.hasRole('ROLE_CREATE_VENTA') &&
         authService.isAuthenticated()){
         <button (click)="irRealizarPedido()" class="btn btn-warning">Realizar el pedido</button>
         } @else {

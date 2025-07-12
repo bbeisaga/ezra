@@ -55,9 +55,11 @@ export class MediosUtilsService {
     }
   }
 
-  subirImagen(file: File): Observable<any> {
+  subirImagen(file: File, cleinteOnline: boolean): Observable<any> {
     let formData = new FormData();
     formData.append("archivo", file);
+    formData.append("clienteOnline", cleinteOnline.toString());
+
     let httpHeaders = new HttpHeaders()
     let token = this.authService.token;
     if (token != null) {

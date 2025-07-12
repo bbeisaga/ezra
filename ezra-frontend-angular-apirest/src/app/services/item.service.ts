@@ -36,7 +36,7 @@ export class ItemService {
       //if (productoId === item.producto.id) {
       // ++item.cantidad;
       item.cantidad = cantidad;
-      item.importe = cantidad * item.producto.precioNeto;
+      //item.importe = cantidad * item.producto.precioNeto;
       //}
       return item;
     });
@@ -52,8 +52,6 @@ export class ItemService {
     items = items.map((item: ItemPedido) => {
       if (productoId === item.producto.id) {
         item.cantidad = cantidad;
-        // parseFloat(item.cantidad.toString()) < 0 ? item.cantidad = 0 : item.cantidad;
-        item.importe = item.cantidad * item.producto.precioNeto;
       }
       return item;
     });
@@ -113,7 +111,10 @@ export class ItemService {
     items = items.map((item: ItemPedido) => {
       if (productoId === item.producto.id) {
         item.cantidad += cantidad;
-        item.importe = item.cantidad * item.producto.precioNeto;
+        //si excede la cantidad maxima del pedido lo quita
+        if (item.cantidad > item.producto.maxCantidadPedido) {
+          item.cantidad -= cantidad;
+        }
       }
       return item;
     });
@@ -121,25 +122,30 @@ export class ItemService {
     return items
   }
 
-  /*   UpdateAmountItem(item: ItemPedido, productoId: number, cantidad: number): Array<ItemPedido> {
-      if (cantidad == 0) {
-        return this.delteItemFromItems(items, productoId);
-      }
-      items = items.map((item: ItemPedido) => {
-        if (productoId === item.producto.id) {
-          item.cantidad = cantidad;
-          item.importe = cantidad * item.producto.precioNeto;
-        }
-        return item;
-      });
-  
-      return items
-    } */
 
   deleteItemFromItems(items: Array<ItemPedido>, productoId: number): Array<ItemPedido> {
     const indice = findIndex(items, (item: ItemPedido) => item.producto.id === productoId);
     //return items = items.filter((item: ItemPedido) => productoId !== item.producto.id);
     return items.splice(indice, 1) ? items : [];
+  }
+
+  importePorMargenCantidad(items: ItemPedido[]) {
+    return items.map(item => {
+      for (let margen of item.producto.margenesProducto) {
+        if (margen.maxCantidad &&
+          (item.cantidad >= margen.minCantidad) &&
+          (item.cantidad <= margen.maxCantidad)) {
+          item.producto.precioNetoNumberShow = margen.precioNeto;
+          item.importe = item.cantidad * margen.precioNeto;
+        }
+        if (!margen.maxCantidad &&
+          (item.cantidad >= margen.minCantidad)) {
+          item.producto.precioNetoNumberShow = margen.precioNeto;
+          item.importe = item.cantidad * margen.precioNeto;
+        }
+      }
+      return item;
+    })
   }
 
   //cacula el total del un array de tipo items

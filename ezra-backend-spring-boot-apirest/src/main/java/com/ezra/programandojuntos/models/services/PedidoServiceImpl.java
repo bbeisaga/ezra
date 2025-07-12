@@ -6,7 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.poi.hssf.util.HSSFColor.HSSFColorPredefined;
-import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -30,14 +29,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ezra.programandojuntos.dto.PedidoReporte;
 import com.ezra.programandojuntos.dto.report.Report;
-import com.ezra.programandojuntos.dto.report.ReportArray;
 import com.ezra.programandojuntos.enums.TipoPedidoEnum;
 import com.ezra.programandojuntos.errors.PedidoMapErrors;
 import com.ezra.programandojuntos.exceptions.PedidoExceptions;
 import com.ezra.programandojuntos.models.dao.IClienteDao;
 import com.ezra.programandojuntos.models.dao.IPedidoDao;
 import com.ezra.programandojuntos.models.dao.IProductoDao;
-import com.ezra.programandojuntos.models.entity.Cliente;
 import com.ezra.programandojuntos.models.entity.EstadoPedido;
 import com.ezra.programandojuntos.models.entity.ItemPedido;
 import com.ezra.programandojuntos.models.entity.Movimiento;
@@ -75,7 +72,7 @@ public class PedidoServiceImpl implements IPedidoService {
 
 	@Autowired
 	private IClienteDao clienteDao;
-	
+
 	@Autowired
 	private IClienteService clienteService;
 
@@ -84,7 +81,7 @@ public class PedidoServiceImpl implements IPedidoService {
 
 	@Autowired
 	private IProductoDao productoDao;
-	
+
 	@Autowired
 	private ProductoService productoService;
 
@@ -124,10 +121,10 @@ public class PedidoServiceImpl implements IPedidoService {
 	@Override
 	@Transactional
 	public Pedido registrarPedido(Pedido pedido) throws PedidoExceptions {
-		clienteService.actualizar(pedido.getCliente(), pedido.getCliente().getId());	
+		clienteService.actualizar(pedido.getCliente(), pedido.getCliente().getId());
 
 		TipoPedido tipoPedido = pedidoDao.findTipoPedidoById(pedido.getTipoPedido().getId());
-		
+
 		pedido.setPagado(false);
 		pedido.setPrecioBrutoTotal(new BigDecimal(0));
 		pedido.setPagoTotal(new BigDecimal(0));
@@ -169,17 +166,17 @@ public class PedidoServiceImpl implements IPedidoService {
 		if (pedido.getAdquiridoEn() == null) {
 			throw new PedidoExceptions(PedidoMapErrors.getErrorString(PedidoMapErrors.CODE_FECHA_ADQUISICION));
 		}
-		
+
 		if (pedido.getAdquiridoEn().after(new Date())) {
 			throw new PedidoExceptions(PedidoMapErrors.getErrorString(PedidoMapErrors.CODE_FECHA_ADQUISICION_FUTURA));
 		}
 	}
 
-	private void validarPedidoTipoVenta(Pedido pedido) {
+	private void validarPedidoTipoVenta(Pedido pedido) throws PedidoExceptions {
 		if (pedido.getEntregadoEn() == null) {
 			throw new PedidoExceptions(PedidoMapErrors.getErrorString(PedidoMapErrors.CODE_FECHA_VENTA));
 		}
-		
+
 		if (pedido.getEntregadoEn().before(new Date())) {
 			throw new PedidoExceptions(PedidoMapErrors.getErrorString(PedidoMapErrors.CODE_FECHA_VENTA_PASADA));
 		}
@@ -190,20 +187,17 @@ public class PedidoServiceImpl implements IPedidoService {
 						item.getCantidad(), item.getProducto().getNombre()));
 			}
 
-			if (item.getProducto().getMargenGanancia().intValue() == 0) {
+			if (item.getProducto().getMargenesProducto().size() == 0) {
 				throw new PedidoExceptions(PedidoMapErrors.getErrorString(PedidoMapErrors.CODE_SIN_MARGEN_GANANCIA,
 						item.getProducto().getNombre()));
 			}
 
 			if (item.getProducto().getImpuestoIgv().intValue() == 0) {
-				throw new PedidoExceptions(PedidoMapErrors.getErrorString(PedidoMapErrors.CODE_SIN_IGV,
-						item.getProducto().getNombre()));
+				throw new PedidoExceptions(
+						PedidoMapErrors.getErrorString(PedidoMapErrors.CODE_SIN_IGV, item.getProducto().getNombre()));
 			}
 		});
 	}
-	
-	
-	
 
 	@Override
 	@Transactional
@@ -212,7 +206,6 @@ public class PedidoServiceImpl implements IPedidoService {
 		List<EstadoPedido> lstEstadosPedido = findAllEstadoPedido();
 		if (pedidoActual != null) {
 			pedidoActual.setPagado(false);
-			// pedidoActual.setDevuelto(pedido.isDevuelto());
 			if ((pedidoActual.getEntregadoEn() != null && pedidoActual.getEntregadoEn().before(new Date()))
 					|| (pedidoActual.getAdquiridoEn() != null && pedidoActual.getAdquiridoEn().before(new Date()))) {
 				pedidoActual.setEstadoPedido(pedidoDao.findAllEstadoPedido().stream()
@@ -227,7 +220,7 @@ public class PedidoServiceImpl implements IPedidoService {
 
 			if (pedidoActual.getTipoPedido().getId() == TipoPedidoEnum.VENTA.getValue()) {
 				validarPedidoTipoVenta(pedido);
-				clienteService.actualizar(pedido.getCliente(), pedido.getCliente().getId());	
+				clienteService.actualizar(pedido.getCliente(), pedido.getCliente().getId());
 				pedidoActual.setPagoTotal(movimientosPedido.get("ingreso"));
 				pedidoActual.setVueltoTotal(movimientosPedido.get("egreso"));
 				if (pedidoActual.getSaldoPedido().intValue() < 1 && pedidoActual.getPagoTotal().intValue() > 0) {
@@ -236,7 +229,8 @@ public class PedidoServiceImpl implements IPedidoService {
 				}
 				pedidoActual.getItems().forEach(item -> {
 					Producto producto = productoDao.findById(item.getProducto().getId()).orElseThrow(null);
-					producto = productoService.actualizarExistenciasEstado(producto, item, TipoPedidoEnum.VENTA.getValue());
+					producto = productoService.actualizarExistenciasEstado(producto, item,
+							TipoPedidoEnum.VENTA.getValue());
 					producto.setFchUltRealVenta(new Date());
 					productoDao.save(producto);
 				});
@@ -251,7 +245,8 @@ public class PedidoServiceImpl implements IPedidoService {
 
 				pedidoActual.getItems().forEach(item -> {
 					Producto producto = productoDao.findById(item.getProducto().getId()).orElseThrow(null);
-					producto = productoService.actualizarExistenciasEstado(producto, item, TipoPedidoEnum.COMPRA.getValue());
+					producto = productoService.actualizarExistenciasEstado(producto, item,
+							TipoPedidoEnum.COMPRA.getValue());
 					producto.setFchUltRealCompra(new Date());
 					producto = productoService.actualizarCostoPrecio(producto, item);
 					productoDao.save(producto);
@@ -277,10 +272,6 @@ public class PedidoServiceImpl implements IPedidoService {
 		}
 		return pedidoDao.save(pedidoActual);
 	}
-	
-	
-
-
 
 	@Override
 	@Transactional(readOnly = true)
@@ -440,25 +431,107 @@ public class PedidoServiceImpl implements IPedidoService {
 			Font fontFooter = FontFactory.getFont(FontFactory.HELVETICA, 11);
 			Font fontTableHeadItems = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 11);
 
-
-			Paragraph paragraphTitulo = new Paragraph("Pedido del cliente", fontTitle);
+			Paragraph paragraphTitulo = new Paragraph("PEDIDO DEL CLIENTE", fontTitle);
 			paragraphTitulo.setAlignment(Paragraph.ALIGN_CENTER);
 			document.add(paragraphTitulo);
-			document.add(new Paragraph("\n")); // Add spacing
-			document.add(new Paragraph("Cliente: ".concat(pedido.getCliente().getNomApellRz()), fontBody));
-			document.add(new Paragraph("Documento: ".concat(pedido.getCliente().getTipoDocumento().getAcronimo())
-					.concat("-").concat(pedido.getCliente().getNumeroDocumento()), fontBody));
-			document.add(new Paragraph("Direccion: ".concat(pedido.getCliente().getDireccion()), fontBody));
-			document.add(new Paragraph("Celular: ".concat(pedido.getCliente().getCelular()), fontBody));
-			//document.add(new Paragraph("Email: ".concat(pedido.getCliente().getEmail()), bodyFont));
-			document.add(new Paragraph("\n")); // Add spacing
+
+			PdfPTable tableHead = new PdfPTable(4); // 4 columns
+			tableHead.setWidthPercentage(100); // Table takes full width
+			tableHead.setWidths(new float[] { 20f, 30f, 20f, 30f });
+			PdfPCell cell = new PdfPCell();
+			cell.setPadding(1);
+			cell.setBorder(0);
+
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(new Phrase("CLIENTE", fontTableHeadItems));
+			tableHead.addCell(cell);
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(new Phrase(pedido.getCliente().getNomApellRz(), fontBody));
+			tableHead.addCell(cell);
+
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(new Phrase("CLI ENVÍO:", fontTableHeadItems));
+			tableHead.addCell(cell);
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(
+					new Phrase((pedido.getNomApellRzEnvio() == null) ? "" : pedido.getNomApellRzEnvio(), fontBody));
+			tableHead.addCell(cell);
+
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(new Phrase("DIRECCIÓN", fontTableHeadItems));
+			tableHead.addCell(cell);
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(new Phrase(
+					(pedido.getCliente().getDireccion() == null) ? "" : pedido.getCliente().getDireccion(), fontBody));
+			tableHead.addCell(cell);
+
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(new Phrase("DIR ENVÍO:", fontTableHeadItems));
+			tableHead.addCell(cell);
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(
+					new Phrase((pedido.getDireccionEnvio() == null) ? "" : pedido.getDireccionEnvio(), fontBody));
+			tableHead.addCell(cell);
+
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(new Phrase("CELULAR", fontTableHeadItems));
+			tableHead.addCell(cell);
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(new Phrase(
+					(pedido.getCliente().getCelular() == null) ? "" : pedido.getCliente().getCelular(), fontBody));
+			tableHead.addCell(cell);
+
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(new Phrase("CEL ENVÍO:", fontTableHeadItems));
+			tableHead.addCell(cell);
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(new Phrase((pedido.getCelularEnvio() == null) ? "" : pedido.getCelularEnvio(), fontBody));
+			tableHead.addCell(cell);
+
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(new Phrase("DOCUMENTO:", fontTableHeadItems));
+			tableHead.addCell(cell);
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(new Phrase(pedido.getCliente().getTipoDocumento().getAcronimo().concat("-")
+					.concat(pedido.getCliente().getNumeroDocumento()), fontBody));
+			tableHead.addCell(cell);
+
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(new Phrase("F. ENTREGA:", fontTableHeadItems));
+			tableHead.addCell(cell);
+			cell.setBackgroundColor(Color.WHITE);
+			cell.setPhrase(
+					new Phrase(new SimpleDateFormat("dd/MM/yyyy hh:mm").format(pedido.getEntregadoEn()), fontBody));
+			tableHead.addCell(cell);
+
+			tableHead.setSpacingAfter(5);
+
+//			document.add(new Paragraph("\n")); 
+//			document.add(new Paragraph("Cliente: ".concat(pedido.getCliente().getNomApellRz()), fontBody));
+//			document.add(new Paragraph("Documento: ".concat(pedido.getCliente().getTipoDocumento().getAcronimo())
+//					.concat("-").concat(pedido.getCliente().getNumeroDocumento()), fontBody));
+//			document.add(new Paragraph(
+//					"Direccion: ".concat(
+//							(pedido.getCliente().getDireccion()==null) ? "" : pedido.getCliente().getDireccion()),
+//					fontBody));
+//			document.add(new Paragraph(
+//					"Celular: ".concat(
+//							(pedido.getCliente().getCelular()==null) ? "" : pedido.getCliente().getCelular()),
+//					fontBody));
+//			
+//			document.add(new Paragraph(
+//					"Email: ".concat(
+//							(pedido.getCliente().getEmail()==null) ? "" : pedido.getCliente().getEmail()),
+//					fontBody));
+//			document.add(new Paragraph("\n")); // Add spacing
 
 			PdfPTable tableItems = new PdfPTable(4); // 4 columns
 			tableItems.setWidthPercentage(100); // Table takes full width
-			tableItems.setWidths( new float[] {30f,40f,10f,20f });
+			tableItems.setWidths(new float[] { 30f, 40f, 10f, 20f });
 
-			PdfPCell cell = new PdfPCell();
+			// PdfPCell cell = new PdfPCell();
 			cell.setPadding(5);
+			cell.setBorder(1);
 			cell.setBackgroundColor(Color.GRAY);
 			cell.setPhrase(new Phrase("PRODUCTO", fontTableHeadItems));
 			tableItems.addCell(cell);
@@ -473,7 +546,8 @@ public class PedidoServiceImpl implements IPedidoService {
 			// PdfPTable tBodyTable = new PdfPTable(4); // 4 columns
 			cell.setBackgroundColor(Color.WHITE);
 			pedido.getItems().forEach(item -> {
-				cell.setPhrase(new Phrase(item.getProducto().getCodigo().concat("-").concat(item.getProducto().getNombre()), fontBody));
+				cell.setPhrase(new Phrase(
+						item.getProducto().getCodigo().concat("-").concat(item.getProducto().getNombre()), fontBody));
 				tableItems.addCell(cell);
 				cell.setPhrase(new Phrase(item.getDescripcion(), fontBody));
 				tableItems.addCell(cell);
@@ -483,25 +557,26 @@ public class PedidoServiceImpl implements IPedidoService {
 				tableItems.addCell(cell);
 			});
 			tableItems.setSpacingAfter(5);
-			
+
 			PdfPTable tableFooter1 = new PdfPTable(4); // 4 columns
 			tableFooter1.setWidthPercentage(100); // Table takes full width
-			tableFooter1.setWidths( new float[] {25f,25f,25f,25f});
+			tableFooter1.setWidths(new float[] { 25f, 25f, 25f, 25f });
 			cell.setPadding(5);
+
 			cell.setBackgroundColor(Color.GRAY);
 			cell.setPhrase(new Phrase("PAGO:", fontTableHeadItems));
 			tableFooter1.addCell(cell);
 			cell.setBackgroundColor(Color.WHITE);
 			cell.setPhrase(new Phrase("S/. ".concat(pedido.getPagoTotal().toString()), fontBody));
 			tableFooter1.addCell(cell);
-			
+
 			cell.setBackgroundColor(Color.GRAY);
 			cell.setPhrase(new Phrase("SALDO:", fontTableHeadItems));
 			tableFooter1.addCell(cell);
 			cell.setBackgroundColor(Color.WHITE);
 			cell.setPhrase(new Phrase("S/. ".concat(pedido.getSaldoPedido().toString()), fontBody));
 			tableFooter1.addCell(cell);
-			
+
 			PdfPTable tableFooter2 = new PdfPTable(4); // 4 columns
 			tableFooter2.setWidthPercentage(100); // Table takes full width
 
@@ -511,7 +586,6 @@ public class PedidoServiceImpl implements IPedidoService {
 			cell.setBackgroundColor(Color.WHITE);
 			cell.setPhrase(new Phrase("S/. ".concat(pedido.getVueltoTotal().toString()), fontBody));
 			tableFooter2.addCell(cell);
-			
 
 			cell.setBackgroundColor(Color.GRAY);
 			cell.setPhrase(new Phrase("TOTAL:", fontTableHeadItems));
@@ -520,22 +594,29 @@ public class PedidoServiceImpl implements IPedidoService {
 			cell.setPhrase(new Phrase("S/. ".concat(pedido.getPrecioNetoTotal().toString()), fontBody));
 			tableFooter2.addCell(cell);
 
-
 			// 3. Add content to the PDF
+			document.add(tableHead);
 			document.add(tableItems);
 			document.add(tableFooter1);
 			document.add(tableFooter2);
 
-			
-			Paragraph paragraphFooter = new Paragraph("Grafiya RUC: 10466628269 - Calle Pizarro 214 f - Cercado - Arequipa ", fontFooter);
+			Paragraph paragraphObservacion = new Paragraph(
+					new SimpleDateFormat("dd/MM/yyyy hh:mm").format(pedido.getCreateAt()).concat(" - ")
+							.concat((pedido.getObservacion() == null) ? "" : pedido.getObservacion()),
+					fontFooter);
+			paragraphObservacion.setAlignment(Paragraph.ALIGN_LEFT);
+			document.add(paragraphObservacion);
+
+			Paragraph paragraphFooter = new Paragraph(
+					"SOHA TECHNOLOGY RUC: 20605836098 - Calle Pizarro 214 f - Cercado - Arequipa ", fontFooter);
 			paragraphFooter.setAlignment(Paragraph.ALIGN_CENTER);
-			
 			document.add(paragraphFooter);
+
 			document.close();
 
 		} catch (DocumentException e) {
 			e.getStackTrace();
-		} 
+		}
 		return new ByteArrayInputStream(out.toByteArray());
 	}
 

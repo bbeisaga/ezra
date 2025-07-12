@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PedidoService } from '../../../services/pedido.service';
+import { PedidoService } from '../../../../services/pedido.service';
 import { ActivatedRoute } from '@angular/router';
-import { Pedido } from '../../../models/pedido';
+import { Pedido } from '../../../../models/pedido';
 
 @Component({
   selector: 'app-detalle-pedido-venta',

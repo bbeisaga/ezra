@@ -303,14 +303,7 @@ public class PedidoRestController {
 			response.put("errors", errors);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
-		
-//        ReportArray report = new ReportArray.Builder()
-//				.name(params.getNombre())
-//				.type(TypeFile.valueOf(params.getTipo()))
-//				.parameter(params.getFiltros())
-//				.build();
-        
-        
+		        
         final String  nombreArchivo = pedido.getCliente().getNomApellRz().replace(" ", "").concat(".pdf");
         InputStreamResource file = new InputStreamResource(pedidoService.downloadOrderClienteToPdf(pedido));
         return ResponseEntity.ok()

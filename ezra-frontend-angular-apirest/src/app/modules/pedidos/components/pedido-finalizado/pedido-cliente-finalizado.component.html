@@ -1,10 +1,8 @@
 <form #pedidoTiendaForm="ngForm" (ngSubmit)="crearPedidoTienda(pedidoTiendaForm)">
     <div class="row mt-2">
         <div class="col-12 col-md-6">
-            <h2>Detalles del pedido</h2>
             <div class="row mb-2">
-                <label for="nomApellRz" class="col-form-label col-12 col-md-4">Nombres y apellidos o
-                    Razón Social</label>
+                <label for="nomApellRz" class="form-label col-12 col-md-4">Cliente</label>
                 <div class="col-12 col-md">
                     <input type="text" [(ngModel)]="cliente.nomApellRz" class="form-control" name="nomApellRz"
                         #nomApellRz="ngModel" required minlength="2">
@@ -80,11 +78,38 @@
         </div>
 
         <div class="col-6">
-            <h2>¿Enviar a otro sitio?</h2>
             <div class="row mb-2">
-                <label for="nomApellRzEnvio" class="col-form-label col-12 col-md-4">Nombres y
-                    apellidos:<br>o
-                    Razón Social</label>
+                <label for="addEnvio" class="form-label col-8"><b>¿Adicionar servicio de envio a mi pedido?:</b>
+                </label>
+                <div class="col-4">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="envio" id="addEnvio"
+                            (click)="addItemsServicioEnvio($event, SERVICIO_ENTREGA_LOCAL)">
+                        <label class="form-check-label" for="addEnvio">Sí</label>
+                    </div>
+                </div>
+            </div>
+            @if(isEnvio){
+            <div class="row mb-2">
+                <div class="col-6">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="envio" [(ngModel)]="formaEnvio"
+                            id="envioLocal" [value]="SERVICIO_ENTREGA_LOCAL"
+                            (click)="addItemsServicioEnvio($event, SERVICIO_ENTREGA_LOCAL)" checked>
+                        <label class="form-check-label" for="envioLocal">Envío local</label>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="envio" [(ngModel)]="formaEnvio"
+                            id="envioNacional" [value]="SERVICIO_ENTREGA_CIUDAD"
+                            (click)="addItemsServicioEnvio($event,SERVICIO_ENTREGA_CIUDAD)">
+                        <label class="form-check-label" for="envioNacional">Envío a otra ciudad</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <label for="nomApellRzEnvio" class="col-form-label col-12 col-md-4">Cliente envio</label>
                 <div class="col-12 col-md">
                     <input type="text" [(ngModel)]="pedido.nomApellRzEnvio" class="form-control" name="nomApellRzEnvio"
                         #nomApellRzEnvio="ngModel" minlength="2">
@@ -96,15 +121,19 @@
             <div class="row mb-2">
                 <label for="direccionEnvio" class="col-form-label col-12 col-md-4">Dirección envío:</label>
                 <div class="col-12 col-md">
-                    <input type="text" [(ngModel)]="pedido.direccionEnvio" class="form-control" name="direccionEnvio"
-                        #direccionEnvio="ngModel" minlength="2">
+                    <!--<input type="text" [(ngModel)]="pedido.direccionEnvio" class="form-control" name="direccionEnvio"
+                        #direccionEnvio="ngModel" minlength="2"> -->
+                    <textarea [(ngModel)]="pedido.direccionEnvio" class="form-control" name="direccionEnvio"
+                        #direccionEnvio="ngModel" minlength="2" maxlength="250" rows="2"
+                        placeholder="Colocar tambien referencias..."></textarea>
+
                     <div *ngIf="formUtils.isValidFieldFp(direccionEnvio)" class="alert alert-danger">
                         {{formUtils.getFieldErrorFp(direccionEnvio)}}
                     </div>
                 </div>
             </div>
             <div class="row mb-2">
-                <label for="celularEnvio" class="col-form-label col-12 col-md-4">Celular:</label>
+                <label for="celularEnvio" class="col-form-label col-12 col-md-4">Celular envio:</label>
                 <div class="col-12 col-md">
                     <input type="text" [(ngModel)]="pedido.celularEnvio" class="form-control" name="celularEnvio"
                         #celularEnvio="ngModel" minlength="6" maxlength="14" pattern="^\d+$">
@@ -113,7 +142,7 @@
                     </div>
                 </div>
             </div>
-
+            }
         </div>
     </div>
     <div class="row">
@@ -131,7 +160,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of lstItemPedido">
+                    <tr *ngFor="let item of items">
                         <td><button mat-icon-button color="warn" (click)="eliminarItemPedido(item.producto.id)"
                                 matTooltip="Elimnar item"><mat-icon>delete</mat-icon></button></td>
                         <td>
@@ -142,7 +171,8 @@
                         </td>
                         <td><a [routerLink]="['/tienda/item-producto',item.producto.id]">
                                 {{item.producto.nombre}}</a>
-                                                            <ul>
+                            @if(item.producto.codigo != SERVICIO_ENTREGA_LOCAL && item.producto.codigo != SERVICIO_ENTREGA_CIUDAD){
+                            <ul>
                                 <li><b>Medidas: </b>{{item.producto.medidas}}
                                     <b>Color: </b>{{item.producto.color?.nombre}}
                                 </li>
@@ -150,9 +180,11 @@
                                     <b>Peso: </b>{{item.producto.peso}}
                                 </li>
                             </ul>
+                            }
                         </td>
                         <td> <textarea name="descripcion" class="form-control" [ngStyle]="{'resize': 'none'}"
-                                maxlength="250" [value]="item.descripcion" rows="3" (change)="actualizarDescripcion(item.producto.id, $event)"></textarea></td>
+                                maxlength="250" [value]="item.descripcion" rows="3"
+                                (change)="actualizarDescripcion(item.producto.id, $event)"></textarea></td>
                         <td>
                             <input style="width:80px" type="number" name="cantidad" aria-describedby="cantidad"
                                 [step]="item.producto.gruposDe.toString()"
@@ -160,9 +192,8 @@
                                 [max]="item.producto.maxCantidadPedido.toString()" [value]="item.cantidad"
                                 (input)="actualizarCantidad(item.producto.id, $event);calcularTotal() " />
                         </td>
-                        <td>{{item.producto.precioNeto| currency:'PEN'}}</td>
-                        <!--                         <td> {{item.importe | currency:'PEN'}}</td>
- -->
+                        <td>{{item.producto.precioNetoNumberShow| currency:'PEN'}}</td>
+
                         <td>
                             <input style="width:90px" type="number" name="importe" min="1" [value]="item.importe"
                                 (input)="actualizarImporte(item.producto.id, $event); calcularTotal()" />
@@ -186,7 +217,7 @@
                         <td colspan="2"><b>Entregar El:</b></td>
                         <td colspan="2">
                             <input type="datetime-local" [(ngModel)]="pedido.entregadoEn" class="form-control"
-                                #entregadoEn="ngModel" name="entregadoEn" required disabled>
+                                #entregadoEn="ngModel" name="entregadoEn" required>
                             <div *ngIf="formUtils.isValidFieldFp(entregadoEn)" class="alert alert-danger">
                                 {{formUtils.getFieldErrorFp(entregadoEn)}}
                             </div>
@@ -200,7 +231,7 @@
         </div>
     </div>
     <div class="row mb-2">
-        @if(lstItemPedido.length > 0 && authService.hasRole('ROLE_CREATE_PEDIDO')){
+        @if(items.length > 0 && authService.hasRole('ROLE_CREATE_VENTA')){
         <button type="submit" class="btn btn-dark btn-lg" [disabled]="!pedidoTiendaForm.form.valid">Finalizar
             pedido</button>
 

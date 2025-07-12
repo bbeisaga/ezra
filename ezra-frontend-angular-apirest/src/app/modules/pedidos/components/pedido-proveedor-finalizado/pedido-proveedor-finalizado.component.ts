@@ -67,12 +67,13 @@ export class PedidoProveedorFinalizadoComponent implements OnInit, OnChanges {
     });
 
     this.clienteService.getCliente(this.clienteId).subscribe(cli => {
-      //const now = new Date();
+      const now = new Date();
       this.cliente = cli;
       const index = this.findIndexDocument(this.cliente.tipoDocumento.id);
       this.tipoDocumentoSelected = this.tipoDocumentos[index];
       this.pedido.cliente = this.cliente;
-      //now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      this.pedido.adquiridoEn = moment(now).toISOString().slice(0, 16);
       //this.pedido.adquiridoEn = moment(now).add(2, 'days').toISOString().slice(0, 16);
     });
 
@@ -162,7 +163,7 @@ export class PedidoProveedorFinalizadoComponent implements OnInit, OnChanges {
     if (pedidoTiendaForm.form.valid && this.pedido.items.length > 0) {
       this.calcularTotal();
       this.pedido.costoNetoTotal = this.total;
-      this.pedido.adquiridoEn = moment(this.pedido.adquiridoEn).toISOString().slice(0, 16);
+      //this.pedido.adquiridoEn = moment(this.pedido.adquiridoEn).toISOString().slice(0, 16);
       this.pedido.tipoPedido = this.tipoPedidoVentaClientes;
       //console.log(JSON.stringify(this.pedido));
       this.pedidoService.createPedidoTienda(this.pedido).subscribe(p => {

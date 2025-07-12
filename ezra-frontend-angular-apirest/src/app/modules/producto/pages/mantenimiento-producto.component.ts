@@ -1,18 +1,20 @@
+import { map } from 'rxjs';
 import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { ProductoService } from '../../../services/producto.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '../../../services/alert.service';
 import { AuthService } from '../../../services/auth.service';
 import { Producto } from '../../../models/producto';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { environment } from '../../../../environments/environment';
 import { Color } from '../../../models/color';
 import { Material } from '../../../models/material';
 import { Categoria } from '../../../models/categoria';
 import { Uso } from '../../../models/uso';
-import { find } from 'lodash';
+import { find, forEach } from 'lodash';
 import { FormUtils } from '../../../utils/form-utils';
 import { MediosUtilsService } from '../../../services/medios-utils.service';
+import { MargenProducto } from '../../../models/margen-producto';
 
 
 @Component({
@@ -105,10 +107,11 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
       ],
       umbralPocaCantidad: [this.producto?.umbralPocaCantidad, Validators.min(1)],
       umbralCantidadAgotada: [this.producto?.umbralCantidadAgotada, Validators.min(0)],
-      cantidadStock: [
-        { value: this.producto?.cantidadStock, disabled: true },
-        { validators: [Validators.required, Validators.min(0)] }
-      ],
+      cantidadStock: [this.producto?.cantidadStock, Validators.required],
+      /*       cantidadStock: [
+              { value: this.producto?.cantidadStock, disabled: true },
+              { validators: [Validators.required, Validators.min(0)] }
+            ], */
       cantidadVendidos: [
         { value: this.producto?.cantidadVendidos, disabled: true },
         { validators: [Validators.required, Validators.min(0)] }
@@ -118,18 +121,27 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
       gruposDe: [this.producto?.gruposDe, Validators.min(1)],
       costoUnitario: [this.producto?.costoUnitario, Validators.min(0)],
 
-      costoPersonalizacion: [this.producto?.costoPersonalizacion, Validators.min(0)],
+      //costoPersonalizacion: [this.producto?.costoPersonalizacion, Validators.min(0)],
       //costoUnitarioEmpaque: [this.producto?.costoUnitarioEmpaque, Validators.min(0)],
       //precioBruto: [this.producto?.precioBruto, Validators.min(3)],
-      impuestoIgv: [this.producto?.impuestoIgv, Validators.min(18)],
+      impuestoIgv: [this.producto?.impuestoIgv, Validators.required],
 
-      margenGanancia: [this.producto?.margenGanancia, [Validators.required, Validators.min(0)]],
-      precioNeto: [this.producto?.precioNeto, [Validators.required, Validators.min(0)]],
+      //margenGanancia: [this.producto?.margenGanancia, [Validators.required, Validators.min(0)]],
+      //precioNeto: [this.producto?.precioNeto, [Validators.required, Validators.min(0)]],
       //precioBrutoRebajado: [this.producto?.precioBrutoRebajado, Validators.min(2)],
       //precioNetoRabajado: [this.producto?.precioNetoRabajado, Validators.min(3)],
       //fechaPrecioRebajadoDesde: [this.producto?.fechaPrecioRebajadoDesde],
       //fechaPrecioRebajadoHasta: [this.producto?.fechaPrecioRebajadoHasta],
       //imagen: [this.producto?.imagen],
+
+      margenesGanancia: this.formBuilder.array([], Validators.minLength(1)),
+
+      /*       margenesGanancia: this.formBuilder.array([
+              minCantidad: [this.producto?.margenProducto?.minCantidad, Validators.min(1)],
+              maxCantidad: [this.producto?.margenProducto?.maxCantidad],
+              margenGanancia: [this.producto?.margenProducto?.margenGanancia, [Validators.required, Validators.min(1)]],
+              precioNeto: [this.producto?.margenProducto?.precioNeto, [Validators.required, Validators.min(1)]],
+            ], Validators.minLength(1)), */
 
       activo: [this.producto?.activo],
       visibleEnTienda: [this.producto?.visibleEnTienda],
@@ -139,8 +151,64 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
       colorId: [this.producto?.color?.id, Validators.required],
       usoId: [this.producto?.uso?.id, Validators.required],
 
+    });
+
+    this.defaultMargenProducto();
+  }
+
+  get margenesGanancia() {
+    return this.formProducto.get('margenesGanancia') as FormArray;
+  }
+
+  defaultMargenProducto() {
+    if (this.producto.margenesProducto.length > 0) {
+      this.producto.margenesProducto.forEach(m => {
+        this.agregrarMargenProducto(this.existMargenProducto(m));
+      })
+    } /*else {
+      this.newMargenProducto();
+    }*/
+  }
+
+  existMargenProducto(margenProducto: MargenProducto) {
+    return this.formBuilder.group({
+      id: [margenProducto.id],
+      minCantidad: [margenProducto.minCantidad, [Validators.required, Validators.min(1)]],
+      maxCantidad: [margenProducto.maxCantidad, Validators.min(1)],
+      margen: [margenProducto.margen, [Validators.required, Validators.min(1)]],
+      precioNetoSugerido: [margenProducto.precioNetoSugerido, [Validators.required, Validators.min(1)]],
+      precioNeto: [margenProducto.precioNeto, [Validators.required, Validators.min(1)]],
     })
   }
+
+  newMargenProducto() {
+    const formGroup = this.formBuilder.group({
+      minCantidad: [1, Validators.min(1)],
+      maxCantidad: [],
+      margen: [1, [Validators.required, Validators.min(1)]],
+      precioNetoSugerido: [1, [Validators.required, Validators.min(1)]],
+      precioNeto: [1, [Validators.required, Validators.min(1)]],
+    });
+    this.agregrarMargenProducto(formGroup);
+  }
+
+  agregrarMargenProducto(formGroup: FormGroup) {
+    this.margenesGanancia.push(formGroup);
+    const ultimoIndice = (this.margenesGanancia.length - 1);
+    this.calcularPrecioNetoPorMargen(ultimoIndice);
+  }
+
+  eliminarMargenProducto(index: number) {
+    const id: number = + this.margenesGanancia.controls[index].get('id')?.value
+    if (id) {
+      this.productoService.deleteMargenProducto(id).subscribe(m => {
+        this.margenesGanancia.removeAt(index);
+      })
+    } else {
+      this.margenesGanancia.removeAt(index);
+    }
+  }
+
 
   recuperarValForm() {
     this.producto.nombre = this.formProducto.get('nombre')?.value;
@@ -150,14 +218,14 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
     this.producto.peso = this.formProducto.get('peso')?.value;
     this.producto.umbralPocaCantidad = this.formProducto.get('umbralPocaCantidad')?.value;
     this.producto.umbralCantidadAgotada = this.formProducto.get('umbralCantidadAgotada')?.value;
+    this.producto.cantidadStock = this.formProducto.get('cantidadStock')?.value;
     this.producto.minCantidadPedido = this.formProducto.get('minCantidadPedido')?.value;
     this.producto.maxCantidadPedido = this.formProducto.get('maxCantidadPedido')?.value;
     this.producto.gruposDe = this.formProducto.get('gruposDe')?.value;
     this.producto.costoUnitario = this.formProducto.get('costoUnitario')?.value;
-    this.producto.costoPersonalizacion = this.formProducto.get('costoPersonalizacion')?.value;
+    //this.producto.costoPersonalizacion = this.formProducto.get('costoPersonalizacion')?.value;
     this.producto.impuestoIgv = this.formProducto.get('impuestoIgv')?.value;
-    this.producto.margenGanancia = this.formProducto.get('margenGanancia')?.value;
-    this.producto.precioNeto = this.formProducto.get('precioNeto')?.value;
+    this.producto.margenesProducto = this.margenesGanancia.value
     //this.producto.precioBrutoRebajado = this.formProducto.get('precioBrutoRebajado')?.value;
     //this.producto.precioNetoRabajado = this.formProducto.get('precioNetoRabajado')?.value;
     //this.producto.fechaPrecioRebajadoDesde = this.formProducto.get('fechaPrecioRebajadoDesde')?.value;
@@ -172,23 +240,42 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
   }
 
   calcularPrecioNeto() {
+    const margenesGanancia = this.formProducto.get('margenesGanancia') as FormArray;
+    if (margenesGanancia.controls.length > 0) {
+      const costoUnitario: number = this.formProducto.get('costoUnitario')?.value;
+      const impuestoIgv: number = + this.formProducto.get('impuestoIgv')?.value;
+      margenesGanancia.controls.forEach(abstractControl => {
+        const margen = + abstractControl.get('margen')?.value
+        const precioNetoUnitario: number = costoUnitario * (100 + (impuestoIgv + margen)) / 100;
+        abstractControl.get('precioNetoSugerido')?.setValue(precioNetoUnitario.toString());
+        abstractControl.get('precioNeto')?.setValue(precioNetoUnitario.toString());
+      })
+    }
+  }
 
-    //debugger;
-    const costoUnitario: number = this.formProducto.get('costoUnitario')?.value;
-    const costoPersonalizaicon: number = this.formProducto.get('costoPersonalizacion')?.value;
-    const impuestoIgv: number = + this.formProducto.get('impuestoIgv')?.value;
-    const margenGanancia: number = + this.formProducto.get('margenGanancia')?.value;
-    const costos: number = (costoUnitario + costoPersonalizaicon);
-    const precioNetoUnitario: number = costos * (100 + (impuestoIgv + margenGanancia)) / 100;
-    this.formProducto.get('precioNeto')?.setValue(precioNetoUnitario.toString());
+  calcularPrecioNetoPorMargen(index: number) {
+    const abstractControl = this.margenesGanancia.controls[index]
+    if (abstractControl) {
+      const costoUnitario: number = this.formProducto.get('costoUnitario')?.value;
+      const impuestoIgv: number = + this.formProducto.get('impuestoIgv')?.value;
+      const margen = + abstractControl.get('margen')?.value
+      const precioNetoUnitario: number = costoUnitario * (100 + (impuestoIgv + margen)) / 100;
+      abstractControl.get('precioNetoSugerido')?.setValue(precioNetoUnitario.toString());
+      //abstractControl.get('precioNeto')?.setValue(precioNetoUnitario.toString());
+    }
   }
 
   guardarProducto() {
+    //console.log("this.formProducto", this.formProducto.value);
     this.recuperarValForm();
+    if (this.producto.margenesProducto.length == 0) {
+      this.alertService.warning(`Debe agregar margenes al producto`, 'Producto');
+      return;
+    }
     if (this.producto.id) {
       this.productoService.updateProducto(this.producto).subscribe(
         json => {
-          this.alertService.success(`${json.mensaje}: ${json.producto.nombre}`, 'Producto actualizado');
+          this.alertService.success(`${json.mensaje}: ${json.producto.nombre}`, 'Producto');
           this.router.navigate(['/productos']);
         }
       )
@@ -206,13 +293,13 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/productos']);
       })
     }
-
+  
     update(): void {
       this.productoService.updateProducto(this.producto).subscribe(
         json => {
           this.alertService.success(`${json.mensaje}: ${json.producto.nombre}`, 'Producto actualizado');
           this.router.navigate(['/productos']);
-
+  
         }
       )
     } */
@@ -242,34 +329,42 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
     } */
 
   subirImagen(fileInput: HTMLInputElement) {
-    this.recuperarValForm();
     if (fileInput && fileInput.files && fileInput.files.length > 0) {
       const imagen: File = fileInput.files[0];
-      let formData = new FormData();
-      formData.append("archivo", imagen);
-      formData.append("producto", JSON.stringify(this.producto));
-      formData.append("clienteOnline", 'false');
-
-      if (this.producto.id) {
-        this.productoService.updateProductoImagen(formData, this.producto.id).subscribe(
-          resp => {
-            this.producto = resp;
-            this.verImagenProducto = environment.API_URL_VER_IMAGEN + this.producto.imagen;
-          })
-      } else {
-        this.productoService.createProductoImagen(formData).subscribe(
-          resp => {
-            this.producto = resp;
-            this.verImagenProducto = environment.API_URL_VER_IMAGEN + this.producto.imagen;
-          })
-      }
-      //this.formProducto.get('imagen')?.setValue('');
-
-    } else {
-      this.alertService.error('Debe colocar un codigo y nombre al producto', 'Imagen');
-
+      this.mediosUtilsService.subirImagen(imagen, false).subscribe(resp => {
+        this.verImagenProducto = environment.API_URL_VER_IMAGEN + resp.imagen;
+        this.producto.imagen = resp.imagen;
+      })
     }
   }
+
+  /*   subirImagen(fileInput: HTMLInputElement) {
+      this.recuperarValForm();
+      if (fileInput && fileInput.files && fileInput.files.length > 0) {
+        const imagen: File = fileInput.files[0];
+        let formData = new FormData();
+        formData.append("archivo", imagen);
+        formData.append("producto", JSON.stringify(this.producto));
+        formData.append("clienteOnline", 'false');
+  
+        if (this.producto.id) {
+          this.productoService.updateProductoImagen(formData, this.producto.id).subscribe(
+            resp => {
+              this.producto = resp;
+              this.verImagenProducto = environment.API_URL_VER_IMAGEN + this.producto.imagen;
+            })
+        } else {
+          this.productoService.createProductoImagen(formData).subscribe(
+            resp => {
+              this.producto = resp;
+              this.verImagenProducto = environment.API_URL_VER_IMAGEN + this.producto.imagen;
+            })
+        }
+  
+      } else {
+        this.alertService.error('Debe colocar un codigo y nombre al producto', 'Imagen');
+      }
+    } */
 
   cargarDatosAuxiliares(): void {
     this.productoService.getColoresProducto().subscribe(resp => this.colores = resp);

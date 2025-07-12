@@ -17,3 +17,11 @@
         padding: 3px 5px;
     }
 } */
+
+
+.precio {
+/*   display: inline-block;
+  width: 120px; */
+  font-size: x-large;
+  font-weight: bold;
+}

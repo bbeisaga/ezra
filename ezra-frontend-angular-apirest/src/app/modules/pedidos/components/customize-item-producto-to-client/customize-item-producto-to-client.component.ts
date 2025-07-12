@@ -12,6 +12,7 @@ import { ItemPedido } from '../../../../models/item-pedido';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { COLOR_ESTADO_PRODUCTO } from '../../../../constants/color-estado-producto';
+import { SERVICIO_DISENIO } from '../../../../constants/constantes';
 
 @Component({
   selector: 'customize-item-producto-to-client',
@@ -34,17 +35,21 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
   verImagenProducto!: string;
   verImagenItem!: string;
   producto!: Producto;
+  servicio!: Producto;
+
   item = new ItemPedido()
   items: ItemPedido[] = [];
   gruposDe!: number;
   minCantidadPedido!: number;
   maxCantidadPedido!: number;
+  isDisenio: boolean = false;
   frm = this.formBuilder.group({
     descripcion: [''],
     cantidad: [0],
+    disenio: [false]
   })
   constructor() {
-    this.itemService.getItems().subscribe({
+    this.itemServiceSuscription$ = this.itemService.getItems().subscribe({
       next: items => {
         this.items = items;
       },
@@ -58,6 +63,10 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
     if (this.items.length === 0) {
       this.items = this.itemService.getLocalStorageItems()
     }
+
+    this.productoService.getProductoByCod(SERVICIO_DISENIO).subscribe(prd => {
+      this.servicio = prd;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -88,30 +97,51 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
   subirImagen(fileInput: HTMLInputElement) {
     if (fileInput && fileInput.files && fileInput.files.length > 0) {
       const imagen: File = fileInput.files[0];
-      this.mediosUtilsService.subirImagen(imagen).subscribe(resp => {
+      this.mediosUtilsService.subirImagen(imagen, true).subscribe(resp => {
         //this.mediosUtilsService.imageToBase64(imagen);
         this.verImagenItem = environment.API_URL_VER_IMAGEN + resp.imagen;
         this.item.imagen = resp.imagen;
         // this.mediosUtilsService.imagenSeleccionada = null;  Limpiar la imagen seleccionada
       })
     }
-    // }
+  }
+
+  addOneItemServicioDisenio(event: any) {
+    this.isDisenio = event.target.checked;
+    if (this.isDisenio) {
+      this.item.cantidad = this.servicio.minCantidadPedido;
+      this.item.descripcion = this.servicio.descripcion;
+      this.item.producto = { ...this.servicio };
+      this.item.imagenUri = environment.API_URL_VER_IMAGEN + this.item.imagen
+
+      if (!this.itemService.existItemInItems(this.items, this.item.producto.id)
+        && this.item.cantidad <= this.item.producto.maxCantidadPedido) {
+        this.items = [...this.items, { ...this.item }];
+        this.itemService.setItems(this.items);
+        this.itemService.saveLocalStorageItems(this.items);
+      }
+    } else {
+      this.items = this.itemService.deleteItemFromItems(this.items, this.item.producto.id);
+      this.itemService.setItems(this.items);
+      this.itemService.saveLocalStorageItems(this.items);
+    }
   }
 
   sendOneItemProducto() {
     this.item.cantidad = (this.frm.get('cantidad')?.value ? this.frm.get('cantidad')?.value : 0)!;
-    this.item.importe = this.item.cantidad * this.producto.precioNeto;
     this.item.descripcion = (this.frm.get('descripcion')?.value ? this.frm.get('descripcion')?.value : '')!;
     this.item.producto = { ...this.producto };
     this.item.imagenUri = environment.API_URL_VER_IMAGEN + this.item.imagen
     if (this.itemService.existItemInItems(this.items, this.item.producto.id)) {
       this.items = this.itemService.UpdateAmountItemFromExterno(this.items, this.item.producto.id, this.item.cantidad);
+      this.itemService.setItems(this.items);
+      this.itemService.saveLocalStorageItems(this.items);
     }
-    else {
+    else if (this.item.cantidad <= this.item.producto.maxCantidadPedido) {
       this.items = [...this.items, { ...this.item }];
+      this.itemService.setItems(this.items);
+      this.itemService.saveLocalStorageItems(this.items);
     }
-    this.itemService.setItems(this.items);
-    this.itemService.saveLocalStorageItems(this.items);
   }
 
   chatear(producto: Producto) {

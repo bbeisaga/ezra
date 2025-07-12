@@ -81,6 +81,11 @@ public class ProductoRestController {
 	public List<Producto> productos() {
 		return productoService.findAllProductos();
 	}
+	
+	@GetMapping("/productos/servicio/envio")
+	public List<Producto> productosServicioEnvio() {
+		return productoService.lstProductoUsoServcioEnvio();
+	}
 
 	// @Secured({"ROLE_ADMIN"})
 	@GetMapping("/producto/filtrar-productos/{term}")
@@ -89,8 +94,8 @@ public class ProductoRestController {
 		return productoService.findProductoByNombre(term);
 	}
 
-	@GetMapping("/producto/{id}")
-	public ResponseEntity<?> show(@PathVariable Long id) {
+	@GetMapping("/producto/id/{id}")
+	public ResponseEntity<?> showById(@PathVariable Long id) {
 		Producto producto = null;
 		Map<String, Object> response = new HashMap<>();
 
@@ -104,6 +109,26 @@ public class ProductoRestController {
 
 		if (producto == null) {
 			response.put("mensaje", "El producto ID: ".concat(id.toString().concat(" no existe en la base de datos!")));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
+	}
+	
+	@GetMapping("/producto/codigo/{codigo}")
+	public ResponseEntity<?> showByCod(@PathVariable String codigo) {
+		Producto producto = null;
+		Map<String, Object> response = new HashMap<>();
+
+		try {
+			producto = productoService.findProductoByCod(codigo);
+		} catch (DataAccessException e) {
+			response.put("mensaje", "Error al realizar la consulta en la base de datos");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		if (producto == null) {
+			response.put("mensaje", "El producto con CODIGO: ".concat(codigo.concat(" no existe en la base de datos!")));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Producto>(producto, HttpStatus.OK);
@@ -136,12 +161,8 @@ public class ProductoRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
 		try {
-			productoNew = productoService.crearConImagen(producto, null, false);
+			productoNew = productoService.crear(producto);
 
-		} catch (IOException e) {
-			response.put("mensaje", "Error en la carga de la imagen");
-			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar el insert en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -152,34 +173,34 @@ public class ProductoRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 
-	@PostMapping("/producto/imagen")
-	public ResponseEntity<?> createWithImage(@RequestParam("archivo") MultipartFile archivo,
-			@RequestParam("producto") String producto, @RequestParam("clienteOnline") boolean clienteOnline) {
-		Producto productoNew = null;
-		Map<String, Object> response = new HashMap<>();
-		ObjectMapper objectMapper = new ObjectMapper();
-		try {
-			Producto productoDto = objectMapper.readValue(producto, Producto.class);
-			productoNew = productoService.crearConImagen(productoDto, archivo, clienteOnline);
-
-		} catch (JsonProcessingException e) {
-			response.put("mensaje", "Error al convertir el JSON a DTO");
-			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-
-		} catch (IOException e) {
-			response.put("mensaje", "Error en la carga de la imagen");
-			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		} catch (DataAccessException e) {
-			response.put("mensaje", "Error al realizar el insert en la base de datos");
-			response.put("err", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		response.put("mensaje", "El producto ha sido creado con éxito!");
-		response.put("producto", productoNew);
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
-	}
+//	@PostMapping("/producto/imagen")
+//	public ResponseEntity<?> createWithImage(@RequestParam("archivo") MultipartFile archivo,
+//			@RequestParam("producto") String producto, @RequestParam("clienteOnline") boolean clienteOnline) {
+//		Producto productoNew = null;
+//		Map<String, Object> response = new HashMap<>();
+//		ObjectMapper objectMapper = new ObjectMapper();
+//		try {
+//			Producto productoDto = objectMapper.readValue(producto, Producto.class);
+//			productoNew = productoService.crearConImagen(productoDto, archivo, clienteOnline);
+//
+//		} catch (JsonProcessingException e) {
+//			response.put("mensaje", "Error al convertir el JSON a DTO");
+//			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
+//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//
+//		} catch (IOException e) {
+//			response.put("mensaje", "Error en la carga de la imagen");
+//			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
+//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//		} catch (DataAccessException e) {
+//			response.put("mensaje", "Error al realizar el insert en la base de datos");
+//			response.put("err", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//		response.put("mensaje", "El producto ha sido creado con éxito!");
+//		response.put("producto", productoNew);
+//		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+//	}
 
 //	@GetMapping("/producto/imagen/{nombreImagen:.+}")
 //	public ResponseEntity<Resource> verFoto(@PathVariable String nombreImagen){
@@ -208,14 +229,9 @@ public class ProductoRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 		}
 		try {
-			// productoUpdated = productoService.actualizar(producto, id);
-			productoUpdated = productoService.actualizarConImagen(producto, null, id, false);
+			productoUpdated = productoService.actualizar(producto, id);
 
-		} catch (IOException e) {
-			response.put("mensaje", "Error en la carga de la imagen");
-			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		} catch (DataAccessException e) {
+		}  catch (DataAccessException e) {
 			response.put("mensaje", "Error al actualizar el cliente en la base de datos");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -225,34 +241,34 @@ public class ProductoRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 
-	@PutMapping("/producto/imagen/{id}")
-	public ResponseEntity<?> updateWithImage(@RequestParam("archivo") MultipartFile archivo,
-			@RequestParam("producto") String producto, @PathVariable Long id,
-			@RequestParam("clienteOnline") boolean clienteOnline) {
-		Producto productoUpdated = null;
-		Map<String, Object> response = new HashMap<>();
-		ObjectMapper objectMapper = new ObjectMapper();
-
-		try {
-			Producto productoDto = objectMapper.readValue(producto, Producto.class);
-			productoUpdated = productoService.actualizarConImagen(productoDto, archivo, id, clienteOnline);
-		} catch (JsonProcessingException e) {
-			response.put("mensaje", "Error al convertir el JSON a DTO");
-			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		} catch (IOException e) {
-			response.put("mensaje", "Error en la carga de la imagen");
-			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		} catch (DataAccessException e) {
-			response.put("mensaje", "Error al actualizar el cliente en la base de datos");
-			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		response.put("mensaje", "El producto ha sido actualizado con éxito!");
-		response.put("producto", productoUpdated);
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
-	}
+//	@PutMapping("/producto/imagen/{id}")
+//	public ResponseEntity<?> updateWithImage(@RequestParam("archivo") MultipartFile archivo,
+//			@RequestParam("producto") String producto, @PathVariable Long id,
+//			@RequestParam("clienteOnline") boolean clienteOnline) {
+//		Producto productoUpdated = null;
+//		Map<String, Object> response = new HashMap<>();
+//		ObjectMapper objectMapper = new ObjectMapper();
+//
+//		try {
+//			Producto productoDto = objectMapper.readValue(producto, Producto.class);
+//			productoUpdated = productoService.actualizarConImagen(productoDto, archivo, id, clienteOnline);
+//		} catch (JsonProcessingException e) {
+//			response.put("mensaje", "Error al convertir el JSON a DTO");
+//			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
+//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//		} catch (IOException e) {
+//			response.put("mensaje", "Error en la carga de la imagen");
+//			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
+//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//		} catch (DataAccessException e) {
+//			response.put("mensaje", "Error al actualizar el cliente en la base de datos");
+//			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//		response.put("mensaje", "El producto ha sido actualizado con éxito!");
+//		response.put("producto", productoUpdated);
+//		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+//	}
 //	
 //	@DeleteMapping("/clientes/{id}")
 //	public ResponseEntity<?> delete(@PathVariable Long id) {

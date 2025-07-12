@@ -90,8 +90,7 @@
             <span class="text-bold-italic">Material:</span>{{ producto.material?.nombre}}
             <span class="text-bold-italic">Peso:</span>{{ producto.peso}}
             <span class="text-bold-italic">Medidas:</span>{{ producto.medidas}}
-            <span class="text-bold-italic">Cantidad:</span>{{ producto.cantidadStock}}
-            <span class="text-bold-italic">Precio:</span>{{ producto.precioNeto | currency:'PEN'}}
+            <span class="text-bold-italic">Cantidad:</span>{{ producto.cantidadStock}}          
         </mat-option>
     </mat-autocomplete>
 </mat-form-field>
@@ -118,46 +117,3 @@
     </div>
     }
 </div>
-
-<!--             <table cellspacing="0">
-                <tr>
-                    <td><mat-form-field style="width:100%">
-                            <mat-label>GRANT TOTAL</mat-label>
-                            <input *ngIf="tipoPedidoVentaClientes.activo" matInput
-                                value="{{pedido.precioNetoTotal| currency:'PEN' }}" disabled>
-                            <input *ngIf="!tipoPedidoVentaClientes.activo" matInput
-                                value="{{pedido.costoNetoTotal| currency:'PEN' }}" disabled>
-
-                        </mat-form-field></td>
-                    <td>
-                        <mat-form-field *ngIf="tipoPedidoVentaClientes.activo" style="width:100%">
-                            <mat-label>FECHA ENTREGA</mat-label>
-                            <input matInput [matDatepicker]="miDatepicker" [(ngModel)]="pedido.entregadoEn"
-                                name="entregadoEn">
-                            <mat-datepicker-toggle matIconSuffix [for]="miDatepicker"></mat-datepicker-toggle>
-                            <mat-datepicker #miDatepicker></mat-datepicker>
-                        </mat-form-field>
-                    </td>
-                    <td>
-                        <mat-form-field *ngIf="!tipoPedidoVentaClientes.activo" style="width:100%">
-                            <mat-label>FECHA ADQUISICION</mat-label>
-                            <input matInput [matDatepicker]="miDatepicker" [(ngModel)]="pedido.adquiridoEn"
-                                name="adquiridoEn">
-                            <mat-datepicker-toggle matIconSuffix [for]="miDatepicker"></mat-datepicker-toggle>
-                            <mat-datepicker #miDatepicker></mat-datepicker>
-                        </mat-form-field>
-                    </td>
-                </tr>
-            </table> -->
-<!--             <mat-form-field>
-                <mat-label>Observación</mat-label>
-                <textarea matInput #message name="observacion" maxlength="256"
-                        ></textarea>
-
-                <mat-hint align="start"><strong>Datos para entregar el pedido...</strong> </mat-hint>
-                <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
-            </mat-form-field> -->
-
-<!-- 
-    </form>
-</mat-card> -->

@@ -37,7 +37,8 @@ export class CarritoItemProductoComponent implements OnInit, OnDestroy {
   ) {
     this.itemServiceSuscription$ = this.itemService.getItems().subscribe({
       next: items => {
-        this.lstItemPedido = items;
+        //this.lstItemPedido = items;
+        this.lstItemPedido = this.itemService.importePorMargenCantidad(items);
         this.calcularTotal();
       },
       error: error => {
@@ -49,13 +50,13 @@ export class CarritoItemProductoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     console.log("CarritoComprasComponent.ngOnInit", this.lstItemPedido);
     if (this.lstItemPedido.length === 0) {
-      this.lstItemPedido = this.itemService.getLocalStorageItems()
+      this.lstItemPedido = this.itemService.importePorMargenCantidad(this.itemService.getLocalStorageItems());
       this.calcularTotal();
     }
-/*     this.lstItemPedido.map(item => {
-      item.imagen = environment.API_URL_VER_IMAGEN + item.imagen ;
-      return item;
-    }) */
+    /*     this.lstItemPedido.map(item => {
+          item.imagen = environment.API_URL_VER_IMAGEN + item.imagen ;
+          return item;
+        }) */
     /*    this.lstItemPedido = [...this.lstItemPedido, {...this.itemPedido} ] */
   }
 
@@ -82,7 +83,7 @@ export class CarritoItemProductoComponent implements OnInit, OnDestroy {
         width: '550px',
         disableClose: true
       });
-  
+   
       dialogRef.afterClosed().subscribe(result => {
         itemPedido.descripcion = result
         console.log('Item Pedido: ', itemPedido);
@@ -96,7 +97,7 @@ export class CarritoItemProductoComponent implements OnInit, OnDestroy {
         this.usuarioService.getUsuarioByUsername(this.authService.usuario.username)
           .subscribe(usr => {
             this.clienteService.getClienteByUsuarioId(usr.id).subscribe(cli => {
-              this.router.navigate(['/pedidos/pedido-cliente-finalizado', cli.id] , { queryParams: { clienteOnline: 'true' } })
+              this.router.navigate(['/pedidos/pedido-cliente-finalizado', cli.id], { queryParams: { clienteOnline: 'true' } })
             })
           });
       } else {

@@ -36,7 +36,6 @@ public class Categoria implements Serializable {
 	
 	private boolean activa;
 
-	
 	@JsonIgnoreProperties(value={"categoria", "hibernateLazyInitializer", "handler"}, allowSetters=true)
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "categoria", cascade = CascadeType.ALL)
 	private List<Producto> productos;

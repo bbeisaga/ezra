@@ -3,6 +3,7 @@ package com.ezra.programandojuntos.models.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -69,8 +70,8 @@ public class Producto implements Serializable {
 	@Column(name="impuesto_igv", columnDefinition="Decimal(10,2) default '18'")
 	private Float impuestoIgv;
 	
-	@Column(name="margen_ganancia", columnDefinition="Decimal(10,2) default '0'")
-	private Float margenGanancia;
+//	@Column(name="margen_ganancia", columnDefinition="Decimal(10,2) default '0'")
+//	private Float margenGanancia;
 	
 //	@Column(name = "costo_unitario_empaque")
 //	private BigDecimal costoUnitarioEmpaque; 
@@ -81,8 +82,8 @@ public class Producto implements Serializable {
 //	@Column(name = "precio_bruto_rebajado")
 //	private BigDecimal precioBrutoRebajado; /*cubriri costo mas beneficio*/
 	
-	@Column(name="precio_neto", columnDefinition="Decimal(10,2) default '0'")
-	private BigDecimal precioNeto; /*Es el total mas impuestos*/
+//	@Column(name="precio_neto", columnDefinition="Decimal(10,2) default '0'")
+//	private BigDecimal precioNeto; /*Es el total mas impuestos*/
 	
 //	@Column(name = "precio_neto_reabajado")
 //	private BigDecimal precioNetoRabajado=BigDecimal.valueOf(3); /*Es el total mas impuestos*/
@@ -153,6 +154,11 @@ public class Producto implements Serializable {
 	@JoinColumn(name = "estado_producto_id")
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private EstadoProducto estadoProducto;
+	
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "producto_id")
+	private List<MargenProducto> margenesProducto;
 	
 	@PrePersist
 	public void prePersist() {

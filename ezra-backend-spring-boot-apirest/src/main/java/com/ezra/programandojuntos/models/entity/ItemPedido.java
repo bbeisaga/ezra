@@ -20,6 +20,10 @@ public class ItemPedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(name="costo_unitario_item", columnDefinition="Float(10,2) default '0'")
+	private Float costoUnitarioItem; 
+
 
 	private Long cantidad;
 	
