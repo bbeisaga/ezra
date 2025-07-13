@@ -1,27 +1,19 @@
-<div class="row">
-    <!--     <div class="col-md d-md-flex flex-md-wrap justify-content-md-end">
-        <button type="button" class="btn btn-link"><i class="bi bi-phone-vibrate-fill"></i>
-            Contactanos</button>
-        @if (!isAutenticado()) {
-        <button type="button" [routerLink]="['/login']" class="btn btn-link"><i class="bi bi-person-fill"></i>
-            Iniciar sesión</button>
-        }
-    </div> -->
-    <div class="col d-flex flex-column flex-wrap justify-content-center col-sm flex-sm-row justify-content-sm-end">
-        <button type="button" [routerLink]="['/pedidos/contactanos']" class="btn btn-link"><i class="bi bi-phone-vibrate-fill"></i>
-            Contactanos</button>
-        @if (!isAutenticado()) {
-        <button type="button" [routerLink]="['/login']" class="btn btn-link"><i class="bi bi-person-fill"></i>
-            Iniciar sesión</button>
-        }
-        @if (!isAutenticado()) {
-        <button type="button" [routerLink]="['/crear-cuenta']" class="btn btn-warning">Crear
-            cuenta</button>
-        }
-        @if (isAutenticado()) {
-        <button mat-fab extended (click)="sideNavToggle()"><mat-icon>menu</mat-icon>MENU</button>
-        }
-    </div>
+<div class="navbar d-flex flex-wrap justify-content-center justify-content-sm-end">
 
+    <a [routerLink]="['/pedidos/contactanos']"><i class="bi bi-people-fill"></i>Nosotros</a>
+
+
+    <a [routerLink]="['/pedidos/contactanos']"><i class="bi bi-phone-vibrate-fill"></i>Contactanos</a>
+
+    @if (!isAutenticado()) {
+    <a [routerLink]="['/login']"><i class="bi bi-person-fill"></i>Iniciar sesión</a>
+    }
+    @if (!isAutenticado()) {
+    <button type="button" [routerLink]="['/crear-cuenta']" class="btn btn-warning">Crear
+        cuenta</button>
+    }
+    @if (isAutenticado()) {
+    <button mat-fab extended (click)="sideNavToggle()"><mat-icon>menu</mat-icon>MENU</button>
+    }
 
 </div>

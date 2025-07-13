@@ -1,9 +1,9 @@
 <mat-nav-list>
-  <div mat-subheader><mat-icon>home</mat-icon>
+<!--   <div mat-subheader><mat-icon>home</mat-icon>
     <a mat-list-item [routerLink]="['principal']" [routerLinkActive]="['active']"
       [routerLinkActiveOptions]="{exact: true}">
       INICIO</a>
-  </div>
+  </div> -->
   <!----------------------1-------------------->
   <div mat-subheader *ngIf="authService.hasRole('ROLE_LIST_CLIENTES') || authService.hasRole('ROLE_REGISTER_CLIENTE')">
     <mat-icon>diversity_3</mat-icon>CLIENTES/PROVEEDORES

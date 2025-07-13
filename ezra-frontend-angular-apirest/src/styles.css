@@ -1,8 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
-
-
-
 @import './app/styles/app.scss';
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
 
 html,
 body {
@@ -152,13 +157,14 @@ body {
 }
 
 .en-stock {
-/*   position: relative;
+
+  /*   position: relative;
  */
   img {
     border-radius: 0 10px 0px 0px;
   }
 
-/*   &::before {
+  /*   &::before {
     content: 'PRÓXIMO';
     display: block;
     width: 30%;

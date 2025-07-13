@@ -1,0 +1,20 @@
+.navbar {
+    /*display: flex;*/
+    gap: 30px;
+    /*align-items: center;*/
+    /*flex-wrap: wrap;*/
+
+    a {
+        text-decoration: underline;
+        color: #212529;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-weight: 500;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}
+
