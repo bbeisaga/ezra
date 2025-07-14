@@ -213,20 +213,22 @@ INSERT INTO materiales (id, nombre) VALUES(8,'Vidrio');
 INSERT INTO materiales (id, nombre) VALUES(9,'Otro material');
 
 /*Parametros generales CATEGORIA*/
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(1,'Tasas rectas',1,1);
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(2,'Tasas en V',2,1);
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(3,'Vasos rectos',3,1);
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(4,'Vasos en V',4,1);
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(5,'Agendas',5,1);
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(6,'Otros',6,1);
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(1,'Tazas',1,1);
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(2,'Termos y botellas',4,1);
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(3,'Vasos',3,1);
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(4,'Artículos de librería',5,1);
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(5,'Máquinas e insumos',7,1);
+INSERT INTO categorias (id, nombre,orden,activa) VALUES(6,'Otros',9,1);
 
 
 /*Parametros generales USO*/
 INSERT INTO usos (id, nombre) VALUES(0,'Seleccione el uso Interno');
-INSERT INTO usos (id, nombre) VALUES(1,'Insumo');
-INSERT INTO usos (id, nombre) VALUES(2,'Producto reventa');
-INSERT INTO usos (id, nombre) VALUES(3,'Servicio sublimacion');
-INSERT INTO usos (id, nombre) VALUES(4,'Servicio envío');
+INSERT INTO usos (id, nombre) VALUES(1,'Artículo reventa');
+INSERT INTO usos (id, nombre) VALUES(2,'Máquinas reventa');
+INSERT INTO usos (id, nombre) VALUES(3,'Insumos reventa');
+INSERT INTO usos (id, nombre) VALUES(4,'Sublimación servicio');
+INSERT INTO usos (id, nombre) VALUES(5,'Diseño gráfico servicio');
+INSERT INTO usos (id, nombre) VALUES(6,'Envío servicio');
 
 /*Parametros generales USO*/
 INSERT INTO estados_producto (nombre) VALUES('Nuevo');
@@ -237,13 +239,14 @@ INSERT INTO estados_producto (nombre) VALUES('Próximo');
 
 
 /* Populate tabla productos */
-INSERT INTO productos (codigo,nombre,	descripcion,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('SR1','Servicio diseño y sublimacion','Servicio de diseño y sublimacion',NULL,'no-imagen.jpg',1,0,99999999,1,1,1,7,now(),0,1,18,9,6,3,18,5);
-INSERT INTO productos (codigo,nombre,	descripcion,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('SR2','Servicio entrega local','Servicio de envió a domicilio en la ciudad',NULL,'no-imagen.jpg',1,0,99999999,1,1,1,11,now(),0,1,18,9,6,4,18,5);
-INSERT INTO productos (codigo,nombre,	descripcion,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('SR3','Servicio entrega otra ciudad','Servicio de envió a domicilio en otra ciudad',NULL,'no-imagen.jpg',1,0,99999999,1,1,1,50,now(),0,1,18,9,6,4,18,5);
-INSERT INTO productos (codigo,nombre,	descripcion,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('TZ1','Taza de cerámica blanco de 11oz','Taza de cerámica blanco de 11oz, para colocar su marca','1 kg','taza_ceramica_blanco_11oz.png',10,5,0,5,30,5,1.41,now(),1,1,3,5,1,2,18,5);
-INSERT INTO productos (codigo,nombre,	descripcion,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('TZ2','Taza de cerámica blanco de 15oz','Taza de cerámica blanco de 15oz, para colocar su marca','2 kg','taza_ceramica_blanco_15oz.png',20,10,0,5,50,10,1.50,now(),1,1,3,5,1,2,18,5);
-INSERT INTO productos (codigo,nombre,	descripcion,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('TZ3','Taza de cerámica negro de 11oz','Taza de cerámica negro de 11oz, para colocar su marca','1.50 kg','taza_ceramica_negra_11oz.png',10,5,0,5,100,5,1.60,now(),1,1,4,5,1,2,18,5);
-INSERT INTO productos (codigo,nombre,	descripcion,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('TZ4','Taza de cerámica blanca 11 oz en V','Taza de cerámica blanca 11 oz en V, para colocar su marca','1.50 kg','vaso_de_ceramica_11oz_v.png',30,10,0,10,200,10,1.80,now(),1,1,3,5,2,2,18,5);
+INSERT INTO productos (codigo,nombre,	descripcion,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('SR1','Servicio de sublimación','Servicio de sublimación de artículo',NULL,'no-imagen.jpg',1,0,99999999,1,1,1,7,now(),0,1,18,9,6,4,18,5);
+INSERT INTO productos (codigo,nombre,	descripcion,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('SR2','Servicio diseño gráfico','Servicio diseño y retoque de imágen',NULL,'no-imagen.jpg',1,0,99999999,1,1,1,7,now(),0,1,18,9,6,5,18,5);
+INSERT INTO productos (codigo,nombre,	descripcion,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('SR3','Servicio entrega local','Servicio de envió a domicilio en la ciudad',NULL,'no-imagen.jpg',1,0,99999999,1,1,1,11,now(),0,1,18,9,6,6,18,5);
+INSERT INTO productos (codigo,nombre,	descripcion,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('SR4','Servicio entrega otra ciudad','Servicio de envió a domicilio en otra ciudad',NULL,'no-imagen.jpg',1,0,99999999,1,1,1,50,now(),0,1,18,9,6,6,18,5);
+INSERT INTO productos (codigo,nombre,	descripcion,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('TZ1','Taza de cerámica blanco de 11oz','Taza de cerámica blanco de 11oz, para colocar su marca','1 kg','taza_ceramica_blanco_11oz.png',10,5,0,5,30,5,1.41,now(),1,1,3,5,1,1,18,5);
+INSERT INTO productos (codigo,nombre,	descripcion,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('TZ2','Taza de cerámica blanco de 15oz','Taza de cerámica blanco de 15oz, para colocar su marca','2 kg','taza_ceramica_blanco_15oz.png',20,10,0,5,50,10,1.50,now(),1,1,3,5,1,1,18,5);
+INSERT INTO productos (codigo,nombre,	descripcion,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('TZ3','Taza de cerámica negro de 11oz','Taza de cerámica negro de 11oz, para colocar su marca','1.50 kg','taza_ceramica_negra_11oz.png',10,5,0,5,100,5,1.60,now(),1,1,4,5,1,1,18,5);
+INSERT INTO productos (codigo,nombre,	descripcion,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('TZ4','Taza de cerámica blanca 11 oz en V','Taza de cerámica blanca 11 oz en V, para colocar su marca','1.50 kg','vaso_de_ceramica_11oz_v.png',30,10,0,10,200,10,1.80,now(),1,1,3,5,1,1,18,5);
 
 
 /*INSERT INTO productos (codigo,nombre,	descripcion,	medidas,	peso,	imagen,	umbral_poca_cantidad,	umbral_cantidad_agotada,	cantidad_stock,	min_cantidad_pedido,	max_cantidad_pedido,	grupos_de,	costo_unitario,	create_at,	visible_en_tienda,	activo,	color_id,	material_id	,categoria_id,	uso_id, impuesto_igv, estado_producto_id) VALUES('C2','Envase de comida café','Envase de bagazo de azucar para comida color café con marca en forma de sticker personalizado','30x15x20 cm','1 kg','envase-comida-cafe.png',4,0,15,40,2000,20,10,now(),0,1,2,3,6,2,18,5);*/

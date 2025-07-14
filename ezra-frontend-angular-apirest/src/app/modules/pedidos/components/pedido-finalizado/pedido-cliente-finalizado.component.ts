@@ -1,3 +1,4 @@
+import { SERVICIO_DISENIO, SERVICIO_SUBLIMACION } from './../../../../constants/constantes';
 import { AuthService } from '../../../../services/auth.service';
 import { ItemPedido } from '../../../../models/item-pedido';
 import { Component, inject, OnInit } from '@angular/core';
@@ -59,6 +60,8 @@ export class PedidoClienteFinalizadoComponent implements OnInit {
   formaEnvio!: string;
   SERVICIO_ENTREGA_LOCAL = SERVICIO_ENTREGA_LOCAL;
   SERVICIO_ENTREGA_CIUDAD = SERVICIO_ENTREGA_CIUDAD;
+  SERVICIO_DISENIO= SERVICIO_DISENIO;
+  SERVICIO_SUBLIMACION=SERVICIO_SUBLIMACION;
 
 
   constructor() {

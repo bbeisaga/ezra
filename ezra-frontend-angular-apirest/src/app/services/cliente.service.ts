@@ -1,6 +1,6 @@
 import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Cliente } from '../models/cliente';
 
@@ -39,18 +39,37 @@ export class ClienteService {
   }
 
   getNumeroDocumento(numero: string): Observable<Cliente> {
-    return this.http.get<Cliente>(`${environment.apiUrl}/clientes/numero-documento/${numero}`
-      /*,{headers: this.agregarAuthorizationHeader()}*/
-    );
+    return this.http.get<Cliente>(`${environment.apiUrl}/clientes/numero-documento/${numero}`)
+      .pipe(
+        map((response: any) => response.cliente as Cliente),
+        catchError(e => {
+          if (e.status == 404) {
+            return EMPTY;
+          }
+          if (e.error.mensaje) {
+            this.alertService.error(e.error.mensaje, e.error.err);
+          }
+          return throwError(e);
+        }));;;
   }
 
   getCelular(celular: string): Observable<Cliente> {
-    return this.http.get<Cliente>(`${environment.apiUrl}/clientes/numero-celular/${celular}`
-      /*,{headers: this.agregarAuthorizationHeader()}*/
-    );
+    return this.http.get<Cliente>(`${environment.apiUrl}/clientes/celular/${celular}`)
+      .pipe(
+        map((response: any) => response.cliente as Cliente),
+        catchError(e => {
+          console.error(e);
+/*           if (e.status == 404) {
+            return EMPTY;
+          }
+          if (e.error.mensaje) {
+            this.alertService.error(e.error.mensaje, e.error.err);
+          } */
+          return EMPTY;
+        }));;
   }
 
-  getClienteByUsuarioId(usuarioId: number):  Observable<Cliente> {
+  getClienteByUsuarioId(usuarioId: number): Observable<Cliente> {
     return this.http.get<Cliente>(`${environment.apiUrl}/clientes/usuario/${usuarioId}`
       /*,{headers: this.agregarAuthorizationHeader()}*/
     );

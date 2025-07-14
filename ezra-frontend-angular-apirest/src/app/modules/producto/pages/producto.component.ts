@@ -32,7 +32,7 @@ import { Color } from '../../../models/color';
 })
 export class ProductoComponent implements OnInit , AfterViewInit{
 
-  displayedColumns: string[] = ['id', 'nombre','medidas','peso','color','material','categoria','uso','cantidadStock', 'precioNeto','acciones'];
+  displayedColumns: string[] = ['id', 'nombre','color','material','categoria','uso','cantidadStock', 'costoUnitario','acciones'];
   genericosDeProducto:GenericosDeProducto[]=[];
   dataSource : Producto[]=[];
   productos:Producto[]=[];

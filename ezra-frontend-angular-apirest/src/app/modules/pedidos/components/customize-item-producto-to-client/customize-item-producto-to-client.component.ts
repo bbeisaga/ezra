@@ -12,7 +12,7 @@ import { ItemPedido } from '../../../../models/item-pedido';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { COLOR_ESTADO_PRODUCTO } from '../../../../constants/color-estado-producto';
-import { SERVICIO_DISENIO } from '../../../../constants/constantes';
+import { SERVICIO_DISENIO, SERVICIO_SUBLIMACION } from '../../../../constants/constantes';
 
 @Component({
   selector: 'customize-item-producto-to-client',
@@ -35,7 +35,8 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
   verImagenProducto!: string;
   verImagenItem!: string;
   producto!: Producto;
-  servicio!: Producto;
+  servicioDisenio!: Producto;
+  servicioSublimacion!: Producto;
 
   item = new ItemPedido()
   items: ItemPedido[] = [];
@@ -65,7 +66,14 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
     }
 
     this.productoService.getProductoByCod(SERVICIO_DISENIO).subscribe(prd => {
-      this.servicio = prd;
+      this.servicioDisenio = prd;
+      //console.log(this.servicioDisenio);
+    });
+
+    this.productoService.getProductoByCod(SERVICIO_SUBLIMACION).subscribe(prd => {
+      this.servicioSublimacion = prd;
+      //console.log(this.servicioDisenio);
+
     });
   }
 
@@ -107,11 +115,13 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
   }
 
   addOneItemServicioDisenio(event: any) {
+    //debugger;
     this.isDisenio = event.target.checked;
+    //console.log(this.servicioDisenio);
     if (this.isDisenio) {
-      this.item.cantidad = this.servicio.minCantidadPedido;
-      this.item.descripcion = this.servicio.descripcion;
-      this.item.producto = { ...this.servicio };
+      this.item.cantidad = this.servicioDisenio.minCantidadPedido;
+      this.item.descripcion = this.servicioDisenio.descripcion;
+      this.item.producto = { ...this.servicioDisenio };
       this.item.imagenUri = environment.API_URL_VER_IMAGEN + this.item.imagen
 
       if (!this.itemService.existItemInItems(this.items, this.item.producto.id)
@@ -119,12 +129,48 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
         this.items = [...this.items, { ...this.item }];
         this.itemService.setItems(this.items);
         this.itemService.saveLocalStorageItems(this.items);
+        //this.addItem(this.items, this.item);
       }
     } else {
-      this.items = this.itemService.deleteItemFromItems(this.items, this.item.producto.id);
-      this.itemService.setItems(this.items);
-      this.itemService.saveLocalStorageItems(this.items);
+      this.deleteItem(this.items, this.item.producto.id);
+
     }
+  }
+
+  addOneItemServicioSublimacion(event: any) {
+    debugger;
+    this.isDisenio = event.target.checked;
+    console.log(this.servicioSublimacion);
+
+    if (this.isDisenio) {
+      this.item.cantidad = this.servicioSublimacion.minCantidadPedido;
+      this.item.descripcion = this.servicioSublimacion.descripcion;
+      this.item.producto = { ...this.servicioSublimacion };
+      this.item.imagenUri = environment.API_URL_VER_IMAGEN + this.item.imagen
+
+      if (!this.itemService.existItemInItems(this.items, this.item.producto.id)
+        && this.item.cantidad <= this.item.producto.maxCantidadPedido) {
+        this.items = [...this.items, { ...this.item }];
+        this.itemService.setItems(this.items);
+        this.itemService.saveLocalStorageItems(this.items);
+        //this.addItem(this.items, this.item);
+      }
+    } else {
+      this.deleteItem(this.items, this.item.producto.id);
+    }
+  }
+
+  deleteItem(items: ItemPedido[], productoId: number) {
+    this.items = this.itemService.deleteItemFromItems(items, productoId);
+    this.itemService.setItems(items);
+    this.itemService.saveLocalStorageItems(items);
+  }
+
+  addItem(items: ItemPedido[], item: ItemPedido) {
+    debugger;
+    this.items = [...items, { ...item }];
+    this.itemService.setItems(items);
+    this.itemService.saveLocalStorageItems(items);
   }
 
   sendOneItemProducto() {
@@ -139,8 +185,7 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
     }
     else if (this.item.cantidad <= this.item.producto.maxCantidadPedido) {
       this.items = [...this.items, { ...this.item }];
-      this.itemService.setItems(this.items);
-      this.itemService.saveLocalStorageItems(this.items);
+      this.addItem(this.items, this.item);
     }
   }
 

@@ -71,7 +71,7 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/clientes/documentos").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/clientes/{id}").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/clientes/numero-documento/{numero}").permitAll()
-			   .requestMatchers(HttpMethod.GET,"api/clientes/numero-celular/{celular}").permitAll()
+			   .requestMatchers(HttpMethod.GET,"api/clientes/celular/{celular}").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/clientes/usuarios/{usuarioId}").permitAll()
 
 			   // .requestMatchers(HttpMethod.GET,"api/clientes/filtrar-cliente/{term}").permitAll()

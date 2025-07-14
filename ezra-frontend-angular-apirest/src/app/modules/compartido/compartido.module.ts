@@ -86,6 +86,7 @@ import { ContactanosComponent } from './contactanos/contactanos.component';
   exports: [
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
     MatSidenavModule,
     MatFormFieldModule,
     MatInputModule,

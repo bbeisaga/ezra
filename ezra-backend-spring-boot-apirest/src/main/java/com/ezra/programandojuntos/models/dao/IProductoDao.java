@@ -24,7 +24,7 @@ public interface IProductoDao extends CrudRepository<Producto, Long>{
 	@Query("select p from Producto p where p.codigo =:codigo")
 	public Producto findByCodigo(String codigo);
 	
-	@Query("select p from Producto p where p.activo =true and p.uso.id = 4")
+	@Query("select p from Producto p where p.activo =true and p.uso.id = 6")
 	public List<Producto> findAllUsoServicioEnvio();
 	
 	public List<Producto> findByNombreContainingIgnoreCase(String term);

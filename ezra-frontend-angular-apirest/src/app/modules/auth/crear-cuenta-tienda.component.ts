@@ -52,9 +52,7 @@ export class CrearCuentaTiendaComponent {
       direccion: [this.cliente?.direccion,
       { validators: [Validators.required, Validators.minLength(5)] }
       ],
-      celular: [this.cliente?.celular,
-      { validators: [Validators.required, Validators.minLength(6), Validators.maxLength(14), Validators.pattern('^\\d+$')] }
-      ],
+      celular: [this.cliente?.celular, [Validators.required, Validators.minLength(6), Validators.maxLength(14), Validators.pattern('^\\d+$')]],
       /*       clave: [this.cliente?.usuario?.password,
             { validators: [Validators.required, Validators.minLength(4), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')] }
       
@@ -120,6 +118,7 @@ export class CrearCuentaTiendaComponent {
   }
 
     findByCelular(event: any) {
+      //debugger;
     const celular = event.target.value;
     const tipoDocumentoId = this.formNewCuenta.get('tipoDocumentoId')?.value;
     const numeroDocumento = this.formNewCuenta.get('numeroDocumento')?.value;
@@ -139,26 +138,6 @@ export class CrearCuentaTiendaComponent {
     })
 
   }
-
-  //HEMOS REMPLAZADO LA VALDIACION EN UNA CLASE REUTILIZABLE PARA TODOS UTILS
-  /*   isValidField(fieldName: string): boolean | null {
-      return (this.formNewCuenta.controls[fieldName].errors && this.formNewCuenta.controls[fieldName].touched)
-    }
-  
-    getFieldError(fieldName: string): string | null {
-      if (!this.formNewCuenta.controls[fieldName]) return null;
-      const errors = this.formNewCuenta.controls[fieldName].errors || {}
-      for (const key of Object.keys(errors)) {
-        switch (key) {
-          case 'required': return 'Campo requerido';
-          case 'minlength': return `Mínimo de ${errors['minlength'].requiredLength} caracteres`;
-          case 'maxlength': return `Máximo de ${errors['maxlength'].requiredLength} caracteres`;
-          case 'pattern': return `No cumple requerimientos de campo`;
-          case 'min': return `Valor mínimo de ${errors['min'].min}`;
-        }
-      }
-      return null;
-    } */
 
   resetForm() {
     this.formNewCuenta.reset();

@@ -169,9 +169,15 @@
 
                             <img [src]="item.imagenUri" width="86" alt={{item.imagen}} />
                         </td>
-                        <td><a [routerLink]="['/tienda/item-producto',item.producto.id]">
-                                {{item.producto.nombre}}</a>
-                            @if(item.producto.codigo != SERVICIO_ENTREGA_LOCAL && item.producto.codigo != SERVICIO_ENTREGA_CIUDAD){
+                        <td>
+         <!--                    <a [routerLink]="['/tienda/item-producto',item.producto.id]">
+                                {{item.producto.nombre}}</a> -->
+
+                                <b>{{item.producto.nombre}}</b>
+                            @if(item.producto.codigo != SERVICIO_ENTREGA_LOCAL && 
+                            item.producto.codigo != SERVICIO_ENTREGA_CIUDAD &&
+                            item.producto.codigo != SERVICIO_DISENIO &&
+                            item.producto.codigo != SERVICIO_SUBLIMACION){
                             <ul>
                                 <li><b>Medidas: </b>{{item.producto.medidas}}
                                     <b>Color: </b>{{item.producto.color?.nombre}}

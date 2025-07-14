@@ -156,7 +156,7 @@ public class ClienteServiceImpl implements IClienteService {
 		Usuario newUsuario = null;
 		if (cliente.getClave() != null) {
 			List<Role> rolesDefault = roleDao.findAll().stream().filter(a -> a.getNombre().equals("ROLE_LIST_VENTAS")
-					|| a.getNombre().equals("ROLE_REPORT_VENTA") || a.getNombre().equals("ROLE_CREATE_PEDIDO_TIENDA"))
+					|| a.getNombre().equals("ROLE_REPORT_VENTA") || a.getNombre().equals("ROLE_CREATE_VENTA"))
 					.collect(Collectors.toList());
 
 			Usuario usuario = new Usuario();
