@@ -33,6 +33,8 @@ public interface IClienteService {
 	
 	public Cliente insertar(Cliente cliente);
 	
+	public void sendEmailNuevasCredencialesCliente(Cliente cliente);
+	
 	public Cliente actualizar(Cliente cliente, Long clienteId);
 
 	public void delete(Long id);

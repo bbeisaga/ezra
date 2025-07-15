@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ezra.programandojuntos.dto.EmailDto;
 import com.ezra.programandojuntos.dto.ParametrosPageable;
 import com.ezra.programandojuntos.errors.ClienteMapErrors;
 import com.ezra.programandojuntos.exceptions.ClienteExceptions;
@@ -44,6 +45,9 @@ public class ClienteServiceImpl implements IClienteService {
 
 	@Autowired
 	private IRoleDao roleDao;
+	
+	@Autowired
+	private IEmailService emailService;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -128,11 +132,9 @@ public class ClienteServiceImpl implements IClienteService {
 	public Cliente guardarCliente(Cliente cliente) {
 		
 		Cliente clienteSave = null;
-		 var clienteActual = clienteDao.findByCelular(cliente.getCelular())
-				.orElse(clienteDao.findByNumeroDocumento(cliente.getNumeroDocumento()).orElse(null));
+		 var clienteActual = clienteDao.findByNumeroDocumento(cliente.getNumeroDocumento()).orElse(null);
 
-		if ((clienteActual != null && clienteActual.getUsuarioId() != null)
-				 ) {
+		if ((clienteActual != null && clienteActual.getUsuarioId() != null)) {
 			//ya esta registrado en el sistema olvido su contraseña
 			throw new ClienteExceptions(
 					ClienteMapErrors.getErrorString(ClienteMapErrors.CODE_CLI_USR_DUPLICADO, clienteActual.getNomApellRz()));
@@ -161,17 +163,34 @@ public class ClienteServiceImpl implements IClienteService {
 
 			Usuario usuario = new Usuario();
 			usuario.setPassword(passwordEncoder.encode(cliente.getClave()));
+			usuario.setNomApellRz(cliente.getNomApellRz());
 			usuario.setActivo(true);
 			usuario.setBloqueado(false);
 			usuario.setReintentos(0);
-			usuario.setUsername(cliente.getCelular());
+			usuario.setUsername(cliente.getNumeroDocumento());
 			usuario.setRoles(rolesDefault);
 			newUsuario = usuarioDao.save(usuario);
+			
+			sendEmailNuevasCredencialesCliente(cliente);
 			cliente.setUsuarioId(newUsuario.getId());
 			cliente.setClave(null);
 		}
 		return clienteDao.save(cliente);
 	}
+
+	@Override
+	public void sendEmailNuevasCredencialesCliente(Cliente cliente) {
+		EmailDto email = new EmailDto();
+		email.setEmailDestino(cliente.getEmail());
+		email.setAsunto("Bienvenido! Credenciales de acceso a importaciones GRAFIYA");
+		email.setSaludo("Hola " + cliente.getNomApellRz());
+		email.setMensaje(ClienteMapErrors.getErrorString(ClienteMapErrors.CODE_NEW_CREDENCIALES_ACCESO, cliente.getNumeroDocumento(), cliente.getClave()));
+		email.setDespedida("Atentamente.");
+		
+		this.emailService.sendMailWithTymeleaf(email);
+	}
+	
+	
 
 	@Override
 	@Transactional
@@ -189,17 +208,20 @@ public class ClienteServiceImpl implements IClienteService {
 		
 		if (cliente.getClave() != null && clienteActual.getUsuarioId()==null) {
 			List<Role> rolesDefault = roleDao.findAll().stream().filter(a -> a.getNombre().equals("ROLE_LIST_VENTAS")
-					|| a.getNombre().equals("ROLE_REPORT_VENTA") || a.getNombre().equals("ROLE_CREATE_PEDIDO_TIENDA"))
+					|| a.getNombre().equals("ROLE_REPORT_VENTA") || a.getNombre().equals("ROLE_CREATE_VENTA"))
 					.collect(Collectors.toList());
 
 			Usuario usuario = new Usuario();
 			usuario.setPassword(passwordEncoder.encode(cliente.getClave()));
+			usuario.setNomApellRz(cliente.getNomApellRz());
 			usuario.setActivo(true);
 			usuario.setBloqueado(false);
 			usuario.setReintentos(0);
-			usuario.setUsername(cliente.getCelular());
+			usuario.setUsername(cliente.getNumeroDocumento());
 			usuario.setRoles(rolesDefault);
 			var newUsuario = usuarioDao.save(usuario);
+			sendEmailNuevasCredencialesCliente(cliente);
+
 			clienteActual.setUsuarioId(newUsuario.getId());
 			clienteActual.setClave(null);
 		}

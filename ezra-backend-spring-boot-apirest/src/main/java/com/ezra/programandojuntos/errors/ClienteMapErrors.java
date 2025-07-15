@@ -18,6 +18,8 @@ public class ClienteMapErrors {
 	public static final String MSJ_USERNAME_DUPLICADO = "Usuario %g ya esta registrado";
 	public static final String CODE_CLI_USR_DUPLICADO = "C005";
 	public static final String MSJ_CLI_USR_DUPLICADO = "Cliente ya esta registrado, , puede recuperar la contraseña o comuniquese con el administrador";
+	public static final String CODE_NEW_CREDENCIALES_ACCESO = "C006";
+	public static final String MSJ_NEW_CREDENCIALES_ACCESO = "Tu usuario es %s y tu contraseña %s";
 
 	//bloque estaitco se jecuta una sola vez
 	static {
@@ -27,7 +29,7 @@ public class ClienteMapErrors {
 		errors.put(CODE_NO_CLIENTE_ID, new ErrorEzra(CODE_NO_CLIENTE_ID, MSJ_NO_CLIENTE_ID));
 		errors.put(CODE_USERNAME_DUPLICADO, new ErrorEzra(CODE_USERNAME_DUPLICADO, MSJ_USERNAME_DUPLICADO));
 		errors.put(CODE_CLI_USR_DUPLICADO, new ErrorEzra(CODE_CLI_USR_DUPLICADO, MSJ_CLI_USR_DUPLICADO));
-
+		errors.put(CODE_NEW_CREDENCIALES_ACCESO, new ErrorEzra(CODE_NEW_CREDENCIALES_ACCESO, MSJ_NEW_CREDENCIALES_ACCESO));
 	}
 	
 	public static String getErrorString(String code, Object... args) {

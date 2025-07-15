@@ -27,6 +27,8 @@ export class CrearCuentaTiendaComponent {
   //usuario: Usuario = new Usuario();
   cliente: Cliente = new Cliente();
   formNewCuenta!: FormGroup;
+  isCliente: boolean = false;
+  isUsuario: boolean = false;
 
   ngOnInit() {
     this.createForm();
@@ -49,10 +51,16 @@ export class CrearCuentaTiendaComponent {
       { validators: [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z\\s]+$')] }
       ],
 
-      direccion: [this.cliente?.direccion,
-      { validators: [Validators.required, Validators.minLength(5)] }
+      correo: [this.cliente?.email, [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')] 
       ],
-      celular: [this.cliente?.celular, [Validators.required, Validators.minLength(6), Validators.maxLength(14), Validators.pattern('^\\d+$')]],
+
+      /*       direccion: [this.cliente?.direccion,
+            { validators: [Validators.required, Validators.minLength(5)] }
+            ],
+      
+            celular: [this.cliente?.celular, [Validators.required, Validators.minLength(6), Validators.maxLength(14), Validators.pattern('^\\d+$')]], */
+
+
       /*       clave: [this.cliente?.usuario?.password,
             { validators: [Validators.required, Validators.minLength(4), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')] }
       
@@ -84,9 +92,11 @@ export class CrearCuentaTiendaComponent {
       const clave = this.formNewCuenta.get('clave')?.value
       const confirmaClave = this.formNewCuenta.get('confirmaClave')?.value
       if (clave === confirmaClave) {
-        this.cliente.tipoDocumento = find(this.tipoDocumentos, (td) => td.id === +this.formNewCuenta.get('documentoId')?.value)!
+        debugger;
+        this.cliente.tipoDocumento = find(this.tipoDocumentos, (td) => td.id === +this.formNewCuenta.get('tipoDocumentoId')?.value)!
         this.cliente.numeroDocumento = this.formNewCuenta.get('numeroDocumento')?.value
         this.cliente.nomApellRz = this.formNewCuenta.get('nomApellRz')?.value
+        this.cliente.email = this.formNewCuenta.get('correo')?.value
         this.cliente.direccion = this.formNewCuenta.get('direccion')?.value
         this.cliente.celular = this.formNewCuenta.get('celular')?.value
         this.cliente.clave = clave;
@@ -105,20 +115,24 @@ export class CrearCuentaTiendaComponent {
     const numero = event.target.value;
     const tipoDocumentoId = this.formNewCuenta.get('tipoDocumentoId')?.value;
     this.clienteService.getNumeroDocumento(numero).subscribe(resp => {
-      this.cliente = resp;
+      if (resp) {
+        this.cliente = resp;
+        this.isCliente = true
+        this.isUsuario = (resp.usuarioId) ? true : false;
+      }
       this.createForm();
 
     }, err => {
       console.log("Entro")
     }, () => {
       this.formNewCuenta.get('tipoDocumentoId')?.setValue(tipoDocumentoId);
-      this.formNewCuenta.get('numeroDocumento')?.setValue(numero);
+      //this.formNewCuenta.get('numeroDocumento')?.setValue(numero);
     })
 
   }
 
-    findByCelular(event: any) {
-      //debugger;
+  findByCelular(event: any) {
+    //debugger;
     const celular = event.target.value;
     const tipoDocumentoId = this.formNewCuenta.get('tipoDocumentoId')?.value;
     const numeroDocumento = this.formNewCuenta.get('numeroDocumento')?.value;

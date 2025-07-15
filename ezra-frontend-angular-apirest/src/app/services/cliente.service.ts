@@ -44,13 +44,17 @@ export class ClienteService {
         map((response: any) => response.cliente as Cliente),
         catchError(e => {
           if (e.status == 404) {
+            console.log("e1", e);
             return EMPTY;
           }
           if (e.error.mensaje) {
+            console.log("e2", e);
             this.alertService.error(e.error.mensaje, e.error.err);
           }
+          console.log("e3", e);
+
           return throwError(e);
-        }));;;
+        }))
   }
 
   getCelular(celular: string): Observable<Cliente> {
@@ -59,12 +63,12 @@ export class ClienteService {
         map((response: any) => response.cliente as Cliente),
         catchError(e => {
           console.error(e);
-/*           if (e.status == 404) {
-            return EMPTY;
-          }
-          if (e.error.mensaje) {
-            this.alertService.error(e.error.mensaje, e.error.err);
-          } */
+          /*           if (e.status == 404) {
+                      return EMPTY;
+                    }
+                    if (e.error.mensaje) {
+                      this.alertService.error(e.error.mensaje, e.error.err);
+                    } */
           return EMPTY;
         }));;
   }

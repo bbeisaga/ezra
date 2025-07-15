@@ -9,9 +9,13 @@ public class ErrorEzra {
 	private String code;
 	private String msj;
 
-	public String getMensaje() {
+	
+	public String getMensajeWithCode() {
 		return this.code.concat(": ").concat(this.msj);
-
+	}
+	
+	public String getMensaje() {
+		return this.msj;
 	}
 
 	public ErrorEzra() {

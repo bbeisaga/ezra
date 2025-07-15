@@ -19,7 +19,11 @@ public interface IUsuarioDao extends CrudRepository<Usuario, Long>{
 	@Query("select u from Usuario u where u.username=?1")
 	public Usuario findByUsername2(String username);
 	
-	@Query("SELECT u FROM Usuario u WHERE (u.apellidos like %:query% OR u.nombres like %:query%)")
+//	@Query("SELECT u FROM Usuario u WHERE (u.apellidos like %:query% OR u.nombres like %:query%)")
+//	Page<Usuario> findAllUsuarioPageable(@Param("query") String query, Pageable pageRequest);
+	
+	
+	@Query("SELECT u FROM Usuario u WHERE u.nomApellRz like %:query%")
 	Page<Usuario> findAllUsuarioPageable(@Param("query") String query, Pageable pageRequest);
 
 	@Transactional

@@ -13,5 +13,6 @@ export class Cliente {
   clave!:string;
   confirmaClave!:string;
   celular!: string;
+  usuarioId?:number;
   pedidos: Array<Pedido> = [];
 }

@@ -83,10 +83,10 @@ public class Cliente implements Serializable {
 	@Column(name = "numero_documento", unique=true)
 	private String numeroDocumento;
 	
-	@Column(name = "celular", unique=true)
+	@Column(name = "celular")
 	private String celular;
 	
-	@Column(unique = true)
+	@Column(name = "email")
 	private String email;
 	
 //	@OneToOne(fetch = FetchType.LAZY)

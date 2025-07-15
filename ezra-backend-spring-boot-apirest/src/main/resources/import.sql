@@ -6,8 +6,6 @@ INSERT INTO tipo_documentos (acronimo, nombre) VALUES ('RUC', 'Registro único d
 INSERT INTO tipo_documentos (acronimo, nombre) VALUES ('OTR', 'Otro documento de indentificación');
 
 
-
-
 INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular, usuario_id) VALUES(1, 'Beisaga Arenas Bhernard', '2018-01-01','41953483','054292',1);
 INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular, usuario_id) VALUES(1, 'Arenas Alvares Soni Yanet', '2018-01-02','11953480','0544222',2);
 INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular, usuario_id) VALUES(1, 'Cojoma Vanesa', '2018-01-03','02953480','0543292',3);
@@ -22,9 +20,9 @@ INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_docume
 INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular) VALUES(3, 'Clinica Zorana', '2018-03-06','10418934802','99544292');
 
 /* Creamos algunos usuarios con sus roles */
-INSERT INTO `usuarios` (username, password, activo, bloqueado,reintentos, nombres, apellidos) VALUES ('admin','$2a$10$RmdEsvEfhI7Rcm9f/uZXPebZVCcPC7ZXZwV51efAvMAp1rIaRAfPK',1,0,0, 'Bhernard Shomert', 'Beisaga Arenas');
-INSERT INTO `usuarios` (username, password, activo, bloqueado,reintentos, nombres, apellidos) VALUES ('sonia','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1,0,0, 'Sonia Yanet', 'Arenas Alvarez');
-INSERT INTO `usuarios` (username, password, activo, bloqueado,reintentos, nombres, apellidos) VALUES ('vane','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1,0,0, 'Vanesa', 'Cojoma');
+INSERT INTO `usuarios` (username, password, activo, bloqueado,reintentos,nom_apell_rz) VALUES ('admin','$2a$10$RmdEsvEfhI7Rcm9f/uZXPebZVCcPC7ZXZwV51efAvMAp1rIaRAfPK',1,0,0, 'Bhernard Shomert Beisaga Arenas');
+INSERT INTO `usuarios` (username, password, activo, bloqueado,reintentos,nom_apell_rz) VALUES ('sonia','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1,0,0, 'Sonia Yanet Arenas Alvarez');
+INSERT INTO `usuarios` (username, password, activo, bloqueado,reintentos,nom_apell_rz) VALUES ('vane','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1,0,0, 'Vanesa Cojoma');
 
 INSERT INTO `modulos` (nombre) VALUES ('CLIENTES PROVEEDORES');
 INSERT INTO `modulos` (nombre) VALUES ('PEDIDOS');

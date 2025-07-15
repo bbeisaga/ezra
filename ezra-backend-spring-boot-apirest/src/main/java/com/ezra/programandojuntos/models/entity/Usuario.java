@@ -38,8 +38,8 @@ public class Usuario implements Serializable {
 	
 	private int reintentos;
 
-	private String nombres;
-	private String apellidos;
+	@Column(name = "nom_apell_rz")
+	private String nomApellRz;
 
 //	@Column(unique = true)
 //	private String email;
