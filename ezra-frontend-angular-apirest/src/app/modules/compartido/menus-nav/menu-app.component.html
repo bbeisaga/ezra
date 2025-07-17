@@ -6,8 +6,8 @@
   </div> -->
   <!----------------------1-------------------->
   <div mat-subheader *ngIf="authService.hasRole('ROLE_LIST_CLIENTES') || authService.hasRole('ROLE_REGISTER_CLIENTE')">
-    <mat-icon>diversity_3</mat-icon>CLIENTES/PROVEEDORES
-  </div>
+    <i class="fa-solid fa-users"></i>CLIENTES/PROVEEDORES
+  </div>  
   <ng-container *ngIf="authService.hasRole('ROLE_LIST_CLIENTES')">
     <a mat-list-item [routerLink]="['clientes']" [routerLinkActive]="['active']"
       [routerLinkActiveOptions]="{exact: true}">

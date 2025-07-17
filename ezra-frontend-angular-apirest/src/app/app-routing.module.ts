@@ -4,6 +4,8 @@ import { LoginComponent } from './modules/auth/login.component';
 
 import { PrincipalComponent } from './modules/compartido/principal.component';
 import { CrearCuentaTiendaComponent } from './modules/auth/crear-cuenta-tienda.component';
+import { HomeComponent } from './modules/home/pages/home/home.component';
+import { CarruselServiciosComponent } from './modules/home/components/carrusel-servicios/carrusel-servicios.component';
 
 const routes: Routes = [
 
@@ -11,6 +13,9 @@ const routes: Routes = [
    */
   { path: 'login', component: LoginComponent },
   { path: 'crear-cuenta', component: CrearCuentaTiendaComponent },
+
+   { path: '', component: HomeComponent },
+ 
 
   /*   {
       path: 'tienda', component: PaginaTiendaComponent,
@@ -22,12 +27,12 @@ const routes: Routes = [
       ]
     }, */
   {
-    path: '', component: PrincipalComponent,
+    path: 'tienda', component: PrincipalComponent,
     children: [
-/*       {
-        path: 'tienda',
-        loadChildren: () => import("./modules/tienda/tienda.module").then((m) => m.TiendaModule),
-      }, */
+      /*       {
+              path: 'tienda',
+              loadChildren: () => import("./modules/tienda/tienda.module").then((m) => m.TiendaModule),
+            }, */
       /*       {
               path: '',
               loadChildren: () => import("./modules/home/home.module").then((m) => m.HomeModule),

@@ -221,7 +221,7 @@ INSERT INTO categorias (id, nombre,orden,activa) VALUES(6,'Otros',9,1);
 
 /*Parametros generales USO*/
 INSERT INTO usos (id, nombre) VALUES(0,'Seleccione el uso Interno');
-INSERT INTO usos (id, nombre) VALUES(1,'Artículo reventa');
+INSERT INTO usos (id, nombre) VALUES(1,'Producto reventa');
 INSERT INTO usos (id, nombre) VALUES(2,'Máquinas reventa');
 INSERT INTO usos (id, nombre) VALUES(3,'Insumos reventa');
 INSERT INTO usos (id, nombre) VALUES(4,'Sublimación servicio');
