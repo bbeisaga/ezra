@@ -147,7 +147,7 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
   }
 
   addOneItemServicioSublimacion(event: any) {
-    debugger;
+    //debugger;
     this.isDisenio = event.target.checked;
     console.log(this.servicioSublimacion);
 
@@ -176,7 +176,7 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
   }
 
   addItem(items: ItemPedido[], item: ItemPedido) {
-    debugger;
+    //debugger;
     this.items = [...items, { ...item }];
     this.itemService.setItems(items);
     this.itemService.saveLocalStorageItems(items);

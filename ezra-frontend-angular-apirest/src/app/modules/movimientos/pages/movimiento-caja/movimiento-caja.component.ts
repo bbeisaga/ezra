@@ -65,8 +65,8 @@ export class MovimientoCajaComponent implements OnInit, AfterViewInit {
       res => {
         if (res !== null && res.activa) {
           this.cajaUsuario = res
-          this.cajaUsuario.fechaApertura = moment(this.cajaUsuario.fechaApertura).format('DD/MM/YYYY HH:mm:ss');
-          this.cajaUsuario.fechaActualizacion = moment(this.cajaUsuario.fechaActualizacion).format('DD/MM/YYYY HH:mm:ss');
+          this.cajaUsuario.fechaApertura = moment(this.cajaUsuario.fechaApertura).format('DD/MM/yyyy HH:mm:ss');
+          this.cajaUsuario.fechaActualizacion = moment(this.cajaUsuario.fechaActualizacion).format('DD/MM/yyyy HH:mm:ss');
           this.cajaUsuario.color = COLOR_CAJA_USUARIO[('' + res.activa) as keyof typeof COLOR_CAJA_USUARIO];
           //this.colores[('' + res.activa) as keyof typeof this.colores ];
           //        console.log("getCajaUsuarioByUserName...", res)

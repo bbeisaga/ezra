@@ -13,7 +13,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'crear-cuenta', component: CrearCuentaTiendaComponent },
 
-   { path: '', component: CarruselServiciosComponent },
+   { path: 'carrousel', component: CarruselServiciosComponent },
  
 
   /*   {
@@ -26,7 +26,7 @@ export const routes: Routes = [
       ]
     }, */
   {
-    path: 'tienda', component: PrincipalComponent,
+    path: '', component: PrincipalComponent,
     children: [
       /*       {
               path: 'tienda',
@@ -35,7 +35,7 @@ export const routes: Routes = [
       /*       {
               path: '',
               loadChildren: () => import("./modules/home/home.module").then((m) => m.HomeModule),
-              canActivate: [AuthGuard],
+              canActivate: [isAuthenticatedGuard],
             }, */
       {
         path: 'clientes',

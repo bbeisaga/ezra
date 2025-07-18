@@ -1,4 +1,4 @@
-@import 'variables';
+@use 'variables' as var;
 
 modal-dialog-alert {
   .header-text {
@@ -23,25 +23,25 @@ modal-dialog-alert {
 
 .dialog-error {
   .mat-icon {
-    color: $ezra-pink;
+    color: var.$ezra-pink;
   }
 }
 
 .dialog-success {
   .mat-icon {
-    color: $ezra-green;
+    color: var.$ezra-green;
   }
 }
 
 .dialog-warning {
   .mat-icon {
-    color: $ezra-yellow;
+    color: var.$ezra-yellow;
   }
 }
 
 .dialog-info {
   .mat-icon {
-    color: $ezra-blue;
+    color: var.$ezra-blue;
   }
 }
 
@@ -56,17 +56,17 @@ modal-dialog-alert {
 }
 .error {
   background: #ffecec;
-  border:1px solid $ezra-pink;
+  border:1px solid var.$ezra-pink;
 }
 .success {
   background: #e9ffd9;
-  border:1px solid $ezra-green;
+  border:1px solid var.$ezra-green;
 }
 .warning {
   background: #fff8c4;
-  border:1px solid $ezra-yellow;
+  border:1px solid var.$ezra-yellow;
 }
 .notice {
   background: #e3f7fc;
-  border:1px solid $ezra-blue;
+  border:1px solid var.$ezra-blue;
 }

@@ -1,7 +1,7 @@
-<mat-card class="card">
+<div class="card">
   <form class="d-flex flex-column" #clienteForm="ngForm" autocomplete="off">
-    <mat-card-header class="card-header">
-      <mat-card-title>{{ titulo }}</mat-card-title>
+    <div class="card-header">
+      <h6 class="card-title">{{ titulo }}</h6>
       <div class="ms-auto">
         <button *ngIf="!cliente.id && authService.hasRole('ROLE_REGISTER_CLIENTE') else elseBlock" color="primary"
           mat-raised-button (click)='create()' [disabled]="!clienteForm.form.valid">Crear cliente o proveedor</button>
@@ -12,23 +12,8 @@
 
         <button color="primary" mat-raised-button [routerLink]="'/clientes'">Cancelar</button>
       </div>
-    </mat-card-header>
-    <mat-card-content class="d-flex flex-column">
-      <mat-form-field class="example-full-width">
-        <mat-label>Celular</mat-label>
-        <input matInput [(ngModel)]="cliente.celular" name="celular" #celular="ngModel" minlength="6" required>
-        <div *ngIf="formUtils.isValidFieldFp(celular)" class="text-danger">
-          {{formUtils.getFieldErrorFp(celular)}}
-        </div>
-      </mat-form-field>
-      <mat-form-field class="example-full-width">
-        <mat-label>Nombres y apellidos o Razón Social</mat-label>
-        <input matInput type="text" class="form-control" [(ngModel)]="cliente.nomApellRz" name="nomApellRz"
-          #nomApellRz="ngModel" minlength="2">
-        <div *ngIf="formUtils.isValidFieldFp(nomApellRz)" class="text-danger">
-          {{formUtils.getFieldErrorFp(nomApellRz)}}
-        </div>
-      </mat-form-field>
+    </div>
+    <div class="card-body d-flex flex-column">
       <mat-form-field appearance="fill">
         <mat-label>Tipo documento</mat-label>
         <mat-select [compareWith]="compararDocumento" [(ngModel)]="tipoDocumentoSelected" name="tipoDocumento">
@@ -44,6 +29,22 @@
           {{formUtils.getFieldErrorFp(numeroDocumento)}}
         </div>
       </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Celular</mat-label>
+        <input matInput [(ngModel)]="cliente.celular" name="celular" #celular="ngModel" minlength="6" required>
+        <div *ngIf="formUtils.isValidFieldFp(celular)" class="text-danger">
+          {{formUtils.getFieldErrorFp(celular)}}
+        </div>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Nombres y apellidos o Razón Social</mat-label>
+        <input matInput type="text" class="form-control" [(ngModel)]="cliente.nomApellRz" name="nomApellRz"
+          #nomApellRz="ngModel" minlength="2">
+        <div *ngIf="formUtils.isValidFieldFp(nomApellRz)" class="text-danger">
+          {{formUtils.getFieldErrorFp(nomApellRz)}}
+        </div>
+      </mat-form-field>
+
 
 
       <!--       <div class="form-group row">
@@ -98,10 +99,10 @@
           </div> -->
 
 
-    </mat-card-content>
+    </div>
     <!--   <mat-card-actions>
         <button mat-button>LIKE</button>
         <button mat-button>SHARE</button>
       </mat-card-actions> -->
   </form>
-</mat-card>
+</div>

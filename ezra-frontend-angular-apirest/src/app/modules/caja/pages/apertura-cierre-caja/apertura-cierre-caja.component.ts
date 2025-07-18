@@ -85,10 +85,10 @@ export class AperturaCierreCajaComponent implements OnInit ,AfterViewInit {
 
     if(cajaUsuario!=null){
       this.cajaUsuario = cajaUsuario
-      this.cajaUsuario.fechaApertura = moment(this.cajaUsuario.fechaApertura).format('DD/MM/YYYY HH:mm:ss');
+      this.cajaUsuario.fechaApertura = moment(this.cajaUsuario.fechaApertura).format('DD/MM/yyyy HH:mm:ss');
       //this.datePipe.transform(this.cajaUsuario.fechaApertura, 'dd-MM-yyyy')!;
       if(this.cajaUsuario.fechaCierre!=null){
-      this.cajaUsuario.fechaCierre = moment(this.cajaUsuario.fechaCierre).format('DD/MM/YYYY HH:mm:ss')};
+      this.cajaUsuario.fechaCierre = moment(this.cajaUsuario.fechaCierre).format('DD/MM/yyyy HH:mm:ss')};
       //this.datePipe.transform(this.cajaUsuario.fechaCierre, 'dd-MM-yyyy')!;
       this.cajaActiva = this.cajaUsuario.activa;
       this.formCaja.get('fchApertura')?.setValue(this.cajaUsuario.fechaApertura);

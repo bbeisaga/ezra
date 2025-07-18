@@ -1,22 +1,17 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest,
-  HttpErrorResponse
-} from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { AuthService } from "../services/auth.service";
+import { AlertService } from "../services/alert.service";
+import { Router } from "@angular/router";
+import { catchError, Observable, throwError } from "rxjs";
 
-import { Observable, throwError } from 'rxjs';
-import { AuthService } from '../services/auth.service';
-import swal from 'sweetalert2';
-import { catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { AlertService } from '../services/alert.service';
 
-@Injectable()
+ @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private authService: AuthService,
     private alertsService: AlertService,
-    private router: Router) { }
+    private router: Router) { } 
 
   intercept(req: HttpRequest<any>, next: HttpHandler):
     Observable<HttpEvent<any>> {

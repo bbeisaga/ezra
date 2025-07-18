@@ -1,19 +1,19 @@
 <!-- <detalle-cliente *ngIf="clienteSeleccionado" [cliente] ="clienteSeleccionado"></detalle-cliente>
  -->
 
-<mat-card class="card">
-  <mat-card-header class="card-header">
-    <mat-card-title>Listado de clientes y proveedores</mat-card-title>
+<div class="card">
+  <div class="card-header">
+    <h6 class="card-title">Listado de clientes y proveedores</h6>
     <div class="ms-auto">
       <button type="button" *ngIf="authService.hasRole('ROLE_REGISTER_CLIENTE')" color="primary" 
         [routerLink]="['form']">
         Crear cliente
       </button>
     </div>
-  </mat-card-header>
+  </div>
 
 
-  <mat-card-content>
+  <div class="card-body">
     <ng-container *ngIf="authService.hasRole('ROLE_SEARCH_CLIENTE')">
       <search-box-table (searchEvent)="searchEvent($event)"></search-box-table>
     </ng-container>
@@ -28,7 +28,7 @@
 
         <ng-container matColumnDef="createAt">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha creacion </th>
-          <td mat-cell *matCellDef="let element"> {{element.createAt | date: 'dd/MM/YYYY HH:mm:ss' }} </td>
+          <td mat-cell *matCellDef="let element"> {{element.createAt | date: 'dd/MM/yyyy HH:mm:ss' }} </td>
         </ng-container>
 
         <ng-container matColumnDef="numeroDocumento">
@@ -72,5 +72,5 @@
         (page)="loadItems()"></mat-paginator>
     </div>
 
-  </mat-card-content>
-</mat-card>
+  </div>
+</div>

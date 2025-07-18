@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from '../../guards/auth.guard';
+import { isAuthenticatedGuard } from '../../guards/is-authenticated.guard';
 import { RoleGuard } from '../../guards/role.guard';
 import { MantenimientoProductoComponent } from './pages/mantenimiento-producto.component';
 import { ProductoComponent } from './pages/producto.component';
@@ -9,36 +9,36 @@ export const routes: Routes = [
   {
     path: '',
     component: ProductoComponent,
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [isAuthenticatedGuard, RoleGuard],
     data: { role: 'ROLE_LIST_PRODUCTOS' },
     pathMatch: 'full'
   },
   /*   { path: 'form-producto', component: FormProductoComponent,
-      canActivate:[AuthGuard,RoleGuard],
+      canActivate:[isAuthenticatedGuard,RoleGuard],
       data: { role: 'ROLE_REGISTER_PRODUCTO' }
      }, */
 
   {
     path: 'mantenimiento-producto', component: MantenimientoProductoComponent,
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [isAuthenticatedGuard, RoleGuard],
     data: { role: 'ROLE_REGISTER_PRODUCTO' }
   },
 
   {
     path: 'mantenimiento-producto/:productoId', component: MantenimientoProductoComponent,
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [isAuthenticatedGuard, RoleGuard],
     data: { role: 'ROLE_UPDATE_PRODUCTO' }
   },
 
   /*   { path: 'form-producto/:productoId', component: FormProductoComponent,
-      canActivate:[AuthGuard,RoleGuard],
+      canActivate:[isAuthenticatedGuard,RoleGuard],
       data: { role: 'ROLE_UPDATE_PRODUCTO' }
     }, */
 
   {
     path: 'productos-categoria/:catId',
     component: ProductosPorCategoriaComponent,
-/*     canActivate: [AuthGuard, RoleGuard],
+/*     canActivate: [isAuthenticatedGuard, RoleGuard],
     data: { role: 'ROLE_LIST_CLIENTES' } */
   }
 

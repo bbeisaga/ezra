@@ -3,7 +3,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { Pedido } from '../../../models/pedido';
 import { PageableResponse } from '../../../models/pageable-response';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { PedidoService } from '../../../services/pedido.service';
 import { AuthService } from '../../../services/auth.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -25,7 +25,7 @@ import { RouterModule, Router, ActivatedRoute } from '@angular/router';
   templateUrl: './listado-compras.component.html',
   styleUrl: './listado-compras.component.css',
   standalone: true,
-  imports: [SearchBoxTableComponent, CommonModule, MatTableModule, MatPaginatorModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+  imports: [SearchBoxTableComponent, CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
 
 })
 export class ListadoComprasComponent implements OnInit, AfterViewInit {

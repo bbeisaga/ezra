@@ -3,7 +3,7 @@
 @import 'tailwindcss/utilities';
 
 @import "skeleton";*/
-@import "sidenav";
+@forward "sidenav";
 /*@import "toolbar";
 @import "utils";
 @import "auth";
@@ -13,8 +13,8 @@
 @import "tooltips";
 @import "pages";
 @import "tables"; */
-@import "alerts";
-@import "layouts";
+@forward "alerts";
+@forward "layouts";
 
 /* @import "splash-screen";
 @import "inputs";

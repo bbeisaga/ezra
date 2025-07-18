@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from '../../guards/auth.guard';
+import { isAuthenticatedGuard } from '../../guards/is-authenticated.guard';
 import { RoleGuard } from '../../guards/role.guard';
 import { ContactanosComponent } from '../compartido/contactanos/contactanos.component';
 import { DetallePedidoCompraComponent } from './components/detalle-pedido-compra/detalle-pedido-compra.component';
@@ -17,12 +17,12 @@ export const routes: Routes = [
   {
     path: 'listado-ventas',
     component: ListadoVentasComponent,
-    canActivate: [AuthGuard],
+    canActivate: [isAuthenticatedGuard],
   },
   {
     path: 'listado-compras',
     component: ListadoComprasComponent,
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [isAuthenticatedGuard, RoleGuard],
     data: { role: 'ROLE_LIST_COMPRAS' }
   },
   {
@@ -31,34 +31,34 @@ export const routes: Routes = [
   },
   /*   { path: 'form/:clienteId',
       component: FormPedidoComponent,
-      canActivate:[AuthGuard, RoleGuard],
+      canActivate:[isAuthenticatedGuard, RoleGuard],
       data: { role: 'ROLE_CREATE_PEDIDO' }
     }, */
   {
     path: 'item-producto-cliente-tienda/:clienteId',
     component: ItemProductoClienteTiendaComponent,
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [isAuthenticatedGuard, RoleGuard],
     data: { role: 'ROLE_CREATE_VENTA' }
   },
 
     {
     path: 'item-producto-cliente-online/:productoId',
     component: ItemProductoClienteOnlineComponent,
-/*     canActivate: [AuthGuard, RoleGuard],
+/*     canActivate: [isAuthenticatedGuard, RoleGuard],
     data: { role: 'ROLE_CREATE_PEDIDO' } */
   },
 
   {
     path: 'pedido-cliente-finalizado/:clienteId',
     component: PedidoClienteFinalizadoComponent,
-/*     canActivate: [AuthGuard, RoleGuard],
+/*     canActivate: [isAuthenticatedGuard, RoleGuard],
     data: { role: 'ROLE_CREATE_PEDIDO' } */
   },
 
     {
     path: 'contactanos',
     component: ContactanosComponent,
-/*     canActivate: [AuthGuard, RoleGuard],
+/*     canActivate: [isAuthenticatedGuard, RoleGuard],
     data: { role: 'ROLE_CREATE_PEDIDO' } */
   },
 
@@ -66,13 +66,13 @@ export const routes: Routes = [
   {
     path: 'detalle-venta/:pedidoId',
     component: DetallePedidoVentaComponent,
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [isAuthenticatedGuard, RoleGuard],
     data: { role: 'ROLE_VIEW_DETAILS_PEDIDO' }
   },
   {
     path: 'detalle-compra/:pedidoId',
     component: DetallePedidoCompraComponent,
-    canActivate: [AuthGuard, RoleGuard],
+    canActivate: [isAuthenticatedGuard, RoleGuard],
     data: { role: 'ROLE_VIEW_DETAILS_PEDIDO' }
   },
 
