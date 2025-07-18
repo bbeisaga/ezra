@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+/* import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MovimientosRoutingModule } from './movimientos-routing.module';
@@ -25,4 +25,4 @@ import { RpteMovimientoEnCajaPorUsuarioComponent } from './reportes/rpte-movimie
     CompartidoModule
   ]
 })
-export class MovimientosModule { }
+export class MovimientosModule { } */

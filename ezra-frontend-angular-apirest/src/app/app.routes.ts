@@ -1,20 +1,19 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { CarruselServiciosComponent } from './modules/home/components/carrusel-servicios/carrusel-servicios.component';
 import { LoginComponent } from './modules/auth/login.component';
 
-import { PrincipalComponent } from './modules/compartido/principal.component';
+import { Routes } from '@angular/router';
 import { CrearCuentaTiendaComponent } from './modules/auth/crear-cuenta-tienda.component';
+import { PrincipalComponent } from './modules/compartido/principal.component';
 import { HomeComponent } from './modules/home/pages/home/home.component';
-import { CarruselServiciosComponent } from './modules/home/components/carrusel-servicios/carrusel-servicios.component';
 
-const routes: Routes = [
+export const routes: Routes = [
 
   /*    { path: '', redirectTo: 'a', pathMatch: 'full' },
    */
   { path: 'login', component: LoginComponent },
   { path: 'crear-cuenta', component: CrearCuentaTiendaComponent },
 
-   { path: '', component: HomeComponent },
+   { path: '', component: CarruselServiciosComponent },
  
 
   /*   {
@@ -40,27 +39,27 @@ const routes: Routes = [
             }, */
       {
         path: 'clientes',
-        loadChildren: () => import("./modules/clientes/clientes.module").then((m) => m.ClientesModule),
+        loadChildren: () => import("./modules/clientes/clientes.routes").then((r) => r.routes ),
       },
       {
         path: 'pedidos',
-        loadChildren: () => import("./modules/pedidos/pedidos.module").then((m) => m.PedidosModule),
+        loadChildren: () => import("./modules/pedidos/pedidos.routes").then((r) => r.routes),
       },
       {
         path: 'cajas',
-        loadChildren: () => import("./modules/caja/caja.module").then((m) => m.CajaModule),
+        loadChildren: () => import("./modules/caja/caja.routes").then((r) => r.routes),
       },
       {
         path: 'movimientos',
-        loadChildren: () => import("./modules/movimientos/movimientos.module").then((m) => m.MovimientosModule),
+        loadChildren: () => import("./modules/movimientos/movimientos.routes").then((r) => r.routes),
       },
       {
         path: 'productos',
-        loadChildren: () => import("./modules/producto/producto.module").then((m) => m.ProductoModule),
+        loadChildren: () => import("./modules/producto/producto.routes").then((r) => r.routes),
       },
       {
         path: 'usuarios',
-        loadChildren: () => import("./modules/usuarios/usuarios.module").then((m) => m.UsuariosModule),
+        loadChildren: () => import("./modules/usuarios/usuarios.routes").then((r) => r.routes),
       }
 
     ]
@@ -71,8 +70,8 @@ const routes: Routes = [
  */  { path: '***', component: LoginComponent },
 ];
 
-@NgModule({
+/* @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule { } */

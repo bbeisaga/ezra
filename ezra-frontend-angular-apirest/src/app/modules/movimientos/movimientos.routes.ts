@@ -1,13 +1,12 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { MovimientoComponent } from './pages/movimiento/movimiento.component';
-import { MovimientoCajaComponent } from './pages/movimiento-caja/movimiento-caja.component';
-import { RpteMovimientoEnCajaComponent } from './reportes/rpte-movimiento-en-caja/rpte-movimiento-en-caja.component';
-import { RpteMovimientoEnCajaPorUsuarioComponent } from './reportes/rpte-movimiento-en-caja-por-usuario/rpte-movimiento-en-caja-por-usuario.component';
+import { Routes } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard';
 import { RoleGuard } from '../../guards/role.guard';
+import { MovimientoCajaComponent } from './pages/movimiento-caja/movimiento-caja.component';
+import { MovimientoComponent } from './pages/movimiento/movimiento.component';
+import { RpteMovimientoEnCajaPorUsuarioComponent } from './reportes/rpte-movimiento-en-caja-por-usuario/rpte-movimiento-en-caja-por-usuario.component';
+import { RpteMovimientoEnCajaComponent } from './reportes/rpte-movimiento-en-caja/rpte-movimiento-en-caja.component';
 
-const routes: Routes = [
+export const routes: Routes = [
     { path: '',
       component: MovimientoComponent,
       canActivate:[AuthGuard, RoleGuard],
@@ -33,8 +32,9 @@ const routes: Routes = [
 
 ];
 
-@NgModule({
+/* @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class MovimientosRoutingModule { }
+ */

@@ -1,11 +1,10 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { UsuariosComponent } from './pages/usuarios.component';
+import { Routes } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard';
 import { RoleGuard } from '../../guards/role.guard';
 import { AsignarRolUsuarioComponent } from './components/asignar-rol-usuario/asignar-rol-usuario.component';
+import { UsuariosComponent } from './pages/usuarios.component';
 
-const routes: Routes = [
+export const routes: Routes = [
     { path: '',
       component: UsuariosComponent,
       canActivate:[AuthGuard, RoleGuard],
@@ -19,8 +18,8 @@ const routes: Routes = [
 
 ];
 
-@NgModule({
+/* @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class UsuariosRoutingModule { }
+export class UsuariosRoutingModule { } */

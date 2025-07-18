@@ -1,26 +1,33 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import * as fileSaver from 'file-saver';
+import { find } from 'lodash';
+import moment from 'moment';
+import { concatMap } from 'rxjs';
+import { COLOR_CAJA_USUARIO, ESTADO_CAJA_USUARIO } from '../../../../constants/caja-usuario.constants';
+import { CajaUsuario } from '../../../../models/caja-usuario';
 import { Movimiento } from '../../../../models/movimiento';
+import { Pedido } from '../../../../models/pedido';
+import { TipoMovimientoPedido } from '../../../../models/tipo-movimiento-pedido';
+import { TipoPago } from '../../../../models/tipo-pago';
+import { AlertService } from '../../../../services/alert.service';
+import { AuthService } from '../../../../services/auth.service';
 import { CajaService } from '../../../../services/caja.service';
 import { MovimientoService } from '../../../../services/movimiento.service';
-import { TipoPago } from '../../../../models/tipo-pago';
-import { Pedido } from '../../../../models/pedido';
 import { PedidoService } from '../../../../services/pedido.service';
-import { CajaUsuario } from '../../../../models/caja-usuario';
-import { AuthService } from '../../../../services/auth.service';
-import { find } from 'lodash';
-import { Router } from '@angular/router';
-import moment from 'moment';
-import { COLOR_CAJA_USUARIO, ESTADO_CAJA_USUARIO } from '../../../../constants/caja-usuario.constants';
-import { AlertService } from '../../../../services/alert.service';
-import { TipoMovimientoPedido } from '../../../../models/tipo-movimiento-pedido';
-import { concatMap } from 'rxjs';
-import * as fileSaver from 'file-saver';
+import { Router, RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-movimiento',
   templateUrl: './movimiento.component.html',
-  styleUrl: './movimiento.component.css'
+  styleUrl: './movimiento.component.css',
+  standalone:true,
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatSelectModule, MatRadioModule]
 })
 export class MovimientoComponent implements OnInit {
   titulo: string = 'Movimiento de pago'

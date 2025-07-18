@@ -9,11 +9,15 @@ import { AuthService } from '../../../services/auth.service';
 
 import { PedidoService } from '../../../services/pedido.service';
 import { Pedido } from '../../../models/pedido';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'detalle-cliente',
   templateUrl: './detalle.component.html',
-  styleUrls: ['./detalle.component.css']
+  styleUrls: ['./detalle.component.css'],
+  standalone: true,
+  imports: [CommonModule,RouterModule]
 })
 export class DetalleComponent implements OnInit {
 

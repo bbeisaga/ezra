@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+/* import { NgModule } from '@angular/core';
 // aplicaicon modulos
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -47,7 +47,7 @@ import { ContactanosComponent } from './contactanos/contactanos.component';
     ModalDialogAlertComponent,
     MenuAppComponent,
     MenuTiendaComponent,
-    PrincipalComponent,
+   
     AutocompleteClienteComponent,
     CabeceraComponent,
     MenuCabeceraComponent,
@@ -56,6 +56,8 @@ import { ContactanosComponent } from './contactanos/contactanos.component';
 
   ],
   imports: [
+     PrincipalComponent,
+
     CommonModule,
     FormsModule,
     RouterModule,
@@ -119,3 +121,4 @@ import { ContactanosComponent } from './contactanos/contactanos.component';
   ]
 })
 export class CompartidoModule { }
+ */

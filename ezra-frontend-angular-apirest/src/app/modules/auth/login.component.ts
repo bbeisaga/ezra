@@ -2,13 +2,30 @@ import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/usuario';
 import swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { RouterModule, Router } from '@angular/router';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  standalone: true,
+      imports: [ CommonModule, MatDatepickerModule, MatNativeDateModule,MatFormFieldModule, MatInputModule, MatTableModule, MatPaginatorModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+
 
 })
 export class LoginComponent implements OnInit {

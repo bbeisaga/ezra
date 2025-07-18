@@ -1,6 +1,5 @@
 import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AuthService } from '../../../../services/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ClienteService } from '../../../../services/cliente.service';
 import { PedidoService } from '../../../../services/pedido.service';
 import { ItemService } from '../../../../services/item.service';
@@ -14,14 +13,25 @@ import { FormUtils } from '../../../../utils/form-utils';
 import { ChatUtils } from '../../../../utils/chat-utils';
 import moment from 'moment';
 import { findIndex } from 'lodash';
-import { NgForm } from '@angular/forms';
 import { Producto } from '../../../../models/producto';
 import { environment } from '../../../../../environments/environment';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'pedido-proveedor-finalizado',
   templateUrl: './pedido-proveedor-finalizado.component.html',
-  styleUrl: './pedido-proveedor-finalizado.component.css'
+  styleUrl: './pedido-proveedor-finalizado.component.css',
+  standalone: true,
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+
 })
 export class PedidoProveedorFinalizadoComponent implements OnInit, OnChanges {
 

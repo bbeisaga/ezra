@@ -1,5 +1,6 @@
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
 import moment from 'moment';
 import { PedidoService } from '../../../../services/pedido.service';
 import { EstadoPedido } from '../../../../models/estado-pedido';
@@ -8,13 +9,28 @@ import { EstadoPedido } from '../../../../models/estado-pedido';
 // 2- npm i --save @types/file-saver
 import * as fileSaver from 'file-saver';
 import { HttpHeaders } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
 import { TipoPedido } from '../../../../models/tipo-pedido';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { RouterModule, ActivatedRoute } from '@angular/router';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-rpte-pedido',
   templateUrl: './rpte-pedido.component.html',
-  styleUrl: './rpte-pedido.component.css'
+  styleUrl: './rpte-pedido.component.css',
+  standalone: true,
+    imports: [ CommonModule, MatDatepickerModule, MatNativeDateModule,MatFormFieldModule, MatInputModule, MatTableModule, MatPaginatorModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+
 })
 export class RptePedidoComponent implements OnInit {
   titulo!: string;

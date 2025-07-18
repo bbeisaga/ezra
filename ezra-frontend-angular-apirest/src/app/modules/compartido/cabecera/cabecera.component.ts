@@ -1,11 +1,14 @@
 import { Component, EventEmitter, inject, OnInit, Output, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { MenuCabeceraComponent } from '../menus-nav/menu-cabecera.component';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'cabecera',
   templateUrl: './cabecera.component.html',
-  styleUrl: './cabecera.component.css'
+  styleUrl: './cabecera.component.css',
+  standalone: true,
+  imports: [MenuCabeceraComponent, RouterModule]
 })
 export class CabeceraComponent implements OnInit {
 

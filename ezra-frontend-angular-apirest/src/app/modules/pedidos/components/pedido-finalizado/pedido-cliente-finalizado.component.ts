@@ -11,10 +11,8 @@ import { Subscription } from 'rxjs';
 import { Usuario } from '../../../../models/usuario';
 import { UsuarioService } from '../../../../services/usuario.service';
 import { Pedido } from '../../../../models/pedido';
-import { NgForm } from '@angular/forms';
 import { PedidoService } from '../../../../services/pedido.service';
 import { TipoPedido } from '../../../../models/tipo-pedido';
-import { ActivatedRoute, Router } from '@angular/router';
 import { FormUtils } from '../../../../utils/form-utils';
 import moment from 'moment';
 import { ChatUtils } from '../../../../utils/chat-utils';
@@ -22,11 +20,23 @@ import { Producto } from '../../../../models/producto';
 import { ProductoService } from '../../../../services/producto.service';
 import { SERVICIO_ENTREGA_CIUDAD, SERVICIO_ENTREGA_LOCAL } from '../../../../constants/constantes';
 import { environment } from '../../../../../environments/environment';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, NgForm } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'pedido-cliente-finalizado',
   templateUrl: './pedido-cliente-finalizado.component.html',
-  styleUrl: './pedido-cliente-finalizado.component.css'
+  styleUrl: './pedido-cliente-finalizado.component.css',
+  standalone: true,
+    imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+
 })
 export class PedidoClienteFinalizadoComponent implements OnInit {
 

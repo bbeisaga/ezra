@@ -1,10 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'modal-dialog-alert',
   templateUrl: './modal-dialog-alert.component.html',
-  styleUrl: './modal-dialog-alert.component.css'
+  styleUrl: './modal-dialog-alert.component.css',
+  standalone: true,
+  imports: [CommonModule, MatIconModule, MatDialogModule]
 })
 
 export class ModalDialogAlertComponent {

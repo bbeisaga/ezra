@@ -1,26 +1,38 @@
-import { map } from 'rxjs';
 import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
-import { ProductoService } from '../../../services/producto.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { find } from 'lodash';
+import { environment } from '../../../../environments/environment';
+import { Categoria } from '../../../models/categoria';
+import { Color } from '../../../models/color';
+import { MargenProducto } from '../../../models/margen-producto';
+import { Material } from '../../../models/material';
+import { Producto } from '../../../models/producto';
+import { Uso } from '../../../models/uso';
 import { AlertService } from '../../../services/alert.service';
 import { AuthService } from '../../../services/auth.service';
-import { Producto } from '../../../models/producto';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { environment } from '../../../../environments/environment';
-import { Color } from '../../../models/color';
-import { Material } from '../../../models/material';
-import { Categoria } from '../../../models/categoria';
-import { Uso } from '../../../models/uso';
-import { find, forEach } from 'lodash';
-import { FormUtils } from '../../../utils/form-utils';
 import { MediosUtilsService } from '../../../services/medios-utils.service';
-import { MargenProducto } from '../../../models/margen-producto';
+import { ProductoService } from '../../../services/producto.service';
+import { FormUtils } from '../../../utils/form-utils';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { RouterModule, Router, ActivatedRoute } from '@angular/router';
 
 
 @Component({
   selector: 'app-mantenimiento-producto',
   templateUrl: './mantenimiento-producto.component.html',
-  styleUrl: './mantenimiento-producto.component.css'
+  styleUrl: './mantenimiento-producto.component.css',
+  standalone: true,
+  imports: [CommonModule, MatDatepickerModule, MatTableModule, MatPaginatorModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+
 })
 export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
 

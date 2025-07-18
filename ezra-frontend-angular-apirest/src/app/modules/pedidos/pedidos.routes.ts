@@ -1,18 +1,17 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule, CanActivate } from '@angular/router';
-import { ListadoVentasComponent } from './pages/listado-ventas/listado-ventas.component';
-import { ListadoComprasComponent } from './pages/listado-compras.component';
-import { DetallePedidoVentaComponent } from './components/detalle-pedido-venta/detalle-pedido-venta.component';
-import { DetallePedidoCompraComponent } from './components/detalle-pedido-compra/detalle-pedido-compra.component';
-import { RptePedidoComponent } from './reportes/rpte-pedido/rpte-pedido.component';
-import { RoleGuard } from '../../guards/role.guard';
+import { Routes } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard';
-import { ItemProductoClienteTiendaComponent } from './pages/item-producto-cliente-tienda/item-producto-cliente-tienda.component';
-import { ItemProductoClienteOnlineComponent } from './pages/item-producto-cliente-online/item-producto-cliente-online.component';
+import { RoleGuard } from '../../guards/role.guard';
 import { ContactanosComponent } from '../compartido/contactanos/contactanos.component';
+import { DetallePedidoCompraComponent } from './components/detalle-pedido-compra/detalle-pedido-compra.component';
+import { DetallePedidoVentaComponent } from './components/detalle-pedido-venta/detalle-pedido-venta.component';
 import { PedidoClienteFinalizadoComponent } from './components/pedido-finalizado/pedido-cliente-finalizado.component';
+import { ItemProductoClienteOnlineComponent } from './pages/item-producto-cliente-online/item-producto-cliente-online.component';
+import { ItemProductoClienteTiendaComponent } from './pages/item-producto-cliente-tienda/item-producto-cliente-tienda.component';
+import { ListadoComprasComponent } from './pages/listado-compras.component';
+import { ListadoVentasComponent } from './pages/listado-ventas/listado-ventas.component';
+import { RptePedidoComponent } from './reportes/rpte-pedido/rpte-pedido.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   // { path: '', redirectTo: ':clienteId', pathMatch: 'full' },
 
   {
@@ -79,8 +78,8 @@ const routes: Routes = [
 
 ];
 
-@NgModule({
+/* @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PedidosRoutingModule { }
+export class PedidosRoutingModule { } */

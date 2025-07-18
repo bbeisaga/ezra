@@ -1,19 +1,35 @@
+import { CommonModule } from '@angular/common';
+import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { RouterModule } from '@angular/router';
+import * as fileSaver from 'file-saver';
+import moment from 'moment';
 import { Caja } from '../../../../models/caja';
 import { Usuario } from '../../../../models/usuario';
+import { AuthService } from '../../../../services/auth.service';
 import { CajaService } from '../../../../services/caja.service';
 import { UsuarioService } from '../../../../services/usuario.service';
-import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../../../services/auth.service';
-import moment from 'moment';
-import * as fileSaver from 'file-saver';
-import { HttpHeaders } from '@angular/common/http';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-rpte-caja-por-usuario',
   templateUrl: './rpte-caja-por-usuario.component.html',
-  styleUrl: './rpte-caja-por-usuario.component.css'
+  styleUrl: './rpte-caja-por-usuario.component.css',
+  standalone: true,
+  imports: [CommonModule, MatDatepickerModule, MatDatepickerModule, MatNativeDateModule,MatFormFieldModule, MatInputModule, MatTableModule, MatPaginatorModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+
 })
 export class RpteCajaPorUsuarioComponent implements OnInit {
   titulo!: string;
@@ -32,16 +48,16 @@ export class RpteCajaPorUsuarioComponent implements OnInit {
     private cajaService: CajaService,
     private usuarioService: UsuarioService,
     private authService: AuthService
-   // private activatedRoute: ActivatedRoute,
+    // private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
 
     this.titulo = "Reporte cierre de caja por usuario"
 
-    this.usuarioService.getUsuarioByUsername( this.authService.usuario.username)
-      .subscribe(res => { this.usuario = res}
-    );
+    this.usuarioService.getUsuarioByUsername(this.authService.usuario.username)
+      .subscribe(res => { this.usuario = res }
+      );
 
     this.cargarEstadoCajaUsuario();
     this.cargarCajas();
@@ -52,27 +68,27 @@ export class RpteCajaPorUsuarioComponent implements OnInit {
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
 
     this.filtrosReporte = {
-      fecha_apertura1: [moment(now).subtract(1, 'days').toISOString().slice(0,16)],
-      fecha_apertura2: [now.toISOString().slice(0,16)],
-/*       fecha_apertura1: [moment(new Date()).subtract(2, 'days').toISOString()],
-      fecha_apertura2: [new Date().toISOString()], */
+      fecha_apertura1: [moment(now).subtract(1, 'days').toISOString().slice(0, 16)],
+      fecha_apertura2: [now.toISOString().slice(0, 16)],
+      /*       fecha_apertura1: [moment(new Date()).subtract(2, 'days').toISOString()],
+            fecha_apertura2: [new Date().toISOString()], */
       activa: [],
-      caja_id:[],
-      usuario_id:[]
+      caja_id: [],
+      usuario_id: []
     }
 
-  //  console.log("onInit: " , this.filtrosReporte);
+    //  console.log("onInit: " , this.filtrosReporte);
     this.createForm();
 
   }
 
-   generarReporte() {
+  generarReporte() {
     debugger;
     this.filtrosReporte.fecha_apertura1 = [moment(this.formCierreCajaPorUsuario.get("fchTimeDesde")?.value).format("YYYY-MM-DD HH:mm")];
     this.filtrosReporte.fecha_apertura2 = [moment(this.formCierreCajaPorUsuario.get("fchTimeHasta")?.value).format("YYYY-MM-DD HH:mm")];
     this.filtrosReporte.activa = this.formCierreCajaPorUsuario.get("estadoCajaUsuario")?.value;
-    this.filtrosReporte.caja_id=this.formCierreCajaPorUsuario.get("cajasId")?.value;
-    this.filtrosReporte.usuario_id=[this.usuario.id]
+    this.filtrosReporte.caja_id = this.formCierreCajaPorUsuario.get("cajasId")?.value;
+    this.filtrosReporte.usuario_id = [this.usuario.id]
 
     const filtros = {
       nombre: this.titulo.replaceAll(" ", ""),
@@ -87,13 +103,13 @@ export class RpteCajaPorUsuarioComponent implements OnInit {
       })
   }
 
-     private filenameFromHeader(headers: HttpHeaders): string {
-      const disposition = headers.get('Content-Disposition');
-      if (!disposition || disposition.indexOf('filename=') < 0) {
-        return '';
-      }
-      return disposition.substring(disposition.indexOf('filename=')+9, disposition.length);
+  private filenameFromHeader(headers: HttpHeaders): string {
+    const disposition = headers.get('Content-Disposition');
+    if (!disposition || disposition.indexOf('filename=') < 0) {
+      return '';
     }
+    return disposition.substring(disposition.indexOf('filename=') + 9, disposition.length);
+  }
 
   cargarEstadoCajaUsuario() {
     this.estadoCajaUsuarioLst = [/*{ id: -1, pagado: '--Seleccione' },*/
@@ -111,7 +127,7 @@ export class RpteCajaPorUsuarioComponent implements OnInit {
         fchTimeDesde: [this.filtrosReporte.fecha_apertura1[0]],
         fchTimeHasta: [this.filtrosReporte.fecha_apertura2[0]],
         estadoCajaUsuario: [this.filtrosReporte.activa[0]],
-        cajasId:[this.filtrosReporte.caja_id[0]],
+        cajasId: [this.filtrosReporte.caja_id[0]],
       }
     )
   }
@@ -122,8 +138,8 @@ interface FiltrosReporte {
   fecha_apertura1: string[],
   fecha_apertura2: string[],
   activa: string[]
-  caja_id:string[],
-  usuario_id:number[],
+  caja_id: string[],
+  usuario_id: number[],
 }
 
 interface EstadoCajaUsuario {

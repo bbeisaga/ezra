@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Caja } from '../../../../models/caja';
 import { Observable } from 'rxjs';
 import { Cliente } from '../../../../models/cliente';
@@ -7,19 +6,31 @@ import { CajaService } from '../../../../services/caja.service';
 import { ClienteService } from '../../../../services/cliente.service';
 import { MovimientoService } from '../../../../services/movimiento.service';
 import { UsuarioService } from '../../../../services/usuario.service';
-import { ActivatedRoute } from '@angular/router';
 import { Usuario } from '../../../../models/usuario';
 import { AuthService } from '../../../../services/auth.service';
 import moment from 'moment';
 import { map, switchMap } from 'rxjs/operators';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import * as fileSaver from 'file-saver';
 import { HttpHeaders } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { RouterModule } from '@angular/router';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-rpte-movimiento-en-caja-por-usuario',
   templateUrl: './rpte-movimiento-en-caja-por-usuario.component.html',
-  styleUrl: './rpte-movimiento-en-caja-por-usuario.component.css'
+  styleUrl: './rpte-movimiento-en-caja-por-usuario.component.css',
+  standalone: true,
+  imports: [CommonModule, MatDatepickerModule, MatNativeDateModule,MatFormFieldModule, MatInputModule,RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule]
 })
 export class RpteMovimientoEnCajaPorUsuarioComponent implements OnInit {
   titulo!: string;

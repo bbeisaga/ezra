@@ -1,3 +1,4 @@
+/*
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -16,6 +17,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 
 import { LayoutModule, MediaMatcher } from '@angular/cdk/layout';
 import { CrearCuentaTiendaComponent } from './modules/auth/crear-cuenta-tienda.component';
+import { PrincipalComponent } from './modules/compartido/principal.component';
 
 
 registerLocaleData(localeEsPE);
@@ -30,12 +32,12 @@ registerLocaleData(localeEsPE);
   ],
   imports: [
     CommonModule,
+    PrincipalComponent
     FormsModule,
     BrowserModule,
     AppRoutingModule,
     CompartidoModule,
     HttpClientModule,
-    //PrincipalModule,
     LayoutModule,
     NgOptimizedImage
   ],
@@ -50,3 +52,4 @@ registerLocaleData(localeEsPE);
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+ */

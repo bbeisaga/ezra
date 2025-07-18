@@ -1,53 +1,20 @@
-<!-- <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Infinite Card Slider JavaScript | CodingNepal</title>
-    <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-    <script src="script.js" defer></script>
-  </head> 
-  <body> -->
-<div class="container-carrusel">
-    <div class="wrapper">
-        <i id="left" class="fa-solid fa-angle-left"></i>
-        <ul class="carousel">
-            <li class="card active">
-                <div class="img"><img src="blog-1.jpg" alt="img" draggable="false"></div>
-                <h2>Blanche Pearson</h2>
-                <span>Sales Manager</span>
-            </li>
-            <li class="card">
-                <div class="img"><img src="blog-2.jpg" alt="img" draggable="false"></div>
-                <h2>Joenas Brauers</h2>
-                <span>Web Developer</span>
-            </li>
-            <li class="card">
-                <div class="img"><img src="blog-3.jpg" alt="img" draggable="false"></div>
-                <h2>Lariach French</h2>
-                <span>Online Teacher</span>
-            </li>
-<!--             <li class="card">
-                <div class="img"><img src="images/img-4.jpg" alt="img" draggable="false"></div>
-                <h2>James Khosravi</h2>
-                <span>Freelancer</span>
-            </li>
-            <li class="card">
-                <div class="img"><img src="images/img-5.jpg" alt="img" draggable="false"></div>
-                <h2>Kristina Zasiadko</h2>
-                <span>Bank Manager</span>
-            </li>
-            <li class="card">
-                <div class="img"><img src="images/img-6.jpg" alt="img" draggable="false"></div>
-                <h2>Donald Horton</h2>
-                <span>App Designer</span>
-            </li> -->
-        </ul>
-        <i id="right" class="fa-solid fa-angle-right"></i>
-    </div>
-</div>
-   <script src="../../../../../assets/js/carrusels.js"></script> 
- <!--   </body>
-</html> -->
+<p-carousel [value]="products" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+    <ng-template let-product #item>
+        <div class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4">
+            <div class="mb-4">
+                <div class="relative mx-auto">
+                    <img src="https://primefaces.org/cdn/primeng/images/demo/product/{{ product.image }}" [alt]="product.name" class="w-full rounded-border" />
+                    <p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product.inventoryStatus)" class="absolute" styleClass="dark:!bg-surface-900" [ngStyle]="{ 'left.px': 5, 'top.px': 5 }" />
+                </div>
+            </div>
+            <div class="mb-4 font-medium">{{ product.name }}</div>
+            <div class="flex justify-between items-center">
+                <div class="mt-0 font-semibold text-xl">{{ '$' + product.price }}</div>
+                <span>
+                    <p-button icon="pi pi-heart" severity="secondary" [outlined]="true" />
+                    <p-button icon="pi pi-shopping-cart" styleClass="ml-2" />
+                </span>
+            </div>
+        </div>
+    </ng-template>
+</p-carousel>

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+/* import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CajaRoutingModule } from './caja-routing.module';
@@ -20,4 +20,4 @@ import { RpteCajaPorUsuarioComponent } from './reportes/rpte-caja-por-usuario/rp
     CompartidoModule
   ]
 })
-export class CajaModule { }
+export class CajaModule { } */

@@ -1,12 +1,15 @@
-import { Component, EventEmitter, OnInit, output, Output, Renderer2 } from '@angular/core';
-import { ProductoService } from '../../../services/producto.service';
+import { CommonModule } from '@angular/common';
+import { Component, Renderer2 } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { Categoria } from '../../../models/categoria';
-import { Producto } from '../../../models/producto';
+import { ProductoService } from '../../../services/producto.service';
 
 @Component({
   selector: 'menu-tienda',
   templateUrl: './menu-tienda.component.html',
-  styleUrl: './menu-tienda.component.css'
+  styleUrl: './menu-tienda.component.css',
+  standalone: true,
+  imports: [CommonModule, RouterModule]
 })
 export class MenuTiendaComponent {
 

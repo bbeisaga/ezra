@@ -1,18 +1,35 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+
+import { CommonModule } from '@angular/common';
+import { HttpHeaders } from '@angular/common/http';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import * as fileSaver from 'file-saver';
 import moment from 'moment';
 import { Caja } from '../../../../models/caja';
 import { Usuario } from '../../../../models/usuario';
 import { CajaService } from '../../../../services/caja.service';
 import { UsuarioService } from '../../../../services/usuario.service';
-import * as fileSaver from 'file-saver';
-import { HttpHeaders } from '@angular/common/http';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-rpte-caja',
   templateUrl: './rpte-caja.component.html',
-  styleUrl: './rpte-caja.component.css'
+  styleUrl: './rpte-caja.component.css',
+  standalone: true,
+  imports: [CommonModule, MatDatepickerModule,  MatNativeDateModule,MatFormFieldModule, MatInputModule, MatTableModule, MatPaginatorModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+
 })
 export class RpteCajaComponent implements OnInit {
   titulo!: string;
@@ -44,23 +61,23 @@ export class RpteCajaComponent implements OnInit {
     now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
 
     this.filtrosReporte = {
-      fecha_apertura1: [moment(now).subtract(1, 'days').toISOString().slice(0,16)],
-      fecha_apertura2: [now.toISOString().slice(0,16)],
+      fecha_apertura1: [moment(now).subtract(1, 'days').toISOString().slice(0, 16)],
+      fecha_apertura2: [now.toISOString().slice(0, 16)],
       activa: [],
-      caja_id:[],
-      usuario_id:[]
+      caja_id: [],
+      usuario_id: []
     }
 
     this.createForm();
 
   }
 
-   generarReporte() {
+  generarReporte() {
     this.filtrosReporte.fecha_apertura1 = [moment(this.formCierreCaja.get("fchTimeDesde")?.value).format("YYYY-MM-DD HH:mm")];
     this.filtrosReporte.fecha_apertura2 = [moment(this.formCierreCaja.get("fchTimeHasta")?.value).format("YYYY-MM-DD HH:mm")];
     this.filtrosReporte.activa = this.formCierreCaja.get("estadoCajaUsuario")?.value;
-    this.filtrosReporte.caja_id=this.formCierreCaja.get("cajasId")?.value;
-    this.filtrosReporte.usuario_id=this.formCierreCaja.get("usuariosId")?.value;
+    this.filtrosReporte.caja_id = this.formCierreCaja.get("cajasId")?.value;
+    this.filtrosReporte.usuario_id = this.formCierreCaja.get("usuariosId")?.value;
 
 
     const filtros = {
@@ -76,13 +93,13 @@ export class RpteCajaComponent implements OnInit {
       })
   }
 
-     private filenameFromHeader(headers: HttpHeaders): string {
-      const disposition = headers.get('Content-Disposition');
-      if (!disposition || disposition.indexOf('filename=') < 0) {
-        return '';
-      }
-      return disposition.substring(disposition.indexOf('filename=')+9, disposition.length);
+  private filenameFromHeader(headers: HttpHeaders): string {
+    const disposition = headers.get('Content-Disposition');
+    if (!disposition || disposition.indexOf('filename=') < 0) {
+      return '';
     }
+    return disposition.substring(disposition.indexOf('filename=') + 9, disposition.length);
+  }
 
   cargarEstadoCajaUsuario() {
     this.estadoCajaUsuarioLst = [/*{ id: -1, pagado: '--Seleccione' },*/
@@ -94,7 +111,7 @@ export class RpteCajaComponent implements OnInit {
     this.cajaService.getAllCaja().subscribe(res => this.cajaLst = res);
   }
 
-  cargarUsuarios(){
+  cargarUsuarios() {
     this.usuarioService.getAllUsers().subscribe(res => this.usuarioLst = res);
   }
 
@@ -104,8 +121,8 @@ export class RpteCajaComponent implements OnInit {
         fchTimeDesde: [this.filtrosReporte.fecha_apertura1[0]],
         fchTimeHasta: [this.filtrosReporte.fecha_apertura2[0]],
         estadoCajaUsuario: [this.filtrosReporte.activa[0]],
-        cajasId:[this.filtrosReporte.caja_id[0]],
-        usuariosId:[this.filtrosReporte.usuario_id[0]]
+        cajasId: [this.filtrosReporte.caja_id[0]],
+        usuariosId: [this.filtrosReporte.usuario_id[0]]
       }
     )
   }
@@ -116,8 +133,8 @@ interface FiltrosReporte {
   fecha_apertura1: string[],
   fecha_apertura2: string[],
   activa: string[]
-  caja_id:string[],
-  usuario_id:number[],
+  caja_id: string[],
+  usuario_id: number[],
 }
 
 interface EstadoCajaUsuario {

@@ -1,12 +1,19 @@
 import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { Router, RouterModule } from '@angular/router';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MenuAppComponent } from './menus-nav/menu-app.component';
+import { CabeceraComponent } from './cabecera/cabecera.component';
+import { MenuTiendaComponent } from './menus-nav/menu-tienda.component';
+import { PieComponent } from './pie/pie.component';
 
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.component.html',
-  styleUrls: ['./principal.component.css']
+  styleUrls: ['./principal.component.css'],
+  standalone: true,
+  imports: [RouterModule,MatSidenavModule, MenuAppComponent, CabeceraComponent, MenuTiendaComponent,PieComponent]
 })
 export class PrincipalComponent implements OnInit, OnDestroy {
 

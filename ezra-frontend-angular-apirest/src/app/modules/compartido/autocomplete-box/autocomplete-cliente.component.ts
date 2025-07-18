@@ -1,15 +1,20 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { Cliente } from '../../../models/cliente';
-import { Observable, of } from 'rxjs';
 import { ClienteService } from '../../../services/cliente.service';
-import { FormControl } from '@angular/forms';
-import { flatMap, map, mergeMap, switchMap } from 'rxjs/operators';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'autocomplete-cliente',
   templateUrl: './autocomplete-cliente.component.html',
-  styleUrl: './autocomplete-cliente.component.css'
+  styleUrl: './autocomplete-cliente.component.css',
+  standalone:true,
+  imports: [CommonModule, MatAutocompleteModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule]
 })
 export class AutocompleteClienteComponent implements OnInit {
 

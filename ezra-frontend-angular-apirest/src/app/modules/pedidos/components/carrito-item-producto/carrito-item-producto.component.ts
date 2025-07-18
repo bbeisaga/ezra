@@ -1,4 +1,3 @@
-import { Router } from '@angular/router';
 import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
@@ -8,12 +7,23 @@ import { ClienteService } from '../../../../services/cliente.service';
 import { UsuarioService } from '../../../../services/usuario.service';
 import { ItemPedido } from '../../../../models/item-pedido';
 import { environment } from '../../../../../environments/environment';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { RouterModule, Router } from '@angular/router';
 
 
 @Component({
   selector: 'carrito-item-producto',
   templateUrl: './carrito-item-producto.component.html',
-  styleUrl: './carrito-item-producto.component.css'
+  styleUrl: './carrito-item-producto.component.css',
+  standalone: true,
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule]
+
 })
 export class CarritoItemProductoComponent implements OnInit, OnDestroy {
   router = inject(Router);

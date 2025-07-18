@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+/* import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { ProductoRoutingModule } from './producto-routing.module';
@@ -22,4 +22,4 @@ import { ProductosPorCategoriaComponent } from './pages/productos-por-categoria.
     CompartidoModule
   ]
 })
-export class ProductoModule { }
+export class ProductoModule { } */

@@ -1,29 +1,40 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { MovimientoCaja } from '../../../../models/movimiento-caja';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { Router, RouterModule } from '@angular/router';
+import { find } from 'lodash';
+import moment from 'moment';
+import swal from 'sweetalert2';
+import { COLOR_CAJA_USUARIO, ESTADO_CAJA_USUARIO } from '../../../../constants/caja-usuario.constants';
 import { CajaUsuario } from '../../../../models/caja-usuario';
-import { Usuario } from '../../../../models/usuario';
-import { Router } from '@angular/router';
+import { MovimientoCaja } from '../../../../models/movimiento-caja';
+import { TipoMovimientoCaja } from '../../../../models/tipo-movimiento-caja';
+import { TipoPago } from '../../../../models/tipo-pago';
+import { AlertService } from '../../../../services/alert.service';
 import { AuthService } from '../../../../services/auth.service';
 import { CajaService } from '../../../../services/caja.service';
 import { MovimientoService } from '../../../../services/movimiento.service';
-import swal from 'sweetalert2';
-import { find, keys } from 'lodash';
-import moment from 'moment';
-import { COLOR_CAJA_USUARIO, ESTADO_CAJA_USUARIO } from '../../../../constants/caja-usuario.constants';
-import { AlertService } from '../../../../services/alert.service';
-import { TipoMovimientoCaja } from '../../../../models/tipo-movimiento-caja';
-import { TipoPago } from '../../../../models/tipo-pago';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-movimiento-caja',
   templateUrl: './movimiento-caja.component.html',
-  styleUrl: './movimiento-caja.component.css'
+  styleUrl: './movimiento-caja.component.css',
+  standalone: true,
+  imports: [CommonModule, MatDatepickerModule, MatNativeDateModule,MatFormFieldModule, MatInputModule,RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatSelectModule, MatRadioModule]
+
 })
 export class MovimientoCajaComponent implements OnInit, AfterViewInit {
   titulo: string = 'Movimiento de caja'
   movimientoCaja = new MovimientoCaja();
   cajaUsuario!: CajaUsuario;
-  tipoPagos: TipoPago[]=[];
+  tipoPagos: TipoPago[] = [];
 
   tipoMovimientosCajaLst: TipoMovimientoCaja[] = [];
   tipoMovCajaIngresos: TipoMovimientoCaja[] = [];

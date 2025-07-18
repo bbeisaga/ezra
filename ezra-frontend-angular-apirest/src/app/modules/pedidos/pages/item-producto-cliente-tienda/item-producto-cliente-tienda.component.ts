@@ -1,28 +1,37 @@
+import { PedidoProveedorFinalizadoComponent } from './../../components/pedido-proveedor-finalizado/pedido-proveedor-finalizado.component';
 import { Component, OnInit } from '@angular/core';
-import { Pedido } from '../../../../models/pedido';
-import { Empaque } from '../../../../models/empaque';
-import { Cliente } from '../../../../models/cliente';
-import { FormControl } from '@angular/forms';
-import { TipoPedido } from '../../../../models/tipo-pedido';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { map, Observable, switchMap } from 'rxjs';
+import { Cliente } from '../../../../models/cliente';
+import { ItemPedido } from '../../../../models/item-pedido';
 import { Producto } from '../../../../models/producto';
+import { TipoDocumento } from '../../../../models/tipo-documento';
+import { TipoPedido } from '../../../../models/tipo-pedido';
+import { AuthService } from '../../../../services/auth.service';
 import { ClienteService } from '../../../../services/cliente.service';
 import { PedidoService } from '../../../../services/pedido.service';
 import { ProductoService } from '../../../../services/producto.service';
-import { AlertService } from '../../../../services/alert.service';
-import { AuthService } from '../../../../services/auth.service';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { ItemPedido } from '../../../../models/item-pedido';
-import { DetalleItemPedidoComponent } from '../../components/detalle-item-pedido/detalle-item-pedido.component';
 import { FormUtils } from '../../../../utils/form-utils';
-import { TipoDocumento } from '../../../../models/tipo-documento';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatFormField, MatSelectModule } from '@angular/material/select';
+import { RouterModule, ActivatedRoute } from '@angular/router';
+import { CustomizeItemProductoToClientComponent } from '../../components/customize-item-producto-to-client/customize-item-producto-to-client.component';
+import { CarritoItemProductoComponent } from '../../components/carrito-item-producto/carrito-item-producto.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'item-producto-cliente-tienda',
   templateUrl: './item-producto-cliente-tienda.component.html',
-  styleUrl: './item-producto-cliente-tienda.component.css'
+  styleUrl: './item-producto-cliente-tienda.component.css',
+  standalone: true,
+  imports: [PedidoProveedorFinalizadoComponent, CustomizeItemProductoToClientComponent, CarritoItemProductoComponent, CommonModule, MatFormFieldModule, MatInputModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+
 })
 export class ItemProductoClienteTiendaComponent implements OnInit {
 
@@ -36,7 +45,7 @@ export class ItemProductoClienteTiendaComponent implements OnInit {
   producto!: Producto;
   formUtils = FormUtils
   tipoDocumentos: TipoDocumento[] = [];
-  items:ItemPedido[]=[];
+  items: ItemPedido[] = [];
 
   // razonSocialActivate:boolean=false;
 
@@ -112,12 +121,12 @@ export class ItemProductoClienteTiendaComponent implements OnInit {
 
     console.log("this.producto2", this.producto);
 
-    if(!this.tipoPedidoVentaClientes){
-          let nuevoItem = new ItemPedido();
-          nuevoItem.producto = this.producto;
-          this.items.push(nuevoItem);
+    if (!this.tipoPedidoVentaClientes) {
+      let nuevoItem = new ItemPedido();
+      nuevoItem.producto = this.producto;
+      this.items.push(nuevoItem);
 
-         this.items = [...this.items, {...nuevoItem}]
+      this.items = [...this.items, { ...nuevoItem }]
 
     }
 

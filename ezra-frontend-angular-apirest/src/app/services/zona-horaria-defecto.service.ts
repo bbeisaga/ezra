@@ -8,8 +8,6 @@ import * as moment from 'moment-timezone'
 export class ZonaHorariaDefectoService {
 
   constructor() { }
-
-
   setDefaultTimeZone(){
   moment.tz.setDefault('America/Lima');
 

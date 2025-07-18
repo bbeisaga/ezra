@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+/* import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ClientesRoutingModule } from './clientes-routing.module';
 import { Router, RouterModule } from '@angular/router';
@@ -12,19 +12,21 @@ import { CompartidoModule } from '../compartido/compartido.module';
 
 @NgModule({
   declarations: [
-    ClientesComponent,
     FormComponent,
     DetalleComponent,
   ],
   imports: [
-    CommonModule,
+    ClientesComponent,
+    CompartidoModule
+
+     CommonModule,
     RouterModule,
     ClientesRoutingModule,
-    CompartidoModule,
+    CompartidoModule, 
   ],
   providers: [
-/*     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },*/
+         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
 })
-export class ClientesModule { }
+export class ClientesModule { } */

@@ -6,11 +6,27 @@ import { Modulo } from '../../../../models/modulo';
 import { Usuario } from '../../../../models/usuario';
 import { Role } from '../../../../models/role';
 import { findIndex } from 'lodash';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { RouterModule } from '@angular/router';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'checkbox-usuario-rol',
   templateUrl: './checkbox-usuario-rol.component.html',
-  styleUrl: './checkbox-usuario-rol.component.css'
+  styleUrl: './checkbox-usuario-rol.component.css',
+  standalone: true,
+  imports: [CommonModule, MatDatepickerModule, MatTableModule, MatPaginatorModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatCheckboxModule, MatIconModule, MatDialogModule]
+
 })
 export class CheckboxUsuarioRolComponent implements OnInit {
 
@@ -24,27 +40,27 @@ export class CheckboxUsuarioRolComponent implements OnInit {
   roles: string[] = [];
   modulos: Modulo[] = [];
   //usuario!: Usuario;
-  checkboxRoles: CheckboxRoles[]=[]
+  checkboxRoles: CheckboxRoles[] = []
   checkboxModul!: CheckboxModul;
 
   allComplete: boolean = false;
 
-  constructor(private rolService: RolService,private usuarioService: UsuarioService) { }
+  constructor(private rolService: RolService, private usuarioService: UsuarioService) { }
 
   ngOnInit() {
     this.modulo.roles.forEach((r) => {
-          this.checkboxRoles.push({
-            id: r.id,
-            nombre:r.nombre,
-            descripcion:r.descripcion,
-            activated:this.permissionIsActivated(r.id)
-          })
+      this.checkboxRoles.push({
+        id: r.id,
+        nombre: r.nombre,
+        descripcion: r.descripcion,
+        activated: this.permissionIsActivated(r.id)
+      })
     })
     this.checkboxModul = {
       id: this.modulo.id,
       nombre: this.modulo.nombre,
-      activated:false,
-      checkboxRoles : this.checkboxRoles
+      activated: false,
+      checkboxRoles: this.checkboxRoles
     }
     this.updateAllComplete();
   }
@@ -76,11 +92,11 @@ export class CheckboxUsuarioRolComponent implements OnInit {
     return index != -1;
   }
 
-  moduloExport():Modulo{
-   //const roles = this.checkboxModul.checkboxRoles.filter(c=> c.activated);
-   const roles = this.checkboxModul.checkboxRoles;
-   this.modulo.roles = [... roles];
-   return this.modulo
+  moduloExport(): Modulo {
+    //const roles = this.checkboxModul.checkboxRoles.filter(c=> c.activated);
+    const roles = this.checkboxModul.checkboxRoles;
+    this.modulo.roles = [...roles];
+    return this.modulo
   }
 }
 
@@ -89,7 +105,7 @@ export interface CheckboxModul {
   id: number;
   nombre: string;
   activated: boolean;
-  checkboxRoles:CheckboxRoles[]
+  checkboxRoles: CheckboxRoles[]
 }
 
 export interface CheckboxRoles {

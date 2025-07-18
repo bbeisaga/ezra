@@ -1,41 +1,45 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { SearchBoxTableComponent } from './../../compartido/search-box-table/search-box-table.component';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 
-import swal from 'sweetalert2';
-import { tap } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
-import { MatTableModule, MatTableDataSource } from '@angular/material/table';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { Cliente } from '../../../models/cliente';
-import { ModalService } from '../../../services/modal.service';
-import { AuthService } from '../../../services/auth.service';
-import { ClienteService } from '../../../services/cliente.service';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
-import { PageableParams } from '../../../models/pageable-params';
-import { PageableResponse } from '../../../models/pageable-response';
-import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constants/constantes';
-import { MatDialog } from '@angular/material/dialog';
-import { AlertService } from '../../../services/alert.service';
-import { Producto } from '../../../models/producto';
-import { ProductoService } from '../../../services/producto.service';
 import { find } from 'lodash';
-import {  GenericosDeProducto } from '../../../models/genericos-de-producto';
+import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constants/constantes';
+import { GenericosDeProducto } from '../../../models/genericos-de-producto';
+import { PageableResponse } from '../../../models/pageable-response';
+import { Producto } from '../../../models/producto';
+import { AlertService } from '../../../services/alert.service';
+import { AuthService } from '../../../services/auth.service';
 import { GenericosDeProductoService } from '../../../services/genericos-de-producto.service';
-import { Color } from '../../../models/color';
+import { ModalService } from '../../../services/modal.service';
+import { ProductoService } from '../../../services/producto.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { RouterModule, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-producto',
   templateUrl: './producto.component.html',
   styleUrls: ['./producto.component.css'],
+  standalone: true,
+  imports: [SearchBoxTableComponent, CommonModule, MatDatepickerModule, MatTableModule, MatPaginatorModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+
 
 })
-export class ProductoComponent implements OnInit , AfterViewInit{
+export class ProductoComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['id', 'nombre','color','material','categoria','uso','cantidadStock', 'costoUnitario','acciones'];
-  genericosDeProducto:GenericosDeProducto[]=[];
-  dataSource : Producto[]=[];
-  productos:Producto[]=[];
+  displayedColumns: string[] = ['id', 'nombre', 'color', 'material', 'categoria', 'uso', 'cantidadStock', 'costoUnitario', 'acciones'];
+  genericosDeProducto: GenericosDeProducto[] = [];
+  dataSource: Producto[] = [];
+  productos: Producto[] = [];
   pageable: PageableResponse = new PageableResponse();
   querySearch!: string;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -51,12 +55,12 @@ export class ProductoComponent implements OnInit , AfterViewInit{
     private alertService: AlertService,
     private activatedRoute: ActivatedRoute) {
 
-    }
+  }
 
 
   ngOnInit() {
 
-    this.genericosDeProductoService.getGenericos().subscribe(result =>this.genericosDeProducto = result)
+    this.genericosDeProductoService.getGenericos().subscribe(result => this.genericosDeProducto = result)
     console.log("ngOnInit", this.genericosDeProducto);
   }
 
@@ -74,49 +78,49 @@ export class ProductoComponent implements OnInit , AfterViewInit{
   }
 
 
-  loadItems(){
-   // try {
+  loadItems() {
+    // try {
     console.log("loadItems", this.genericosDeProducto);
 
-      this.isLoading = true;
-      const params: any = {
-        active: this.sort.active.toUpperCase(),
-        direction: this.sort.direction.toUpperCase(),
-        pageNumber: this.paginator.pageIndex,
-        pageSize: this.paginator.pageSize,
-        query: !!this.querySearch ? this.querySearch:''
-      };
+    this.isLoading = true;
+    const params: any = {
+      active: this.sort.active.toUpperCase(),
+      direction: this.sort.direction.toUpperCase(),
+      pageNumber: this.paginator.pageIndex,
+      pageSize: this.paginator.pageSize,
+      query: !!this.querySearch ? this.querySearch : ''
+    };
 
-      this.productoService.getAllProductosPageable(params).subscribe(response => {
-        this.productos = response.content as Producto[]
-        this.productos.forEach( p => {
-/*             p.color = Object.assign({}, this.findObjectInGenericos(p.colorId!));
-            p.material = Object.assign({}, this.findObjectInGenericos(p.materialId!));
-            p.origen = Object.assign({}, this.findObjectInGenericos(p.origenId!));
-            p.empaque = Object.assign({}, this.findObjectInGenericos(p.empaqueId!));
-            p.categoria = Object.assign({}, this.findObjectInGenericos(p.categoriaId!));
-            p.uso = Object.assign({}, this.findObjectInGenericos(p.usoId!)); */
-          }
-        );
-        this.dataSource = this.productos;
-        console.log("this.dataSource", this.dataSource);
-        this.pageable = response;
-       /* this.dataSource = new MatTableDataSource(this.clientes);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.orberBy; */
-      });
+    this.productoService.getAllProductosPageable(params).subscribe(response => {
+      this.productos = response.content as Producto[]
+      this.productos.forEach(p => {
+        /*             p.color = Object.assign({}, this.findObjectInGenericos(p.colorId!));
+                    p.material = Object.assign({}, this.findObjectInGenericos(p.materialId!));
+                    p.origen = Object.assign({}, this.findObjectInGenericos(p.origenId!));
+                    p.empaque = Object.assign({}, this.findObjectInGenericos(p.empaqueId!));
+                    p.categoria = Object.assign({}, this.findObjectInGenericos(p.categoriaId!));
+                    p.uso = Object.assign({}, this.findObjectInGenericos(p.usoId!)); */
+      }
+      );
+      this.dataSource = this.productos;
+      console.log("this.dataSource", this.dataSource);
+      this.pageable = response;
+      /* this.dataSource = new MatTableDataSource(this.clientes);
+       this.dataSource.paginator = this.paginator;
+       this.dataSource.sort = this.orberBy; */
+    });
   }
 
-  findObjectInGenericos( id:number ){
+  findObjectInGenericos(id: number) {
     console.log("findObjectInGenericos", this.genericosDeProducto);
-    return find(this.genericosDeProducto, {"id": id})
+    return find(this.genericosDeProducto, { "id": id })
   }
 
 
-/*   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  } */
+  /*   applyFilter(event: Event) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    } */
 
   searchEvent(query: string): void {
     this.querySearch = query;
@@ -125,59 +129,59 @@ export class ProductoComponent implements OnInit , AfterViewInit{
 
   delete(producto: Producto): void {
 
-    const dialogRef = this.alertService.decision(`¿Seguro que desea eliminar ${producto.nombre}?`,"Borrar producto")
-      dialogRef.afterClosed().subscribe((result:boolean) => {
-        if (result) {
-            this.productoService.deleteProducto(producto.id).subscribe(
+    const dialogRef = this.alertService.decision(`¿Seguro que desea eliminar ${producto.nombre}?`, "Borrar producto")
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.productoService.deleteProducto(producto.id).subscribe(
+          () => {
+            this.loadItems();
+            ///this.dataSource = this.clientes.filter(cli => cli !== cliente)
+            this.alertService.success(`${producto.nombre} eliminado con éxito.`, 'Producto Eliminado!')
+            /* swal.fire(
+             'Cliente Eliminado!',
+             `Cliente ${cliente.nombres} eliminado con éxito.`,
+             'success'
+           ) */
+          }
+        )
+      }
+    });
+
+
+    /*
+    
+    
+         swal.fire({
+          title: 'Está seguro?',
+          text: `¿Seguro que desea eliminar al cliente ${cliente.nombres} ${cliente.apellidos}?`,
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, eliminar!',
+          cancelButtonText: 'No, cancelar!',
+          buttonsStyling: false,
+          reverseButtons: true
+        }).then((result) => {
+          if (result.value) {
+    
+            this.clienteService.delete(cliente.id).subscribe(
               () => {
-                this.loadItems();
-                ///this.dataSource = this.clientes.filter(cli => cli !== cliente)
-                this.alertService.success(`${producto.nombre} eliminado con éxito.`,'Producto Eliminado!')
-                 /* swal.fire(
+                this.dataSource = this.clientes.filter(cli => cli !== cliente)
+                swal.fire(
                   'Cliente Eliminado!',
                   `Cliente ${cliente.nombres} eliminado con éxito.`,
                   'success'
-                ) */
+                )
               }
             )
-        }
-      });
-
-
-/*
-
-
-     swal.fire({
-      title: 'Está seguro?',
-      text: `¿Seguro que desea eliminar al cliente ${cliente.nombres} ${cliente.apellidos}?`,
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar!',
-      cancelButtonText: 'No, cancelar!',
-      buttonsStyling: false,
-      reverseButtons: true
-    }).then((result) => {
-      if (result.value) {
-
-        this.clienteService.delete(cliente.id).subscribe(
-          () => {
-            this.dataSource = this.clientes.filter(cli => cli !== cliente)
-            swal.fire(
-              'Cliente Eliminado!',
-              `Cliente ${cliente.nombres} eliminado con éxito.`,
-              'success'
-            )
+    
           }
-        )
-
-      }
-    });  */
+        });  */
   }
 
-/*   abrirModal(cliente: Cliente) {
-    this.clienteSeleccionado = cliente;
-    this.modalService.abrirModal();
-  } */
+  /*   abrirModal(cliente: Cliente) {
+      this.clienteSeleccionado = cliente;
+      this.modalService.abrirModal();
+    } */
 
 }

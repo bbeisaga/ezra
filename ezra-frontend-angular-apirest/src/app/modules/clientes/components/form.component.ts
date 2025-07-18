@@ -1,18 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { findIndex } from 'lodash';
 import { Cliente } from '../../../models/cliente';
-import { Region } from '../../../models/region';
-import { ClienteService } from '../../../services/cliente.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import swal from 'sweetalert2';
 import { TipoDocumento } from '../../../models/tipo-documento';
 import { AlertService } from '../../../services/alert.service';
 import { AuthService } from '../../../services/auth.service';
-import { findIndex } from 'lodash';
+import { ClienteService } from '../../../services/cliente.service';
 import { FormUtils } from '../../../utils/form-utils';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-form',
-  templateUrl: './form.component.html'
+  templateUrl: './form.component.html',
+  standalone: true,
+  imports: [CommonModule, MatCardModule, MatFormFieldModule, MatInputModule, FormsModule, MatSelectModule,RouterModule],
 })
 export class FormComponent implements OnInit {
 
@@ -27,9 +33,10 @@ export class FormComponent implements OnInit {
 
   constructor(private clienteService: ClienteService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private alertServie: AlertService,
     public authService: AuthService,
-    private activatedRoute: ActivatedRoute) { }
+  ) { }
 
   ngOnInit() {
     this.clienteService.getTipoDocumento().subscribe(doc => {

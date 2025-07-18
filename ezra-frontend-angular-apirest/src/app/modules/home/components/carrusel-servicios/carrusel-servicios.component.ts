@@ -1,36 +1,68 @@
-import { Component, ElementRef } from '@angular/core';
+import { ProductoService } from './../../../../services/producto.service';
+import { CommonModule } from '@angular/common';
+import { Component, ElementRef, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { CarouselModule } from 'primeng/carousel';
+import { Tag } from 'primeng/tag';
+import { Producto } from '../../../../models/producto';
+
+
 
 
 @Component({
   selector: 'app-carrusel-servicios',
   templateUrl: './carrusel-servicios.component.html',
-  styleUrl: './carrusel-servicios.component.css'
+  styleUrl: './carrusel-servicios.component.css',
+  standalone: true,
+  imports: [ButtonModule, CarouselModule, FormsModule, CommonModule, Tag]
+
 })
 export class CarruselServiciosComponent {
+  private productService= inject(ProductoService)
 
-  constructor(private elementRef: ElementRef) { }
+ products: Producto[] = [];
 
-  ngOnInit(): void {
-    //this.loadScript(['carrusels']);
+    responsiveOptions: any[] | undefined;
 
-  }
+    constructor() {}
 
-  ngAfterViewInit(): void {
-    // Asegúrate de que el script se haya cargado completamente
-    // antes de intentar acceder a sus funcionalidades.
-    // Puedes usar setTimeout o eventos de carga del script.
-  }
+    ngOnInit() {
+      this.productService.getAllProducto().subscribe(pr => this.products = pr);
 
-  loadScript(archivos: string[]) {
-    for (let archivo of archivos) {
-      let script = document.createElement('script');
-      script.src = "../../../../../assets/js/" + archivo + ".js";
-      script.type = "text/javascript";
-      script.async = true;
-      console.log(script.src)
-      document.body.appendChild(script);
-      //this.elementRef.nativeElement.appendChild(script);
 
+        this.responsiveOptions = [
+            {
+                breakpoint: '1400px',
+                numVisible: 2,
+                numScroll: 1,
+            },
+            {
+                breakpoint: '1199px',
+                numVisible: 3,
+                numScroll: 1,
+            },
+            {
+                breakpoint: '767px',
+                numVisible: 2,
+                numScroll: 1,
+            },
+            {
+                breakpoint: '575px',
+                numVisible: 1,
+                numScroll: 1,
+            },
+        ];
     }
-  }
+
+    getSeverity(status: string) {
+        switch (status) {
+            case 'INSTOCK':
+                return 'success';
+            case 'LOWSTOCK':
+                return 'warn';
+            case 'OUTOFSTOCK':
+                return 'danger';
+        }
+    }
 }

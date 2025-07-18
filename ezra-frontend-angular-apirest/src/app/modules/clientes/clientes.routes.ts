@@ -1,13 +1,12 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ClientesComponent } from './pages/clientes.component';
-import { FormComponent } from './components/form.component';
+import { Routes } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard';
 import { RoleGuard } from '../../guards/role.guard';
+import { FormComponent } from './components/form.component';
+import { ClientesComponent } from './pages/clientes.component';
 
 
 
-const routes: Routes = [
+export const routes: Routes = [
 
 /*   { path: '', redirectTo: 'clientes', pathMatch: 'full' }, */
   { path: '',
@@ -24,8 +23,9 @@ const routes: Routes = [
 ];
 
 
-@NgModule({
+/* @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class ClientesRoutingModule { }
+ */

@@ -1,13 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Usuario } from '../../../models/usuario';
-import { AuthService } from '../../../services/auth.service';
-import { Router } from '@angular/router';
 import { AlertService } from '../../../services/alert.service';
+import { AuthService } from '../../../services/auth.service';
+import { Router, RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'menu-cabecera',
   templateUrl: './menu-cabecera.component.html',
-  styleUrl: './menu-cabecera.component.css'
+  styleUrl: './menu-cabecera.component.css',
+  standalone: true,
+  imports: [CommonModule, RouterModule, MatIconModule]
 })
 export class MenuCabeceraComponent {
 

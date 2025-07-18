@@ -1,23 +1,28 @@
-import { ItemService } from '../../../../services/item.service';
-import { FormUtils } from '../../../../utils/form-utils';
+import { CarritoItemProductoComponent } from './../../components/carrito-item-producto/carrito-item-producto.component';
+import { CustomizeItemProductoToClientComponent } from './../../components/customize-item-producto-to-client/customize-item-producto-to-client.component';
 
 
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MediosUtilsService } from '../../../../services/medios-utils.service';
+import { Component, inject, OnInit } from '@angular/core';
 import { Producto } from '../../../../models/producto';
-import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { ItemPedido } from '../../../../models/item-pedido';
-import { ProductoService } from '../../../../services/producto.service';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
 import { AuthService } from '../../../../services/auth.service';
-import { ChatUtils } from '../../../../utils/chat-utils';
+import { ProductoService } from '../../../../services/producto.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { RouterModule, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'item-producto-cliente-online',
   templateUrl: './item-producto-cliente-online.component.html',
-  styleUrl: './item-producto-cliente-online.component.css'
+  styleUrl: './item-producto-cliente-online.component.css',
+  standalone: true,
+    imports: [CarritoItemProductoComponent, CustomizeItemProductoToClientComponent, CommonModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+
 })
 export class ItemProductoClienteOnlineComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);

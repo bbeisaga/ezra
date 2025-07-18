@@ -1,24 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Caja } from '../../../../models/caja';
-import { CajaService } from '../../../../services/caja.service';
-import { ActivatedRoute } from '@angular/router';
-import moment from 'moment';
+import { CommonModule } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import * as fileSaver from 'file-saver';
-import { Cliente } from '../../../../models/cliente';
+import moment from 'moment';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { ClienteService } from '../../../../services/cliente.service';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MovimientoService } from '../../../../services/movimiento.service';
+import { Caja } from '../../../../models/caja';
+import { Cliente } from '../../../../models/cliente';
 import { Usuario } from '../../../../models/usuario';
+import { CajaService } from '../../../../services/caja.service';
+import { ClienteService } from '../../../../services/cliente.service';
+import { MovimientoService } from '../../../../services/movimiento.service';
 import { UsuarioService } from '../../../../services/usuario.service';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-rpte-movimiento-en-caja',
   templateUrl: './rpte-movimiento-en-caja.component.html',
-  styleUrl: './rpte-movimiento-en-caja.component.css'
+  styleUrl: './rpte-movimiento-en-caja.component.css',
+  standalone: true,
+  imports: [CommonModule, MatDatepickerModule, MatNativeDateModule,MatFormFieldModule, MatInputModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule]
 })
 export class RpteMovimientoEnCajaComponent implements OnInit {
   titulo!: string;
@@ -55,8 +66,8 @@ export class RpteMovimientoEnCajaComponent implements OnInit {
       fecha_transaccion1: [moment(now).subtract(1, 'days').toISOString().slice(0, 16)],
       fecha_transaccion2: [now.toISOString().slice(0, 16)],
       caja_id: [],
-      usuario_id:[],
-      cliente_id:[]
+      usuario_id: [],
+      cliente_id: []
     }
 
     this.createForm();
@@ -98,10 +109,10 @@ export class RpteMovimientoEnCajaComponent implements OnInit {
     }
 
     this.movimientoService.ceateReporteMovEnCaja(filtros)
-    .subscribe(response => {
-      fileSaver.saveAs(response.body!,
-        this.filenameFromHeader(response.headers)) //utilidad pra qeu descargue automaticamente
-    })
+      .subscribe(response => {
+        fileSaver.saveAs(response.body!,
+          this.filenameFromHeader(response.headers)) //utilidad pra qeu descargue automaticamente
+      })
   }
 
   private filenameFromHeader(headers: HttpHeaders): string {
@@ -117,7 +128,7 @@ export class RpteMovimientoEnCajaComponent implements OnInit {
     this.cajaService.getAllCaja().subscribe(res => this.cajaLst = res);
   }
 
-  cargarUsuarios(){
+  cargarUsuarios() {
     this.usuarioService.getAllUsers().subscribe(res => this.usuarioLst = res);
   }
 

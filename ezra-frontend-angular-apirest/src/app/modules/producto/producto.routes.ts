@@ -1,13 +1,11 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ProductoComponent } from './pages/producto.component';
-import { FormProductoComponent } from './components/form-producto.component';
+import { Routes } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard';
 import { RoleGuard } from '../../guards/role.guard';
 import { MantenimientoProductoComponent } from './pages/mantenimiento-producto.component';
+import { ProductoComponent } from './pages/producto.component';
 import { ProductosPorCategoriaComponent } from './pages/productos-por-categoria.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     component: ProductoComponent,
@@ -46,8 +44,8 @@ const routes: Routes = [
 
 ];
 
-@NgModule({
+/* @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ProductoRoutingModule { }
+export class ProductoRoutingModule { } */

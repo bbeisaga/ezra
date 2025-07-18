@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+/* import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PedidosRoutingModule } from './pedidos-routing.module';
@@ -38,3 +38,4 @@ import { PedidoClienteFinalizadoComponent } from './components/pedido-finalizado
   ]
 })
 export class PedidosModule { }
+ */
