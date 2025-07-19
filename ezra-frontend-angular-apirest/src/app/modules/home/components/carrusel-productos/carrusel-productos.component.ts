@@ -1,20 +1,22 @@
 import { Component, inject } from '@angular/core';
+import { environment } from '../../../../../environments/environment';
+import { COLOR_ESTADO_PRODUCTO } from '../../../../constants/color-estado-producto';
+import { Producto } from '../../../../models/producto';
+import { ProductoService } from '../../../../services/producto.service';
 import { PrimeNgModule } from '../../../compartido/prime-ng.module';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { ProductoService } from '../../../../services/producto.service';
-import { Producto } from '../../../../models/producto';
-import { COLOR_ESTADO_PRODUCTO } from '../../../../constants/color-estado-producto';
-import { environment } from '../../../../../environments/environment';
+
 
 @Component({
-  selector: 'carrusel-servicios',
-  templateUrl: './carrusel-servicios.component.html',
-  styleUrl: './carrusel-servicios.component.css',
+  selector: 'carrusel-productos',
+  templateUrl: './carrusel-productos.component.html',
+  styleUrl: './carrusel-productos.component.css',
   standalone: true,
   imports: [PrimeNgModule, CommonModule, RouterModule]
+
 })
-export class CarruselServiciosComponent {
+export class CarruselProductosComponent {
   private productService = inject(ProductoService)
   lstProductos: Producto[] = [];
   responsiveOptions: any[] | undefined;
@@ -22,7 +24,7 @@ export class CarruselServiciosComponent {
   constructor() { }
 
   ngOnInit() {
-    this.productService.getLstProductosServicios().subscribe(resp => {
+    this.productService.productosPorCategoria(0).subscribe(resp => {
       this.lstProductos = resp.map(prd => {
         prd.estadoProducto.color = COLOR_ESTADO_PRODUCTO[('' + prd.estadoProducto.id) as keyof typeof COLOR_ESTADO_PRODUCTO];
         prd.imagen = environment.API_URL_VER_IMAGEN + prd.imagen;

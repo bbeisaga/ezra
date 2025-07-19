@@ -1,4 +1,4 @@
-import { CarruselServiciosComponent } from './modules/home/components/carrusel-servicios/carrusel-servicios.component';
+import { CarruselProductosComponent } from './modules/home/components/carrusel-productos/carrusel-productos.component';
 import { LoginComponent } from './modules/auth/login.component';
 
 import { Routes } from '@angular/router';
@@ -13,8 +13,8 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'crear-cuenta', component: CrearCuentaTiendaComponent },
 
-   { path: 'carrousel', component: CarruselServiciosComponent },
- 
+   { path: '', component: HomeComponent},
+
 
   /*   {
       path: 'tienda', component: PaginaTiendaComponent,
@@ -26,7 +26,7 @@ export const routes: Routes = [
       ]
     }, */
   {
-    path: '', component: PrincipalComponent,
+    path: 'tienda', component: PrincipalComponent,
     children: [
       /*       {
               path: 'tienda',

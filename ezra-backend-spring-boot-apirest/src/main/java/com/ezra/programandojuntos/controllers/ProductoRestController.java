@@ -86,6 +86,11 @@ public class ProductoRestController {
 	public List<Producto> productosServicioEnvio() {
 		return productoService.lstProductoUsoServcioEnvio();
 	}
+	
+	@GetMapping("/productos/servicios")
+	public List<Producto> productosServicios() {
+		return productoService.lstProductoUsoServicios();
+	}
 
 	// @Secured({"ROLE_ADMIN"})
 	@GetMapping("/producto/filtrar-productos/{term}")
@@ -172,49 +177,6 @@ public class ProductoRestController {
 		response.put("producto", productoNew);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
-
-//	@PostMapping("/producto/imagen")
-//	public ResponseEntity<?> createWithImage(@RequestParam("archivo") MultipartFile archivo,
-//			@RequestParam("producto") String producto, @RequestParam("clienteOnline") boolean clienteOnline) {
-//		Producto productoNew = null;
-//		Map<String, Object> response = new HashMap<>();
-//		ObjectMapper objectMapper = new ObjectMapper();
-//		try {
-//			Producto productoDto = objectMapper.readValue(producto, Producto.class);
-//			productoNew = productoService.crearConImagen(productoDto, archivo, clienteOnline);
-//
-//		} catch (JsonProcessingException e) {
-//			response.put("mensaje", "Error al convertir el JSON a DTO");
-//			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
-//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-//
-//		} catch (IOException e) {
-//			response.put("mensaje", "Error en la carga de la imagen");
-//			response.put("err", e.getMessage().concat(": ").concat(e.getCause().getMessage()));
-//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-//		} catch (DataAccessException e) {
-//			response.put("mensaje", "Error al realizar el insert en la base de datos");
-//			response.put("err", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-//			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-//		}
-//		response.put("mensaje", "El producto ha sido creado con éxito!");
-//		response.put("producto", productoNew);
-//		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
-//	}
-
-//	@GetMapping("/producto/imagen/{nombreImagen:.+}")
-//	public ResponseEntity<Resource> verFoto(@PathVariable String nombreImagen){
-//
-//		Resource recurso = null;
-//		try {
-//			recurso = uploadFileService.cargar(nombreImagen);
-//		} catch (MalformedURLException e) {
-//			e.printStackTrace();
-//		}
-//		HttpHeaders cabecera = new HttpHeaders();
-//		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
-//		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
-//	}
 
 	@PutMapping("/producto/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody Producto producto, BindingResult result,

@@ -131,6 +131,7 @@ public class SpringSecurityConfig {
 			   .requestMatchers(HttpMethod.GET,"api/producto/id/{id}").permitAll()//esto es consulta lbre
 			   .requestMatchers(HttpMethod.GET,"api/producto/codigo/{codigo}").permitAll()//esto es consulta lbre
 			   .requestMatchers(HttpMethod.GET,"api/productos/servicio/envio").permitAll()//esto es consulta lbre
+			   .requestMatchers(HttpMethod.GET,"api/productos/servicios").permitAll()//esto es consulta lbre
 			   .requestMatchers(HttpMethod.GET,"api/producto/colores").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/producto/materiales").permitAll()
 			   .requestMatchers(HttpMethod.GET,"api/producto/categorias").permitAll()

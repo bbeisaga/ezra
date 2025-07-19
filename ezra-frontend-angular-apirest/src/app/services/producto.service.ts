@@ -172,7 +172,7 @@ export class ProductoService {
     ).pipe(
       catchError(e => {
         if (e.status != 401 && e.error.mensaje) {
-         // this.router.navigate(['/productos']);
+          // this.router.navigate(['/productos']);
           console.error(e.error.mensaje);
         }
 
@@ -180,13 +180,13 @@ export class ProductoService {
       }));
   }
 
-    getProductoByCod(codigo: string): Observable<Producto> {
+  getProductoByCod(codigo: string): Observable<Producto> {
     return this.http.get<Producto>(`${environment.apiUrl}/producto/codigo/${codigo}`
       /*, {headers: this.agregarAuthorizationHeader()}*/
     ).pipe(
       catchError(e => {
         if (e.status != 401 && e.error.mensaje) {
-         // this.router.navigate(['/productos']);
+          // this.router.navigate(['/productos']);
           console.error(e.error.mensaje);
         }
 
@@ -194,13 +194,27 @@ export class ProductoService {
       }));
   }
 
-    getLstProductoServicioEnvio(): Observable<Producto[]> {
+  getLstProductoServicioEnvio(): Observable<Producto[]> {
     return this.http.get<Producto[]>(`${environment.apiUrl}/productos/servicio/envio`
       /*, {headers: this.agregarAuthorizationHeader()}*/
     ).pipe(
       catchError(e => {
         if (e.status != 401 && e.error.mensaje) {
-         // this.router.navigate(['/productos']);
+          // this.router.navigate(['/productos']);
+          console.error(e.error.mensaje);
+        }
+
+        return throwError(e);
+      }));
+  }
+
+  getLstProductosServicios(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${environment.apiUrl}/productos/servicios`
+      /*, {headers: this.agregarAuthorizationHeader()}*/
+    ).pipe(
+      catchError(e => {
+        if (e.status != 401 && e.error.mensaje) {
+          // this.router.navigate(['/productos']);
           console.error(e.error.mensaje);
         }
 
@@ -235,7 +249,7 @@ export class ProductoService {
       }));
   }
 
-    deleteMargenProducto(id: number): Observable<MargenProducto> {
+  deleteMargenProducto(id: number): Observable<MargenProducto> {
     return this.http.delete<MargenProducto>(`${environment.apiUrl}/margenes/${id}`
       /*, {headers: this.agregarAuthorizationHeader()}*/
     ).pipe(
@@ -276,5 +290,5 @@ export class ProductoService {
         return throwError(e);
       })
     )
-}
+  }
 }

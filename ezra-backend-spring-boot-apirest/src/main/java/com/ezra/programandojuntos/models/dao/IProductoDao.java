@@ -27,6 +27,9 @@ public interface IProductoDao extends CrudRepository<Producto, Long>{
 	@Query("select p from Producto p where p.activo =true and p.uso.id = 6")
 	public List<Producto> findAllUsoServicioEnvio();
 	
+	@Query("select p from Producto p where p.activo =true and p.uso.id IN (4,5,6)")//NO MOVER LA TABLA USOS
+	public List<Producto> findAllUsoServicio();
+	
 	public List<Producto> findByNombreContainingIgnoreCase(String term);
 	
 	public List<Producto> findByNombreStartingWithIgnoreCase(String term);

@@ -89,6 +89,12 @@ public class ProductoServiceImpl implements ProductoService {
 	public List<Producto> lstProductoUsoServcioEnvio() {
 		return productoDao.findAllUsoServicioEnvio();
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Producto> lstProductoUsoServicios() {
+		return productoDao.findAllUsoServicio();
+	}
 
 	@Override
 	@Transactional(readOnly = true)

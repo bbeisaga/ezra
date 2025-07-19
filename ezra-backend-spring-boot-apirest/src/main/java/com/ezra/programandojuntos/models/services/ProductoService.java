@@ -20,6 +20,8 @@ public interface ProductoService {
 	public Producto findProductoByCod(String codigo);
 	
 	public List<Producto> lstProductoUsoServcioEnvio();
+	
+	public List<Producto> lstProductoUsoServicios();
 
 	public List<Producto> findProductoByNombre(String term);
 
