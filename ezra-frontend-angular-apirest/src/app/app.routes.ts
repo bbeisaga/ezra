@@ -5,6 +5,7 @@ import { Routes } from '@angular/router';
 import { CrearCuentaTiendaComponent } from './modules/auth/crear-cuenta-tienda.component';
 import { PrincipalComponent } from './modules/compartido/principal.component';
 import { HomeComponent } from './modules/home/pages/home/home.component';
+import { CarruselEmpresaComponent } from './modules/home/components/carrusel-empresa/carrusel-empresa.component';
 
 export const routes: Routes = [
 

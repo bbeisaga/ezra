@@ -4,13 +4,14 @@ import { LoadJavascriptService } from '../../../../services/load-javascript.serv
 import { CarruselServiciosComponent } from '../../components/carrusel-servicios/carrusel-servicios.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CarruselEmpresaComponent } from "../../components/carrusel-empresa/carrusel-empresa.component";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   standalone: true,
-  imports: [CarruselProductosComponent, CarruselServiciosComponent, CommonModule, FormsModule]
+  imports: [CarruselProductosComponent, CarruselServiciosComponent, CommonModule, FormsModule, CarruselEmpresaComponent]
 })
 export class HomeComponent implements OnInit {
 
