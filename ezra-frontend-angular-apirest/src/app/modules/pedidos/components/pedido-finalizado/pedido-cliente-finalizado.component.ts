@@ -29,13 +29,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
+import { PrimeNgModule } from '../../../compartido/prime-ng.module';
 
 @Component({
   selector: 'pedido-cliente-finalizado',
   templateUrl: './pedido-cliente-finalizado.component.html',
   styleUrl: './pedido-cliente-finalizado.component.css',
   standalone: true,
-    imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+    imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, PrimeNgModule ]
 
 })
 export class PedidoClienteFinalizadoComponent implements OnInit {

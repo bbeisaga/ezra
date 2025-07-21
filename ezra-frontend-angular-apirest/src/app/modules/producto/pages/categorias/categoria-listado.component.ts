@@ -6,13 +6,14 @@ import { environment } from '../../../../../environments/environment';
 import { COLOR_ACTIVO_CATEGORIA, ESTADO_ACTIVO_CATEGORIA } from '../../../../constants/color-estado-producto';
 import { AuthService } from '../../../../services/auth.service';
 import { RouterModule } from '@angular/router';
+import { PrimeNgModule } from '../../../compartido/prime-ng.module';
 
 @Component({
   selector: 'categoria-listado',
   standalone: true,
   templateUrl: './categoria-listado.component.html',
   styleUrl: './categoria-listado.component.css',
-  imports: [CommonModule, RouterModule]
+  imports: [CommonModule, RouterModule, PrimeNgModule]
 })
 export class CategoriaListadoComponent implements OnInit {
   private productoService = inject(ProductoService);

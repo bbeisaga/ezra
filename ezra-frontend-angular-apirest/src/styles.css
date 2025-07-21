@@ -161,14 +161,14 @@ sup {
   top: -.5em;
 }
 
-a {
-  color: #FFC600;
+ a {
+  color: #0a1026;
   text-decoration: none;
   background-color: transparent;
 }
 
 a:hover {
-  color: #b38b00;
+  color: #23A036;
   text-decoration: underline;
 }
 
@@ -10925,12 +10925,12 @@ h6,
 
 .btn {
   font-weight: 500;
-  padding: 10px 25px;
+  padding: 10px 15px;
   border-radius: 100px;
 }
 
 .form-control {
-  border-radius: 30px;
+  border-radius: 5px;
 }
 
 .btn-social {
@@ -11371,7 +11371,7 @@ body {
 
 /*ESTADOS GENERALES*/
 .color_activo {
-  background-color: #28a745;
+  background-color: #23A036;
 }
 
 .color_inactivo {
@@ -11498,4 +11498,10 @@ body {
   img {
     border-radius: 0 10px 0px 0px;
   }
+}
+
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    opacity: 1;
 }

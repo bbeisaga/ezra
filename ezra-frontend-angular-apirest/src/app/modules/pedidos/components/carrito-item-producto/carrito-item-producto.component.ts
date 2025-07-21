@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule, Router } from '@angular/router';
+import { PrimeNgModule } from '../../../compartido/prime-ng.module';
 
 
 @Component({
@@ -22,7 +23,7 @@ import { RouterModule, Router } from '@angular/router';
   templateUrl: './carrito-item-producto.component.html',
   styleUrl: './carrito-item-producto.component.css',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule]
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, PrimeNgModule ]
 
 })
 export class CarritoItemProductoComponent implements OnInit, OnDestroy {
@@ -93,7 +94,7 @@ export class CarritoItemProductoComponent implements OnInit, OnDestroy {
         width: '550px',
         disableClose: true
       });
-   
+
       dialogRef.afterClosed().subscribe(result => {
         itemPedido.descripcion = result
         console.log('Item Pedido: ', itemPedido);

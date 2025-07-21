@@ -1,7 +1,7 @@
 <div *ngIf="!isAuthenticated()" class="row mt-2">
-    <div class="col-12 alert alert-success">
-        Para terminar de <b>Realizar el pedido</b> debe
-        <a [routerLink]="['/login']">INICIAR SESIÓN.</a>
+    <div class="col-12 alert alert-dark">
+        Para terminar de realizar el pedido  debe
+        <a [routerLink]="['/login']"><b>INICIAR SESIÓN</b></a>
     </div>
 </div>
 <div class="row mt-2">
@@ -10,7 +10,7 @@
         <customize-item-producto-to-client [productoId]="producto.id" />
     </div>
     <div class="col-12 col-md-3">
-        <h2>Carrito</h2>
+        <h5>Carrito</h5>
         <carrito-item-producto [clienteId]=0/>
     </div>
     }

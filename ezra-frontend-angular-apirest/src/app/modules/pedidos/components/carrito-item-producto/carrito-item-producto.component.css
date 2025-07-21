@@ -1,22 +1,3 @@
-/* .tabla-mobile {
-    display: none;
-}
-
-@media (max-width:768px) {
-    .tabla-mobile {
-        display: block;
-    }
-
-    .tabla-desktop {
-        display: none;
-    }
-} */
-
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    opacity: 1;
-}
-
 input[type="number"] {
     width: 80px;
     background-color: #f9f9f9;
