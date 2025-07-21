@@ -1,5 +1,5 @@
 <mat-nav-list>
-<!--   <div mat-subheader><mat-icon>home</mat-icon>
+  <!--   <div mat-subheader><mat-icon>home</mat-icon>
     <a mat-list-item [routerLink]="['principal']" [routerLinkActive]="['active']"
       [routerLinkActiveOptions]="{exact: true}">
       INICIO</a>
@@ -19,7 +19,8 @@
       Registro cliente</a>
   </ng-container>
   <!----------------------2-------------------->
-  <div mat-subheader *ngIf="authService.hasRole('ROLE_LIST_VENTAS') || authService.hasRole('ROLE_REPORT_VENTA') || authService.hasRole('ROLE_LIST_MY_ORDERS')">
+  <div mat-subheader
+    *ngIf="authService.hasRole('ROLE_LIST_VENTAS') || authService.hasRole('ROLE_REPORT_VENTA') || authService.hasRole('ROLE_LIST_MY_ORDERS')">
     <mat-icon>insert_chart</mat-icon>PEDIDOS VENTA
   </div>
   <ng-container *ngIf="authService.hasRole('ROLE_LIST_VENTAS') || authService.hasRole('ROLE_LIST_MY_ORDERS')">
@@ -91,6 +92,11 @@
     <a mat-list-item [routerLink]="['productos/mantenimiento-producto']" [routerLinkActive]="['active']"
       [routerLinkActiveOptions]="{exact: true}">
       Registro de productos</a>
+  </ng-container>
+  <ng-container *ngIf="authService.hasRole('ROLE_LIST_CATEGORIAS')">
+    <a mat-list-item [routerLink]="['productos/categorias']" [routerLinkActive]="['active']"
+      [routerLinkActiveOptions]="{exact: true}">
+      Listado de categorias</a>
   </ng-container>
   <!----------------------6-------------------->
   <div mat-subheader><mat-icon>list_alt_check</mat-icon>USUARIOS

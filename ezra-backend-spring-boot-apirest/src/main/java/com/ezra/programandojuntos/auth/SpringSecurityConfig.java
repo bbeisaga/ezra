@@ -146,6 +146,11 @@ public class SpringSecurityConfig {
 
 			   //tabla margenes del producto
 			   .requestMatchers(HttpMethod.DELETE,"api/margen/{id}").hasRole("DELETE_MARGEN_PRODUCTO")
+			   //tabla margenes categorias
+			   .requestMatchers(HttpMethod.GET,"api/categorias/active").permitAll()
+			   .requestMatchers(HttpMethod.POST,"api/categoria").hasRole("REGISTER_CATEGORIA")
+			   .requestMatchers(HttpMethod.PUT,"api/categoria/{id}").hasRole("UPDATE_CATEGORIA")
+
 
 			   //Permisos para las URLs de USUARIOS
 			   .requestMatchers(HttpMethod.GET,"api/usuarios").permitAll()

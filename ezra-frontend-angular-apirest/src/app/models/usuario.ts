@@ -3,12 +3,11 @@ import { Role } from "./role";
 export class Usuario {
   id!: number;
   username!: string;
+  activo!: boolean;
+  bloqueado!: boolean;
   password!: string;
-  //confirmaPassword!:string;
-  nombres!: string;
-  apellidos!: string;
+  nomApellRz!: string;
   email!: string;
-  //roles: string[] = []; //Este se usa en AuthService
-  roles: Role[] =[];  //Se usa para modulo usuarios se ha cambviado revisar
+  roles: Role[] = [];  //Se usa para modulo usuarios se ha cambviado revisar
 
 }

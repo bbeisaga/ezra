@@ -1,8 +1,7 @@
 package com.ezra.programandojuntos.enums;
 
 public enum SortActiveUsuario {
-	NOMBRES("nombres"), 
-	APELLIDOS("apellidos");
+	NOMAPELLRZ("nomApellRz");
 
 	private String value;
 

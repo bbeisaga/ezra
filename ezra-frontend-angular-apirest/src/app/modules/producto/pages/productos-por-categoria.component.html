@@ -12,8 +12,8 @@
       <a class="{{producto.estadoProducto.color}}" [routerLink]="['/pedidos/item-producto-cliente-online',producto.id]">
         <img *ngIf="producto?.imagen" [src]="producto.imagen" alt="{{producto.imagen}}" class="card-img-top"></a>
       <div class="card-body">
-        <h3 class="card-title"><b> {{producto.nombre}} ({{producto.codigo}})</b></h3>
-        <h4 class="card-text">{{producto.descripcion}}</h4>
+        <p class="card-title"> {{producto.nombre}} ({{producto.codigo}})</p>
+        <p class="card-subtitle text-muted">{{producto.descripcion}}</p>
         <div class="row">
           <div class="col">
             <span class="precio">{{producto.precioNetoStringShow}}</span>
@@ -27,8 +27,8 @@
       </ul>
       <div class="card-body">
         <div class="d-flex justify-content-evenly">
-          <button type="button" class="btn btn-warning"
-            [routerLink]="['/pedidos/item-producto-cliente-online',producto.id]">Ver producto</button>
+          <button type="button" class="btn btn-primary"
+            [routerLink]="['/pedidos/item-producto-cliente-online',producto.id]">Ver</button>
 
           <button type="button" class="btn btn-success" (click)="chatear(producto)">Chatear</button>
         </div>

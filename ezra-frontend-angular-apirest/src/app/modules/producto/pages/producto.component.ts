@@ -24,13 +24,14 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { RouterModule, ActivatedRoute } from '@angular/router';
+import { AngularMaterialModule } from '../../compartido/angular-material.module';
 
 @Component({
   selector: 'app-producto',
   templateUrl: './producto.component.html',
   styleUrls: ['./producto.component.css'],
   standalone: true,
-  imports: [SearchBoxTableComponent, CommonModule, MatDatepickerModule, MatTableModule, MatPaginatorModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+  imports: [SearchBoxTableComponent, CommonModule,  RouterModule, FormsModule, ReactiveFormsModule, AngularMaterialModule ]
 
 
 })
@@ -149,8 +150,8 @@ export class ProductoComponent implements OnInit, AfterViewInit {
 
 
     /*
-    
-    
+
+
          swal.fire({
           title: 'Está seguro?',
           text: `¿Seguro que desea eliminar al cliente ${cliente.nombres} ${cliente.apellidos}?`,
@@ -163,7 +164,7 @@ export class ProductoComponent implements OnInit, AfterViewInit {
           reverseButtons: true
         }).then((result) => {
           if (result.value) {
-    
+
             this.clienteService.delete(cliente.id).subscribe(
               () => {
                 this.dataSource = this.clientes.filter(cli => cli !== cliente)
@@ -174,7 +175,7 @@ export class ProductoComponent implements OnInit, AfterViewInit {
                 )
               }
             )
-    
+
           }
         });  */
   }

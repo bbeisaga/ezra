@@ -31,6 +31,9 @@ public class Categoria implements Serializable {
 	@Column(name = "descripcion")
 	private String descripcion;
 	
+	@Column(name = "imagen")
+	private String imagen;
+	
 	@Column(name = "orden")
 	private Integer orden;
 	

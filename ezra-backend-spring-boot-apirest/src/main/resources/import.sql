@@ -30,7 +30,6 @@ INSERT INTO `modulos` (nombre) VALUES ('MOVIMIENTOS CAJA');
 INSERT INTO `modulos` (nombre) VALUES ('CAJA USUARIO');
 INSERT INTO `modulos` (nombre) VALUES ('PRODUCTOS');
 INSERT INTO `modulos` (nombre) VALUES ('USUARIOS');
-INSERT INTO `modulos` (nombre) VALUES ('PEDIDOS EN TIENDA');
 
 
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (1,1, 'ROLE_LIST_CLIENTES','Listar clientes o proveedores');
@@ -70,6 +69,10 @@ INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE_DELETE_PRODUCTO','Borrar producto');
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE_DELETE_MARGEN_PRODUCTO','Borrar margen de ganancia del producto');
 
+INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE_LIST_CATEGORIAS','Listar categorías');
+INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE_REGISTER_CATEGORIA','Crear categoría');
+INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (5,1, 'ROLE_UPDATE_CATEGORIA','Actualizar categoría');
+
 
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (6,1, 'ROLE_LIST_USUARIOS','Listar usuario');
 INSERT INTO `roles` (modulo_id,activated, nombre,descripcion) VALUES (6,1, 'ROLE_SEARCH_USUARIO','Buscar usuario');
@@ -108,6 +111,9 @@ INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 30);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 31);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 32);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 33);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 34);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 35);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 36);
 
 /* ROL DE CAJERA 1*/
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 8);
@@ -211,12 +217,12 @@ INSERT INTO materiales (id, nombre) VALUES(8,'Vidrio');
 INSERT INTO materiales (id, nombre) VALUES(9,'Otro material');
 
 /*Parametros generales CATEGORIA*/
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(1,'Tazas',1,1);
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(2,'Termos y botellas',4,1);
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(3,'Vasos',3,1);
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(4,'Artículos de librería',5,1);
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(5,'Máquinas e insumos',7,1);
-INSERT INTO categorias (id, nombre,orden,activa) VALUES(6,'Otros',9,1);
+INSERT INTO categorias (id,imagen,orden,activa, nombre, descripcion) VALUES(1,'no-imagen.jpg',1,1,'Tazas', 'Una descripcion para tazas personalizadas');
+INSERT INTO categorias (id,imagen,orden,activa, nombre, descripcion) VALUES(2,'no-imagen.jpg',2,1,'Termos y botellas', 'Una descripcion para termos y botellas');
+INSERT INTO categorias (id,imagen,orden,activa, nombre, descripcion) VALUES(3,'no-imagen.jpg',3,1,'Vasos', 'Una descripcion para vasos de vidirio');
+INSERT INTO categorias (id,imagen,orden,activa, nombre, descripcion) VALUES(4,'no-imagen.jpg',4,1,'Artículos de librería', 'Una descripcion para articulos de libreria');
+INSERT INTO categorias (id,imagen,orden,activa, nombre, descripcion) VALUES(5,'no-imagen.jpg',5,1,'Máquinas e insumos', 'Una descripcion para máquinas e insumos');
+INSERT INTO categorias (id,imagen,orden,activa, nombre, descripcion) VALUES(6,'no-imagen.jpg',6,1,'Otros', 'Una descripcion para otros');
 
 
 /*Parametros generales USO*/

@@ -46,6 +46,10 @@ export class ProductoService {
     return this.http.get<Categoria[]>(environment.apiUrl + '/producto/categorias');
   }
 
+  getCategoriasActivas(): Observable<Categoria[]> {
+    return this.http.get<Categoria[]>(environment.apiUrl + '/categorias/active');
+  }
+
   getColoresProducto(): Observable<Color[]> {
     return this.http.get<Color[]>(`${environment.apiUrl}/producto/colores`
     );
@@ -111,6 +115,21 @@ export class ProductoService {
     )
       .pipe(
         map((response: any) => response.prodcuto as Producto),
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
+  }
+
+  createCategoria(categoria: Categoria): Observable<Categoria> {
+    return this.http.post(`${environment.apiUrl}/categoria`, categoria)
+      .pipe(
+        map((response: any) => response.categoria as Categoria),
         catchError(e => {
           if (e.status == 400) {
             return throwError(e);
@@ -235,6 +254,21 @@ export class ProductoService {
         }
         return throwError(e);
       }));
+  }
+
+  updateCategoria(categoria: Categoria): Observable<Categoria> {
+    return this.http.put<any>(`${environment.apiUrl}/categoria/${categoria.id}`, categoria)
+      .pipe(
+        map((response: any) => response.categoria as Categoria),
+        catchError(e => {
+          if (e.status == 400) {
+            return throwError(e);
+          }
+          if (e.error.mensaje) {
+            console.error(e.error.mensaje);
+          }
+          return throwError(e);
+        }));
   }
 
   deleteProducto(id: number): Observable<Producto> {

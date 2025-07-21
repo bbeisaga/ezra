@@ -5,13 +5,17 @@ import { CarruselServiciosComponent } from '../../components/carrusel-servicios/
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CarruselEmpresaComponent } from "../../components/carrusel-empresa/carrusel-empresa.component";
+import { Categoria } from '../../../../models/categoria';
+import { ProductoService } from '../../../../services/producto.service';
+import { RouterModule } from '@angular/router';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   standalone: true,
-  imports: [CarruselProductosComponent, CarruselServiciosComponent, CommonModule, FormsModule, CarruselEmpresaComponent]
+  imports: [CarruselProductosComponent, CarruselServiciosComponent, CommonModule, FormsModule, CarruselEmpresaComponent, RouterModule]
 })
 export class HomeComponent implements OnInit {
 
@@ -27,14 +31,28 @@ export class HomeComponent implements OnInit {
   iniciaProductosVendidos: number = 0;
   terminaProductosVendidos: number = 400;
 
+  lstCategoria: Categoria[] = []
 
 
-  constructor(private loadJavascriptService: LoadJavascriptService) {
+  constructor(private productoService: ProductoService) { }
 
-    // loadJavascriptService.load(['easing.min', 'waypoints.min', 'counterup.min', 'isotope.pkgd.min', 'owl.carousel.min', 'lightbox.min', 'main']);
-  }
+
+  /*   constructor(private loadJavascriptService: LoadJavascriptService) {
+
+       loadJavascriptService.load(['easing.min', 'waypoints.min', 'counterup.min', 'isotope.pkgd.min', 'owl.carousel.min', 'lightbox.min', 'main']);
+    } */
   ngOnInit(): void {
-    let c1 = 0, c2 = 0, c3 = 0, c4=0;
+    this.productoService.getCategoriasActivas().subscribe(categorias => {
+      this.lstCategoria = categorias.map(cat => {
+        cat.imagen = environment.API_URL_VER_IMAGEN + cat.imagen;
+        return cat;
+      }).sort((a, b) => a.orden - b.orden)
+      //this.lstCategoria = categorias.sort((a, b) => a.orden - b.orden)
+      console.log("this.lstCategoria", this.lstCategoria);
+    })
+
+    /************************************ */
+    let c1 = 0, c2 = 0, c3 = 0, c4 = 0;
     let tiempoExperiencia = setInterval(() => {
       c1 += 1;
       this.iniciaExperiencia = c1;

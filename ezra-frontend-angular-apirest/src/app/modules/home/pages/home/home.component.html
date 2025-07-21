@@ -72,7 +72,7 @@
 <!-- Carousel Start -->
 <div class="container-fluid p-0">
   <carrusel-empresa></carrusel-empresa>
-<!--   <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">
+  <!--   <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">
     <ol class="carousel-indicators">
       <li data-target="#header-carousel" data-slide-to="0" class="active"></li>
       <li data-target="#header-carousel" data-slide-to="1"></li>
@@ -218,16 +218,7 @@
         <a href="" class="btn btn-primary mt-3 py-2 px-4">More Services</a>
       </div>
       <div class="col-lg-6 pt-5 pt-lg-0">
-        <carrusel-servicios></carrusel-servicios>
-        <!--         <div class="owl-carousel service-carousel position-relative">
-          <div class="d-flex flex-column align-items-center text-center bg-white rounded overflow-hidden pt-4">
-            <div class="icon-box bg-light text-secondary shadow mt-2 mb-4">
-              <i class="fa fa-2x fa-hotel"></i>
-            </div>
-            <h5 class="font-weight-bold mb-4 px-4">Subllimación externa</h5>
-            <img src="blog-1.jpg" alt="">
-          </div>
-        </div> -->
+        <carrusel-servicios class="text-white"></carrusel-servicios>
       </div>
     </div>
   </div>
@@ -274,114 +265,24 @@
 <div class="container-fluid bg-portfolio py-5">
   <div class="container py-5">
     <div class="row m-0 portfolio-container">
+      @for (categoria of lstCategoria; track $index) {
       <div class="col-lg-4 col-md-6 col-sm-12 p-0 portfolio-item">
         <div class="position-relative overflow-hidden">
           <div class="portfolio-img">
-            <img class="img-fluid w-100" src="portfolio-1.jpg" alt="">
+            <img class="img-fluid w-100" [src]="categoria.imagen" alt="">
           </div>
           <div class="portfolio-text bg-primary">
-            <h4 class="font-weight-bold mb-4">Tazas</h4>
+            <h4 class="font-weight-bold mb-4">{{categoria.nombre}}</h4>
             <div class="d-flex align-items-center justify-content-center">
-              <a class="btn btn-sm btn-secondary m-1" href="">
-                <i class="fa fa-link"></i>
-              </a>
-              <a class="btn btn-sm btn-secondary m-1" href="portfolio-1.jpg" data-lightbox="portfolio">
+              <a class="btn btn-sm btn-secondary m-1" [routerLink]="['/productos/productos-categoria',categoria.id]"
+                data-lightbox="portfolio">
                 <i class="fa fa-eye"></i>
               </a>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-lg-4 col-md-6 col-sm-12 p-0 portfolio-item">
-        <div class="position-relative overflow-hidden">
-          <div class="portfolio-img">
-            <img class="img-fluid w-100" src="portfolio-2.jpg" alt="">
-          </div>
-          <div class="portfolio-text bg-primary">
-            <h4 class="font-weight-bold mb-4">Termos y botellas</h4>
-            <div class="d-flex align-items-center justify-content-center">
-              <a class="btn btn-sm btn-secondary m-1" href="">
-                <i class="fa fa-link"></i>
-              </a>
-              <a class="btn btn-sm btn-secondary m-1" href="portfolio-2.jpg" data-lightbox="portfolio">
-                <i class="fa fa-eye"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 col-sm-12 p-0 portfolio-item">
-        <div class="position-relative overflow-hidden">
-          <div class="portfolio-img">
-            <img class="img-fluid w-100" src="portfolio-3.jpg" alt="">
-          </div>
-          <div class="portfolio-text bg-primary">
-            <h4 class="font-weight-bold mb-4">Vasos</h4>
-            <div class="d-flex align-items-center justify-content-center">
-              <a class="btn btn-sm btn-secondary m-1" href="">
-                <i class="fa fa-link"></i>
-              </a>
-              <a class="btn btn-sm btn-secondary m-1" href="portfolio-3.jpg" data-lightbox="portfolio">
-                <i class="fa fa-eye"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 col-sm-12 p-0 portfolio-item">
-        <div class="position-relative overflow-hidden">
-          <div class="portfolio-img">
-            <img class="img-fluid w-100" src="portfolio-4.jpg" alt="">
-          </div>
-          <div class="portfolio-text bg-primary">
-            <h4 class="font-weight-bold mb-4">Artículos de libreria</h4>
-            <div class="d-flex align-items-center justify-content-center">
-              <a class="btn btn-sm btn-secondary m-1" href="">
-                <i class="fa fa-link"></i>
-              </a>
-              <a class="btn btn-sm btn-secondary m-1" href="portfolio-4.jpg" data-lightbox="portfolio">
-                <i class="fa fa-eye"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 col-sm-12 p-0 portfolio-item">
-        <div class="position-relative overflow-hidden">
-          <div class="portfolio-img">
-            <img class="img-fluid w-100" src="portfolio-5.jpg" alt="">
-          </div>
-          <div class="portfolio-text bg-primary">
-            <h4 class="font-weight-bold mb-4">Máquinas</h4>
-            <div class="d-flex align-items-center justify-content-center">
-              <a class="btn btn-sm btn-secondary m-1" href="">
-                <i class="fa fa-link"></i>
-              </a>
-              <a class="btn btn-sm btn-secondary m-1" href="portfolio-5.jpg" data-lightbox="portfolio">
-                <i class="fa fa-eye"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 col-sm-12 p-0 portfolio-item">
-        <div class="position-relative overflow-hidden">
-          <div class="portfolio-img">
-            <img class="img-fluid w-100" src="portfolio-6.jpg" alt="">
-          </div>
-          <div class="portfolio-text bg-primary">
-            <h4 class="font-weight-bold mb-4">Insumos</h4>
-            <div class="d-flex align-items-center justify-content-center">
-              <a class="btn btn-sm btn-secondary m-1" href="">
-                <i class="fa fa-link"></i>
-              </a>
-              <a class="btn btn-sm btn-secondary m-1" href="portfolio-6.jpg" data-lightbox="portfolio">
-                <i class="fa fa-eye"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+      }
     </div>
   </div>
 </div>
@@ -404,25 +305,6 @@
     <div class="row">
       <div class="col-12">
         <carrusel-productos></carrusel-productos>
-        <!--
-                    <div class="owl-carousel team-carousel position-relative">
-                        <div class="team d-flex flex-column text-center rounded overflow-hidden">
-                             <div class="position-relative">
-                                <div class="team-img">
-                                    <img class="img-fluid w-100" src="team-1.jpg" alt="">
-                                </div>
-                                <div class="team-social d-flex flex-column align-items-center justify-content-center bg-primary">
-                                     <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-twitter"></i></a>
-                                    <a class="btn btn-secondary btn-social mb-2" href="#"><i class="fab fa-facebook-f"></i></a>
-                                    <a class="btn btn-secondary btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
-                                </div>
-                            </div>
-                            <div class="d-flex flex-column bg-primary text-center py-4">
-                                <h5 class="font-weight-bold">Full Name</h5>
-                                <p class="text-white m-0">Designation</p>
-                            </div>
-                        </div>
-                    </div>-->
       </div>
     </div>
   </div>
@@ -434,52 +316,39 @@
 <div class="container-fluid bg-testimonial py-5">
   <div class="container py-5">
     <div class="row">
-      <div class="col-lg-7 pt-lg-5 pb-5">
+      <div class="col-lg-6">
         <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">La empresa</h6>
         <h1 class="section-title text-white mb-5">La empresa</h1>
-        <div class="owl-carousel testimonial-carousel position-relative">
-          <div class="d-flex flex-column text-white">
-            <div class="d-flex align-items-center mb-3">
-              <img class="img-fluid" src="testimonial-1.jpg" alt="">
-              <div class="ml-3">
-                <h5 class="text-primary">Misión</h5>
-                <i>Director</i>
-              </div>
-            </div>
-            <p>Tempor at diam tempor sed. Sanctus dolor ipsum ut nonumy amet clita sea. Sed eos sed dolores vero no.
-              Ipsum elitr elitr stet dolor lorem erat. Diam no amet sea justo vero ut. Dolor ipsum kasd ipsum dolore.
-            </p>
-          </div>
-          <div class="d-flex flex-column text-white">
-            <div class="d-flex align-items-center mb-3">
-              <img class="img-fluid" src="testimonial-2.jpg" alt="">
-              <div class="ml-3">
-                <h5 class="text-primary">Visión</h5>
-                <i>Director</i>
-              </div>
-            </div>
-            <p>Tempor at diam tempor sed. Sanctus dolor ipsum ut nonumy amet clita sea. Sed eos sed dolores vero no.
-              Ipsum elitr elitr stet dolor lorem erat. Diam no amet sea justo vero ut. Dolor ipsum kasd ipsum dolore.
-            </p>
-          </div>
-          <div class="d-flex flex-column text-white">
-            <div class="d-flex align-items-center mb-3">
-              <img class="img-fluid" src="testimonial-3.jpg" alt="">
-              <div class="ml-3">
-                <h5 class="text-primary">Valores</h5>
-                <i>Director</i>
-              </div>
-            </div>
-            <p>Tempor at diam tempor sed. Sanctus dolor ipsum ut nonumy amet clita sea. Sed eos sed dolores vero no.
-              Ipsum elitr elitr stet dolor lorem erat. Diam no amet sea justo vero ut. Dolor ipsum kasd ipsum dolore.
-            </p>
-          </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 d-flex align-items-center mb-3 text-white">
+        <img class="img-fluid" src="testimonial-1.jpg" alt="">
+        <div class="ml-3">
+          <h5 class="text-primary">Visión</h5>
+          <i>Director</i>
         </div>
       </div>
-      <div class="col-lg-5" style="min-height: 400px;">
-        <div class="position-relative h-100 rounded overflow-hidden">
-          <img class="position-absolute w-100 h-100" src="testimonial.jpg" style="object-fit: cover;">
+      <div class="col-lg-9 d-flex align-items-center text-white">
+        <p>
+          Tempor at diam tempor sed. Sanctus dolor ipsum ut nonumy amet clita sea. Sed eos sed dolores vero no.
+          Ipsum elitr elitr stet dolor lorem erat. Diam no amet sea justo vero ut. Dolor ipsum kasd ipsum dolore.
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 d-flex align-items-center mb-3 text-white">
+        <img class="img-fluid" src="testimonial-2.jpg" alt="">
+        <div class="ml-3">
+          <h5 class="text-primary">Misión</h5>
+          <i>Director</i>
         </div>
+      </div>
+      <div class="col-lg-9 d-flex align-items-center text-white">
+        <p>
+          Tempor at diam tempor sed. Sanctus dolor ipsum ut nonumy amet clita sea. Sed eos sed dolores vero no.
+          Ipsum elitr elitr stet dolor lorem erat. Diam no amet sea justo vero ut. Dolor ipsum kasd ipsum dolore.
+        </p>
       </div>
     </div>
   </div>
@@ -500,59 +369,6 @@
           erat lorem. Ipsum eos ipsum magna lorem stet</h4>
       </div>
     </div>
-    <!--             <div class="row">
-                <div class="col-lg-4 col-md-6 mb-5">
-                    <div class="position-relative mb-4">
-                        <img class="img-fluid rounded w-100" src="blog-1.jpg" alt="">
-                        <div class="blog-date">
-                            <h4 class="font-weight-bold mb-n1">01</h4>
-                            <small class="text-white text-uppercase">Jan</small>
-                        </div>
-                    </div>
-                    <div class="d-flex mb-2">
-                        <a class="text-secondary text-uppercase font-weight-medium" href="">Admin</a>
-                        <span class="text-primary px-2">|</span>
-                        <a class="text-secondary text-uppercase font-weight-medium" href="">Cleaning</a>
-                    </div>
-                    <h5 class="font-weight-medium mb-2">Rebum lorem eos ipsum diam</h5>
-                    <p class="mb-4">Dolor justo sea kasd lorem clita justo no diam amet. Kasd magna dolor amet</p>
-                    <a class="btn btn-sm btn-primary py-2" href="">Read More</a>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-5">
-                    <div class="position-relative mb-4">
-                        <img class="img-fluid rounded w-100" src="blog-2.jpg" alt="">
-                        <div class="blog-date">
-                            <h4 class="font-weight-bold mb-n1">01</h4>
-                            <small class="text-white text-uppercase">Jan</small>
-                        </div>
-                    </div>
-                    <div class="d-flex mb-2">
-                        <a class="text-secondary text-uppercase font-weight-medium" href="">Admin</a>
-                        <span class="text-primary px-2">|</span>
-                        <a class="text-secondary text-uppercase font-weight-medium" href="">Cleaning</a>
-                    </div>
-                    <h5 class="font-weight-medium mb-2">Rebum lorem eos ipsum diam</h5>
-                    <p class="mb-4">Dolor justo sea kasd lorem clita justo no diam amet. Kasd magna dolor amet</p>
-                    <a class="btn btn-sm btn-primary py-2" href="">Read More</a>
-                </div>
-                <div class="col-lg-4 col-md-6 mb-5">
-                    <div class="position-relative mb-4">
-                        <img class="img-fluid rounded w-100" src="blog-3.jpg" alt="">
-                        <div class="blog-date">
-                            <h4 class="font-weight-bold mb-n1">01</h4>
-                            <small class="text-white text-uppercase">Jan</small>
-                        </div>
-                    </div>
-                    <div class="d-flex mb-2">
-                        <a class="text-secondary text-uppercase font-weight-medium" href="">Admin</a>
-                        <span class="text-primary px-2">|</span>
-                        <a class="text-secondary text-uppercase font-weight-medium" href="">Cleaning</a>
-                    </div>
-                    <h5 class="font-weight-medium mb-2">Rebum lorem eos ipsum diam</h5>
-                    <p class="mb-4">Dolor justo sea kasd lorem clita justo no diam amet. Kasd magna dolor amet</p>
-                    <a class="btn btn-sm btn-primary py-2" href="">Read More</a>
-                </div>
-            </div> -->
   </div>
 </div>
 <!-- Blog End -->
@@ -652,8 +468,8 @@
     <script src="lib/lightbox/js/lightbox.min.js"></script> -->
 
 <!-- Contact Javascript File -->
-<script src="mail/jqBootstrapValidation.min.js"></script>
-<script src="mail/contact.js"></script>
+<!-- <script src="mail/jqBootstrapValidation.min.js"></script>
+<script src="mail/contact.js"></script> -->
 
 <!-- Template Javascript -->
-<script src="js/main.js"></script>
+<!-- <script src="js/main.js"></script> -->

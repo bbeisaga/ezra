@@ -14,7 +14,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'crear-cuenta', component: CrearCuentaTiendaComponent },
 
-   { path: '', component: HomeComponent},
+   { path: 'home', component: HomeComponent},
 
 
   /*   {
@@ -27,7 +27,7 @@ export const routes: Routes = [
       ]
     }, */
   {
-    path: 'tienda', component: PrincipalComponent,
+    path: '', component: PrincipalComponent,
     children: [
       /*       {
               path: 'tienda',

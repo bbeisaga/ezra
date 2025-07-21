@@ -35,7 +35,7 @@ import { MatInputModule } from '@angular/material/input';
 })
 export class UsuariosComponent implements OnInit, AfterViewInit {
 
-  displayedColumns: string[] = ['apellidos', 'nombres', 'email', 'acciones'];
+  displayedColumns: string[] = ['nomApellRz', 'email', 'acciones'];
   dataSource: Usuario[] = [];
   usuarioSeleccionado!: Usuario;
   pageable: PageableResponse = new PageableResponse();

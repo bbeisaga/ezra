@@ -25,6 +25,6 @@ export class MenuTiendaComponent {
 
   ngOnInit(): void {
     //this.productoService.getAllProducto().subscribe(resp => this.lstProductos = resp);
-    this.productoService.getCategoriasProducto().subscribe(resp => this.lstCategoria = resp.sort((a, b) => a.orden - b.orden))
+    this.productoService.getCategoriasActivas().subscribe(resp => this.lstCategoria = resp.sort((a, b) => a.orden - b.orden))
   }
 }

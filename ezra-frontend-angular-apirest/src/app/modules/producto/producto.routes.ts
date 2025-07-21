@@ -4,6 +4,8 @@ import { RoleGuard } from '../../guards/role.guard';
 import { MantenimientoProductoComponent } from './pages/mantenimiento-producto.component';
 import { ProductoComponent } from './pages/producto.component';
 import { ProductosPorCategoriaComponent } from './pages/productos-por-categoria.component';
+import { CategoriaListadoComponent } from './pages/categorias/categoria-listado.component';
+import { CategoriaMantenimientoComponent } from './pages/categorias/categoria-mantenimiento.component';
 
 export const routes: Routes = [
   {
@@ -38,9 +40,24 @@ export const routes: Routes = [
   {
     path: 'productos-categoria/:catId',
     component: ProductosPorCategoriaComponent,
-/*     canActivate: [isAuthenticatedGuard, RoleGuard],
-    data: { role: 'ROLE_LIST_CLIENTES' } */
+    /*     canActivate: [isAuthenticatedGuard, RoleGuard],
+        data: { role: 'ROLE_LIST_CLIENTES' } */
+  },
+
+  {
+    path: 'categorias',
+    component: CategoriaListadoComponent,
+    /*     canActivate: [isAuthenticatedGuard, RoleGuard],
+        data: { role: 'ROLE_LIST_CLIENTES' } */
+  },
+
+  {
+    path: 'categorias/:categoriaId',
+    component: CategoriaMantenimientoComponent,
+    /*     canActivate: [isAuthenticatedGuard, RoleGuard],
+        data: { role: 'ROLE_LIST_CLIENTES' } */
   }
+
 
 ];
 
