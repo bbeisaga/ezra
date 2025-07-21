@@ -9,13 +9,15 @@ import { Categoria } from '../../../../models/categoria';
 import { ProductoService } from '../../../../services/producto.service';
 import { RouterModule } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
+import { PieComponent } from "../../../compartido/pie/pie.component";
+import { CabeceraComponent } from "../../../compartido/cabecera/cabecera.component";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   standalone: true,
-  imports: [CarruselProductosComponent, CarruselServiciosComponent, CommonModule, FormsModule, CarruselEmpresaComponent, RouterModule]
+  imports: [CarruselProductosComponent, CarruselServiciosComponent, CommonModule, FormsModule, CarruselEmpresaComponent, RouterModule, PieComponent, CabeceraComponent]
 })
 export class HomeComponent implements OnInit {
 

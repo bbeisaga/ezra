@@ -1,4 +1,4 @@
-.footer {
+/* .footer {
     background: #232F3E;
     padding: 20px 0px;
 
@@ -15,16 +15,9 @@
             padding: 10px 15px;
             transition: 0.3s ease all;
             text-decoration: none;
-            /*background:#d9d9d9;
-            background: #37475A;*/
             color: #9B9D9E;
             border: 1px solid #9B9D9E;
             border-radius: 5px;
-
-/*             .icono {
-                height: 20px;
-                width: 20px;
-            } */
 
             &:hover {
                 color: #ffff
@@ -63,4 +56,4 @@
     p {
         color: #9B9D9E;
     }
-}
+} */

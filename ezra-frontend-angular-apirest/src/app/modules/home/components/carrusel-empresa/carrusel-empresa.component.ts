@@ -1,5 +1,6 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { NgbCarouselConfig, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -8,7 +9,7 @@ import { NgbCarouselConfig, NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap
   standalone: true,
   templateUrl: './carrusel-empresa.component.html',
   styleUrl: './carrusel-empresa.component.css',
-  imports: [CommonModule, NgOptimizedImage, NgbCarouselModule],
+  imports: [CommonModule, NgOptimizedImage, NgbCarouselModule, RouterModule],
   providers: [NgbCarouselConfig]
 
 })
