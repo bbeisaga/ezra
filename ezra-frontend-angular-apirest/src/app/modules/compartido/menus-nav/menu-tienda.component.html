@@ -7,7 +7,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <div class="navbar-nav mx-auto">
-        <a class="nav-link" [routerLink]="['/productos/productos-categoria',0]" [routerLinkActive]="['active']">INICIO</a>
+        <a class="nav-link" [routerLink]="['/productos/productos-categoria',0]" [routerLinkActive]="['active']">TIENDA</a>
         @for (categoria of lstCategoria; track $index) {
         <a class="nav-link" [routerLink]="['/productos/productos-categoria',categoria.id]" [routerLinkActive]="['active']">
           {{categoria.nombre | uppercase}}</a>

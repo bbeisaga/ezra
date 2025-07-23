@@ -4,7 +4,7 @@ import { LoginComponent } from './modules/auth/login.component';
 import { Routes } from '@angular/router';
 import { CrearCuentaTiendaComponent } from './modules/auth/crear-cuenta-tienda.component';
 import { PrincipalComponent } from './modules/compartido/principal.component';
-import { HomeComponent } from './modules/home/pages/home/home.component';
+import { HomeComponent } from './modules/home/pages/home.component';
 import { CarruselEmpresaComponent } from './modules/home/components/carrusel-empresa/carrusel-empresa.component';
 
 export const routes: Routes = [
@@ -14,7 +14,10 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'crear-cuenta', component: CrearCuentaTiendaComponent },
 
-   { path: 'home', component: HomeComponent},
+  {
+    path: 'home',
+    loadChildren: () => import("./modules/home/home.routes").then((r) => r.routes),
+  },
 
 
   /*   {
@@ -40,7 +43,7 @@ export const routes: Routes = [
             }, */
       {
         path: 'clientes',
-        loadChildren: () => import("./modules/clientes/clientes.routes").then((r) => r.routes ),
+        loadChildren: () => import("./modules/clientes/clientes.routes").then((r) => r.routes),
       },
       {
         path: 'pedidos',
@@ -68,7 +71,7 @@ export const routes: Routes = [
   //{ path: 'pr',  loadChildren: () =>import("./modules/principal/principal.module").then((m) => m.PrincipalModule),},
   //{ path: 'reset-password', component: AyudaComponent },
 /*   { path: 'ayuda', component: AyudaComponent },
- */  { path: '***', component: LoginComponent },
+ */  { path: '***', component: PrincipalComponent },
 ];
 
 /* @NgModule({

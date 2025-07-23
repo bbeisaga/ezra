@@ -1,8 +1,8 @@
 <!-- Footer Start -->
-<div class="container-fluid bg-dark text-white mt-5 py-5 px-sm-3 px-md-5">
+<div class="container-fluid bg-dark text-white py-5 px-sm-3 px-md-5">
   <div class="row pt-5">
     <div class="col-lg-3 col-md-6 mb-5">
-      <a href="index.html" class="navbar-brand">
+      <a [routerLink]="['/home']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}" class="navbar-brand">
         <h1 class="m-0 mt-n3 display-4 text-primary">GRAFIYA</h1>
       </a>
       <p>Puede ecribirnos a whatssap o venir a nuestras oficinas, estaremos encantados de atenderlo</p>
@@ -25,11 +25,10 @@
     <div class="col-lg-3 col-md-6 mb-5">
       <h4 class="font-weight-semi-bold text-primary mb-4">Menú</h4>
       <div class="d-flex flex-column justify-content-start">
-        <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Inicio</a>
-        <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Productos</a>
-        <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Servicios</a>
-        <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Nosotros</a>
-        <a class="text-white" href="#"><i class="fa fa-angle-right mr-2"></i>Contactanos</a>
+        <a class="text-white mb-2" [routerLink]="['/home']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><i class="fa fa-angle-right mr-2"></i>Inicio</a>
+        <a class="text-white mb-2" [routerLink]="['/home/productos-servicios']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><i class="fa fa-angle-right mr-2"></i>Productos y servicios</a>
+        <a class="text-white mb-2" [routerLink]="['/home/nosotros']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><i class="fa fa-angle-right mr-2"></i>Nosotros</a>
+        <a class="text-white" [routerLink]="['/home/contactanos-cliente']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}"><i class="fa fa-angle-right mr-2"></i>Contactanos</a>
       </div>
     </div>
     <div class="col-lg-3 col-md-6 mb-5">
@@ -71,19 +70,3 @@
     </div>
   </div>
 </div>
-<!-- Footer End -->
-<!-- <div class="footer">
-    <div class="links">
-        <a href="#" target="_blank" class="link-redes tiktok">TikTok<i class="bi bi-tiktok"></i></a>
-        <a href="#" target="_blank" class="link-redes facebook">Facebok<i class="bi bi-facebook"></i></a>
-        <a href="#" target="_blank" class="link-redes instagram">Instagram<i class="bi bi-instagram"></i></a>
-        <a href="#" target="_blank" class="link-redes youtube">Youtube<i class="bi bi-youtube"></i></a>
-    </div>
-    <div class="links">
-        <a href="#" target="_blank" class="link-politicas">Políticas de privacidad |</a>
-        <a href="#" target="_blank" class="link-politicas">Políticas de producto</a>
-    </div>
-    <p class="text text-center">
-        2025 SOHA Technology - Todos los derechos reservados
-    </p>
-</div> -->
