@@ -1,28 +1,19 @@
-import { SearchBoxTableComponent } from './../../compartido/search-box-table/search-box-table.component';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { Usuario } from '../../../models/usuario';
-import { PageableResponse } from '../../../models/pageable-response';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { UsuarioService } from '../../../services/usuario.service';
-import { ModalService } from '../../../services/modal.service';
-import { AuthService } from '../../../services/auth.service';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { AlertService } from '../../../services/alert.service';
-import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constants/constantes';
 import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatCardModule } from '@angular/material/card';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatIconModule } from '@angular/material/icon';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
-import { RouterModule, Router } from '@angular/router';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { Router, RouterModule } from '@angular/router';
+import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constants/constantes';
+import { PageableResponse } from '../../../models/pageable-response';
+import { Usuario } from '../../../models/usuario';
+import { AlertService } from '../../../services/alert.service';
+import { AuthService } from '../../../services/auth.service';
+import { ModalService } from '../../../services/modal.service';
+import { UsuarioService } from '../../../services/usuario.service';
+import { AngularMaterialModule } from '../../compartido/angular-material.module';
+import { SearchBoxTableComponent } from './../../compartido/search-box-table/search-box-table.component';
 
 
 @Component({
@@ -30,7 +21,7 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css',
   standalone: true,
-  imports: [SearchBoxTableComponent, MatDatepickerModule, MatNativeDateModule,MatFormFieldModule, MatInputModule, MatPaginatorModule, MatSortModule, CommonModule, MatDatepickerModule, MatTableModule,  RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+  imports: [SearchBoxTableComponent, AngularMaterialModule , CommonModule,  RouterModule, FormsModule, ReactiveFormsModule]
 
 })
 export class UsuariosComponent implements OnInit, AfterViewInit {

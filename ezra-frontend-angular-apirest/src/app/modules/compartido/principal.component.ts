@@ -13,7 +13,7 @@ import { PieComponent } from './pie/pie.component';
   templateUrl: './principal.component.html',
   styleUrls: ['./principal.component.css'],
   standalone: true,
-  imports: [RouterModule,MatSidenavModule, MenuAppComponent, CabeceraComponent, MenuTiendaComponent,PieComponent]
+  imports: [RouterModule,MatSidenavModule, MenuAppComponent, CabeceraComponent, PieComponent]
 })
 export class PrincipalComponent implements OnInit, OnDestroy {
 
@@ -31,7 +31,7 @@ export class PrincipalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     //navegara al boton INICIO o HOME
-    this.router.navigate(["/productos/productos-categoria", 0])
+    //this.router.navigate(["/productos/productos-categoria", 0])
   }
 
 

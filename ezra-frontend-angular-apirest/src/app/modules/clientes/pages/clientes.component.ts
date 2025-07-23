@@ -18,13 +18,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { AngularMaterialModule } from '../../compartido/angular-material.module';
 
 @Component({
   selector: 'app-clientes',
   templateUrl: './clientes.component.html',
   styleUrls: ['./clientes.component.css'],
   standalone: true,
-  imports: [CommonModule,MatCardModule, MatInputModule, MatIconModule, MatFormFieldModule, MatTableModule, MatPaginatorModule, MatSortModule, RouterModule, SearchBoxTableComponent],
+  imports: [CommonModule,AngularMaterialModule , RouterModule, SearchBoxTableComponent],
 
 })
 export class ClientesComponent implements OnInit, AfterViewInit {
@@ -58,7 +59,7 @@ export class ClientesComponent implements OnInit, AfterViewInit {
      this.sort.sortChange.subscribe(() => {
       (this.paginator.pageIndex = 0);
       this.loadItems();
-    }); 
+    });
     this.paginator._intl.itemsPerPageLabel = ELEMENTOS_POR_PAGINA;
     this.paginator._intl.firstPageLabel = PRIMERA_PAGINA;
     this.paginator._intl.nextPageLabel = SIGUIENTE_PAGINA;

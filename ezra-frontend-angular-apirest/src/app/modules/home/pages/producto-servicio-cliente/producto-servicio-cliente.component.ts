@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   templateUrl: './producto-servicio-cliente.component.html',
   styleUrl: './producto-servicio-cliente.component.css',
-  imports:[CabeceraComponent, ProductoClienteComponent, CategoriasProductoClienteComponent, ServiciosClienteComponent, PieComponent, RouterModule]
+  imports:[ProductoClienteComponent, CategoriasProductoClienteComponent, ServiciosClienteComponent, RouterModule]
 })
 export class ProductoServicioClienteComponent {
 

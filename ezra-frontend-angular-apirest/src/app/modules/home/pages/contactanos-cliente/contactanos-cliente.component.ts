@@ -8,7 +8,7 @@ import { PieComponent } from '../../../compartido/pie/pie.component';
   standalone: true,
   templateUrl: './contactanos-cliente.component.html',
   styleUrl: './contactanos-cliente.component.css',
-  imports:[RouterModule, CabeceraComponent, PieComponent]
+  imports:[RouterModule]
 })
 export class ContactanosClienteComponent {
 

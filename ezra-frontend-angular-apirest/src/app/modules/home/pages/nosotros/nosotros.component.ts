@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   templateUrl: './nosotros.component.html',
   styleUrl: './nosotros.component.css',
-  imports: [CabeceraComponent, PieComponent, TrabajadoresComponent, EmpresaComponent, ExperienciaComponent, RouterModule]
+  imports: [TrabajadoresComponent, EmpresaComponent, ExperienciaComponent, RouterModule]
 })
 export class NosotrosComponent {
 

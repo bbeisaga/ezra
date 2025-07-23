@@ -5,7 +5,7 @@
   <div class="card-header">
     <h6 class="card-title">Listado de clientes y proveedores</h6>
     <div class="ms-auto">
-      <button type="button" *ngIf="authService.hasRole('ROLE_REGISTER_CLIENTE')" color="primary" 
+      <button *ngIf="authService.hasRole('ROLE_REGISTER_CLIENTE')" color="primary" mat-raised-button
         [routerLink]="['form']">
         Crear cliente
       </button>

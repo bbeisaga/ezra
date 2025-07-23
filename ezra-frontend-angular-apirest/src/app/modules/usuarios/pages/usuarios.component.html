@@ -29,7 +29,7 @@
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let element">
           <div class="d-flex flex-row">
-            <button *ngIf="authService.hasRole('ROLE_ASIGNAR_ROL_USUARIO')" mat-icon-button color="primary" (click)="setUsuario(element)" matTooltip="Asignar rol a usuario">
+            <button *ngIf="authService.hasRole('ROLE_ASIGNAR_ROL_USUARIO')" matMiniFab (click)="setUsuario(element)">
               <mat-icon>add_moderator</mat-icon>
             </button>
           </div>

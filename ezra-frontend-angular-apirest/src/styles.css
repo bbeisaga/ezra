@@ -161,7 +161,7 @@ sup {
   top: -.5em;
 }
 
- a {
+a {
   color: #0a1026;
   text-decoration: none;
   background-color: transparent;
@@ -11167,14 +11167,14 @@ h6,
   opacity: 1;
 }
 
- .bg-about {
+.bg-about {
   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(../public/about.jpg), no-repeat center center;
   background-size: cover;
 }
 
 .bg-service {
-   background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(../public/carousel-1.jpg), no-repeat center center;
-   background-size: cover;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(../public/carousel-1.jpg), no-repeat center center;
+  background-size: cover;
 }
 
 .bg-portfolio {
@@ -11414,11 +11414,12 @@ body {
   &::before {
     content: 'NUEVO';
     display: block;
-    width: 30%;
+    width: 40%;
     background-color: rgb(91, 197, 0);
     font-size: 10px;
     height: auto;
     position: absolute;
+    font-size: 14px;
     font-weight: bolder;
     font-style: italic;
     color: white;
@@ -11441,6 +11442,7 @@ body {
     background-color: #EC624B;
     height: auto;
     position: absolute;
+    font-size: 14px;
     font-weight: bolder;
     font-style: italic;
     color: white;
@@ -11459,10 +11461,11 @@ body {
   &::before {
     content: 'AGOTADO';
     display: block;
-    width: 30%;
+    width: 40%;
     background-color: red;
     height: auto;
     position: absolute;
+    font-size: 14px;
     font-weight: bolder;
     font-style: italic;
     color: white;
@@ -11485,7 +11488,7 @@ body {
     background-color: #1086b1;
     height: auto;
     position: absolute;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bolder;
     font-style: italic;
     color: white;
@@ -11503,5 +11506,5 @@ body {
 
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
-    opacity: 1;
+  opacity: 1;
 }

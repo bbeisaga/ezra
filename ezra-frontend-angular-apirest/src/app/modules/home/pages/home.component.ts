@@ -23,7 +23,7 @@ import { CategoriasProductoClienteComponent } from "../components/categorias-pro
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   standalone: true,
-  imports: [ServiciosClienteComponent, CommonModule, FormsModule, CarruselEmpresaComponent, RouterModule, PieComponent, CabeceraComponent, TrabajadoresComponent, ExperienciaComponent, EmpresaComponent, ProductoClienteComponent, CategoriasProductoClienteComponent]
+  imports: [ServiciosClienteComponent, CommonModule, FormsModule, CarruselEmpresaComponent, RouterModule,  TrabajadoresComponent, ExperienciaComponent, EmpresaComponent, ProductoClienteComponent, CategoriasProductoClienteComponent]
 })
 export class HomeComponent {
 
