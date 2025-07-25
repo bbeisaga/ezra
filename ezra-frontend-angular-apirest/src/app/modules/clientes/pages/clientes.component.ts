@@ -2,8 +2,9 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constants/constantes';
 import { Cliente } from '../../../models/cliente';
 import { PageableResponse } from '../../../models/pageable-response';
@@ -11,14 +12,8 @@ import { AlertService } from '../../../services/alert.service';
 import { AuthService } from '../../../services/auth.service';
 import { ClienteService } from '../../../services/cliente.service';
 import { ModalService } from '../../../services/modal.service';
-import { MatCardModule } from '@angular/material/card';
-import { ActivatedRoute, RouterModule } from '@angular/router';
-import { SearchBoxTableComponent } from '../../compartido/search-box-table/search-box-table.component';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { AngularMaterialModule } from '../../compartido/angular-material.module';
+import { SearchBoxTableComponent } from '../../compartido/search-box-table/search-box-table.component';
 
 @Component({
   selector: 'app-clientes',

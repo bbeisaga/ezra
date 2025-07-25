@@ -7,9 +7,9 @@ import { DetallePedidoVentaComponent } from './components/detalle-pedido-venta/d
 import { PedidoClienteFinalizadoComponent } from './components/pedido-finalizado/pedido-cliente-finalizado.component';
 import { ItemProductoClienteOnlineComponent } from './pages/item-producto-cliente-online/item-producto-cliente-online.component';
 import { ItemProductoClienteTiendaComponent } from './pages/item-producto-cliente-tienda/item-producto-cliente-tienda.component';
-import { ListadoComprasComponent } from './pages/listado-compras.component';
 import { ListadoVentasComponent } from './pages/listado-ventas/listado-ventas.component';
 import { RptePedidoComponent } from './reportes/rpte-pedido/rpte-pedido.component';
+import { ListadoComprasComponent } from './pages/listado-compras/listado-compras.component';
 
 export const routes: Routes = [
   // { path: '', redirectTo: ':clienteId', pathMatch: 'full' },

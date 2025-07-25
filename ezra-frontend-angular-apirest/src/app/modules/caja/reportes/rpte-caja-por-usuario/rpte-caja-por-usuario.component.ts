@@ -2,15 +2,6 @@ import { CommonModule } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatCardModule } from '@angular/material/card';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import * as fileSaver from 'file-saver';
 import moment from 'moment';
@@ -19,16 +10,14 @@ import { Usuario } from '../../../../models/usuario';
 import { AuthService } from '../../../../services/auth.service';
 import { CajaService } from '../../../../services/caja.service';
 import { UsuarioService } from '../../../../services/usuario.service';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { AngularMaterialModule } from '../../../compartido/angular-material.module';
 
 @Component({
   selector: 'app-rpte-caja-por-usuario',
   templateUrl: './rpte-caja-por-usuario.component.html',
   styleUrl: './rpte-caja-por-usuario.component.css',
   standalone: true,
-  imports: [CommonModule, MatDatepickerModule, MatDatepickerModule, MatNativeDateModule,MatFormFieldModule, MatInputModule, MatTableModule, MatPaginatorModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+  imports: [CommonModule, AngularMaterialModule , RouterModule, FormsModule, ReactiveFormsModule ]
 
 })
 export class RpteCajaPorUsuarioComponent implements OnInit {

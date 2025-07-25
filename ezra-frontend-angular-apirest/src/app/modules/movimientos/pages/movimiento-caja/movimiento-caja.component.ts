@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterModule } from '@angular/router';
 import { find } from 'lodash';
 import moment from 'moment';
@@ -17,17 +14,14 @@ import { AlertService } from '../../../../services/alert.service';
 import { AuthService } from '../../../../services/auth.service';
 import { CajaService } from '../../../../services/caja.service';
 import { MovimientoService } from '../../../../services/movimiento.service';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { AngularMaterialModule } from '../../../compartido/angular-material.module';
 
 @Component({
   selector: 'app-movimiento-caja',
   templateUrl: './movimiento-caja.component.html',
   styleUrl: './movimiento-caja.component.css',
   standalone: true,
-  imports: [CommonModule, MatDatepickerModule, MatNativeDateModule,MatFormFieldModule, MatInputModule,RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatSelectModule, MatRadioModule]
+  imports: [CommonModule, AngularMaterialModule ,RouterModule, FormsModule, ReactiveFormsModule ]
 
 })
 export class MovimientoCajaComponent implements OnInit, AfterViewInit {

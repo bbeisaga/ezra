@@ -1,31 +1,20 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ThemePalette } from '@angular/material/core';
-import { RolService } from '../../../../services/rol.service';
-import { UsuarioService } from '../../../../services/usuario.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { findIndex } from 'lodash';
 import { Modulo } from '../../../../models/modulo';
 import { Usuario } from '../../../../models/usuario';
-import { Role } from '../../../../models/role';
-import { findIndex } from 'lodash';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatCardModule } from '@angular/material/card';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
-import { RouterModule } from '@angular/router';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { RolService } from '../../../../services/rol.service';
+import { UsuarioService } from '../../../../services/usuario.service';
+import { AngularMaterialModule } from '../../../compartido/angular-material.module';
 
 @Component({
   selector: 'checkbox-usuario-rol',
   templateUrl: './checkbox-usuario-rol.component.html',
   styleUrl: './checkbox-usuario-rol.component.css',
   standalone: true,
-  imports: [CommonModule, MatDatepickerModule, MatTableModule, MatPaginatorModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatCheckboxModule, MatIconModule, MatDialogModule]
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule,AngularMaterialModule ]
 
 })
 export class CheckboxUsuarioRolComponent implements OnInit {

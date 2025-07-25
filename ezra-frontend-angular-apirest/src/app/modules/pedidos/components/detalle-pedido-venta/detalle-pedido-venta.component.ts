@@ -1,22 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { PedidoService } from '../../../../services/pedido.service';
-import { Pedido } from '../../../../models/pedido';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { RouterModule, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Pedido } from '../../../../models/pedido';
+import { PedidoService } from '../../../../services/pedido.service';
+import { AngularMaterialModule } from '../../../compartido/angular-material.module';
 
 @Component({
   selector: 'app-detalle-pedido-venta',
   templateUrl: './detalle-pedido-venta.component.html',
   styleUrl: './detalle-pedido-venta.component.css',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+  imports: [CommonModule, RouterModule, AngularMaterialModule, FormsModule, ReactiveFormsModule ]
 
 })
 export class DetallePedidoVentaComponent implements OnInit {

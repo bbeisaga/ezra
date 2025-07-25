@@ -1,11 +1,13 @@
-import { MatTableModule } from '@angular/material/table';
-import { SearchBoxTableComponent } from './../../../compartido/search-box-table/search-box-table.component';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ClienteService } from '../../../../services/cliente.service';
+import { SearchBoxTableComponent } from './../../../compartido/search-box-table/search-box-table.component';
 
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import moment from 'moment';
 import { concatMap } from 'rxjs';
 import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../../constants/constantes';
@@ -16,23 +18,14 @@ import { Pedido } from '../../../../models/pedido';
 import { AuthService } from '../../../../services/auth.service';
 import { PedidoService } from '../../../../services/pedido.service';
 import { UsuarioService } from '../../../../services/usuario.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { RouterModule, Router, ActivatedRoute } from '@angular/router';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { AngularMaterialModule } from '../../../compartido/angular-material.module';
 
 @Component({
   selector: 'listado-ventas',
   templateUrl: './listado-ventas.component.html',
   styleUrls: ['./listado-ventas.component.css'],
   standalone: true,
-  imports: [SearchBoxTableComponent, CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, MatFormFieldModule, MatInputModule,RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+  imports: [SearchBoxTableComponent, CommonModule ,RouterModule, FormsModule, ReactiveFormsModule, AngularMaterialModule ]
 })
 
 export class ListadoVentasComponent implements OnInit, AfterViewInit {
@@ -68,7 +61,7 @@ export class ListadoVentasComponent implements OnInit, AfterViewInit {
         ).subscribe(cli => {
           this.cliente = cli;
           console.log("cli", this.cliente);
-    
+
         }); */
 
   }

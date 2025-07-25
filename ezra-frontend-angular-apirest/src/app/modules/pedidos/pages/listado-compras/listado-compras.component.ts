@@ -1,31 +1,26 @@
-import { SearchBoxTableComponent } from './../../compartido/search-box-table/search-box-table.component';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { Pedido } from '../../../models/pedido';
-import { PageableResponse } from '../../../models/pageable-response';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { PedidoService } from '../../../services/pedido.service';
-import { AuthService } from '../../../services/auth.service';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import moment from 'moment';
-import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constants/constantes';
-import { COLOR_ESTADO_PEDIDO } from '../../../constants/pedido.constants';
 import { CommonModule } from '@angular/common';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
-import { RouterModule, Router, ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import moment from 'moment';
+import { AngularMaterialModule } from '../../../compartido/angular-material.module';
+import { SearchBoxTableComponent } from '../../../compartido/search-box-table/search-box-table.component';
+import { Pedido } from '../../../../models/pedido';
+import { PageableResponse } from '../../../../models/pageable-response';
+import { PedidoService } from '../../../../services/pedido.service';
+import { AuthService } from '../../../../services/auth.service';
+import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../../constants/constantes';
+import { COLOR_ESTADO_PEDIDO } from '../../../../constants/pedido.constants';
 
 @Component({
   selector: 'listado-compras',
   templateUrl: './listado-compras.component.html',
   styleUrl: './listado-compras.component.css',
   standalone: true,
-  imports: [SearchBoxTableComponent, CommonModule, MatTableModule, MatPaginatorModule, MatSortModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+  imports: [SearchBoxTableComponent, CommonModule,RouterModule, FormsModule, ReactiveFormsModule, AngularMaterialModule ]
 
 })
 export class ListadoComprasComponent implements OnInit, AfterViewInit {

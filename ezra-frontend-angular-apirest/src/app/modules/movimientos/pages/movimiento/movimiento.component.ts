@@ -1,10 +1,7 @@
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatFormField, MatSelectModule } from '@angular/material/select';
+import { Router, RouterModule } from '@angular/router';
 import * as fileSaver from 'file-saver';
 import { find } from 'lodash';
 import moment from 'moment';
@@ -20,8 +17,7 @@ import { AuthService } from '../../../../services/auth.service';
 import { CajaService } from '../../../../services/caja.service';
 import { MovimientoService } from '../../../../services/movimiento.service';
 import { PedidoService } from '../../../../services/pedido.service';
-import { Router, RouterModule } from '@angular/router';
-import { MatInputModule } from '@angular/material/input';
+import { AngularMaterialModule } from '../../../compartido/angular-material.module';
 
 
 @Component({
@@ -29,7 +25,7 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './movimiento.component.html',
   styleUrl: './movimiento.component.css',
   standalone:true,
-  imports: [CommonModule, RouterModule, MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatCardModule, MatSelectModule, MatRadioModule]
+  imports: [CommonModule, RouterModule, AngularMaterialModule , FormsModule, ReactiveFormsModule ]
 })
 export class MovimientoComponent implements OnInit {
   titulo: string = 'Movimiento de pago'

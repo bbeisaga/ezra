@@ -1,6 +1,9 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 
 
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import moment from 'moment';
 import { Caja } from '../../../../models/caja';
 import { CajaUsuario } from '../../../../models/caja-usuario';
@@ -8,21 +11,7 @@ import { AlertService } from '../../../../services/alert.service';
 import { AuthService } from '../../../../services/auth.service';
 import { CajaService } from '../../../../services/caja.service';
 import { UsuarioService } from '../../../../services/usuario.service';
-import { CommonModule } from '@angular/common';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatCardModule } from '@angular/material/card';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { AngularMaterialModule } from '../../../compartido/angular-material.module';
 
 
 @Component({
@@ -30,7 +19,7 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './apertura-cierre-caja.component.html',
   styleUrls: ['./apertura-cierre-caja.component.css'],
   standalone: true,
-      imports: [ CommonModule, MatDatepickerModule,  MatNativeDateModule,MatFormFieldModule, MatInputModule, MatTableModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+      imports: [ CommonModule, AngularMaterialModule, RouterModule, FormsModule, ReactiveFormsModule ]
 
 
 })

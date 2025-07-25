@@ -477,8 +477,8 @@
                 tienda</label>
               <div class="input-group col-sm">
                 <input #file (change)="this.isImage(file)" type="file" name="imagen" class="form-control"
-                  id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
-                <button (click)="subirImagen(file)" class="btn btn-outline-primary" type="button"
+                  style="padding: 25px;" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+                <button (click)="subirImagen(file)" class="btn btn-primary" type="button"
                   [disabled]="!this.isImage(file)" id="inputGroupFileAddon04">Subir</button>
               </div>
             </div>

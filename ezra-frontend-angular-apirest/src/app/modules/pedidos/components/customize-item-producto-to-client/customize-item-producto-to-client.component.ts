@@ -1,31 +1,27 @@
-import { Component, inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { MediosUtilsService } from '../../../../services/medios-utils.service';
-import { ProductoService } from '../../../../services/producto.service';
-import { ItemService } from '../../../../services/item.service';
-import { AuthService } from '../../../../services/auth.service';
-import { FormUtils } from '../../../../utils/form-utils';
-import { ChatUtils } from '../../../../utils/chat-utils';
-import { Producto } from '../../../../models/producto';
-import { ItemPedido } from '../../../../models/item-pedido';
+import { CommonModule } from '@angular/common';
+import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { COLOR_ESTADO_PRODUCTO } from '../../../../constants/color-estado-producto';
 import { SERVICIO_DISENIO, SERVICIO_SUBLIMACION } from '../../../../constants/constantes';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { RouterModule, ActivatedRoute } from '@angular/router';
+import { ItemPedido } from '../../../../models/item-pedido';
+import { Producto } from '../../../../models/producto';
+import { AuthService } from '../../../../services/auth.service';
+import { ItemService } from '../../../../services/item.service';
+import { MediosUtilsService } from '../../../../services/medios-utils.service';
+import { ProductoService } from '../../../../services/producto.service';
+import { ChatUtils } from '../../../../utils/chat-utils';
+import { FormUtils } from '../../../../utils/form-utils';
+import { AngularMaterialModule } from '../../../compartido/angular-material.module';
 
 @Component({
   selector: 'customize-item-producto-to-client',
   templateUrl: './customize-item-producto-to-client.component.html',
   styleUrl: './customize-item-producto-to-client.component.css',
   standalone: true,
-    imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule]
+    imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, AngularMaterialModule ]
 
 })
 export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges {

@@ -1,22 +1,14 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { ProductoService } from '../../../services/producto.service';
-import { ItemService } from '../../../services/item.service';
-import { Producto } from '../../../models/producto';
-import { ChatUtils } from '../../../utils/chat-utils';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { COLOR_ESTADO_PRODUCTO } from '../../../constants/color-estado-producto';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatCardModule } from '@angular/material/card';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
-import { RouterModule, ActivatedRoute } from '@angular/router';
+import { Producto } from '../../../models/producto';
+import { ItemService } from '../../../services/item.service';
+import { ProductoService } from '../../../services/producto.service';
+import { ChatUtils } from '../../../utils/chat-utils';
+import { AngularMaterialModule } from '../../compartido/angular-material.module';
 
 
 
@@ -26,7 +18,7 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
   templateUrl: './productos-por-categoria.component.html',
   styleUrl: './productos-por-categoria.component.css',
   standalone: true,
-  imports: [CommonModule, MatDatepickerModule, MatTableModule, MatPaginatorModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, AngularMaterialModule ]
 
 })
 export class ProductosPorCategoriaComponent implements OnInit {

@@ -1,9 +1,12 @@
-import { SearchBoxTableComponent } from './../../compartido/search-box-table/search-box-table.component';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { SearchBoxTableComponent } from './../../compartido/search-box-table/search-box-table.component';
 
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { find } from 'lodash';
 import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constants/constantes';
 import { GenericosDeProducto } from '../../../models/genericos-de-producto';
@@ -14,16 +17,6 @@ import { AuthService } from '../../../services/auth.service';
 import { GenericosDeProductoService } from '../../../services/genericos-de-producto.service';
 import { ModalService } from '../../../services/modal.service';
 import { ProductoService } from '../../../services/producto.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatCardModule } from '@angular/material/card';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatIconModule } from '@angular/material/icon';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
-import { RouterModule, ActivatedRoute } from '@angular/router';
 import { AngularMaterialModule } from '../../compartido/angular-material.module';
 
 @Component({

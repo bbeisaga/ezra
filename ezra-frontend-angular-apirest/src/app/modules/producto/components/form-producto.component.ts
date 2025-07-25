@@ -21,12 +21,13 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
+import { AngularMaterialModule } from '../../compartido/angular-material.module';
 
 @Component({
   selector: 'app-form-producto',
   templateUrl: './form-producto.component.html',
   standalone: true,
-  imports: [CommonModule, MatDatepickerModule, MatTableModule, MatPaginatorModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, AngularMaterialModule]
 
 })
 export class FormProductoComponent implements OnInit, AfterViewInit {
@@ -173,13 +174,13 @@ export class FormProductoComponent implements OnInit, AfterViewInit {
   /*     subirFoto() {
         if (!this.imagenSeleccionada) {
             this.alertService.error('Debe seleccionar una imagen', 'Imagen');
-  
+
         } else {
           this.productoService.subirImagen(this.imagenSeleccionada, this.producto.id)
             .subscribe(producto => {
               this.producto = producto;
               this.alertService.info('La foto se ha subido completamente!', 'Imagen');
-  
+
             });
         }
       } */

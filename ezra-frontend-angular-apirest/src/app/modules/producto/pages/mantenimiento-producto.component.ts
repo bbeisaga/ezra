@@ -1,4 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { find } from 'lodash';
 import { environment } from '../../../../environments/environment';
 import { Categoria } from '../../../models/categoria';
@@ -12,18 +15,7 @@ import { AuthService } from '../../../services/auth.service';
 import { MediosUtilsService } from '../../../services/medios-utils.service';
 import { ProductoService } from '../../../services/producto.service';
 import { FormUtils } from '../../../utils/form-utils';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatCardModule } from '@angular/material/card';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTableModule } from '@angular/material/table';
-import { RouterModule, Router, ActivatedRoute } from '@angular/router';
+import { AngularMaterialModule } from '../../compartido/angular-material.module';
 
 
 @Component({
@@ -31,7 +23,7 @@ import { RouterModule, Router, ActivatedRoute } from '@angular/router';
   templateUrl: './mantenimiento-producto.component.html',
   styleUrl: './mantenimiento-producto.component.css',
   standalone: true,
-  imports: [CommonModule, MatDatepickerModule, MatTableModule, MatPaginatorModule, RouterModule, FormsModule, ReactiveFormsModule, MatCardModule, MatAutocompleteModule, MatSelectModule, MatRadioModule, MatIconModule, MatDialogModule]
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, AngularMaterialModule]
 
 })
 export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
@@ -305,13 +297,13 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
         this.router.navigate(['/productos']);
       })
     }
-  
+
     update(): void {
       this.productoService.updateProducto(this.producto).subscribe(
         json => {
           this.alertService.success(`${json.mensaje}: ${json.producto.nombre}`, 'Producto actualizado');
           this.router.navigate(['/productos']);
-  
+
         }
       )
     } */
@@ -330,7 +322,7 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
         })
       }
     } */
-  /* 
+  /*
     seleccionarImagen(event: any) {
       this.imagenSeleccionada = event.target.files[0];
       if (this.imagenSeleccionada!.type.indexOf('image') < 0) {
@@ -358,7 +350,7 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
         formData.append("archivo", imagen);
         formData.append("producto", JSON.stringify(this.producto));
         formData.append("clienteOnline", 'false');
-  
+
         if (this.producto.id) {
           this.productoService.updateProductoImagen(formData, this.producto.id).subscribe(
             resp => {
@@ -372,7 +364,7 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
               this.verImagenProducto = environment.API_URL_VER_IMAGEN + this.producto.imagen;
             })
         }
-  
+
       } else {
         this.alertService.error('Debe colocar un codigo y nombre al producto', 'Imagen');
       }
