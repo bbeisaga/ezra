@@ -1,6 +1,6 @@
-.whatsapp{
-    display: flex; 
-    justify-content: center;  
+/* .whatsapp{
+    display: flex;
+    justify-content: center;
     align-items: center;
     position: fixed;
     width: 60px;
@@ -20,4 +20,4 @@
     color:white;
     transition: 0.3s;
     font-size:37px;
-}
+} */

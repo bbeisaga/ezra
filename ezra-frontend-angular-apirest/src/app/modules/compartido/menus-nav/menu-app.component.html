@@ -98,6 +98,11 @@
       [routerLinkActiveOptions]="{exact: true}">
       Listado de categorias</a>
   </ng-container>
+  <ng-container *ngIf="authService.hasRole('ROLE_REGISTER_CATEGORIA')">
+    <a mat-list-item [routerLink]="['productos/mantenimiento-categoria']" [routerLinkActive]="['active']"
+      [routerLinkActiveOptions]="{exact: true}">
+      Registrar categoria</a>
+  </ng-container>
   <!----------------------6-------------------->
   <div mat-subheader><mat-icon>list_alt_check</mat-icon>USUARIOS
   </div>

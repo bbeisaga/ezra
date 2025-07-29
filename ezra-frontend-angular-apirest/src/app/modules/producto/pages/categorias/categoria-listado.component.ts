@@ -7,13 +7,14 @@ import { COLOR_ACTIVO_CATEGORIA, ESTADO_ACTIVO_CATEGORIA } from '../../../../con
 import { AuthService } from '../../../../services/auth.service';
 import { RouterModule } from '@angular/router';
 import { PrimeNgModule } from '../../../compartido/prime-ng.module';
+import { AngularMaterialModule } from '../../../compartido/angular-material.module';
 
 @Component({
   selector: 'categoria-listado',
   standalone: true,
   templateUrl: './categoria-listado.component.html',
   styleUrl: './categoria-listado.component.css',
-  imports: [CommonModule, RouterModule, PrimeNgModule]
+  imports: [CommonModule, RouterModule, AngularMaterialModule]
 })
 export class CategoriaListadoComponent implements OnInit {
   private productoService = inject(ProductoService);

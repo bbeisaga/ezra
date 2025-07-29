@@ -5,14 +5,14 @@
       <div class="card-title">{{ titulo }}</div>
       <div class="ms-auto">
         @if (!categoria.id && authService.hasRole('ROLE_REGISTER_CATEGORIA')) {
-        <button color="primary" mat-raised-button (click)='guardarCategoria()' [disabled]="!formCategoria.valid">Crear
+        <button class="btn btn-primary" (click)='guardarCategoria()' [disabled]="!formCategoria.valid">Crear
           producto</button>
         }
         @if (categoria.id && authService.hasRole('ROLE_UPDATE_CATEGORIA')) {
-        <button color="primary" mat-raised-button (click)='guardarCategoria()'
-          [disabled]="!formCategoria.valid">Actualizar producto</button>
+        <button class="btn btn-primary" (click)='guardarCategoria()' [disabled]="!formCategoria.valid">Actualizar
+          categoria</button>
         }
-        <button color="primary" mat-raised-button [routerLink]="'/productos'">Cancelar</button>
+        <button class="btn btn-secondary" [routerLink]="'/productos/categorias'">Cancelar</button>
       </div>
     </div>
     <div class="card-body">
@@ -47,13 +47,13 @@
             <div class="row mb-2">
 
               <div class="row mb-2">
-                <label for="formFile" class="form-label col-sm-4"><b>Imágen de categoria producto:</b><br>Visible en
-                  Home</label>
+<!--                 <label for="formFile" class="form-label col-sm-4"><b>Imágen de categoria:</b><br>Visible en
+                  Home</label> -->
                 <div class="input-group col-sm">
                   <input #file (change)="this.isImage(file)" type="file" name="imagen" class="form-control"
-                    id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
-                  <button (click)="subirImagen(file)" class="btn btn-outline-primary" type="button"
-                    [disabled]="!this.isImage(file)" id="inputGroupFileAddon04">Subir</button>
+                    style="padding: 25px;" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04">
+                    <button (click)="subirImagen(file)" class="btn btn-primary" type="button"
+                      [disabled]="!this.isImage(file)" id="inputGroupFileAddon04">Subir</button>
                 </div>
               </div>
 

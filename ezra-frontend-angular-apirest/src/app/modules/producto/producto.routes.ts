@@ -47,15 +47,22 @@ export const routes: Routes = [
   {
     path: 'categorias',
     component: CategoriaListadoComponent,
-    /*     canActivate: [isAuthenticatedGuard, RoleGuard],
-        data: { role: 'ROLE_LIST_CLIENTES' } */
+    canActivate: [isAuthenticatedGuard, RoleGuard],
+    data: { role: 'ROLE_LIST_CATEGORIAS' }
+  },
+
+  {
+    path: 'mantenimiento-categoria',
+    component: CategoriaMantenimientoComponent,
+    canActivate: [isAuthenticatedGuard, RoleGuard],
+    data: { role: 'ROLE_REGISTER_CATEGORIA' }
   },
 
   {
     path: 'categorias/:categoriaId',
     component: CategoriaMantenimientoComponent,
-    /*     canActivate: [isAuthenticatedGuard, RoleGuard],
-        data: { role: 'ROLE_LIST_CLIENTES' } */
+    canActivate: [isAuthenticatedGuard, RoleGuard],
+    data: { role: 'ROLE_UPDATE_CATEGORIA' }
   }
 
 

@@ -49,8 +49,10 @@ public class UploadFileServiceImpl implements IUploadFileService {
 		}
 
 		Path rutaArchivo = getPath(DIRECTORIO_UPLOAD, nombreArchivo);
-		log.info(rutaArchivo.toString());
-		Files.copy(archivo.getInputStream(), rutaArchivo);
+		File archivoImagen = rutaArchivo.toFile();
+		if (!archivoImagen.exists() && !archivoImagen.canRead()) {
+			Files.copy(archivo.getInputStream(), rutaArchivo);			
+		} 
 		return nombreArchivo;
 		// }
 		// return nombreArchivo;

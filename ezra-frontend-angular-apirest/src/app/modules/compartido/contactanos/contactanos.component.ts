@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './contactanos.component.html',
   styleUrl: './contactanos.component.css',
   standalone: true,
-  imports: [CommonModule] // No additional imports needed for this component 
+  imports: [CommonModule] // No additional imports needed for this component
 })
 export class ContactanosComponent {
 
@@ -25,12 +25,12 @@ export class ContactanosComponent {
     console.log(this.pedido);
   }
 
-  enviarPedidoChat() {
-    this.chatUtils.sendPedido(this.pedido);
-  }
-
-  chatear() {
-    this.chatUtils.defaultMesage();
-  }
+    enviarPedidoChat() {
+      this.chatUtils.sendPedido(this.pedido);
+    }
+/*
+    chatear() {
+      this.chatUtils.defaultMesage();
+    } */
 
 }
