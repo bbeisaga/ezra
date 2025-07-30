@@ -18,6 +18,7 @@ export const routes: Routes = [
     path: 'listado-ventas',
     component: ListadoVentasComponent,
     canActivate: [isAuthenticatedGuard],
+    data: { role: 'ROLE_LIST_VENTAS' }
   },
   {
     path: 'listado-compras',
@@ -41,25 +42,25 @@ export const routes: Routes = [
     data: { role: 'ROLE_CREATE_VENTA' }
   },
 
-    {
+  {
     path: 'item-producto-cliente-online/:productoId',
     component: ItemProductoClienteOnlineComponent,
-/*     canActivate: [isAuthenticatedGuard, RoleGuard],
-    data: { role: 'ROLE_CREATE_PEDIDO' } */
+    /*     canActivate: [isAuthenticatedGuard, RoleGuard],
+        data: { role: 'ROLE_CREATE_PEDIDO' } */
   },
 
   {
     path: 'pedido-cliente-finalizado/:clienteId',
     component: PedidoClienteFinalizadoComponent,
-/*     canActivate: [isAuthenticatedGuard, RoleGuard],
-    data: { role: 'ROLE_CREATE_PEDIDO' } */
+    /*     canActivate: [isAuthenticatedGuard, RoleGuard],
+        data: { role: 'ROLE_CREATE_PEDIDO' } */
   },
 
-    {
+  {
     path: 'contactanos',
     component: ContactanosComponent,
-/*     canActivate: [isAuthenticatedGuard, RoleGuard],
-    data: { role: 'ROLE_CREATE_PEDIDO' } */
+    /*     canActivate: [isAuthenticatedGuard, RoleGuard],
+        data: { role: 'ROLE_CREATE_PEDIDO' } */
   },
 
 

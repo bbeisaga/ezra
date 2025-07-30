@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { find } from 'lodash';
+import { find } from 'lodash-es';
 import { environment } from '../../../../environments/environment';
 import { Categoria } from '../../../models/categoria';
 import { Color } from '../../../models/color';

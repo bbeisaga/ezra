@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 
-import { find } from 'lodash';
+import { find } from 'lodash-es';
 import { ClienteService } from '../../services/cliente.service';
 import { AlertService } from '../../services/alert.service';
 import { FormUtils } from '../../utils/form-utils';
@@ -69,19 +69,19 @@ export class CrearCuentaTiendaComponent {
       { validators: [Validators.required, Validators.minLength(2), Validators.pattern('^[a-zA-Z\\s]+$')] }
       ],
 
-      correo: [this.cliente?.email, [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')] 
+      correo: [this.cliente?.email, [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')]
       ],
 
       /*       direccion: [this.cliente?.direccion,
             { validators: [Validators.required, Validators.minLength(5)] }
             ],
-      
+
             celular: [this.cliente?.celular, [Validators.required, Validators.minLength(6), Validators.maxLength(14), Validators.pattern('^\\d+$')]], */
 
 
       /*       clave: [this.cliente?.usuario?.password,
             { validators: [Validators.required, Validators.minLength(4), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')] }
-      
+
             ],
             confirmaClave: [this.cliente?.usuario?.confirmaPassword,
             { validators: [Validators.required, Validators.minLength(4), Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')] }

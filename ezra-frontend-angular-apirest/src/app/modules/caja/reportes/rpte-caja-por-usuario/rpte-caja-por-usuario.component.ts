@@ -3,7 +3,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import * as fileSaver from 'file-saver';
+import * as fileSaver from 'file-saver-es';
 import moment from 'moment';
 import { Caja } from '../../../../models/caja';
 import { Usuario } from '../../../../models/usuario';

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../models/usuario';
-import { findIndex } from 'lodash';
+import { findIndex } from 'lodash-es';
 
 @Injectable({
   providedIn: 'root'

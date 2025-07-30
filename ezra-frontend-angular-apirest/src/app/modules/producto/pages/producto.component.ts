@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { find } from 'lodash';
+import { find } from 'lodash-es';
 import { ELEMENTOS_POR_PAGINA, PRIMERA_PAGINA, SIGUIENTE_PAGINA, ULTIMA_PAGINA } from '../../../constants/constantes';
 import { GenericosDeProducto } from '../../../models/genericos-de-producto';
 import { PageableResponse } from '../../../models/pageable-response';

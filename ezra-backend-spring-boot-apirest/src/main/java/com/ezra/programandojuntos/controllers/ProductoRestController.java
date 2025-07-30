@@ -82,6 +82,11 @@ public class ProductoRestController {
 		return productoService.findAllProductos();
 	}
 	
+	@GetMapping("/productos/ids")
+	public List<Long> lstIdsProductosActivos() {
+		return productoService.findAllIdsProductosActivos();
+	}
+	
 	@GetMapping("/productos/servicio/envio")
 	public List<Producto> productosServicioEnvio() {
 		return productoService.lstProductoUsoServcioEnvio();

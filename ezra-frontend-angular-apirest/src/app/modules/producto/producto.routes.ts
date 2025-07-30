@@ -38,7 +38,7 @@ export const routes: Routes = [
     }, */
 
   {
-    path: 'productos-categoria/:catId',
+    path: 'productos-categoria/:categoriaId',
     component: ProductosPorCategoriaComponent,
     /*     canActivate: [isAuthenticatedGuard, RoleGuard],
         data: { role: 'ROLE_LIST_CLIENTES' } */

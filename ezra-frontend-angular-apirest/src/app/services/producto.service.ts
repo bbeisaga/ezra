@@ -3,7 +3,7 @@ import { Cliente } from '../models/cliente';
 import { Region } from '../models/region';
 import { HttpClient, HttpRequest, HttpEvent, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, catchError, tap } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
+import { lastValueFrom, Observable, throwError } from 'rxjs';
 
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
@@ -83,6 +83,19 @@ export class ProductoService {
 
   getAllProducto(): Observable<Producto[]> {
     return this.http.get<Producto[]>(`${environment.apiUrl}/productos`);
+  }
+
+  getIdsProductosActivos(): Observable<number[]> {
+    return this.http.get<number[]>(`${environment.apiUrl}/productos/ids`);
+  }
+
+  async getIdsProductosActivosHowPromise(): Promise<number[] | []> {
+    try {
+      const res = await lastValueFrom(this.getIdsProductosActivos());
+      return res
+    } catch (error) {
+      return [];
+    }
   }
 
   filtrarProductos(term: string): Observable<Producto[]> {

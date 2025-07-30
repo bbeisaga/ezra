@@ -26,6 +26,8 @@ public interface ProductoService {
 	public List<Producto> findProductoByNombre(String term);
 
 	public List<Producto> findAllProductos();
+	
+	public List<Long> findAllIdsProductosActivos();
 
 	public Page<Producto> findAllProductoPageable(String query, Pageable pageRequest);
 

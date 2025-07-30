@@ -35,7 +35,7 @@ export class ProductosPorCategoriaComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {
-      let categoriaId = + params.get('catId')!;
+      let categoriaId = + params.get('categoriaId')!;
       this.productoService.productosPorCategoria(categoriaId).subscribe(resp => {
         this.lstProductos = resp.map(prd => {
           prd.estadoProducto.color = COLOR_ESTADO_PRODUCTO[('' + prd.estadoProducto.id) as keyof typeof COLOR_ESTADO_PRODUCTO];

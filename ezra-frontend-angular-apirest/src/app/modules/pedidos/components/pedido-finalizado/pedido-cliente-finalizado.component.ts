@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { findIndex } from 'lodash';
+import { findIndex } from 'lodash-es';
 import moment from 'moment';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';

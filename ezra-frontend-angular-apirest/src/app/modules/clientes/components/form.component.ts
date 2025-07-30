@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { findIndex } from 'lodash';
+import { findIndex } from 'lodash-es';
 import { Cliente } from '../../../models/cliente';
 import { TipoDocumento } from '../../../models/tipo-documento';
 import { AlertService } from '../../../services/alert.service';

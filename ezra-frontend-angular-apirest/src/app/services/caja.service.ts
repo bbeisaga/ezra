@@ -6,7 +6,7 @@ import { AuthService } from './auth.service';
 import { Caja } from '../models/caja';
 import { CajaUsuario } from '../models/caja-usuario';
 import { Usuario } from '../models/usuario';
-import { forEach, tap } from 'lodash';
+import { forEach, tap } from 'lodash-es';
 import { environment } from '../../environments/environment';
 
 @Injectable({

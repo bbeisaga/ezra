@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { findIndex } from 'lodash';
+import { findIndex } from 'lodash-es';
 import { Modulo } from '../../../../models/modulo';
 import { Usuario } from '../../../../models/usuario';
 import { RolService } from '../../../../services/rol.service';

@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { find } from 'lodash';
+import { find } from 'lodash-es';
 import { Categoria } from '../../../models/categoria';
 import { Color } from '../../../models/color';
 import { GenericosDeProducto } from '../../../models/genericos-de-producto';

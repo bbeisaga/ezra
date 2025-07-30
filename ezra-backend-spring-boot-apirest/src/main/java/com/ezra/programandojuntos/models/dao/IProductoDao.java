@@ -41,6 +41,10 @@ public interface IProductoDao extends CrudRepository<Producto, Long>{
 	@Query("SELECT p FROM Producto p WHERE p.visibleEnTienda=true AND p.activo=true AND p.categoria.id = :categoriaId")
 	List<Producto> findProductByCategoriaActiveStore(Long categoriaId);
 	
+	
+	@Query("SELECT p.id FROM Producto p WHERE p.activo=true")
+	List<Long> findAllIdsProductosActivos();
+	
 	@Query("SELECT p FROM Producto p WHERE p.visibleEnTienda=true AND p.activo=true")
 	List<Producto> findAllProductsActiveStore();
 		

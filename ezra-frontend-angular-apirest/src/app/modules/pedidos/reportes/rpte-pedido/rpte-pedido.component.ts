@@ -8,7 +8,7 @@ import { PedidoService } from '../../../../services/pedido.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import * as fileSaver from 'file-saver';
+import * as fileSaver from 'file-saver-es';
 import { TipoPedido } from '../../../../models/tipo-pedido';
 import { AngularMaterialModule } from '../../../compartido/angular-material.module';
 

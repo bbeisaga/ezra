@@ -9,7 +9,7 @@ import { PageableResponse } from '../models/pageable-response';
 import { environment } from '../../environments/environment';
 import { TipoPedido } from '../models/tipo-pedido';
 import { AlertService } from './alert.service';
-import * as fileSaver from 'file-saver';
+import * as fileSaver from 'file-saver-es';
 
 @Injectable({
   providedIn: 'root'
@@ -147,9 +147,9 @@ export class PedidoService {
     return this.http.post<Blob>(`${environment.apiUrl}/pedidos/download-pdf`, pedido,
       { observe: 'response', responseType: 'blob' as 'json' })
   }
- 
+
   /*   ceateReporteCompras(filtros: any): Observable<HttpResponse<Blob>>{
-  
+
       return this.http.post<Blob>(`${environment.apiUrl}/pedidos/reporte/compras`, filtros,
          {observe: 'response', responseType:'blob' as 'json'})
     } */

@@ -127,6 +127,7 @@ public class SpringSecurityConfig {
 			   
 				 //Permisos par alas URLs de PRODUCTOS
 			   .requestMatchers(HttpMethod.GET,"api/productos").permitAll() //esto es consulta libre
+			   .requestMatchers(HttpMethod.GET,"api/productos/ids").permitAll() //esto es consulta libre
 			   .requestMatchers(HttpMethod.GET,"api/productos/categoria/{id}").permitAll() //esto es consulta libre
 			   .requestMatchers(HttpMethod.GET,"api/producto/id/{id}").permitAll()//esto es consulta lbre
 			   .requestMatchers(HttpMethod.GET,"api/producto/codigo/{codigo}").permitAll()//esto es consulta lbre

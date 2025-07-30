@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ItemPedido } from '../models/item-pedido';
 import { BehaviorSubject } from 'rxjs';
-import { findIndex } from 'lodash';
+import { findIndex } from 'lodash-es';
 
 @Injectable({
   providedIn: 'root'
