@@ -1,20 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { MenuTiendaComponent } from '../compartido/menus-nav/menu-tienda.component';
+import { ProductosPorCategoriaComponent } from '../producto/pages/productos-por-categoria.component';
+import { Categoria } from '../../models/categoria';
 
 @Component({
   selector: 'app-tienda',
   standalone: true,
   templateUrl: './tienda.component.html',
   styleUrl: './tienda.component.css',
-  imports:[RouterModule,MenuTiendaComponent]
+  imports: [MenuTiendaComponent, RouterOutlet]
 })
-export class TiendaComponent implements OnInit {
+export class TiendaComponent {
 
-  constructor(private router: Router){}
-  ngOnInit(): void {
-    //navegara al boton TIENDA del menu
-    this.router.navigate(["/productos/productos-categoria", 0])
+  categoria!: Categoria;
+  constructor() { }
+
+  categoriaSelect(categoria: Categoria) {
+    this.categoria = categoria
   }
 
+  /*   categoriaSelect(categoria: Categoria):Categoria {
+      return categoria;
+    } */
 }

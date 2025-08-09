@@ -2,8 +2,13 @@ import { RenderMode, ServerRoute } from '@angular/ssr';
 import { ProductoService } from './services/producto.service';
 import { inject } from '@angular/core';
 import { Producto } from './models/producto';
+import { SeoService } from './services/seo.service';
 
 export const serverRoutes: ServerRoute[] = [
+  {
+    path: '',
+    renderMode: RenderMode.Server,
+  },
   {
     path: 'login',
     renderMode: RenderMode.Client,
@@ -12,22 +17,20 @@ export const serverRoutes: ServerRoute[] = [
     path: 'crear-cuenta',
     renderMode: RenderMode.Client,
   },
+
   {
-    path: 'home',
+    path: 'nosotros',
     renderMode: RenderMode.Server,
   },
   {
-    path: 'home/nosotros',
+    path: 'productos-servicios',
     renderMode: RenderMode.Server,
   },
   {
-    path: 'home/productos-servicios',
+    path: 'contactanos-cliente',
     renderMode: RenderMode.Server,
   },
-  {
-    path: 'home/contactanos-cliente',
-    renderMode: RenderMode.Server,
-  },
+  /*
   {
     path: 'clientes',
     renderMode: RenderMode.Client,
@@ -62,7 +65,7 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     path: 'pedidos/item-producto-cliente-tienda/:clienteId',
-    renderMode: RenderMode.Client,
+    renderMode: RenderMode.Server,
   },
   {
     path: 'pedidos/rpte-pedidos/:tipoPedidoId',
@@ -79,33 +82,57 @@ export const serverRoutes: ServerRoute[] = [
   {
     path: 'pedidos/detalle-compra/:pedidoId',
     renderMode: RenderMode.Client,
+  }, */
+  {
+    path: 'tienda',
+    renderMode: RenderMode.Server,
   },
   {
-    path: 'pedidos/item-producto-cliente-online/:productoId',
+    path: 'tienda/productos-categoria/:categoriaId',
+    renderMode: RenderMode.Server,
+  },
+  {
+    path: 'tienda/item-producto-cliente-online/:productoId',
     renderMode: RenderMode.Server,
     /*getPrerenderParams: async () => {
-        const productoService = inject(ProductoService);
+      const productoService = inject(ProductoService);
+      const seoService = inject(SeoService);
+
       const ids = await productoService.getIdsProductosActivosHowPromise();
       console.log("IDSSSS", ids);
-      return ids.map(id => ({productoId: id.toString()}));
-      //return [{ productoId: '1' }, { productoId: '2' }, { productoId: '3' }];
+      return ids.map(id => ({ productoId: id.toString() }));
+      return [{ productoId: '1' }, { productoId: '2' }, { productoId: '3' }];
 
     },*/
   },
-  {
-    path: 'productos/mantenimiento-producto/:productoId',
+  /*{
+    path: 'pedidos/item-producto-cliente-online/:productoId',
     renderMode: RenderMode.Server,
-  },
-  {
-    path: 'productos/categorias/:categoriaId',
-    renderMode: RenderMode.Server,
-  },
-  {
-    path: 'productos/productos-categoria/:categoriaId',
-    renderMode: RenderMode.Server,
-  },
+    getPrerenderParams: async () => {
+      const productoService = inject(ProductoService);
+      const seoService = inject(SeoService);
+
+      const ids = await productoService.getIdsProductosActivosHowPromise();
+      console.log("IDSSSS", ids);
+      return ids.map(id => ({ productoId: id.toString() }));
+      return [{ productoId: '1' }, { productoId: '2' }, { productoId: '3' }];
+
+    },
+  },*/
+  /*   {
+      path: 'productos/mantenimiento-producto/:productoId',
+      renderMode: RenderMode.Server,
+    },
+    {
+      path: 'productos/categorias/:categoriaId',
+      renderMode: RenderMode.Server,
+    },
+    {
+      path: 'productos/productos-categoria/:categoriaId',
+      renderMode: RenderMode.Server,
+    }, */
   {
     path: '**',
-    renderMode: RenderMode.Prerender
+    renderMode: RenderMode.Client
   }
 ];

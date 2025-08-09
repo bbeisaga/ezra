@@ -1,34 +1,23 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Cliente } from '../models/cliente';
-import { Region } from '../models/region';
-import { HttpClient, HttpRequest, HttpEvent, HttpHeaders, HttpParams } from '@angular/common/http';
-import { map, catchError, tap } from 'rxjs/operators';
 import { lastValueFrom, Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { Router } from '@angular/router';
-import { AuthService } from './auth.service';
-import { TipoDocumento } from '../models/tipo-documento';
-import { PageableParams } from '../models/pageable-params';
-import { PageableResponse } from '../models/pageable-response';
 import { environment } from '../../environments/environment';
-import { Categoria } from '../models/categoria';
-import { Color } from '../models/color';
-import { Empaque } from '../models/empaque';
+import { MargenProducto } from '../models/margen-producto';
 import { Material } from '../models/material';
-import { Origen } from '../models/origen';
+import { PageableResponse } from '../models/pageable-response';
 import { Producto } from '../models/producto';
 import { Uso } from '../models/uso';
 import { AlertService } from './alert.service';
-import { MargenProducto } from '../models/margen-producto';
+import { AuthService } from './auth.service';
+import { Color } from '../models/color';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductoService {
-
-  //private httpHeaders = new HttpHeaders()
-
-
   constructor(private http: HttpClient,
     private router: Router,
     private authService: AuthService,
@@ -42,14 +31,15 @@ export class ProductoService {
         return this.httpHeaders
       } */
 
-  getCategoriasProducto(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>(environment.apiUrl + '/producto/categorias');
-  }
 
-  getCategoriasActivas(): Observable<Categoria[]> {
-    return this.http.get<Categoria[]>(environment.apiUrl + '/categorias/active');
-  }
+  /*   getCategoriasProducto(): Observable<Categoria[]> {
+      return this.http.get<Categoria[]>(environment.apiUrl + '/producto/categorias');
+    }
 
+    getCategoriasActivas(): Observable<Categoria[]> {
+      return this.http.get<Categoria[]>(environment.apiUrl + '/categorias/active');
+    }
+  */
   getColoresProducto(): Observable<Color[]> {
     return this.http.get<Color[]>(`${environment.apiUrl}/producto/colores`
     );
@@ -89,14 +79,7 @@ export class ProductoService {
     return this.http.get<number[]>(`${environment.apiUrl}/productos/ids`);
   }
 
-  async getIdsProductosActivosHowPromise(): Promise<number[] | []> {
-    try {
-      const res = await lastValueFrom(this.getIdsProductosActivos());
-      return res
-    } catch (error) {
-      return [];
-    }
-  }
+
 
   filtrarProductos(term: string): Observable<Producto[]> {
     return this.http.get<Producto[]>(`${environment.apiUrl}/producto/filtrar-productos/${term}`
@@ -139,20 +122,20 @@ export class ProductoService {
         }));
   }
 
-  createCategoria(categoria: Categoria): Observable<Categoria> {
-    return this.http.post(`${environment.apiUrl}/categoria`, categoria)
-      .pipe(
-        map((response: any) => response.categoria as Categoria),
-        catchError(e => {
-          if (e.status == 400) {
+  /*   createCategoria(categoria: Categoria): Observable<Categoria> {
+      return this.http.post(`${environment.apiUrl}/categoria`, categoria)
+        .pipe(
+          map((response: any) => response.categoria as Categoria),
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
             return throwError(e);
-          }
-          if (e.error.mensaje) {
-            console.error(e.error.mensaje);
-          }
-          return throwError(e);
-        }));
-  }
+          }));
+    } */
 
   createProductoImagen(formData: FormData): Observable<Producto> {
     let httpHeaders = new HttpHeaders()
@@ -212,6 +195,19 @@ export class ProductoService {
       }));
   }
 
+  async getProductoHowPromise(productoId: number): Promise<Producto> {
+    return await lastValueFrom(this.getProducto(productoId));
+  }
+
+  async getIdsProductosActivosHowPromise(): Promise<number[] | []> {
+    try {
+      const res = await lastValueFrom(this.getIdsProductosActivos());
+      return res
+    } catch (error) {
+      return [];
+    }
+  }
+
   getProductoByCod(codigo: string): Observable<Producto> {
     return this.http.get<Producto>(`${environment.apiUrl}/producto/codigo/${codigo}`
       /*, {headers: this.agregarAuthorizationHeader()}*/
@@ -269,20 +265,20 @@ export class ProductoService {
       }));
   }
 
-  updateCategoria(categoria: Categoria): Observable<Categoria> {
-    return this.http.put<any>(`${environment.apiUrl}/categoria/${categoria.id}`, categoria)
-      .pipe(
-        map((response: any) => response.categoria as Categoria),
-        catchError(e => {
-          if (e.status == 400) {
+  /*   updateCategoria(categoria: Categoria): Observable<Categoria> {
+      return this.http.put<any>(`${environment.apiUrl}/categoria/${categoria.id}`, categoria)
+        .pipe(
+          map((response: any) => response.categoria as Categoria),
+          catchError(e => {
+            if (e.status == 400) {
+              return throwError(e);
+            }
+            if (e.error.mensaje) {
+              console.error(e.error.mensaje);
+            }
             return throwError(e);
-          }
-          if (e.error.mensaje) {
-            console.error(e.error.mensaje);
-          }
-          return throwError(e);
-        }));
-  }
+          }));
+    } */
 
   deleteProducto(id: number): Observable<Producto> {
     return this.http.delete<Producto>(`${environment.apiUrl}/producto/${id}`

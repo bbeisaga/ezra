@@ -95,9 +95,10 @@
                   [max]="maxCantidadPedido.toString()" />
               </div>
               <div class="d-flex flex-wrap flex-column flex-sm-row justify-content-sm-evenly">
-                <button type="submit" class="btn btn-warning mb-2">Añadir
+                <button type="button" class="btn btn-secondary mb-2" (click)="chatear(producto)"><i
+                    class="fa-brands fa-whatsapp mr-1"></i>Chatear</button>
+                <button type="submit" class="btn btn-primary mb-2">Añadir
                   carrito</button>
-                <button type="button" class="btn btn-success mb-2" (click)="chatear(producto)"><i class="fa-brands fa-whatsapp mr-1"></i>Chatear</button>
               </div>
             </div>
           </div>

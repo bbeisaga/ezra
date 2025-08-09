@@ -1,136 +1,92 @@
-<div class="container-fluid bg-primary py-5 mb-5">
-  <div class="container py-5">
-    <div class="row align-items-center py-4">
-      <div class="col-md-6 text-center text-md-left">
-        <h1 class="display-4 mb-4 mb-md-0 text-secondary text-uppercase">Contactanos</h1>
-      </div>
-      <div class="col-md-6 text-center text-md-right">
-        <div class="d-inline-flex align-items-center">
-          <a class="btn btn-sm btn-outline-light disabled" href="">Contactanos</a>
-          <i class="fas fa-angle-double-right text-light mx-2"></i>
-          <a [routerLink]="['']" class="btn btn-sm btn-outline-light" href="">Ir a tienda</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Page Header End -->
+@if(pedido.id){
+<div class="alert alert-dark">
+  Pedido finalizado! Con código {{pedido.id}}, por un monto de <span class="fw-bold"
+    style="font-size: 30px; font-weight: bolder;"> {{pedido.precioNetoTotal| currency:'PEN'}} </span> contiene
+  {{pedido.items.length}} producto(s). Realiza el pago parcial o total y envia el voucher a un asesor de ventas.
+  <button type="button" class="btn btn-link" (click)="enviarPedidoChat()">CLICK AQUI</button>
+</div>}
+<section class="mapa">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d227.06843193584825!2d-71.53235245153547!3d-16.4015490569194!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91424b5b20ecbc13%3A0x6ce1d74b9aa4784!2sGrafiya!5e1!3m2!1ses-419!2spe!4v1754712746148!5m2!1ses-419!2spe"
+    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"></iframe>
+</section>
 
-
-<!-- Contact Start -->
 <div class="container-fluid py-5">
   <div class="container">
-    <!--     <div class="row align-items-end mb-4">
-      <div class="col-lg-6">
-        <h6 class="text-secondary font-weight-semi-bold text-uppercase mb-3">Contactanos</h6>
-        <h1 class="section-title mb-3">¿Preguntas? LLama o escribenos</h1>
-      </div>
-      <div class="col-lg-6">
-        <h4 class="font-weight-normal text-muted mb-3">Abrimos todos nuestros canales de atención par el cliente.</h4>
-      </div>
-    </div> -->
     <div class="row">
-      <div class="col-12 col-md-6">
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <img src="atencion-cliente-numero.png" alt="Banco de crédito" class="img-fluid img-thumbnail">
-          </div>
-          <div class="col-12 col-md-6">
-            <p class="text-start">Días de atención por número<br>
-              <b>Lunes a Sabado</b>
-            </p>
-            <p class="text-start">Horario<br>
-              <b>9:00 hrs hasta 20:00 hrs</b>
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <img src="whatsapp-numero.png" alt="Banco de crédito" class="img-fluid img-thumbnail">
-          </div>
-          <div class="col-12 col-md-6">
-            <p class="text-start">Días de atención por Whatssap<br>
-              <b>Lunes a Domingo</b><br>
-            </p>
 
-            <p class="text-start">Horario<br>
-              <b>24:00 hrs</b>
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <img src="banco-interbank-peru.png" alt="Medios interbank" class="img-fluid img-thumbnail">
-          </div>
-          <div class="col-12 col-md-6">
-            <p class="text-start">Número de cuenta<br>
-              <b>8213291002047</b>
-            </p>
-
-            <p class="text-start">Número de cuenta Interbancaria<br>
-              <b>003-820-013221002047-61</b>
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <img src="banco-credito-peru.png" alt="Banco de crédito" class="img-fluid img-thumbnail">
-          </div>
-          <div class="col-12 col-md-6">
-            <p class="text-start">Número de cuenta<br>
-              <b>8213291002047</b>
-            </p>
-
-            <p class="text-start">Número de cuenta Interbancaria<br>
-              <b>003-729-013293002047-72</b>
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <img src="banco-continental-peru.png" alt="Medios de pago" class="img-fluid img-thumbnail">
-          </div>
-          <div class="col-6">
-            <p class="text-start">Número de cuenta<br>
-              <b>8213291002047</b>
-            </p>
-
-            <p class="text-start">Número de cuenta Interbancaria<br>
-              <b>003-821-013291002047-69</b>
-            </p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <img src="yape-peru.png" alt="Medios de pago" class="img-fluid img-thumbnail">
-          </div>
-          <div class="col-12 col-md-6">
-            <p class="text-start">Número de Celular<br>
-              <b>974798814</b>
-            </p>
-
-          </div>
-        </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <img src="atencion-cliente-numero.png" alt="Banco de crédito" class="img-fluid img-thumbnail">
       </div>
-      <div class="col-12 col-md-6 " style="min-height: 800px;">
-        <div class="position-relative h-100 rounded overflow-hidden">
-          <iframe style="width: 100%; height: 100%; object-fit: cover;"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001156.4288297426!2d-78.01371936852176!3d42.72876761954724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccc4bf0f123a5a9%3A0xddcfc6c1de189567!2sNew%20York%2C%20USA!5e0!3m2!1sen!2sbd!4v1603794290143!5m2!1sen!2sbd"
-            frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-        </div>
-<!--         <div class="row">
-          <div class="col-12 alert alert-dark">
-            <p><b>Direccion Principal:</b> Urb. Santa Catalina Q-17 - Jose luis Bustamante y Rivero Arequipa</p>
-
-            <p><b>Sucursal:</b> Calle pizaro 214 f - Cercado - Arequipa</p>
-
-
-          </div>
-
-        </div> -->
-
+      <div class="col-12 col-sm-6 col-md-3">
+        <p class="text-start">Atención:
+          <b>Lunes a Sabado</b>
+        </p>
+        <p class="text-start">Horario:
+          <b>9:00 hrs hasta 20:00 hrs</b>
+        </p>
       </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <img src="whatsapp-numero.png" alt="Banco de crédito" class="img-fluid img-thumbnail">
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <p class="text-start">Whatssap:
+          <b>Lunes a Domingo</b>
+        </p>
+
+        <p class="text-start">Horario:
+          <b>24:00 hrs</b>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm-6 col-md-3">
+        <img src="banco-interbank-peru.png" alt="Medios interbank" class="img-fluid img-thumbnail">
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <p class="text-start">CTA:
+          <b>8213291002047</b>
+        </p>
+
+        <p class="text-start">CCI:
+          <b>003-820-013221002047-61</b>
+        </p>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <img src="banco-credito-peru.png" alt="Banco de crédito" class="img-fluid img-thumbnail">
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <p class="text-start">CTA:
+          <b>8213291002047</b>
+        </p>
+
+        <p class="text-start">CCI:
+          <b>003-729-013293002047-72</b>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-sm-6 col-md-3">
+        <img src="banco-continental-peru.png" alt="Medios de pago" class="img-fluid img-thumbnail">
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <p class="text-start">CTA:
+          <b>8213291002047</b>
+        </p>
+        <p class="text-start">CCI:
+          <b>003-821-013291002047-69</b>
+        </p>
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <img src="yape-peru.png" alt="Medios de pago" class="img-fluid img-thumbnail">
+      </div>
+      <div class="col-12 col-sm-6 col-md-3">
+        <p class="text-start">Número de Celular<br>
+          <b>974798814</b>
+        </p>
+      </div>
+
     </div>
   </div>
 </div>

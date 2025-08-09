@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ezra.programandojuntos.models.entity.GenericosApp;
 import com.ezra.programandojuntos.models.services.IGenericosAppService;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = { "http://localhost:4200" }, originPatterns = {"*"})
 @RestController
 @RequestMapping("/api")
 public class GenericosDeProductoRestController {

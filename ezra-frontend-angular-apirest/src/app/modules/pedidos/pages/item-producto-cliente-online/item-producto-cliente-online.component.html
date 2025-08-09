@@ -7,7 +7,7 @@
 <div class="row mt-2">
     @if (producto != undefined && producto.id) {
     <div class="col-12 col-md-9">
-        <customize-item-producto-to-client [productoId]="producto.id" />
+        <customize-item-producto-to-client [producto]="producto" />
     </div>
     <div class="col-12 col-md-3">
         <h5>Carrito</h5>

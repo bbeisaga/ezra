@@ -21,7 +21,7 @@ import { AngularMaterialModule } from '../../../compartido/angular-material.modu
   templateUrl: './customize-item-producto-to-client.component.html',
   styleUrl: './customize-item-producto-to-client.component.css',
   standalone: true,
-    imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, AngularMaterialModule ]
+  imports: [CommonModule, RouterModule, FormsModule, ReactiveFormsModule, AngularMaterialModule]
 
 })
 export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges {
@@ -32,14 +32,13 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
   private activatedRoute = inject(ActivatedRoute);
   public authService = inject(AuthService);
 
-  @Input() productoId!: number;
+  @Input() producto!: Producto;
 
   itemServiceSuscription$!: Subscription;
   formUtils = FormUtils;
   chatUtils = ChatUtils;
   verImagenProducto!: string;
   verImagenItem!: string;
-  producto!: Producto;
   servicioDisenio!: Producto;
   servicioSublimacion!: Producto;
 
@@ -66,34 +65,27 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
   }
 
   ngOnInit(): void {
-    if (this.items.length === 0) {
-      this.items = this.itemService.getLocalStorageItems()
-    }
+    /*     if (this.items.length === 0) {
+          this.items = this.itemService.getLocalStorageItems()
+        } */
 
     this.productoService.getProductoByCod(SERVICIO_DISENIO).subscribe(prd => {
       this.servicioDisenio = prd;
-      //console.log(this.servicioDisenio);
     });
 
     this.productoService.getProductoByCod(SERVICIO_SUBLIMACION).subscribe(prd => {
       this.servicioSublimacion = prd;
-      //console.log(this.servicioDisenio);
-
     });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['productoId'].currentValue != changes['productoId'].previousValue) {
-      this.productoService.getProducto(this.productoId).subscribe(prd => {
-        this.producto = prd;
-        this.producto.estadoProducto.color = COLOR_ESTADO_PRODUCTO[('' + prd.estadoProducto.id) as keyof typeof COLOR_ESTADO_PRODUCTO];
-        this.gruposDe = this.producto.gruposDe
-        this.minCantidadPedido = this.producto.minCantidadPedido
-        this.maxCantidadPedido = this.producto.maxCantidadPedido
-        this.verImagenProducto = environment.API_URL_VER_IMAGEN + this.producto.imagen;
-        this.frm.get('cantidad')?.setValue(this.minCantidadPedido);
-      });
-
+    if (changes['producto'].currentValue != changes['producto'].previousValue) {
+      this.producto.estadoProducto.color = COLOR_ESTADO_PRODUCTO[('' + this.producto.estadoProducto.id) as keyof typeof COLOR_ESTADO_PRODUCTO];
+      this.gruposDe = this.producto.gruposDe
+      this.minCantidadPedido = this.producto.minCantidadPedido
+      this.maxCantidadPedido = this.producto.maxCantidadPedido
+      this.verImagenProducto = environment.API_URL_VER_IMAGEN + this.producto.imagen;
+      this.frm.get('cantidad')?.setValue(this.minCantidadPedido);
       this.verImagenItem = environment.API_URL_VER_IMAGEN + this.item.imagen;
     }
   }
@@ -120,9 +112,7 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
   }
 
   addOneItemServicioDisenio(event: any) {
-    //debugger;
     this.isDisenio = event.target.checked;
-    //console.log(this.servicioDisenio);
     if (this.isDisenio) {
       this.item.cantidad = this.servicioDisenio.minCantidadPedido;
       this.item.descripcion = this.servicioDisenio.descripcion;
@@ -133,8 +123,7 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
         && this.item.cantidad <= this.item.producto.maxCantidadPedido) {
         this.items = [...this.items, { ...this.item }];
         this.itemService.setItems(this.items);
-        this.itemService.saveLocalStorageItems(this.items);
-        //this.addItem(this.items, this.item);
+        //this.itemService.saveLocalStorageItems(this.items);
       }
     } else {
       this.deleteItem(this.items, this.item.producto.id);
@@ -143,7 +132,6 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
   }
 
   addOneItemServicioSublimacion(event: any) {
-    //debugger;
     this.isDisenio = event.target.checked;
     console.log(this.servicioSublimacion);
 
@@ -157,8 +145,7 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
         && this.item.cantidad <= this.item.producto.maxCantidadPedido) {
         this.items = [...this.items, { ...this.item }];
         this.itemService.setItems(this.items);
-        this.itemService.saveLocalStorageItems(this.items);
-        //this.addItem(this.items, this.item);
+        //this.itemService.saveLocalStorageItems(this.items);
       }
     } else {
       this.deleteItem(this.items, this.item.producto.id);
@@ -168,14 +155,13 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
   deleteItem(items: ItemPedido[], productoId: number) {
     this.items = this.itemService.deleteItemFromItems(items, productoId);
     this.itemService.setItems(items);
-    this.itemService.saveLocalStorageItems(items);
+    //this.itemService.saveLocalStorageItems(items);
   }
 
   addItem(items: ItemPedido[], item: ItemPedido) {
-    //debugger;
     this.items = [...items, { ...item }];
     this.itemService.setItems(items);
-    this.itemService.saveLocalStorageItems(items);
+    //this.itemService.saveLocalStorageItems(items);
   }
 
   sendOneItemProducto() {
@@ -186,7 +172,7 @@ export class CustomizeItemProductoToClientComponent implements OnInit, OnChanges
     if (this.itemService.existItemInItems(this.items, this.item.producto.id)) {
       this.items = this.itemService.UpdateAmountItemFromExterno(this.items, this.item.producto.id, this.item.cantidad);
       this.itemService.setItems(this.items);
-      this.itemService.saveLocalStorageItems(this.items);
+      //this.itemService.saveLocalStorageItems(this.items);
     }
     else if (this.item.cantidad <= this.item.producto.maxCantidadPedido) {
       this.items = [...this.items, { ...this.item }];

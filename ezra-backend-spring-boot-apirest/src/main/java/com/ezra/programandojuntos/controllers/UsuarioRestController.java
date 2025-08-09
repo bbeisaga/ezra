@@ -39,7 +39,7 @@ import com.ezra.programandojuntos.models.services.IUsuarioService;
 
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = { "http://localhost:4200" }, originPatterns = {"*"})
 @RestController
 @RequestMapping("/api")
 public class UsuarioRestController {

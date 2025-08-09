@@ -1,25 +1,26 @@
 <ngb-carousel class="carousel slide carousel-fade">
   <ng-template ngbSlide>
     <div class="picsum-img-wrapper">
-      <img class="img-fluid d-block w-100" ngSrc="importamos-productos-merchandising.png" alt="importamos-productos-merchandising" height="600" width="1366" priority alt="Random first slide" />
-    </div>
-    <div class="carousel-caption d-flex align-items-center justify-content-center">
-      <div class="p-5" style="width: 100%; max-width: 1000px;">
-        <h5 class="text-primary text-uppercase mb-md-3">Importadores y comerciantes</h5>
-        <h1 class="display-3 text-white mb-md-4">Importadores directos</h1>
-        <a [routerLink]="['']" class="btn btn-primary">Ir a tienda</a>
-      </div>
-    </div>
-  </ng-template>
-  <ng-template ngbSlide>
-    <div class="picsum-img-wrapper">
       <img class="img-fluid d-block w-100" ngSrc="carousel-2.jpg" height="600" width="1366" alt="Random second slide" />
     </div>
     <div class="carousel-caption d-flex align-items-center justify-content-center">
       <div class="p-5" style="width: 100%; max-width: 1000px;">
         <h5 class="text-primary text-uppercase mb-md-3">Importadores y comerciantes</h5>
-        <h1 class="display-3 text-white mb-md-4">Productos publicitarios y merchandising</h1>
-        <a [routerLink]="['']" class="btn btn-primary">Ir a tienda</a>
+        <h1 class="display-3 text-white mb-md-4">Productos publicitarios, merchandising y branding</h1>
+        <a [routerLink]="['/tienda']" class="btn btn-primary">Ir a tienda</a>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template ngbSlide>
+    <div class="picsum-img-wrapper">
+      <img class="img-fluid d-block w-100" ngSrc="importamos-productos-merchandising.png"
+        alt="importamos-productos-merchandising" height="600" width="1366" priority alt="Random first slide" />
+    </div>
+    <div class="carousel-caption d-flex align-items-center justify-content-center">
+      <div class="p-5" style="width: 100%; max-width: 1000px;">
+        <h5 class="text-primary text-uppercase mb-md-3">Importadores y comerciantes</h5>
+        <h1 class="display-3 text-white mb-md-4">Importadores directos</h1>
+        <a [routerLink]="['/tienda']" class="btn btn-primary">Ir a tienda</a>
       </div>
     </div>
   </ng-template>
@@ -30,8 +31,8 @@
     <div class="carousel-caption d-flex align-items-center justify-content-center">
       <div class="p-5" style="width: 100%; max-width: 1000px;">
         <h5 class="text-primary text-uppercase mb-md-3">Importadores y comerciantes</h5>
-        <h1 class="display-3 text-white mb-md-4">Somos 100% Arequipeños, enviamos a provincias</h1>
-        <a [routerLink]="['']" class="btn btn-primary">Ir a tienda</a>
+        <h1 class="display-3 text-white mb-md-4">Somos 100% Arequipeños</h1>
+        <a [routerLink]="['/tienda']" class="btn btn-primary">Ir a tienda</a>
       </div>
     </div>
   </ng-template>

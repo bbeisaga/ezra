@@ -10,6 +10,7 @@ import { MediosUtilsService } from '../../../../services/medios-utils.service';
 import { ProductoService } from '../../../../services/producto.service';
 import { FormUtils } from '../../../../utils/form-utils';
 import { AngularMaterialModule } from '../../../compartido/angular-material.module';
+import { CategoriaService } from '../../../../services/categoria.service';
 
 @Component({
   selector: 'app-categoria-mantenimiento',
@@ -18,15 +19,17 @@ import { AngularMaterialModule } from '../../../compartido/angular-material.modu
   styleUrl: './categoria-mantenimiento.component.css',
   imports: [CommonModule, RouterModule, ReactiveFormsModule]
 })
-export class CategoriaMantenimientoComponent implements OnInit{
+export class CategoriaMantenimientoComponent implements OnInit {
 
   public mediosUtilsService = inject(MediosUtilsService);
+  private categoriaService = inject(CategoriaService);
+
   categoria: Categoria = new Categoria();
   formCategoria!: FormGroup;
   verImagenCategoria!: string;
   formUtils = FormUtils;
   titulo: string = "Crear Producto";
-  constructor(private productoService: ProductoService,
+  constructor(
     private router: Router,
     private alertService: AlertService,
     public authService: AuthService,
@@ -40,7 +43,7 @@ export class CategoriaMantenimientoComponent implements OnInit{
     this.activatedRoute.paramMap.subscribe(params => {
       let id = +params.get('categoriaId')!;
       if (id) {
-        this.productoService.getCategoriasProducto().subscribe(categorias => {
+        this.categoriaService.getCategoriasProducto().subscribe(categorias => {
           this.categoria = categorias.find(cat => cat.id === id) || new Categoria();
           this.createForm();
           this.verImagenCategoria = environment.API_URL_VER_IMAGEN + this.categoria.imagen;
@@ -72,14 +75,14 @@ export class CategoriaMantenimientoComponent implements OnInit{
     //console.log("this.categoria", this.categoria);
     //this.categoria.productos = []; // Evitar circular reference
     if (this.categoria.id) {
-       this.productoService.updateCategoria(this.categoria).subscribe(
+      this.categoriaService.updateCategoria(this.categoria).subscribe(
         cat => {
           this.alertService.success(`${cat.nombre} actualizada exitosamente`, 'Categoria');
           this.router.navigate(['/productos/categorias']);
         }
       )
     } else {
-      this.productoService.createCategoria(this.categoria).subscribe(resp => {
+      this.categoriaService.createCategoria(this.categoria).subscribe(resp => {
         this.alertService.success('Categoria ha sido creado exitosamente', 'Categoria');
         this.router.navigate(['/productos/categorias']);
       })

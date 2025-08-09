@@ -29,11 +29,9 @@ export class CarritoItemProductoComponent implements OnInit, OnDestroy {
 
 
   itemServiceSuscription$!: Subscription;
-  //@Input() lstItemPedido: ItemPedido[] = [];
   lstItemPedido: ItemPedido[] = [];
   @Input() tipoPedido!: string;
   @Input() clienteId!: number;
-  //@Input() clienteOnline!: boolean;
   item!: ItemPedido;
   total: number = 0;
 
@@ -54,10 +52,10 @@ export class CarritoItemProductoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     console.log("CarritoComprasComponent.ngOnInit", this.lstItemPedido);
-    if (this.lstItemPedido.length === 0) {
-      this.lstItemPedido = this.itemService.importePorMargenCantidad(this.itemService.getLocalStorageItems());
+    //if (this.lstItemPedido.length === 0) {
+    //  this.lstItemPedido = this.itemService.importePorMargenCantidad(this.itemService.getLocalStorageItems());
       this.calcularTotal();
-    }
+    //}
     /*     this.lstItemPedido.map(item => {
           item.imagen = environment.API_URL_VER_IMAGEN + item.imagen ;
           return item;
@@ -69,13 +67,13 @@ export class CarritoItemProductoComponent implements OnInit, OnDestroy {
     const cantidad: number = parseInt(event.target.value);
     this.lstItemPedido = this.itemService.UpdateAmountItemFromItems(this.lstItemPedido, productoId, cantidad);
     this.itemService.setItems(this.lstItemPedido);
-    this.itemService.saveLocalStorageItems(this.lstItemPedido);
+    //this.itemService.saveLocalStorageItems(this.lstItemPedido);
   }
 
   eliminarItemPedido(id: number): void {
     this.lstItemPedido = this.itemService.deleteItemFromItems(this.lstItemPedido, id);
     this.itemService.setItems(this.lstItemPedido);
-    this.itemService.saveLocalStorageItems(this.lstItemPedido);
+    //this.itemService.saveLocalStorageItems(this.lstItemPedido);
   }
 
   calcularTotal() {
@@ -102,11 +100,11 @@ export class CarritoItemProductoComponent implements OnInit, OnDestroy {
         this.usuarioService.getUsuarioByUsername(this.authService.usuario.username)
           .subscribe(usr => {
             this.clienteService.getClienteByUsuarioId(usr.id).subscribe(cli => {
-              this.router.navigate(['/pedidos/pedido-cliente-finalizado', cli.id], { queryParams: { clienteOnline: 'true' } })
+              this.router.navigate(['/tienda/pedido-cliente-online-finalizado', cli.id] )
             })
           });
       } else {
-        this.router.navigate(['/pedidos/pedido-cliente-finalizado', this.clienteId], { queryParams: { clienteOnline: 'false' } })
+        this.router.navigate(['/pedidos/pedido-cliente-tienda-finalizado', this.clienteId])
       }
     }
   }

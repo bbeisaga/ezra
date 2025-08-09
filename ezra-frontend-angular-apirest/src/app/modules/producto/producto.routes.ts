@@ -37,12 +37,11 @@ export const routes: Routes = [
       data: { role: 'ROLE_UPDATE_PRODUCTO' }
     }, */
 
+    /*
   {
     path: 'productos-categoria/:categoriaId',
     component: ProductosPorCategoriaComponent,
-    /*     canActivate: [isAuthenticatedGuard, RoleGuard],
-        data: { role: 'ROLE_LIST_CLIENTES' } */
-  },
+  },*/
 
   {
     path: 'categorias',

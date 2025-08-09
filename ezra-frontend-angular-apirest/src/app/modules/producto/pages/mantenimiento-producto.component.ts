@@ -16,6 +16,7 @@ import { MediosUtilsService } from '../../../services/medios-utils.service';
 import { ProductoService } from '../../../services/producto.service';
 import { FormUtils } from '../../../utils/form-utils';
 import { AngularMaterialModule } from '../../compartido/angular-material.module';
+import { CategoriaService } from '../../../services/categoria.service';
 
 
 @Component({
@@ -29,6 +30,9 @@ import { AngularMaterialModule } from '../../compartido/angular-material.module'
 export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
 
   public mediosUtilsService = inject(MediosUtilsService);
+  private productoService = inject( ProductoService);
+  private categoriaService = inject( CategoriaService);
+
   producto: Producto = new Producto();
   formProducto!: FormGroup;
   colores: Color[] = [];
@@ -45,7 +49,7 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
   titulo: string = "Crear Producto";
   //imagenSeleccionada!: File;
 
-  constructor(private productoService: ProductoService,
+  constructor(
     private router: Router,
     private alertService: AlertService,
     public authService: AuthService,
@@ -373,7 +377,7 @@ export class MantenimientoProductoComponent implements OnInit, AfterViewInit {
   cargarDatosAuxiliares(): void {
     this.productoService.getColoresProducto().subscribe(resp => this.colores = resp);
     this.productoService.getMaterialesProducto().subscribe(resp => this.materiales = resp);
-    this.productoService.getCategoriasProducto().subscribe(resp => this.categorias = resp);
+    this.categoriaService.getCategoriasProducto().subscribe(resp => this.categorias = resp);
     this.productoService.getUsosInternoProducto().subscribe(resp => this.usos = resp);
     //this.genericosDeProductoService.getGenericos().subscribe(result =>{
     //  this.genericosDeProducto = result

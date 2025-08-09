@@ -1,3 +1,8 @@
+@if (!pedidoTiendaForm.form.valid) {
+<div class="row mt-2 col-12 alert alert-dark">
+  <p>Completar los datos requeridos para <b>FINALIZAR PEDIDO</b></p>
+</div>
+}
 <form #pedidoTiendaForm="ngForm" (ngSubmit)="crearPedidoTienda(pedidoTiendaForm)">
   <div class="row">
     <div class="col-12 col-md-6">
@@ -107,8 +112,6 @@
       <div class="row">
         <label for="direccionEnvio" class="col-form-label col-12 col-md-4">Dirección envío:</label>
         <div class="col-12 col-md">
-          <!--<input type="text" [(ngModel)]="pedido.direccionEnvio" class="form-control" name="direccionEnvio"
-                        #direccionEnvio="ngModel" minlength="2"> -->
           <textarea [(ngModel)]="pedido.direccionEnvio" class="form-control" name="direccionEnvio"
             #direccionEnvio="ngModel" minlength="2" maxlength="250" rows="3"
             placeholder="Colocar tambien referencias..."></textarea>
@@ -150,19 +153,10 @@
             <td>
               <p-button severity="danger" icon="pi pi-trash" (click)="eliminarItemPedido(item.producto.id)" />
             </td>
-
-
-
             <td>
-              <!--                             <img src="http://localhost:8080/api/medios/imagen/{{item.imagen}}" width="86"
-                                alt={{item.imagen}} /> -->
-
               <img [src]="item.imagenUri" width="86" alt={{item.imagen}} />
             </td>
             <td>
-              <!--                    <a [routerLink]="['/tienda/item-producto',item.producto.id]">
-                                {{item.producto.nombre}}</a> -->
-
               <b>{{item.producto.nombre}}</b>
               @if(item.producto.codigo != SERVICIO_ENTREGA_LOCAL &&
               item.producto.codigo != SERVICIO_ENTREGA_CIUDAD &&
@@ -190,7 +184,7 @@
             <td>{{item.producto.precioNetoNumberShow| currency:'PEN'}}</td>
 
             <td>
-              <input style="width:90px" type="number" name="importe" min="1" [value]="item.importe"
+              <input style="width:90px" type="number" name="importe" min="1" [value]="item.importe" disabled
                 (input)="actualizarImporte(item.producto.id, $event); calcularTotal()" />
             </td>
           </tr>
@@ -212,7 +206,7 @@
             <td colspan="2"><b>Entregar El:</b></td>
             <td colspan="2">
               <input type="datetime-local" [(ngModel)]="pedido.entregadoEn" class="form-control" #entregadoEn="ngModel"
-                name="entregadoEn" required>
+                name="entregadoEn" required disabled>
               <div *ngIf="formUtils.isValidFieldFp(entregadoEn)" class="alert alert-danger">
                 {{formUtils.getFieldErrorFp(entregadoEn)}}
               </div>

@@ -55,7 +55,7 @@ import com.lowagie.text.pdf.PdfWriter;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = { "http://localhost:4200" }, originPatterns = {"*"})
 @RestController
 @RequestMapping("/api")
 public class PedidoRestController {

@@ -216,7 +216,7 @@ INSERT INTO categorias (id,imagen,orden,activa, nombre, descripcion) VALUES(3,'n
 INSERT INTO categorias (id,imagen,orden,activa, nombre, descripcion) VALUES(4,'no-imagen.jpg',5,1,'Libretas', 'Una descripcion para articulos de libreria');
 INSERT INTO categorias (id,imagen,orden,activa, nombre, descripcion) VALUES(5,'no-imagen.jpg',6,1,'Lapiceros publicitarios', 'Una descripcion para articulos de libreria');
 INSERT INTO categorias (id,imagen,orden,activa, nombre, descripcion) VALUES(6,'no-imagen.jpg',7,1,'Máquinas e insumos', 'Una descripcion para máquinas e insumos');
-INSERT INTO categorias (id,imagen,orden,activa, nombre, descripcion) VALUES(7,'no-imagen.jpg',8,2,'Otros', 'Una descripcion para otros');
+INSERT INTO categorias (id,imagen,orden,activa, nombre, descripcion) VALUES(7,'no-imagen.jpg',8,1,'Otros', 'Una descripcion para otros');
 
 
 /*Parametros generales USO*/
@@ -294,6 +294,3 @@ INSERT INTO tipo_pedido (id, nombre) VALUES (2, 'COMPRA O ADQUISICION');
 
 /*Parametros generales ORIGEN*/
 INSERT INTO genericos_app (codigo, valor1) VALUES('IGV',0.18);
-
-
-

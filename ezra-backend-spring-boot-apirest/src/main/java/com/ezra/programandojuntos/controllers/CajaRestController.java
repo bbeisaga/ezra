@@ -15,7 +15,7 @@ import com.ezra.programandojuntos.dto.CajaDto;
 import com.ezra.programandojuntos.models.entity.Caja;
 import com.ezra.programandojuntos.models.services.ICajaService;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = { "http://localhost:4200" }, originPatterns = {"*"})
 @RestController
 @RequestMapping("/api")
 public class CajaRestController {

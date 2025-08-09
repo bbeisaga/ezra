@@ -26,7 +26,7 @@ import com.ezra.programandojuntos.models.entity.Usuario;
 import com.ezra.programandojuntos.models.services.IRoleService;
 import com.ezra.programandojuntos.models.services.IUsuarioService;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = { "http://localhost:4200" }, originPatterns = {"*"})
 @RestController
 @RequestMapping("/api")
 public class RoleRestController {

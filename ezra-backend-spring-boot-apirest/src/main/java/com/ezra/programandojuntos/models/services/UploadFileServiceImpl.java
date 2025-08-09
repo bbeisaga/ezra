@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class UploadFileServiceImpl implements IUploadFileService {
 
 	private final Logger log = LoggerFactory.getLogger(UploadFileServiceImpl.class);
-
-	private final static String DIRECTORIO_UPLOAD = "uploads";
+	
+	@Value ("${path.directorio.uploads}")
+	private String uploads;
 
 	@Override
 	public Resource cargar(String nombreFoto) throws MalformedURLException {
 
-		Path rutaArchivo = getPath(DIRECTORIO_UPLOAD, nombreFoto);
+		Path rutaArchivo = getPath(uploads, nombreFoto);
 		log.info(rutaArchivo.toString());
 
 		Resource recurso = new UrlResource(rutaArchivo.toUri());
@@ -48,7 +50,7 @@ public class UploadFileServiceImpl implements IUploadFileService {
 			nombreArchivo = UUID.randomUUID().toString() + "_" + nombreArchivo;
 		}
 
-		Path rutaArchivo = getPath(DIRECTORIO_UPLOAD, nombreArchivo);
+		Path rutaArchivo = getPath(uploads, nombreArchivo);
 		File archivoImagen = rutaArchivo.toFile();
 		if (!archivoImagen.exists() && !archivoImagen.canRead()) {
 			Files.copy(archivo.getInputStream(), rutaArchivo);			
@@ -62,7 +64,7 @@ public class UploadFileServiceImpl implements IUploadFileService {
 	public boolean eliminar(String nombreImagen) {
 
 		if (nombreImagen != null && nombreImagen.length() > 0) {
-			Path rutaFotoAnterior = Paths.get(DIRECTORIO_UPLOAD).resolve(nombreImagen).toAbsolutePath();
+			Path rutaFotoAnterior = Paths.get(uploads).resolve(nombreImagen).toAbsolutePath();
 			File archivoFotoAnterior = rutaFotoAnterior.toFile();
 			if (archivoFotoAnterior.exists() && archivoFotoAnterior.canRead()) {
 				archivoFotoAnterior.delete();

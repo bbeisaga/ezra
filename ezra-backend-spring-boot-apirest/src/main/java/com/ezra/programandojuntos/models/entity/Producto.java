@@ -40,26 +40,26 @@ public class Producto implements Serializable {
 //	
 //	private String modelo;
 	
-	@Column(name="umbral_poca_cantidad", columnDefinition="long default 1")
-	private Long umbralPocaCantidad; 
+	@Column(name="umbral_poca_cantidad", columnDefinition="integer default 1")
+	private Integer umbralPocaCantidad; 
 	
-	@Column(name="umbral_cantidad_agotada", columnDefinition="long default 0")
-	private Long umbralCantidadAgotada; 
+	@Column(name="umbral_cantidad_agotada", columnDefinition="integer default 0")
+	private Integer umbralCantidadAgotada; 
 
-	@Column(name="cantidad_vendidos", columnDefinition="long default 0")
-	private Long cantidadVendidos; 
+	@Column(name="cantidad_vendidos", columnDefinition="integer default 0")
+	private Integer cantidadVendidos; 
 
-	@Column(name="cantidad_stock", columnDefinition="long default 0")
-	private Long cantidadStock; 
+	@Column(name="cantidad_stock", columnDefinition="integer default 0")
+	private Integer cantidadStock; 
 	
-	@Column(name="min_cantidad_pedido", columnDefinition="long default 1")
-	private Long minCantidadPedido; 
+	@Column(name="min_cantidad_pedido", columnDefinition="integer default 1")
+	private Integer minCantidadPedido; 
 	
-	@Column(name="max_cantidad_pedido", columnDefinition="long default 100000")
-	private Long maxCantidadPedido; 
+	@Column(name="max_cantidad_pedido", columnDefinition="integer default 100000")
+	private Integer maxCantidadPedido; 
 	
-	@Column(name="grupos_de", columnDefinition="long default 1")
-	private Long gruposDe; 
+	@Column(name="grupos_de", columnDefinition="integer default 1")
+	private Integer gruposDe; 
 	 
 	@Column(name="costo_unitario", columnDefinition="Decimal(10,2) default '0'")
 	private BigDecimal costoUnitario; 

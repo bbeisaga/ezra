@@ -25,7 +25,7 @@ public class ItemPedido implements Serializable {
 	private Float costoUnitarioItem; 
 
 
-	private Long cantidad;
+	private Integer cantidad;
 	
 	private BigDecimal importe; /*cuenta cuesta hacer el producto*/
 

@@ -25,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ezra.programandojuntos.models.services.IUploadFileService;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = { "http://localhost:4200" }, originPatterns = {"*"})
 @RestController
 @RequestMapping("/api")
 public class MediosRestController {

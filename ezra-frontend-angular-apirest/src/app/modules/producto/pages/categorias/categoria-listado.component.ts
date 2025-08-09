@@ -8,6 +8,7 @@ import { AuthService } from '../../../../services/auth.service';
 import { RouterModule } from '@angular/router';
 import { PrimeNgModule } from '../../../compartido/prime-ng.module';
 import { AngularMaterialModule } from '../../../compartido/angular-material.module';
+import { CategoriaService } from '../../../../services/categoria.service';
 
 @Component({
   selector: 'categoria-listado',
@@ -18,6 +19,7 @@ import { AngularMaterialModule } from '../../../compartido/angular-material.modu
 })
 export class CategoriaListadoComponent implements OnInit {
   private productoService = inject(ProductoService);
+  private categoriaService = inject(CategoriaService);
   public authService = inject(AuthService);
 
   categorias: Categoria[] = [];
@@ -27,7 +29,7 @@ export class CategoriaListadoComponent implements OnInit {
 
   ngOnInit(): void {
     // Aquí podrías cargar las categorías desde un servicio
-    this.productoService.getCategoriasProducto().subscribe(categorias => {
+    this.categoriaService.getCategoriasProducto().subscribe(categorias => {
       this.categorias = categorias.map(cat => {
         cat.imagen = environment.API_URL_VER_IMAGEN + cat.imagen;
         cat.colorActiva = COLOR_ACTIVO_CATEGORIA[('' + cat.activa) as keyof typeof COLOR_ACTIVO_CATEGORIA];
