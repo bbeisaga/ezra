@@ -11,30 +11,30 @@ import { CategoriaService } from '../../../../services/categoria.service';
   standalone: true,
   templateUrl: './categorias-producto-cliente.component.html',
   styleUrl: './categorias-producto-cliente.component.css',
-  imports:[RouterModule]
+  imports: [RouterModule]
 })
 export class CategoriasProductoClienteComponent implements OnInit {
-    private seoService = inject(SeoService);
-    private categoriaService = inject(CategoriaService);
-
+  private seoService = inject(SeoService);
+  private categoriaService = inject(CategoriaService);
+  API_URL_VER_IMAGEN = environment.API_URL_VER_IMAGEN;
   lstCategoria: Categoria[] = []
-
-
   constructor() { }
 
   ngOnInit(): void {
     this.categoriaService.getCategoriasActivas().subscribe(categorias => {
-      this.lstCategoria = categorias.map(cat => {
-        cat.imagen = environment.API_URL_VER_IMAGEN + cat.imagen;
-        return cat;
-      }).sort((a, b) => a.orden - b.orden)
-/*
-      let nombreCategoria = this.lstCategoria.map(cat => cat.nombre)
-      console.log("this.lstCategoria", `Ofrecemos ${nombreCategoria.toString()} , para`);
+      this.lstCategoria = categorias.sort((a, b) => a.orden - b.orden)
+      /*
+            this.lstCategoria = categorias.map(cat => {
+              cat.imagen = environment.API_URL_VER_IMAGEN + cat.imagen;
+              return cat;
+            }).sort((a, b) => a.orden - b.orden)
 
-       this.seoService.meta.updateTag({name: "description", content: `Ofrecemos ${nombreCategoria.toString()}, para hacer publicidad,  mercahndising y branding`})
-      this.seoService.meta.updateTag({name: "og:description", content: `Ofrecemos ${nombreCategoria.toString()}, para hacer publicidad,  mercahndising y branding`})
-     this.seoService.setIndexFollow(true); */
+                  let nombreCategoria = this.lstCategoria.map(cat => cat.nombre)
+                  console.log("this.lstCategoria", `Ofrecemos ${nombreCategoria.toString()} , para`);
+
+                   this.seoService.meta.updateTag({name: "description", content: `Ofrecemos ${nombreCategoria.toString()}, para hacer publicidad,  mercahndising y branding`})
+                  this.seoService.meta.updateTag({name: "og:description", content: `Ofrecemos ${nombreCategoria.toString()}, para hacer publicidad,  mercahndising y branding`})
+                 this.seoService.setIndexFollow(true); */
 
     })
 

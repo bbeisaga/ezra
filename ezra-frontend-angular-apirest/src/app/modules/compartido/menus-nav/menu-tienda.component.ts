@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Output, Renderer2 } from '@angular/core';
+import { Component, inject, Renderer2 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Categoria } from '../../../models/categoria';
-import { ProductoService } from '../../../services/producto.service';
-import { SeoService } from '../../../services/seo.service';
-import { environment } from '../../../../environments/environment';
 import { CategoriaService } from '../../../services/categoria.service';
 
 @Component({
@@ -36,32 +33,15 @@ export class MenuTiendaComponent {
                     console.log("lstCategoria2", this.lstCategoria) */
         //const inicialCategoria = this.lstCategoria.filter(cat => cat.id == 0)[0];
         //this.outCategoria(inicialCategoria);
-
       }, err => { },
       () => {
         //la primera ves cargara el init de productos por categoria
-        this.router.navigate(["/tienda/productos-categoria", 0], { queryParams: { categoria: 'tienda' } });
-      });
+        //const inicialCategoria = this.lstCategoria.filter(cat => cat.id == 1)[0];
+        //this.emitCategoriaSubject(inicialCategoria);
+        this.router.navigate(["/tienda/productos-categoria", 1]);
+      }
+      );
   }
-
-  /*   seoCategoria(nombresCategorias: string) {
-      console.log("nombresCategorias", nombresCategorias)
-      const tittle = "Categorias de productos para hacer publicidad merchndising y branding";
-      const descripcion = `Las categorias son ${nombresCategorias} para hacer publicidad merchndising y branding`
-      console.log("this.categoriaId()", tittle);
-      console.log("this.descripcion()", descripcion);
-
-      this.seo.title.setTitle(tittle);
-      this.seo.meta.updateTag({ name: "description", content: descripcion })
-      this.seo.meta.updateTag({ name: "keywords", content: nombresCategorias })
-      this.seo.meta.updateTag({ property: "og:type", content: "website" })
-      this.seo.meta.updateTag({ property: "og:description", content: descripcion })
-      this.seo.meta.updateTag({ property: "og:url", content: `${environment.apiFront}/tienda` })
-      this.seo.meta.updateTag({ property: "og:title", content: tittle })
-      this.seo.meta.updateTag({ property: "og:image", content: `${environment.API_URL_VER_IMAGEN}${categoria.imagen}` })
-      this.seo.serCanonicalURL(`${environment.apiFront}/tienda`)
-      this.seo.setIndexFollow(true);
-    } */
 
   emitCategoriaSubject(categoria: Categoria) {
     this.categoriaService.setCategoriaSubject(categoria);

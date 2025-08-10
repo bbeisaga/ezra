@@ -9,7 +9,7 @@
         <div class="navbar-nav mx-auto">
           @for (categoria of lstCategoria; track $index) {
           <a class="nav-link" [routerLink]="['/tienda/productos-categoria',categoria.id]"
-            [queryParams]="{ categoria: categoria.nombre }" [routerLinkActive]="['active']" (click)="emitCategoriaSubject(categoria)">
+            [routerLinkActive]="['active']" (click)="emitCategoriaSubject(categoria)">
             {{categoria.nombre | uppercase}}</a>
 
 

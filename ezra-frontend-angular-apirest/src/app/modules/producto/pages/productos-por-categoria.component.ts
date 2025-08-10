@@ -1,18 +1,16 @@
-import { CategoriaService } from './../../../services/categoria.service';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { COLOR_ESTADO_PRODUCTO } from '../../../constants/color-estado-producto';
 import { Producto } from '../../../models/producto';
 import { ChatUtils } from '../../../utils/chat-utils';
 import { AngularMaterialModule } from '../../compartido/angular-material.module';
+import { CategoriaService } from './../../../services/categoria.service';
 import { ProductoService } from './../../../services/producto.service';
 import { SeoService } from './../../../services/seo.service';
-import { toSignal } from '@angular/core/rxjs-interop'
-import { map } from 'rxjs/operators';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'productos-por-categoria',
@@ -29,12 +27,10 @@ export class ProductosPorCategoriaComponent implements OnInit, OnDestroy {
   private categoriaService = inject(CategoriaService);
   private seo = inject(SeoService);
   categoriaSuscription$!: Subscription;
-
+  //categoria!: Categoria;
   lstProductos: Producto[] = [];
   chatUtils = ChatUtils;
-  //public categoriaId = toSignal<number>(this.activatedRoute.paramMap.pipe(map(r => + (r.get('categoriaId') ?? '0'))));
-  //public categoriaName = toSignal<string>(this.activatedRoute.queryParamMap.pipe(map(r => r.get('categoria') ?? 'tienda')));
-
+  API_URL_VER_IMAGEN = environment.API_URL_VER_IMAGEN;
   constructor(private cdr: ChangeDetectorRef) {
     this.categoriaSuscription$ = this.categoriaService.getCategoriaSubject().subscribe(
       resp => {
@@ -44,28 +40,23 @@ export class ProductosPorCategoriaComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const categoriaId = + this.activatedRoute.snapshot.params['categoriaId'];
-    const categoriaName = this.activatedRoute.snapshot.queryParamMap.get('categoria');
-    //console.log("ngOnInit.categoriaId", this.categoriaId());
-    //console.log("ngOnInit.categoriaName", this.categoriaName()!.toString());
-    //this.loadPorductosPorCategoria(Number(this.categoriaId()), this.categoriaName()!.toString());
-    this.loadPorductosPorCategoria(categoriaId, categoriaName!);
-
+    console.log("ngOnInit.categoriaId", categoriaId);
+    this.loadPorductosPorCategoria(categoriaId );
   }
 
-  loadPorductosPorCategoria(categoriaId: number, categoriaName: string = 'tienda') {
-    //console.log("this.categoriaId()", categoria.id);
+  loadPorductosPorCategoria(categoriaId: number, categoriaName: string ='tienda') {
+    console.log("this.loadPorductosPorCategoria.categoriaId()", categoriaName);
     this.productoService.productosPorCategoria(categoriaId)
       .subscribe(resp => {
         this.lstProductos = resp.map(prd => {
           prd.estadoProducto.color = COLOR_ESTADO_PRODUCTO[('' + prd.estadoProducto.id) as keyof typeof COLOR_ESTADO_PRODUCTO];
-          prd.imagen = environment.API_URL_VER_IMAGEN + prd.imagen;
+          //prd.imagen = environment.API_URL_VER_IMAGEN + prd.imagen;
           prd.precioNetoStringShow = "S/ ".concat(prd.margenesProducto.map(m => m.precioNeto).toString().replaceAll(',', ' - '));
           return prd;
         })
-        //this.productoService.setProductosBehaviorSubject(this.lstProductos);
-        console.log("this.lstProductos", this.lstProductos);
-        this.cdr.detectChanges();
         this.seoProductosPorCategoria(categoriaId.toString(), categoriaName, this.lstProductos);
+        this.cdr.detectChanges();
+
       })
   }
 

@@ -289,7 +289,7 @@ public class ProductoServiceImpl implements ProductoService {
 
 	public List<Producto> findProductByCategory(Long categoriaId) {
 		List<Producto> lstProd = null;
-		if (categoriaId > 0) {
+		if (categoriaId > 1) {
 			lstProd = productoDao.findProductByCategoriaActiveStore(categoriaId);
 		} else {
 			lstProd = productoDao.findAllProductsActiveStore();
