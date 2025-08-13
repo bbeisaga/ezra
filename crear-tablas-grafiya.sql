@@ -111,8 +111,8 @@ CREATE TABLE IF NOT EXISTS `estado_pedido` (
 -- Volcando estructura para tabla db_ezra.genericos_app
 CREATE TABLE IF NOT EXISTS `genericos_app` (
   `codigo` varchar(255) NOT NULL,
-  `valor1` decimal(38,2) DEFAULT NULL,
-  `valor2` bigint(20) DEFAULT NULL,
+  `valor1` varchar(50) DEFAULT NULL,
+  `valor2` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`codigo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

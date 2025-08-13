@@ -7,14 +7,13 @@ INSERT INTO tipo_documentos (acronimo, nombre) VALUES ('OTR', 'Otro documento de
 
 
 INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular, usuario_id) VALUES(1, 'Beisaga Arenas Bhernard', '2018-01-01','41953483','054292',1);
-INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular, usuario_id) VALUES(1, 'Arenas Alvares Soni Yanet', '2018-01-02','11953480','0544222',2);
-INSERT INTO clientes (tipo_documentos_id, nom_apell_rz, create_at, numero_documento, celular, usuario_id) VALUES(1, 'Cojoma Vanesa', '2018-01-03','02953480','0543292',3);
+
 
 
 /* Creamos algunos usuarios con sus roles */
 INSERT INTO `usuarios` (username, password, activo, bloqueado,reintentos,nom_apell_rz) VALUES ('admin','$2a$10$RmdEsvEfhI7Rcm9f/uZXPebZVCcPC7ZXZwV51efAvMAp1rIaRAfPK',1,0,0, 'Bhernard Shomert Beisaga Arenas');
-INSERT INTO `usuarios` (username, password, activo, bloqueado,reintentos,nom_apell_rz) VALUES ('sonia','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1,0,0, 'Sonia Yanet Arenas Alvarez');
-INSERT INTO `usuarios` (username, password, activo, bloqueado,reintentos,nom_apell_rz) VALUES ('vane','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1,0,0, 'Vanesa Cojoma');
+/*INSERT INTO `usuarios` (username, password, activo, bloqueado,reintentos,nom_apell_rz) VALUES ('sonia','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1,0,0, 'Sonia Yanet Arenas Alvarez');
+INSERT INTO `usuarios` (username, password, activo, bloqueado,reintentos,nom_apell_rz) VALUES ('vane','$2a$10$C3Uln5uqnzx/GswADURJGOIdBqYrly9731fnwKDaUdBkt/M3qvtLq',1,0,0, 'Vanesa Cojoma');*/
 
 INSERT INTO `modulos` (nombre) VALUES ('CLIENTES PROVEEDORES');
 INSERT INTO `modulos` (nombre) VALUES ('PEDIDOS');
@@ -108,7 +107,7 @@ INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 35);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (1, 36);
 
 /* ROL DE CAJERA 1*/
-INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 8);
+/*INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 8);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 9);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 14);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 15);
@@ -116,10 +115,10 @@ INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 16);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 18);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 19);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 20);
-INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 22);
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (2, 22);*/
 
 /* ROL DE CAJERA 2*/
-INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 8);
+/*INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 8);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 9);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 14);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 15);
@@ -127,14 +126,12 @@ INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 16);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 18);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 19);
 INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 20);
-INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 22);
-
-
+INSERT INTO `usuarios_roles` (usuario_id, role_id) VALUES (3, 22);*/
 
 
 /* creamos las cajas*/
 
-INSERT INTO cajas (nombre, ubicacion) VALUES ('Caja1', 'Francisco pizarro 214 f');
+INSERT INTO cajas (nombre, ubicacion) VALUES ('Caja1', 'Francisco pizarro 214 A');
 INSERT INTO cajas (nombre, ubicacion) VALUES ('Caja2', 'Jeruslaen 108');
 INSERT INTO cajas (nombre, ubicacion) VALUES ('Caja3', 'Mercaderes 129');
 
@@ -293,4 +290,5 @@ INSERT INTO tipo_pedido (id, nombre) VALUES (2, 'COMPRA O ADQUISICION');
 /*INSERT INTO pedidos_items (cantidad,importe, pedido_id, producto_id, descripcion) VALUES(3,45, 2, 6, 'Enviara por correo o whattsao excel con cargas de empleados y el logo de la empresa');*/
 
 /*Parametros generales ORIGEN*/
-INSERT INTO genericos_app (codigo, valor1) VALUES('IGV',0.18);
+INSERT INTO genericos_app (codigo, valor1) VALUES('WHATSAPP','+51978663071');
+INSERT INTO genericos_app (codigo, valor1) VALUES('IGV','0.18');

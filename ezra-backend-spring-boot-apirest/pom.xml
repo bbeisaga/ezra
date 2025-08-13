@@ -174,7 +174,7 @@
 						<directory>src/main/resources</directory>
 						<filtering>true</filtering>
 						<excludes>
-							<exclude>application-prod.properties</exclude>
+							<exclude>application-dev.properties</exclude>
 						</excludes>
 					</resource>
 				</resources>
@@ -195,7 +195,7 @@
 						<directory>src/main/resources</directory>
 						<filtering>true</filtering>
 						<excludes>
-							<exclude>application-dev.properties</exclude>
+							<exclude>application-prod.properties</exclude>
 						</excludes>
 					</resource>
 				</resources>
